@@ -1,0 +1,501 @@
+{
+  "date": "2026-10-09",
+  "input": "Restroom Ready Style2.0.html",
+  "scope": "Supplied layouts with current style rules and selected logo applied in a temporary static preview; desktop browser phone-width emulation.",
+  "checks": [
+    {
+      "direction": "B",
+      "width": 320,
+      "scrollWidth": 320,
+      "bodyWidth": 320,
+      "buttons": [
+        {
+          "text": "Join the waitlist \u2192",
+          "width": 288,
+          "height": 44
+        }
+      ],
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Find a restroom you can use in NYC."
+        },
+        {
+          "level": "H2",
+          "text": "Entry"
+        },
+        {
+          "level": "H2",
+          "text": "Route"
+        },
+        {
+          "level": "H2",
+          "text": "Condition"
+        }
+      ],
+      "logo": true,
+      "listingText": [
+        "Corner caf\u00e9 \u00b7 Chelsea\nExample listing\nEntry\n\u2022\nPurchase required\n\u2022\nCode on receipt\n?\nRestroom hours: not reported\nRoute\n\u2022\nRestroom floor: one level down\n\u2022\nStairs to restroom: yes\n?\nElevator: not reported\nCondition\n\u2022\nSoap\n\u2022\nToilet paper\n?\nFloor: not reported\nLast reported \u00b7 example date \u00b7 example visitor counts"
+      ],
+      "keyboardFocus": {
+        "text": "Skip to content",
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "fontsLoaded": true,
+      "textSize200": {
+        "width": 320,
+        "scrollWidth": 320
+      },
+      "loadedFontFamilies": [
+        "IBM Plex Sans",
+        "IBM Plex Mono"
+      ]
+    },
+    {
+      "direction": "B",
+      "width": 390,
+      "scrollWidth": 390,
+      "bodyWidth": 390,
+      "buttons": [
+        {
+          "text": "Join the waitlist \u2192",
+          "width": 358,
+          "height": 44
+        }
+      ],
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Find a restroom you can use in NYC."
+        },
+        {
+          "level": "H2",
+          "text": "Entry"
+        },
+        {
+          "level": "H2",
+          "text": "Route"
+        },
+        {
+          "level": "H2",
+          "text": "Condition"
+        }
+      ],
+      "logo": true,
+      "listingText": [
+        "Corner caf\u00e9 \u00b7 Chelsea\nExample listing\nEntry\n\u2022\nPurchase required\n\u2022\nCode on receipt\n?\nRestroom hours: not reported\nRoute\n\u2022\nRestroom floor: one level down\n\u2022\nStairs to restroom: yes\n?\nElevator: not reported\nCondition\n\u2022\nSoap\n\u2022\nToilet paper\n?\nFloor: not reported\nLast reported \u00b7 example date \u00b7 example visitor counts"
+      ],
+      "keyboardFocus": {
+        "text": "Skip to content",
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "screenshot": "checks/b-mobile.png",
+      "fontsLoaded": true,
+      "loadedFontFamilies": [
+        "IBM Plex Sans",
+        "IBM Plex Mono"
+      ]
+    },
+    {
+      "direction": "B",
+      "width": 768,
+      "scrollWidth": 768,
+      "bodyWidth": 768,
+      "buttons": [
+        {
+          "text": "Join the waitlist \u2192",
+          "width": 222.4375,
+          "height": 44
+        }
+      ],
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Find a restroom you can use in NYC."
+        },
+        {
+          "level": "H2",
+          "text": "Entry"
+        },
+        {
+          "level": "H2",
+          "text": "Route"
+        },
+        {
+          "level": "H2",
+          "text": "Condition"
+        }
+      ],
+      "logo": true,
+      "listingText": [
+        "Corner caf\u00e9 \u00b7 Chelsea\nExample listing\nEntry\n\u2022\nPurchase required\n\u2022\nCode on receipt\n?\nRestroom hours: not reported\nRoute\n\u2022\nRestroom floor: one level down\n\u2022\nStairs to restroom: yes\n?\nElevator: not reported\nCondition\n\u2022\nSoap\n\u2022\nToilet paper\n?\nFloor: not reported\nLast reported \u00b7 example date \u00b7 example visitor counts"
+      ],
+      "keyboardFocus": {
+        "text": "Skip to content",
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "fontsLoaded": true,
+      "loadedFontFamilies": [
+        "IBM Plex Sans",
+        "IBM Plex Mono"
+      ]
+    },
+    {
+      "direction": "B",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "bodyWidth": 1280,
+      "buttons": [
+        {
+          "text": "Join the waitlist \u2192",
+          "width": 222.4375,
+          "height": 44
+        }
+      ],
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Find a restroom you can use in NYC."
+        },
+        {
+          "level": "H2",
+          "text": "Entry"
+        },
+        {
+          "level": "H2",
+          "text": "Route"
+        },
+        {
+          "level": "H2",
+          "text": "Condition"
+        }
+      ],
+      "logo": true,
+      "listingText": [
+        "Corner caf\u00e9 \u00b7 Chelsea\nExample listing\nEntry\n\u2022\nPurchase required\n\u2022\nCode on receipt\n?\nRestroom hours: not reported\nRoute\n\u2022\nRestroom floor: one level down\n\u2022\nStairs to restroom: yes\n?\nElevator: not reported\nCondition\n\u2022\nSoap\n\u2022\nToilet paper\n?\nFloor: not reported\nLast reported \u00b7 example date \u00b7 example visitor counts"
+      ],
+      "keyboardFocus": {
+        "text": "Skip to content",
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "screenshot": "checks/b-desktop.png",
+      "fontsLoaded": true,
+      "loadedFontFamilies": [
+        "IBM Plex Sans",
+        "IBM Plex Mono"
+      ]
+    },
+    {
+      "direction": "E",
+      "width": 320,
+      "scrollWidth": 320,
+      "bodyWidth": 320,
+      "buttons": [
+        {
+          "text": "Join the waitlist",
+          "width": 162.453125,
+          "height": 45
+        }
+      ],
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Find a restroom you can use in NYC."
+        },
+        {
+          "level": "H2",
+          "text": "Bookshop, Upper West Side"
+        }
+      ],
+      "logo": true,
+      "listingText": [
+        "Bookshop, Upper West Side\nExample listing\nEntry\nCustomers only\nRestroom floor\nSecond floor\nStairs to restroom\nOne flight\nElevator\nNot reported\nSoap \u00b7 paper\nReported\nLast reported \u00b7 example date"
+      ],
+      "keyboardFocus": {
+        "text": "Skip to content",
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "fontsLoaded": true,
+      "textSize200": {
+        "width": 320,
+        "scrollWidth": 320
+      },
+      "loadedFontFamilies": [
+        "Karla",
+        "Newsreader"
+      ]
+    },
+    {
+      "direction": "E",
+      "width": 390,
+      "scrollWidth": 390,
+      "bodyWidth": 390,
+      "buttons": [
+        {
+          "text": "Join the waitlist",
+          "width": 162.453125,
+          "height": 45
+        }
+      ],
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Find a restroom you can use in NYC."
+        },
+        {
+          "level": "H2",
+          "text": "Bookshop, Upper West Side"
+        }
+      ],
+      "logo": true,
+      "listingText": [
+        "Bookshop, Upper West Side\nExample listing\nEntry\nCustomers only\nRestroom floor\nSecond floor\nStairs to restroom\nOne flight\nElevator\nNot reported\nSoap \u00b7 paper\nReported\nLast reported \u00b7 example date"
+      ],
+      "keyboardFocus": {
+        "text": "Skip to content",
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "screenshot": "checks/e-mobile.png",
+      "fontsLoaded": true,
+      "loadedFontFamilies": [
+        "Karla",
+        "Newsreader"
+      ]
+    },
+    {
+      "direction": "E",
+      "width": 768,
+      "scrollWidth": 768,
+      "bodyWidth": 768,
+      "buttons": [
+        {
+          "text": "Join the waitlist",
+          "width": 162.453125,
+          "height": 45
+        }
+      ],
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Find a restroom you can use in NYC."
+        },
+        {
+          "level": "H2",
+          "text": "Bookshop, Upper West Side"
+        }
+      ],
+      "logo": true,
+      "listingText": [
+        "Bookshop, Upper West Side\nExample listing\nEntry\nCustomers only\nRestroom floor\nSecond floor\nStairs to restroom\nOne flight\nElevator\nNot reported\nSoap \u00b7 paper\nReported\nLast reported \u00b7 example date"
+      ],
+      "keyboardFocus": {
+        "text": "Skip to content",
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "fontsLoaded": true,
+      "loadedFontFamilies": [
+        "Karla",
+        "Newsreader"
+      ]
+    },
+    {
+      "direction": "E",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "bodyWidth": 1280,
+      "buttons": [
+        {
+          "text": "Join the waitlist",
+          "width": 162.453125,
+          "height": 45
+        }
+      ],
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Find a restroom you can use in NYC."
+        },
+        {
+          "level": "H2",
+          "text": "Bookshop, Upper West Side"
+        }
+      ],
+      "logo": true,
+      "listingText": [
+        "Bookshop, Upper West Side\nExample listing\nEntry\nCustomers only\nRestroom floor\nSecond floor\nStairs to restroom\nOne flight\nElevator\nNot reported\nSoap \u00b7 paper\nReported\nLast reported \u00b7 example date"
+      ],
+      "keyboardFocus": {
+        "text": "Skip to content",
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "screenshot": "checks/e-desktop.png",
+      "fontsLoaded": true,
+      "loadedFontFamilies": [
+        "Karla",
+        "Newsreader"
+      ]
+    },
+    {
+      "direction": "F",
+      "width": 320,
+      "scrollWidth": 320,
+      "bodyWidth": 320,
+      "buttons": [
+        {
+          "text": "Join the waitlist",
+          "width": 165.609375,
+          "height": 46
+        }
+      ],
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Find a restroom you can use in NYC."
+        },
+        {
+          "level": "H2",
+          "text": "Library branch"
+        }
+      ],
+      "logo": true,
+      "listingText": [
+        "Library branch\nExample\nEntry\nPublic\nRestroom floor\nStreet level\nStairs\nNone reported\nCondition\nSoap, paper reported\nLast reported \u00b7 example date"
+      ],
+      "keyboardFocus": {
+        "text": "Skip to content",
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "fontsLoaded": true,
+      "textSize200": {
+        "width": 320,
+        "scrollWidth": 320
+      },
+      "loadedFontFamilies": [
+        "Manrope",
+        "JetBrains Mono"
+      ]
+    },
+    {
+      "direction": "F",
+      "width": 390,
+      "scrollWidth": 390,
+      "bodyWidth": 390,
+      "buttons": [
+        {
+          "text": "Join the waitlist",
+          "width": 165.609375,
+          "height": 46
+        }
+      ],
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Find a restroom you can use in NYC."
+        },
+        {
+          "level": "H2",
+          "text": "Library branch"
+        }
+      ],
+      "logo": true,
+      "listingText": [
+        "Library branch\nExample\nEntry\nPublic\nRestroom floor\nStreet level\nStairs\nNone reported\nCondition\nSoap, paper reported\nLast reported \u00b7 example date"
+      ],
+      "keyboardFocus": {
+        "text": "Skip to content",
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "screenshot": "checks/f-mobile.png",
+      "fontsLoaded": true,
+      "loadedFontFamilies": [
+        "Manrope",
+        "JetBrains Mono"
+      ]
+    },
+    {
+      "direction": "F",
+      "width": 768,
+      "scrollWidth": 768,
+      "bodyWidth": 768,
+      "buttons": [
+        {
+          "text": "Join the waitlist",
+          "width": 165.609375,
+          "height": 46
+        }
+      ],
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Find a restroom you can use in NYC."
+        },
+        {
+          "level": "H2",
+          "text": "Library branch"
+        }
+      ],
+      "logo": true,
+      "listingText": [
+        "Library branch\nExample\nEntry\nPublic\nRestroom floor\nStreet level\nStairs\nNone reported\nCondition\nSoap, paper reported\nLast reported \u00b7 example date"
+      ],
+      "keyboardFocus": {
+        "text": "Skip to content",
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "fontsLoaded": true,
+      "loadedFontFamilies": [
+        "Manrope",
+        "JetBrains Mono"
+      ]
+    },
+    {
+      "direction": "F",
+      "width": 1280,
+      "scrollWidth": 1280,
+      "bodyWidth": 1280,
+      "buttons": [
+        {
+          "text": "Join the waitlist",
+          "width": 165.609375,
+          "height": 46
+        }
+      ],
+      "headings": [
+        {
+          "level": "H1",
+          "text": "Find a restroom you can use in NYC."
+        },
+        {
+          "level": "H2",
+          "text": "Library branch"
+        }
+      ],
+      "logo": true,
+      "listingText": [
+        "Library branch\nExample\nEntry\nPublic\nRestroom floor\nStreet level\nStairs\nNone reported\nCondition\nSoap, paper reported\nLast reported \u00b7 example date"
+      ],
+      "keyboardFocus": {
+        "text": "Skip to content",
+        "outline": "solid",
+        "outlineWidth": "3px"
+      },
+      "screenshot": "checks/f-desktop.png",
+      "fontsLoaded": true,
+      "loadedFontFamilies": [
+        "Manrope",
+        "JetBrains Mono"
+      ]
+    }
+  ]
+}
