@@ -1,0 +1,338 @@
+{
+  "checks": [
+    {
+      "route": "/",
+      "status": 200,
+      "width": 320,
+      "scrollWidth": 320,
+      "h1": "Find a restroom\nyou can use.",
+      "forms": 2,
+      "images": true,
+      "buttons": [
+        {
+          "w": 288,
+          "h": 48
+        },
+        {
+          "w": 248,
+          "h": 48
+        }
+      ],
+      "metadataVisible": true
+    },
+    {
+      "focus": {
+        "text": "Skip to content",
+        "outline": "3px"
+      }
+    },
+    {
+      "text200": true,
+      "width": 320,
+      "scrollWidth": 320
+    },
+    {
+      "route": "/",
+      "status": 200,
+      "width": 390,
+      "scrollWidth": 390,
+      "h1": "Find a restroom\nyou can use.",
+      "forms": 2,
+      "images": true,
+      "buttons": [
+        {
+          "w": 358,
+          "h": 48
+        },
+        {
+          "w": 318,
+          "h": 48
+        }
+      ],
+      "metadataVisible": true
+    },
+    {
+      "route": "/",
+      "status": 200,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "h1": "Find a restroom\nyou can use.",
+      "forms": 2,
+      "images": true,
+      "buttons": [
+        {
+          "w": 221.203125,
+          "h": 50
+        },
+        {
+          "w": 221.203125,
+          "h": 50
+        }
+      ],
+      "metadataVisible": true
+    },
+    {
+      "route": "/conditions/",
+      "status": 200,
+      "width": 320,
+      "scrollWidth": 320,
+      "h1": "Check the basics.\nBefore the walk.",
+      "forms": 2,
+      "images": true,
+      "buttons": [
+        {
+          "w": 288,
+          "h": 48
+        },
+        {
+          "w": 248,
+          "h": 48
+        }
+      ],
+      "metadataVisible": true
+    },
+    {
+      "route": "/conditions/",
+      "status": 200,
+      "width": 390,
+      "scrollWidth": 390,
+      "h1": "Check the basics.\nBefore the walk.",
+      "forms": 2,
+      "images": true,
+      "buttons": [
+        {
+          "w": 358,
+          "h": 48
+        },
+        {
+          "w": 318,
+          "h": 48
+        }
+      ],
+      "metadataVisible": true
+    },
+    {
+      "route": "/conditions/",
+      "status": 200,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "h1": "Check the basics.\nBefore the walk.",
+      "forms": 2,
+      "images": true,
+      "buttons": [
+        {
+          "w": 221.203125,
+          "h": 50
+        },
+        {
+          "w": 221.203125,
+          "h": 50
+        }
+      ],
+      "metadataVisible": true
+    },
+    {
+      "route": "/entry-route/",
+      "status": 200,
+      "width": 320,
+      "scrollWidth": 320,
+      "h1": "Know the rules.\nAnd the route inside.",
+      "forms": 2,
+      "images": true,
+      "buttons": [
+        {
+          "w": 288,
+          "h": 48
+        },
+        {
+          "w": 248,
+          "h": 48
+        }
+      ],
+      "metadataVisible": true
+    },
+    {
+      "route": "/entry-route/",
+      "status": 200,
+      "width": 390,
+      "scrollWidth": 390,
+      "h1": "Know the rules.\nAnd the route inside.",
+      "forms": 2,
+      "images": true,
+      "buttons": [
+        {
+          "w": 358,
+          "h": 48
+        },
+        {
+          "w": 318,
+          "h": 48
+        }
+      ],
+      "metadataVisible": true
+    },
+    {
+      "route": "/entry-route/",
+      "status": 200,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "h1": "Know the rules.\nAnd the route inside.",
+      "forms": 2,
+      "images": true,
+      "buttons": [
+        {
+          "w": 221.203125,
+          "h": 50
+        },
+        {
+          "w": 221.203125,
+          "h": 50
+        }
+      ],
+      "metadataVisible": true
+    },
+    {
+      "route": "/dated-reports/",
+      "status": 200,
+      "width": 320,
+      "scrollWidth": 320,
+      "h1": "Useful details.\nWith a date attached.",
+      "forms": 2,
+      "images": true,
+      "buttons": [
+        {
+          "w": 288,
+          "h": 48
+        },
+        {
+          "w": 248,
+          "h": 48
+        }
+      ],
+      "metadataVisible": true
+    },
+    {
+      "route": "/dated-reports/",
+      "status": 200,
+      "width": 390,
+      "scrollWidth": 390,
+      "h1": "Useful details.\nWith a date attached.",
+      "forms": 2,
+      "images": true,
+      "buttons": [
+        {
+          "w": 358,
+          "h": 48
+        },
+        {
+          "w": 318,
+          "h": 48
+        }
+      ],
+      "metadataVisible": true
+    },
+    {
+      "route": "/dated-reports/",
+      "status": 200,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "h1": "Useful details.\nWith a date attached.",
+      "forms": 2,
+      "images": true,
+      "buttons": [
+        {
+          "w": 221.203125,
+          "h": 50
+        },
+        {
+          "w": 221.203125,
+          "h": 50
+        }
+      ],
+      "metadataVisible": true
+    },
+    {
+      "route": "/privacy/",
+      "status": 200,
+      "width": 320,
+      "scrollWidth": 320,
+      "h1": "Your email.\n\nA clear purpose.",
+      "forms": 0,
+      "images": true,
+      "buttons": [],
+      "metadataVisible": true
+    },
+    {
+      "route": "/privacy/",
+      "status": 200,
+      "width": 390,
+      "scrollWidth": 390,
+      "h1": "Your email.\n\nA clear purpose.",
+      "forms": 0,
+      "images": true,
+      "buttons": [],
+      "metadataVisible": true
+    },
+    {
+      "route": "/privacy/",
+      "status": 200,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "h1": "Your email.\n\nA clear purpose.",
+      "forms": 0,
+      "images": true,
+      "buttons": [],
+      "metadataVisible": true
+    },
+    {
+      "route": "/thank-you/",
+      "status": 200,
+      "width": 320,
+      "scrollWidth": 320,
+      "h1": "Thanks for being\n\npart of the beginning.",
+      "forms": 0,
+      "images": true,
+      "buttons": [],
+      "metadataVisible": true
+    },
+    {
+      "route": "/thank-you/",
+      "status": 200,
+      "width": 390,
+      "scrollWidth": 390,
+      "h1": "Thanks for being\n\npart of the beginning.",
+      "forms": 0,
+      "images": true,
+      "buttons": [],
+      "metadataVisible": true
+    },
+    {
+      "route": "/thank-you/",
+      "status": 200,
+      "width": 1440,
+      "scrollWidth": 1440,
+      "h1": "Thanks for being\n\npart of the beginning.",
+      "forms": 0,
+      "images": true,
+      "buttons": [],
+      "metadataVisible": true
+    },
+    {
+      "failedSave": {
+        "stayedOnPage": true,
+        "inputRetained": true
+      }
+    },
+    {
+      "signup": {
+        "thankYou": true,
+        "emailInURL": false,
+        "successTokenRemoved": true
+      }
+    },
+    {
+      "storageBlockedStillConfirms": true
+    }
+  ],
+  "errors": []
+}

@@ -16,7 +16,7 @@ The current product name is still a working name and may change.
 
 ## Application framework
 
-Use **Next.js** for the web application. The repository has not been scaffolded yet; add the supported installation, development, test, and build commands when application code is added.
+Use **Next.js** for the web application. The first release is a static-export frontend with a small hosting Worker for the email waitlist. The local preview uses Node.js SQLite; Sites uses D1. Read README.md before running or changing the deployment.
 
 ## Before making changes
 
@@ -109,42 +109,37 @@ A small, understood fix can use a shorter record with the problem, changed files
 
 ## Running the project
 
-This repository is currently in the setup and design phase. There is not yet a runnable application.
+Use Node.js 22.13 or newer.
 
-For the current version of the project:
+- Install: `npm ci`
+- Develop: `npm run dev` (http://localhost:3000)
+- Type check: `npm run typecheck`
+- Test signup validation and persistence: `npm test`
+- Build pages and hosting Worker: `npm run build`
+- Run the built preview: `npm start`
 
-1. Read `docs/brand_position.md` for product positioning and copy rules.
-2. Read `docs/style_guide.md` for visual direction.
-3. Read `brand/logo/README.md` and use the selected R tile assets in `brand/logo/`.
-4. Load the relevant course persona definitions when reviewing user-facing copy, UX flows, or feature ideas.
+The required runtime binding for hosted signup is `DB` (Sites D1); migrations live in `drizzle/`. Local signup uses ignored `.data/waitlist.sqlite`. `NEXT_PUBLIC_GA_MEASUREMENT_ID` and `NEXT_PUBLIC_SITE_URL` are optional build-time settings in `.env.local`. An unset analytics ID makes no tracking requests. Never claim GA is configured or verified without the team's actual property.
 
-No installation, build, or development command is currently required.
+The marketing pages are `/`, `/conditions/`, `/entry-route/`, and `/dated-reports/`. The examples are illustrative, and the full map/review product is planned. The signup handler owns `/api/waitlist`; a static Next.js export does not implement server routes by itself.
 
-When application code is added, update this section with the exact:
-
-- dependency installation command
-- local development command
-- test command
-- build command
-- required environment variables
-
-Do not invent commands that are not actually supported by the repository.
+Keep signup data, session credentials, and email addresses out of Git, page URLs, and analytics. A failed save must retain the email and must not navigate to the thank-you page. Public traffic needs the site audience to be set to public; private deployment does not satisfy that requirement.
 
 ## Repository structure
 
 ```text
 /
 ├── AGENTS.md
-├── brand/
-│   └── logo/
-├── docs/
-│   ├── brief.md
-│   ├── brand_position.md
-│   ├── style_guide.md
-│   ├── feature_development.md
-│   └── style_history/
+├── app/                 # Next.js pages and shared styles
+├── components/          # Landing layouts, signup, analytics
+├── lib/                 # Page content
+├── public/              # Browser assets
+├── worker/              # Hosted request handler and shared signup validation
+├── scripts/             # Local preview and build packaging
+├── tests/               # Validation and durable-signup checks
+├── drizzle/             # Hosted database migrations
+├── brand/logo/          # Source identity assets
+├── docs/                # Brand, style, feature records, workflow
 └── diagrams/
-    └── product_flow.mmd
 ```
 
 The product repository includes its style history and complete logo set. Supporting research and persona reviews link to the course repository on GitHub, so they can be read without an adjacent checkout. The flow diagram describes the proposed product; it does not describe implemented routes or services.

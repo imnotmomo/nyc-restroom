@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+dist/
+.data/
+.wrangler/
+.env*
+!.env.example
+*.tsbuildinfo
+.DS_Store
+.openai/site-state.json
+.openai/preview-config.json
