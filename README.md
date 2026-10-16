@@ -1,6 +1,6 @@
 # Restroom Ready
 
-A mobile-first NYC restroom project. This release includes a homepage, three value-proposition pages, and a durable email waitlist. The marketing illustration remains an example. `/demo/` is a public interactive example with no account or Firebase writes. Its changes reset on reload. `/find/` is a passcode-protected working map/list of 1,064 city-listed locations across NYC, with public community cleanliness ratings, Google Sign-in, visitor-submitted locations, account-owned saved places and private visit notes, and private or shared restroom passcodes in Firebase. The directory uses a dated official snapshot and does not establish current availability or complete restroom coverage.
+A mobile-first NYC restroom project. This release includes a homepage, three value-proposition pages, and a durable email waitlist with confirmation emails sent through Cloudflare Email Sending. The marketing illustration remains an example. `/demo/` is a public interactive example with no account or Firebase writes. Its changes reset on reload. `/find/` is a passcode-protected working map/list of 1,064 city-listed locations across NYC, with public community cleanliness ratings, Google Sign-in, visitor-submitted locations, account-owned saved places and private visit notes, and private or shared restroom passcodes in Firebase. The directory uses a dated official snapshot and does not establish current availability or complete restroom coverage.
 
 ## Run locally
 
@@ -54,7 +54,11 @@ Turn Enhanced Measurement off for the selected web stream to avoid duplicate his
 
 Never commit signup databases, export email addresses into this repository, or include email addresses in campaign URLs.
 
-New confirmation-enabled signups atomically create a delivery job. A server-only Cloudflare Email Sending integration sends a fixed receipt with the demo link; duplicate and historical signups do not send again. The VPS dispatcher retries durable jobs and calls the original Sites deployment's authenticated dispatch endpoint every 30 seconds. Configure `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_EMAIL_API_TOKEN`, `WAITLIST_EMAIL_FROM`, and a shared random `WAITLIST_DISPATCH_SECRET` through runtime secrets. No mail is sent when these are absent. Rate limits reject excess signup requests before saving; subsequent delivery failures preserve accepted signup records. Ambiguous sends require operator review. See [confirmation behavior and checks](docs/features/waitlist-confirmations.md).
+## Waitlist confirmation emails
+
+New waitlist signups automatically queue a confirmation email sent through **Cloudflare Email Sending** from `welcome@nyc.imfinethanku.me`. The email confirms signup and includes a link to the public demo. Duplicate and historical signups do not send again.
+
+The VPS dispatcher retries durable jobs and calls the original Sites deployment's authenticated dispatch endpoint every 30 seconds. Configure `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_EMAIL_API_TOKEN`, `WAITLIST_EMAIL_FROM`, and a shared random `WAITLIST_DISPATCH_SECRET` through runtime secrets. No mail is sent when these are absent. Rate limits reject excess signup requests before saving; subsequent delivery failures preserve accepted signup records. Ambiguous sends require operator review. See [confirmation behavior and checks](docs/features/waitlist-confirmations.md).
 
 ## Build and hosting
 
@@ -70,4 +74,3 @@ The team's VPS deployment at **https://nyc.imfinethanku.me** uses Caddy HTTPS an
 - [Style guide](docs/style_guide.md)
 - [Feature process](docs/feature_development.md)
 - [This feature's plan and verification](docs/features/live-pages.md)
-- [UCSB Bathroom Finder reference](https://github.com/ucsb-cs184-f24/team02-bathroom): Swift/iOS, Firebase, search, posts/reviews and admin moderation. The reference informed the MVP scope; its code and campus data are not copied.
