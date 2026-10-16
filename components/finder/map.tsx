@@ -1,16 +1,32 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { MapPinned } from "lucide-react";
 import type * as Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { COLUMBIA, isWithinCollection, type Coordinates, type Restroom } from "@/lib/restrooms";
+import { COLUMBIA, type Coordinates, type Restroom } from "@/lib/restrooms";
 
-export default function RestroomMap({ places, selectedID, onSelect, userLocation }: {
+interface RestroomMapProps {
   places: readonly Restroom[];
   selectedID: string | null;
   onSelect: (id: string) => void;
   userLocation: Coordinates | null;
-}) {
+  locationRequestID: number;
+}
+
+const AppleRestroomMap = dynamic(() => import("@/components/finder/mapkit-map"), {
+  ssr: false,
+  loading: () => <div className="finder-map-loading" role="status">Loading Apple Maps…</div>,
+});
+
+export default function RestroomMap(props: RestroomMapProps) {
+  return process.env.NEXT_PUBLIC_MAPKIT_JS_TOKEN?.trim()
+    ? <AppleRestroomMap {...props}/>
+    : <OpenStreetMap {...props}/>;
+}
+
+function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationRequestID }: RestroomMapProps) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<Leaflet.Map | null>(null);
   const leaflet = useRef<typeof Leaflet | null>(null);
@@ -88,14 +104,23 @@ export default function RestroomMap({ places, selectedID, onSelect, userLocation
       locationMarker.current = L.circleMarker([userLocation.latitude, userLocation.longitude], {
         radius: 8, color: "#ffffff", weight: 3, fillColor: "#2b59c3", fillOpacity: 1,
       }).addTo(map.current).bindTooltip("Your location");
-      if (isWithinCollection(userLocation)) map.current.panTo([userLocation.latitude, userLocation.longitude], { animate: false });
+      map.current.setView([userLocation.latitude, userLocation.longitude], 15, { animate: false });
     }
-  }, [ready, userLocation]);
+  }, [ready, userLocation, locationRequestID]);
+
+  function showCollection() {
+    const L = leaflet.current;
+    if (!L || !map.current || !places.length) return;
+    map.current.fitBounds(L.latLngBounds(places.map(place => [place.latitude, place.longitude])), {
+      padding: [48, 48], maxZoom: 15, animate: false,
+    });
+  }
 
   return <div className="finder-map-frame">
     <div ref={container} className="finder-leaflet" role="region" aria-label="Restroom locations map. The same locations and details are available in the list." />
     {!ready && !error && <div className="finder-map-loading" role="status">Loading the map…</div>}
     {error && <p className="finder-map-error" role="status">{error}</p>}
+    <button type="button" className="finder-show-collection" onClick={showCollection} disabled={!ready || !places.length}><MapPinned size={17}/>Show collection</button>
     <div className="finder-map-key"><span className="finder-key-dot" />City-listed location <span className="finder-key-note">Availability may have changed</span></div>
   </div>;
 }

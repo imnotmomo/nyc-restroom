@@ -1,6 +1,6 @@
 # Feature: NYC finder and Firebase web accounts
 
-Status: ready for private Site publication
+Status: published to the existing private Site
 
 ## Brief
 
@@ -36,4 +36,6 @@ TypeScript checking, the production static build, all five existing signup tests
 
 ## Delivery
 
-Web app registration and backend configuration are authorized. The Sites workflow will save and commit its source snapshot and publish this update to the existing private Site. No GitHub push/PR or site audience change is included. An independent final integration review found no blockers. A real Google account sign-in/save/readback remains a human review check; automated tests did not enter Google credentials.
+Web app registration and backend configuration are authorized. The Sites workflow saved source commit `76d38b776fa55dfd83ff36086a4a0ad61321685b` and successfully published it to the existing private Site at https://restroom-ready-nyc.clcii.chatgpt.site/find/. Deployment `appgdep_6ad16edb537881918194ca0b291a690e` returned `succeeded` on October 16, 2026 UTC (October 15 in New York). This post-deployment note is a local documentation update after that source snapshot. No GitHub push/PR or site audience change is included. An independent final integration review found no blockers. A real Google account sign-in/save/readback remains a human review check; automated tests did not enter Google credentials.
+
+Lessons: keep the Firebase platform explicit, detect the database edition before choosing SDK patterns, and separate write acknowledgement from refresh success. The source snapshot remains historical; collecting actual entry/internal-route/condition observations is the next data-quality task.

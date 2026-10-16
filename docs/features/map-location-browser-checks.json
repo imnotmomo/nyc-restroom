@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-10-16T00:37:59.431Z",
+  "syntheticLocations": true,
+  "checks": [
+    "Outside-coverage location centers; Show collection returns to records; repeated identical coordinates re-center; no Apple requests without token",
+    "Successful location opens mobile Map view and preserves readable coverage notice",
+    "Denied permission gives actionable browser/macOS guidance and stops locating",
+    "Cross-origin iframe without location delegation identifies policy block rather than reporting user refusal"
+  ],
+  "errors": []
+}

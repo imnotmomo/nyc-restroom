@@ -20,7 +20,7 @@ The web SDK identifiers are public client configuration, not administrative cred
 
 Configured redirect domains include the Firebase auth handler, `restroom-ready-nyc.clcii.chatgpt.site`, and `localhost`. Use `http://localhost:4173` for the production preview or `http://localhost:3000` for development. Add future deployment hostnames to the provider configuration before deploying them. Google rejected a numeric-IP redirect URI during setup; it was removed before the successful deployment.
 
-The app initializes Firebase in the browser, restores auth state, and opens Google Sign-in from a direct button click. Browsing, source details, and directions work without an account. The UI explains blocked popups, cancellation, missing providers, and unauthorized domains without exposing credentials.
+The app initializes Firebase in the browser, restores auth state, and opens Google Sign-in from a direct button click. There is no account-email or organization-domain allowlist in the application. The owner explicitly approved public browsing, and the Site access policy is now public (revision 2); Firebase sign-in still protects saved places and private notes. Browsing, source details, and directions work without an account. The UI explains blocked popups, cancellation, missing providers, and unauthorized domains without exposing credentials.
 
 ## Firestore data
 

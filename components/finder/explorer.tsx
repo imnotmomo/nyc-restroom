@@ -8,6 +8,7 @@ import { FirebaseAccountButton, useFirebaseAccount } from "@/components/firebase
 import { PersonalNotes, RestroomDetail } from "@/components/finder/detail";
 import { COLUMBIA, datasetSource, distanceMeters, formatDistance, isWithinCollection, matchesRestroom, restrooms, sourceDateLabel, type Coordinates } from "@/lib/restrooms";
 import { deleteVisitNote, readLibrary, saveVisitNote, setFavorite, type VisitNote, type VisitNoteInput } from "@/lib/user-data";
+import { locationAvailabilityError, requestBrowserLocation } from "@/lib/location";
 
 const RestroomMap = dynamic(() => import("@/components/finder/map"), {
   ssr: false,
@@ -25,6 +26,7 @@ export function RestroomExplorer() {
   const [selectedID, setSelectedID] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
   const [locating, setLocating] = useState(false);
+  const [locationRequestID, setLocationRequestID] = useState(0);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [library, setLibrary] = useState<{ uid: string | null; favoriteIDs: string[]; notes: VisitNote[] }>({ uid: null, favoriteIDs: [], notes: [] });
@@ -34,11 +36,18 @@ export function RestroomExplorer() {
   const [favoriteBusy, setFavoriteBusy] = useState(false);
   const [noteBusy, setNoteBusy] = useState(false);
   const lastFocusedControl = useRef<HTMLElement | null>(null);
+  const cancelLocation = useRef<(() => void) | null>(null);
+  const locationVersion = useRef(0);
   const uid = account.user?.uid ?? null;
   const currentUID = useRef(uid);
   currentUID.current = uid;
   const favoriteIDs = useMemo(() => library.uid === uid && uid ? library.favoriteIDs : [], [library, uid]);
   const privateNotes = library.uid === uid && uid ? library.notes : [];
+
+  useEffect(() => () => {
+    locationVersion.current += 1;
+    cancelLocation.current?.();
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -112,22 +121,44 @@ export function RestroomExplorer() {
   }
 
   function locate() {
+    cancelLocation.current?.();
+    const version = ++locationVersion.current;
+    account.clearError();
+    setMessage(null);
     setLocationError(null);
-    if (!navigator.geolocation) { setLocationError("Location is unavailable in this browser. Distances still start from Columbia."); return; }
+    let allowedByPolicy: boolean | undefined;
+    try {
+      const policyDocument = document as Document & {
+        permissionsPolicy?: { allowsFeature(feature: string): boolean };
+        featurePolicy?: { allowsFeature(feature: string): boolean };
+      };
+      const policy = policyDocument.permissionsPolicy ?? policyDocument.featurePolicy;
+      allowedByPolicy = policy?.allowsFeature("geolocation");
+    } catch { /* Unsupported policy inspection must not prevent a real location request. */ }
+    const unavailable = locationAvailabilityError({
+      secureContext: window.isSecureContext !== false,
+      hasGeolocation: Boolean(navigator.geolocation),
+      allowedByPolicy,
+    });
+    if (unavailable) { setLocationError(unavailable); setLocating(false); return; }
     setLocating(true);
-    navigator.geolocation.getCurrentPosition(
-      ({ coords }) => {
-        const location = { latitude: coords.latitude, longitude: coords.longitude };
+    cancelLocation.current = requestBrowserLocation({
+      geolocation: navigator.geolocation,
+      onSuccess: (location) => {
+        if (locationVersion.current !== version) return;
         setUserLocation(location);
-        if (!isWithinCollection(location)) setLocationError("Your location is outside this first collection. Distances start from your location; the map stays in upper Manhattan.");
+        setSelectedID(null);
+        setMobileView("map");
+        setLocationRequestID((value) => value + 1);
+        if (!isWithinCollection(location)) setLocationError("The map is centered on your location. This first collection only covers upper Manhattan, so we may not list a restroom near you. Choose Show collection to return to the NYC locations.");
         setLocating(false);
       },
-      (error) => {
-        setLocationError(error.code === 1 ? "Location access was not granted. You can keep browsing from Columbia." : "We could not get your location. You can keep browsing from Columbia.");
+      onError: (error) => {
+        if (locationVersion.current !== version) return;
+        setLocationError(error);
         setLocating(false);
       },
-      { enableHighAccuracy: false, timeout: 12_000, maximumAge: 60_000 },
-    );
+    });
   }
 
   async function toggleFavorite() {
@@ -224,7 +255,7 @@ export function RestroomExplorer() {
       </section>
 
       <div className="finder-data-banner"><Info size={17} /><p><strong>Know what’s known.</strong> NYC Open Data updated {sourceDateLabel}. Availability may have changed. Purchase requirements, restroom floors, and conditions are not reported.</p><a href={datasetSource.url} target="_blank" rel="noreferrer">View source <ArrowUpRight size={14} /></a></div>
-      {(account.error || locationError || message || libraryError) && <div className="finder-feedback" role="status"><p>{account.error || locationError || message || libraryError}</p>{libraryError && <button type="button" className="finder-retry-button" onClick={() => setLibraryRetry((value) => value + 1)}>Retry loading</button>}<button type="button" onClick={() => { account.clearError(); setLocationError(null); setMessage(null); setLibraryError(null); }} aria-label="Dismiss message"><X size={18} /></button></div>}
+      {(account.error || locationError || message || libraryError) && <div className="finder-feedback" role="status"><p>{locationError || account.error || message || libraryError}</p>{libraryError && <button type="button" className="finder-retry-button" onClick={() => setLibraryRetry((value) => value + 1)}>Retry loading</button>}<button type="button" onClick={() => { account.clearError(); setLocationError(null); setMessage(null); setLibraryError(null); }} aria-label="Dismiss message"><X size={18} /></button></div>}
 
       <div className="finder-mobile-view" aria-label="Results view"><button type="button" aria-pressed={mobileView === "list"} onClick={() => setMobileView("list")}><List size={18} />List</button><button type="button" aria-pressed={mobileView === "map"} onClick={() => setMobileView("map")}><MapIcon size={18} />Map</button></div>
 
@@ -238,7 +269,7 @@ export function RestroomExplorer() {
           <p className="finder-list-foot"><Info size={14} />Hours and entry rules can change. Check details before going.</p>
         </section>
 
-        <section className="finder-map-panel" aria-label="Map view"><RestroomMap places={mapPlaces} selectedID={selectedID} onSelect={selectPlace} userLocation={userLocation} /><div className="finder-area-label"><span className="finder-overline">The first collection</span><strong>Upper Manhattan</strong><span>City-listed places. Details worth checking.</span></div></section>
+        <section className="finder-map-panel" aria-label="Map view"><RestroomMap places={mapPlaces} selectedID={selectedID} onSelect={selectPlace} userLocation={userLocation} locationRequestID={locationRequestID} /><div className="finder-area-label"><span className="finder-overline">The first collection</span><strong>Upper Manhattan</strong><span>City-listed places. Details worth checking.</span></div></section>
 
         {selected && <RestroomDetail restroom={selected} distance={distanceMeters(origin, selected)} originLabel={originLabel} userLocation={userLocation} saved={favoriteIDs.includes(selected.id)} saving={favoriteBusy || libraryLoading} onToggleFavorite={() => void toggleFavorite()} onClose={closePlace} feedback={account.error || message || libraryError} onRetryLibrary={libraryError ? () => setLibraryRetry((value) => value + 1) : undefined} personalContent={<PersonalNotes key={`${uid ?? "signed-out"}:${selected.id}`} placeID={selected.id} signedIn={Boolean(uid)} configured={account.configured} loading={account.loading || libraryLoading} saving={noteBusy} notes={privateNotes.filter((note) => note.placeID === selected.id)} onSignIn={() => void account.signInWithGoogle()} onSave={addNote} onDelete={removeNote} />} />}
       </div>
