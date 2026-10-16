@@ -70,7 +70,7 @@ function updateVenue(state: DemoState, id: string, update: (venue: DemoVenue) =>
 }
 
 export function rateDemoVenue(state: DemoState, id: string, rating: number | null): DemoState {
-  if (rating !== null && (!Number.isInteger(rating) || rating < 1 || rating > 5)) throw new Error("Choose 1–5 stars.");
+  if (rating !== null && (typeof rating !== "number" || !Number.isInteger(rating * 2) || rating < 1 || rating > 5)) throw new Error("Choose 1–5 stars in half-star steps.");
   return updateVenue(state, id, (venue) => ({ ...venue, ownRating: rating }));
 }
 

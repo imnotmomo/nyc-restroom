@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { ArrowUpRight, Check, Star, Trash2 } from "lucide-react";
 import type { OwnRating, RatingSummary } from "@/lib/ratings";
+import { StarRatingSlider } from "@/components/star-rating-slider";
 
 export interface RestroomRatingsProps {
   summary: RatingSummary | null;
@@ -19,14 +20,6 @@ export interface RestroomRatingsProps {
   onSave: (stars: number | null) => Promise<boolean>;
   onRetry: () => void;
 }
-
-const choices = [
-  { stars: 1, label: "Poor" },
-  { stars: 2, label: "Fair" },
-  { stars: 3, label: "Okay" },
-  { stars: 4, label: "Good" },
-  { stars: 5, label: "Excellent" },
-] as const;
 
 function ratingDate(value: Date): string | null {
   return Number.isFinite(value.getTime())
@@ -106,10 +99,7 @@ export function RestroomRatings({ summary, publicLoading, publicError, ownRating
       <form className="finder-rating-form" onSubmit={submit}>
         <fieldset disabled={locked} aria-describedby={`${id}-scale ${id}-policy`}>
           <legend>Rate cleanliness</legend>
-          <div className="finder-rating-options">{choices.map(({ stars, label }) => <label key={stars} className={`finder-rating-option${selectedStars === stars ? " is-selected" : ""}`} htmlFor={`${id}-${stars}`}>
-            <input id={`${id}-${stars}`} name={`${id}-cleanliness`} type="radio" value={stars} checked={selectedStars === stars} aria-label={`${stars} ${stars === 1 ? "star" : "stars"}`} onChange={() => { edited.current = true; setSelectedStars(stars); setSuccess(null); setFormError(null); }} />
-            <span className="finder-rating-option-label" aria-hidden="true"><span>{stars}<Star size={16} fill={selectedStars === stars ? "currentColor" : "none"} /></span><span>{label}</span></span>
-          </label>)}</div>
+          <StarRatingSlider value={selectedStars} disabled={locked} onChange={(stars) => { edited.current = true; setSelectedStars(stars); setSuccess(null); setFormError(null); }} />
           <p className="finder-rating-scale" id={`${id}-scale`}>1 = Poor · 2 = Fair · 3 = Okay · 4 = Good · 5 = Excellent</p>
         </fieldset>
         <p className="finder-field-note" id={`${id}-policy`}>One public rating per account. Updating replaces your previous rating.</p>

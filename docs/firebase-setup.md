@@ -37,9 +37,9 @@ No profile document, user email, written public review, or administrative role i
 
 ## Public cleanliness ratings
 
-`restroomRatingSummaries/{placeID}` stores only integer `ratingCount`, integer `ratingSum`, and timestamp `updatedAt`. The public average is derived from sum/count. Anyone can read a summary; the public feed queries summaries where `ratingCount > 0`. No contributor name, email, UID, private note, or location history is exposed through these totals.
+`restroomRatingSummaries/{placeID}` stores only integer `ratingCount`, numeric `ratingSum` in exact multiples of 0.5, and timestamp `updatedAt`. The public average is derived from sum/count. Anyone can read a summary; the public feed queries summaries where `ratingCount > 0`. No contributor name, email, UID, private note, or location history is exposed through these totals.
 
-The private `restroomRatingSummaries/{placeID}/ratings/{uid}` document stores `stars` (an integer from 1 to 5) and server `updatedAt`. Only that signed-in, non-anonymous account can read its individual rating. Raw vote lists and other users' votes are denied. One vote exists per account/place; updates replace it and removal deletes it.
+The private `restroomRatingSummaries/{placeID}/ratings/{uid}` document stores `stars` (1 to 5 in steps of 0.5) and server `updatedAt`. Existing whole-star records remain valid. Only that signed-in, non-anonymous account can read its individual rating. Raw vote lists and other users' votes are denied. One vote exists per account/place; updates replace it and removal deletes it.
 
 Both changes must be atomic: the client transaction changes its own vote and the public totals together. Security Rules validate the exact before/after count and sum on both documents, strict schemas, and server timestamps. Clients cannot create city-listing summaries or delete summaries, write votes without their paired aggregate, change another account's vote, or increment totals alone. A trusted administrative initializer creates empty zero-count summaries for known source IDs, using create-only writes that preserve every existing document. Zero totals are not sample ratings and are not included in the public feed.
 

@@ -8,11 +8,12 @@
 // No users/{uid} profile document is required or created. The UID in the path
 // scopes these private subcollections; no identity/role/email field is accepted.
 // restroomRatingSummaries/{placeID}: ratingCount:int (0..1,000,000),
-// ratingSum:int (count..5*count, or zero for zero count), updatedAt:timestamp.
+// ratingSum:number (multiples of 0.5 in count..5*count, zero for zero count),
+// updatedAt:timestamp. Existing integer totals remain valid.
 // A trusted initializer creates source-listing summaries. Clients may initialize
 // a zero summary only alongside a new immutable community listing and receipt.
 // All subsequent changes require a paired private vote; no client deletion.
-// restroomRatingSummaries/{placeID}/ratings/{uid}: stars:int (1..5),
+// restroomRatingSummaries/{placeID}/ratings/{uid}: stars:number (1..5 by 0.5),
 // updatedAt:timestamp. Only that signed-in non-anonymous account may GET/write
 // its vote. Public reads expose aggregate counts/sums, never raw vote owners.
 // communityRestrooms/{community-<20 alphanumeric chars>}: immutable public report.
@@ -89,14 +90,15 @@ service cloud.firestore {
       return data.keys().hasAll(['ratingCount', 'ratingSum', 'updatedAt'])
         && data.keys().hasOnly(['ratingCount', 'ratingSum', 'updatedAt'])
         && data.ratingCount is int && data.ratingCount >= 0 && data.ratingCount <= 1000000
-        && data.ratingSum is int && data.ratingSum >= data.ratingCount
+        && data.ratingSum is number && data.ratingSum >= data.ratingCount
         && data.ratingSum <= data.ratingCount * 5
+        && data.ratingSum * 2 == math.floor(data.ratingSum * 2)
         && data.updatedAt is timestamp;
     }
     function isValidRatingVote(data) {
       return data.keys().hasAll(['stars', 'updatedAt'])
         && data.keys().hasOnly(['stars', 'updatedAt'])
-        && data.stars is int && data.stars >= 1 && data.stars <= 5
+        && data.stars is number && data.stars in [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]
         && data.updatedAt is timestamp;
     }
     function isValidRatingTransition(placeID, uid) {

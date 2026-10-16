@@ -53,7 +53,19 @@ test('one local vote replaces itself, removal restores seed, and clean filter fo
   assert.equal(demo.matchesDemoFilter(state.venues[0], 'clean'), true);
   state = demo.rateDemoVenue(state, id, null);
   assert.deepEqual(demo.demoRating(state.venues[0]), {average:4.5,count:2});
-  for (const value of [0, 6, 1.5, NaN]) assert.throws(() => demo.rateDemoVenue(state,id,value));
+  for (const value of [0, 0.5, 5.5, 6, 1.25, NaN, Infinity, '4', true]) assert.throws(() => demo.rateDemoVenue(state,id,value));
+});
+
+test('demo half-star votes replace themselves exactly and keep the clean threshold at four', () => {
+  let state=demo.createDemoState();
+  for(const rating of [1,1.5,2,2.5,3,3.5,4,4.5,5]){
+    state=demo.rateDemoVenue(state,id,rating);
+    assert.equal(state.venues[0].ownRating,rating);
+    assert.deepEqual(demo.demoRating(state.venues[0]),{average:(9+rating)/3,count:3});
+    assert.equal(demo.matchesDemoFilter(state.venues[0],'clean'),(9+rating)/3>=4);
+  }
+  state=demo.rateDemoVenue(state,id,null);
+  assert.deepEqual(demo.demoRating(state.venues[0]),{average:4.5,count:2});
 });
 
 test('unsave and save control Saved without changing public or accessibility demo attributes', () => {

@@ -1,0 +1,166 @@
+{
+  "checkedAt": "2026-10-16T15:46:41.828Z",
+  "preview": "http://localhost:4181",
+  "projectId": "demo-restroom-rating-sliders",
+  "emulatorOnly": true,
+  "syntheticAccounts": true,
+  "method": "Compiled app, visible DOM/native pointer and keyboard controls; actual SDK transactions to isolated Auth/Firestore emulators.",
+  "productionWrites": false,
+  "checks": [
+    {
+      "name": "Demo native slider has1\u20135/0.5 semantics, null/unrated label, and focus alone does not enable submission",
+      "status": "passed"
+    },
+    {
+      "name": "Demo keyboard reaches all9 half-step values including endpoints; half star visibly fills; rating writes only on Submit",
+      "status": "passed"
+    },
+    {
+      "name": "Demo half-step replacement respects Clean4+ and removal restores null; pointer can select unchanged minimum1",
+      "status": "passed"
+    },
+    {
+      "name": "Real signed-out reader sees public aggregates but no rating slider; emulator login starts truly unrated",
+      "status": "passed"
+    },
+    {
+      "name": "Real SDK saves4.5 exactly, reload restores half vote, signed-out reader receives public half aggregate",
+      "status": "passed"
+    },
+    {
+      "name": "Real half-step update replaces one vote without count inflation and updates public reader",
+      "status": "passed"
+    },
+    {
+      "name": "Rejected emulator commit preserves chosen half value and shows no false saved success",
+      "status": "passed"
+    },
+    {
+      "name": "Existing integer summary remains readable and combines with new half vote without migration",
+      "status": "passed"
+    },
+    {
+      "name": "Two actual emulator users aggregate separate half votes; signed-out sparse summary stays current",
+      "status": "passed"
+    },
+    {
+      "name": "Removing half vote preserves other user; removing final vote restores confirmed zero and null/disabled form",
+      "status": "passed"
+    }
+  ],
+  "screenshots": [
+    "docs/features/screenshots/rating-slider-demo-320.png",
+    "docs/features/screenshots/rating-slider-demo-390.png",
+    "docs/features/screenshots/rating-slider-real-320.png",
+    "docs/features/screenshots/rating-slider-real-390.png"
+  ],
+  "dataEvidence": [
+    {
+      "label": "Initial empty source summary",
+      "ratingCount": 0,
+      "ratingSum": 0,
+      "votes": []
+    },
+    {
+      "label": "First actual SDK half vote",
+      "ratingCount": 1,
+      "ratingSum": 4.5,
+      "votes": [
+        4.5
+      ]
+    },
+    {
+      "label": "Half vote replacement",
+      "ratingCount": 1,
+      "ratingSum": 3.5,
+      "votes": [
+        3.5
+      ]
+    },
+    {
+      "label": "Rejected half update retains prior vote",
+      "ratingCount": 1,
+      "ratingSum": 3.5,
+      "votes": [
+        3.5
+      ]
+    },
+    {
+      "label": "Legacy3 plus new3.5",
+      "ratingCount": 2,
+      "ratingSum": 6.5,
+      "votes": [
+        3,
+        3.5
+      ]
+    },
+    {
+      "label": "Two distinct half votes",
+      "ratingCount": 2,
+      "ratingSum": 7,
+      "votes": [
+        2.5,
+        4.5
+      ]
+    },
+    {
+      "label": "Integer replacement leaves fractional aggregate",
+      "ratingCount": 2,
+      "ratingSum": 9.5,
+      "votes": [
+        4.5,
+        5
+      ]
+    },
+    {
+      "label": "Removed own4.5 only",
+      "ratingCount": 1,
+      "ratingSum": 5,
+      "votes": [
+        5
+      ]
+    },
+    {
+      "label": "Final removal retains empty initialized summary",
+      "ratingCount": 0,
+      "ratingSum": 0,
+      "votes": []
+    }
+  ],
+  "blockedProduction": [],
+  "demoFirebaseRequests": [],
+  "errors": [],
+  "status": "passed",
+  "observedFirestoreProjects": [
+    "demo-restroom-rating-sliders"
+  ],
+  "sourceVersion": {
+    "components/star-rating-slider.tsx": "5b84e5a7a0506f3518f1067b3e0b6e303e9f11a11208fbfa22679953adbad37f",
+    "components/star-rating-slider.module.css": "caba9e44f0e122dd17b2697fcbcd10ddf38ea1c3756dedc22de922a51fb582a1",
+    "components/finder/ratings.tsx": "eb46fc2731338b70bdde8a89e5e0acaeb63aae49820d84e5308d4a374e5a4374",
+    "components/demo/detail.tsx": "9f6fb8797c1e85e8433c58be78b290046a5e94a20e32603e04c6da246c3c1a71",
+    "lib/rating-model.ts": "a6ec37c7f3e9272d08cf38ac6267c1dcb0b162a23693fbfd54a898ecdcea1267",
+    "lib/ratings.ts": "bf44e535bf0ebd1afc2b862494c298b8474ecd9dc9a1f7f78304782ac332348a",
+    "lib/demo-state.ts": "980fc399e47005f9de41778d8212604a4300ceca43355739554f0992e07853e5",
+    "firebase/firestore.rules": "fac36e30a8cf194f2f79be21c3f563752263507a11bf1e7c05ddba0efb8e115a"
+  },
+  "rulesAudit": {
+    "score": 5,
+    "summary": "Scoped half-step numeric widening preserves strict schemas, ownership, bounded counts/sums and paired atomic transitions. No finding in independent diff review.",
+    "findings": []
+  },
+  "personaReview": {
+    "persona": "judge-maya",
+    "artifact": "Compiled half-star slider in demo and real finder",
+    "verdict": "approve",
+    "score": 8,
+    "headline": "A quick half-star selection stays distinct from a saved rating and does not claim checked conditions.",
+    "must_fix": [],
+    "nice_to_have": [],
+    "in_character_reaction": "I can drag or use the keys, see the half star, and submit when ready. A blank slider state is clearly unrated. The rating still says it is an opinion, with the existing condition limits visible.",
+    "would_flip_me": "",
+    "would_pay": "n/a"
+  },
+  "captureNote": "Flow and overflow checked at320/390x844; screenshots use taller capture viewports to show full rating controls below normal sticky header.",
+  "visualReview": "Inspected all four320/390px demo and real rating screenshots. Numeric4.5 value, clipped half-filled star, range track, and explicit Update/Remove controls are legible, with no identity information. No horizontal overflow at either tested mobile width."
+}

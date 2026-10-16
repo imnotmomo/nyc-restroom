@@ -1,12 +1,12 @@
 export interface RatingTotals { ratingCount: number; ratingSum: number }
 
 export function isValidStars(value: unknown): value is number {
-  return typeof value === "number" && Number.isInteger(value) && value >= 1 && value <= 5;
+  return typeof value === "number" && Number.isInteger(value * 2) && value >= 1 && value <= 5;
 }
 
 export function isValidRatingTotals(value: RatingTotals): boolean {
   return Number.isInteger(value.ratingCount) && value.ratingCount >= 0 && value.ratingCount <= 1_000_000
-    && Number.isInteger(value.ratingSum) && value.ratingSum >= value.ratingCount
+    && typeof value.ratingSum === "number" && Number.isInteger(value.ratingSum * 2) && value.ratingSum >= value.ratingCount
     && value.ratingSum <= value.ratingCount * 5;
 }
 

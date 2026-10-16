@@ -99,6 +99,57 @@ describe('public cleanliness rating rules',{concurrency:false},()=>{
   assert.equal((await getDocFromServer(vote(alice))).exists(),false);
  });
 
+ for(const stars of [1,1.5,2,2.5,3,3.5,4,4.5,5]){
+  test(`owner can submit ${stars} stars with exact matching totals`,async()=>{
+   await assertSucceeds(batchRating(alice,{stars}));
+   const aggregate=(await getDocFromServer(summary(signedOut))).data();
+   assert.equal(aggregate.ratingCount,1);assert.equal(aggregate.ratingSum,stars);
+   assert.equal((await getDocFromServer(vote(alice))).data().stars,stars);
+  });
+ }
+
+ test('half-star vote can be updated, read publicly as an aggregate and removed',async()=>{
+  await assertSucceeds(transactRating(alice,ALICE,1.5));
+  await assertSucceeds(transactRating(alice,ALICE,4.5));
+  let aggregate=(await getDocFromServer(summary(signedOut))).data();
+  assert.equal(aggregate.ratingCount,1);assert.equal(aggregate.ratingSum,4.5);
+  assert.equal((await getDocFromServer(vote(alice))).data().stars,4.5);
+  await assertSucceeds(transactRating(alice,ALICE,null));
+  aggregate=(await getDocFromServer(summary(signedOut))).data();
+  assert.equal(aggregate.ratingCount,0);assert.equal(aggregate.ratingSum,0);
+  assert.equal((await getDocFromServer(vote(alice))).exists(),false);
+ });
+
+ test('legacy integer votes and totals remain compatible with new half-star votes',async()=>{
+  await environment.withSecurityRulesDisabled(async context=>{
+   const database=context.firestore();
+   const updatedAt=Timestamp.fromDate(new Date('2020-01-01T00:00:00Z'));
+   await setDoc(summary(database),{ratingCount:1,ratingSum:4,updatedAt});
+   await setDoc(vote(database),{stars:4,updatedAt});
+  });
+  await assertSucceeds(transactRating(bob,'bob',2.5));
+  let aggregate=(await getDocFromServer(summary(signedOut))).data();
+  assert.equal(aggregate.ratingCount,2);assert.equal(aggregate.ratingSum,6.5);
+  await assertSucceeds(transactRating(alice,ALICE,4.5));
+  aggregate=(await getDocFromServer(summary(signedOut))).data();
+  assert.equal(aggregate.ratingCount,2);assert.equal(aggregate.ratingSum,7);
+  await assertSucceeds(transactRating(bob,'bob',null));
+  aggregate=(await getDocFromServer(summary(signedOut))).data();
+  assert.equal(aggregate.ratingCount,1);assert.equal(aggregate.ratingSum,4.5);
+ });
+
+ test('concurrent half-star adds, changes and removals preserve exact totals',async()=>{
+  await Promise.all([transactRating(alice,ALICE,4.5),transactRating(bob,'bob',2.5)]);
+  let aggregate=(await getDocFromServer(summary(signedOut))).data();
+  assert.equal(aggregate.ratingCount,2);assert.equal(aggregate.ratingSum,7);
+  await Promise.all([transactRating(alice,ALICE,1.5),transactRating(bob,'bob',null)]);
+  aggregate=(await getDocFromServer(summary(signedOut))).data();
+  assert.equal(aggregate.ratingCount,1);assert.equal(aggregate.ratingSum,1.5);
+  await Promise.all([transactRating(alice,ALICE,3.5),transactRating(alice,ALICE,3.5)]);
+  aggregate=(await getDocFromServer(summary(signedOut))).data();
+  assert.equal(aggregate.ratingCount,1);assert.equal(aggregate.ratingSum,3.5);
+ });
+
  test('simultaneous accounts and repeated same-account transactions preserve exact totals',async()=>{
   await assert.doesNotReject(Promise.all([transactRating(alice,ALICE,4),transactRating(bob,'bob',2)]),'two different accounts adding votes');
   let data=(await getDocFromServer(summary(signedOut))).data();
@@ -187,9 +238,34 @@ describe('public cleanliness rating rules',{concurrency:false},()=>{
   await assertFails(batchRating(alice,{stars:null,count:1,sum:0}));
  });
 
- for(const stars of [0,6,-1,3.5,'4',true,null,[],{}]){
-  test(`vote rejects invalid stars ${JSON.stringify(stars)}`,async()=>{
-   await assertFails(batchRating(alice,{votePayload:{stars,updatedAt:serverTimestamp()},sum:4}));
+ test('half-star support does not permit forged deltas, unpaired writes or cross-account changes',async()=>{
+  await assertFails(setDoc(vote(alice),voteData(3.5)));
+  await assertFails(setDoc(summary(alice),totals(1,3.5)));
+  await assertFails(batchRating(alice,{uid:'bob',stars:3.5}));
+  await assertFails(batchRating(signedOut,{stars:3.5}));
+  await assertFails(batchRating(anonymousProvider,{uid:'guest',stars:3.5}));
+  await transactRating(alice,ALICE,3.5);
+  await assertFails(batchRating(bob,{uid:ALICE,stars:4.5,count:1,sum:4.5}));
+  await assertFails(batchRating(alice,{stars:4.5,count:1,sum:4}));
+  await assertFails(batchRating(alice,{stars:4.5,count:2,sum:8}));
+  await assertFails(batchRating(alice,{stars:4.5,count:1,sum:4.25}));
+  await assertFails(batchRating(alice,{stars:3.5,count:2,sum:7}));
+  await assertFails(setDoc(vote(alice),voteData(4.5)));
+  await assertFails(deleteDoc(vote(alice)));
+  await assertFails(batchRating(alice,{stars:null,count:0,sum:0.5}));
+  const aggregate=(await getDocFromServer(summary(signedOut))).data();
+  assert.equal(aggregate.ratingCount,1);assert.equal(aggregate.ratingSum,3.5);
+ });
+
+ for(const stars of [0,0.5,6,-1,1.25,3.25,4.75,NaN,Infinity,-Infinity,'4','3.5',true,null,[],{}]){
+  test(`vote rejects invalid stars ${String(stars)} (${typeof stars})`,async()=>{
+   await assertFails(batchRating(alice,{votePayload:{stars,updatedAt:serverTimestamp()},sum:typeof stars==='number'?stars:4}));
+  });
+  test(`vote update rejects invalid stars ${String(stars)} (${typeof stars})`,async()=>{
+   await transactRating(alice,ALICE,4.5);
+   await assertFails(batchRating(alice,{votePayload:{stars,updatedAt:serverTimestamp()},sum:typeof stars==='number'?stars:4}));
+   assert.equal((await getDocFromServer(vote(alice))).data().stars,4.5);
+   assert.equal((await getDocFromServer(summary(signedOut))).data().ratingSum,4.5);
   });
  }
 
@@ -211,7 +287,9 @@ describe('public cleanliness rating rules',{concurrency:false},()=>{
 
  const invalidSummaries=[
   ['negative count',()=>totals(-1,0)],['fractional count',()=>totals(1.5,4)],
-  ['fractional sum',()=>totals(1,4.5)],['oversized count',()=>totals(1_000_001,4_000_004)],
+  ['quarter-star sum',()=>totals(1,4.25)],['oversized count',()=>totals(1_000_001,4_000_004)],
+  ['NaN sum',()=>totals(1,NaN)],['positive infinite sum',()=>totals(1,Infinity)],
+  ['negative infinite sum',()=>totals(1,-Infinity)],['string sum',()=>totals(1,'4.5')],
   ['sum above five per vote',()=>totals(1,6)],['sum below one per vote',()=>totals(1,0)],
   ['nonzero empty sum',()=>totals(0,1)],['missing count',()=>({ratingSum:4,updatedAt:serverTimestamp()})],
   ['missing sum',()=>({ratingCount:1,updatedAt:serverTimestamp()})],['missing timestamp',()=>({ratingCount:1,ratingSum:4})],

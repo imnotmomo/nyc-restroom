@@ -108,7 +108,7 @@ export async function readOwnRating(uid: string, placeID: string): Promise<OwnRa
 
 export async function setRating(uid: string, placeID: string, stars: number | null): Promise<void> {
   validatePlaceID(placeID);
-  if (stars !== null && !isValidStars(stars)) throw new RatingError("Choose a whole-number cleanliness rating from 1 to 5 stars.");
+  if (stars !== null && !isValidStars(stars)) throw new RatingError("Choose a cleanliness rating from 1 to 5 stars, in half-star steps.");
   const client = requireClient();
   assertAccount(client, uid);
   const database = getFirestore(client.app);

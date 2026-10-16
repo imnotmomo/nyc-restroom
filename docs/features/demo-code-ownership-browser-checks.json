@@ -74,5 +74,5 @@
     "would_flip_me": "",
     "would_pay": "n/a"
   },
-  "visualReview": "Inspected both 320/390px code-card screenshots. The own private3535 card has edit/verify controls; the other public3434 card has only verify. Dates and visibility labels are legible; no identity information is displayed. Captures are offset below the normal sticky demo banner to keep all report text unobscured."
+  "visualReview": "Both 320/390px report screenshots were inspected. Own private3535 has edit and verify controls; other public3434 has verify only. Dates and visibility labels are legible with no identity information. Flow and overflow checks used844px viewports; screenshots use1600px tall capture viewports to include complete cards below the normal sticky banner."
 }

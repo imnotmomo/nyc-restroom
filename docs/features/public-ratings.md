@@ -1,5 +1,7 @@
 # Public cleanliness ratings
 
+The original release record below used whole-star radio controls. The current editor uses a [half-star slider](rating-slider.md); its updated validators accept 1–5 in steps of 0.5 and preserve the same ownership and atomic-total requirements.
+
 ## Brief and plan
 
 Visitors can read restroom ratings without signing in. Google Sign-in is required to submit, change, or remove a rating. Ratings use a 1–5 cleanliness scale so the existing Clean (4★+) filter has a concrete meaning. Do not generate sample public votes or convert private visit notes into ratings.
