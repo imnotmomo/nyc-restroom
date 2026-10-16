@@ -93,8 +93,8 @@ async function inAccount<T>(uid: string, operation: (scope: AccountScope) => Pro
 }
 
 function validatePlaceID(placeID: string): void {
-  if (!validStoredPlaceID(placeID) || !placeIDs.has(placeID)) {
-    throw new UserDataError("This place isn’t in the current NYC listing data. It wasn’t saved.");
+  if (!validStoredPlaceID(placeID) || (!placeIDs.has(placeID) && !/^community-[A-Za-z0-9]{20}$/.test(placeID))) {
+    throw new UserDataError("This place isn’t a city or community listing. It wasn’t saved.");
   }
 }
 

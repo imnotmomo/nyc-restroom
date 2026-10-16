@@ -1,0 +1,44 @@
+{
+  "checkedAt": "2026-10-16T02:19:41.765Z",
+  "base": "http://127.0.0.1:4181",
+  "projectId": "demo-restroom-ready",
+  "emulatorOnly": true,
+  "checks": [
+    "Signed out at 320px: public notice, no form, 44px targets, no overflow, Tab stays inside, Escape restores the opener.",
+    "Signed out at 390px: public notice, no form, 44px targets, no overflow, Tab stays inside, Escape restores the opener.",
+    "Signed in at 320px: all controls meet 44px, no overflow, 20 Tab presses stay inside, first/last controls wrap, 3px focus is visible, Escape restores the opener.",
+    "Signed in at 390px: all controls meet 44px, no overflow, 20 Tab presses stay inside, first/last controls wrap, 3px focus is visible, Escape restores the opener.",
+    "Cross-tab sign-out removes the draft and form; a different synthetic account starts with empty fields and unknown claims."
+  ],
+  "errors": [],
+  "blockedProduction": [],
+  "createdIDs": [],
+  "localListingFixturesCleaned": true,
+  "priorCoreVerification": {
+    "checkedAt": "2026-10-16T02:16:39.212Z",
+    "passed": true,
+    "sourceBuildChangeAfter": "Only the dialog Tab cycle helper changed after this pass; create and write handlers were unchanged.",
+    "checks": [
+      "Signed-out modal has the public-data notice and no form; cancelling local Google sign-in shows feedback.",
+      "Synthetic Google sign-in reveals unknown defaults; required-field errors focus the first invalid field.",
+      "NYC coordinate bounds, granted and denied GPS, retained coordinates, and future-date rejection behave correctly.",
+      "Rapid submit clicks create one confirmed community ID and one map member, with visitor attribution, separate observed/submitted dates, and no account identity.",
+      "A separate signed-out context can search and reload the public listing.",
+      "The new ID supports rating 4 then 2, the Clean threshold, and the Public entry filter.",
+      "The new ID supports favorites and private notes; an anonymous reader cannot see the private note.",
+      "A rejected emulator write retains the draft and request ID; retry with rapid clicks creates one listing under the same ID."
+    ],
+    "temporaryIDs": [
+      "community-U0ZEIMFSVMMKT3HAAdJW",
+      "community-lnEURE1piwLCJDJGnlLJ"
+    ],
+    "fixturesCleaned": true
+  },
+  "focusRegression": {
+    "initialObservation": "Chrome native dialog allowed Tab to leave the last control for BODY/browserchrome.",
+    "resolved": true,
+    "fix": "Explicit first/last Tab cycling inside the native dialog; Escape, background inertness, and close-focus behavior are retained."
+  },
+  "status": "pass",
+  "visualCheck": "The 320px screenshot was inspected: form title, close focus, public notice, labeled inputs, and location action fit within the dialog."
+}

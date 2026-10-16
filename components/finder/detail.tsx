@@ -9,6 +9,13 @@ function FactRow({ label, value, unknown = false }: { label: string; value: stri
   return <div className={`finder-fact${unknown ? " is-unknown" : ""}`}><dt>{label}</dt><dd>{value}</dd></div>;
 }
 
+function submissionDate(value: string): string {
+  return new Date(value).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" });
+}
+
+const entryLabels = { public: "Public entry reported", customers: "Customers only reported", unknown: "Not reported" };
+const routeLabels = { yes: "Yes — visitor reported", no: "No — visitor reported", unknown: "Not reported" };
+
 export function RestroomDetail({ restroom, distance, originLabel, userLocation, saved, saving, onToggleFavorite, onClose, ratingContent, personalContent, feedback, onRetryLibrary }: {
   restroom: Restroom;
   distance: number;
@@ -23,6 +30,7 @@ export function RestroomDetail({ restroom, distance, originLabel, userLocation, 
   feedback: string | null;
   onRetryLibrary?: () => void;
 }) {
+  const community = restroom.communitySource;
   return <aside className="finder-detail" aria-labelledby="finder-detail-title" id="restroom-details" tabIndex={-1}>
     <header className="finder-detail-heading">
       <button type="button" className="finder-icon-button finder-close" onClick={onClose} aria-label="Close location details"><ArrowLeft size={18} className="finder-close-back-icon" /><span className="finder-close-text">Back to results</span><X size={20} className="finder-close-x-icon" /></button>
@@ -38,18 +46,22 @@ export function RestroomDetail({ restroom, distance, originLabel, userLocation, 
       {onRetryLibrary && <button className="finder-secondary-button" type="button" onClick={onRetryLibrary}>Retry loading saved places & notes</button>}
     </header>
 
-    <div className="finder-source-note"><Info size={17} /><p><strong>City data, dated {sourceDateLabel}.</strong> These are published details, not a live availability check or a team inspection.</p></div>
+    <div className="finder-source-note"><Info size={17} />{community
+      ? <p><strong>Visitor-submitted location.</strong> Submitted {submissionDate(community.submittedAt)}. {community.observedOn ? `Observed on ${community.observedOn}.` : "Observation date not reported."} These are visitor reports; the team has not inspected this restroom.</p>
+      : <p><strong>City data, dated {sourceDateLabel}.</strong> These are published details, not a live availability check or a team inspection.</p>}</div>
 
     <section className="finder-detail-section">
       <h3><DoorOpen size={19} />Entry</h3>
       <dl>
+        {community && <FactRow label="Entry permission — visitor report" value={entryLabels[community.entryRule]} unknown={community.entryRule === "unknown"} />}
         <FactRow label="Purchase required" value={restroom.purchaseRequired === null ? "Not reported" : restroom.purchaseRequired ? "Yes" : "No"} unknown={restroom.purchaseRequired === null} />
+        {restroom.address && <FactRow label="Address" value={restroom.address} />}
         <FactRow label="Published hours" value={fact(restroom.hours)} unknown={!restroom.hours} />
         <FactRow label="Seasonality" value={fact(restroom.seasonality)} unknown={!restroom.seasonality} />
         <FactRow label="Published status" value={fact(restroom.publishedStatus)} unknown={!restroom.publishedStatus} />
         <FactRow label="Access notes" value={fact(restroom.accessNotes)} unknown={!restroom.accessNotes} />
       </dl>
-      <p className="finder-field-note">Hours and status come from the dated source. They do not confirm the restroom is open now.</p>
+      <p className="finder-field-note">{community ? "Entry permission is a visitor report. Hours and availability have not been confirmed." : "Hours and status come from the dated source. They do not confirm the restroom is open now."}</p>
     </section>
 
     <section className="finder-detail-section">
@@ -57,20 +69,21 @@ export function RestroomDetail({ restroom, distance, originLabel, userLocation, 
       <dl>
         <FactRow label="Restroom floor" value={fact(restroom.restroomFloor)} unknown={!restroom.restroomFloor} />
         <FactRow label="Stairs to restroom" value={fact(restroom.stairsToRestroom)} unknown={!restroom.stairsToRestroom} />
-        <FactRow label="Facility access — city label" value={fact(restroom.facilityAccessibility)} unknown={!restroom.facilityAccessibility} />
+        {community ? <FactRow label="Step-free route from street to restroom" value={routeLabels[community.stepFreeAccess]} unknown={community.stepFreeAccess === "unknown"} />
+          : <FactRow label="Facility access — city label" value={fact(restroom.facilityAccessibility)} unknown={!restroom.facilityAccessibility} />}
       </dl>
-      <p className="finder-field-note">The city’s facility label does not establish the route to this restroom or the features of its stalls.</p>
+      <p className="finder-field-note">{community ? "A step-free-route report does not confirm doorway widths, stall space, grab bars, or other accessibility features." : "The city’s facility label does not establish the route to this restroom or the features of its stalls."}</p>
     </section>
 
     <section className="finder-detail-section">
       <h3><Building2 size={19} />Restroom & conditions</h3>
       <dl>
         <FactRow label="Restroom type" value={fact(restroom.restroomType)} unknown={!restroom.restroomType} />
-        <FactRow label="Changing stations — city label" value={fact(restroom.changingStations)} unknown={!restroom.changingStations} />
+        <FactRow label={community ? "Changing stations" : "Changing stations — city label"} value={fact(restroom.changingStations)} unknown={!restroom.changingStations} />
         <FactRow label="Conditions" value={fact(restroom.cleanliness)} unknown={!restroom.cleanliness} />
         <FactRow label="Observation date" value={fact(restroom.observationDate)} unknown={!restroom.observationDate} />
       </dl>
-      <p className="finder-field-note">Soap, toilet paper, and stall conditions have not been reported in this source.</p>
+      <p className="finder-field-note">Soap, toilet paper, and stall conditions have not been reported in {community ? "this submission" : "this source"}.</p>
     </section>
 
     <div className="finder-detail-section">{ratingContent}</div>
@@ -78,10 +91,15 @@ export function RestroomDetail({ restroom, distance, originLabel, userLocation, 
 
     <details className="finder-provenance">
       <summary>Source & record details</summary>
-      <p>Publisher: {datasetSource.publisher}. Operator: {fact(restroom.operator)}.</p>
+      {community ? <><p>Source: a signed-in visitor’s submission. The visitor’s account identity is private.</p>
+        <p>Submitted {submissionDate(community.submittedAt)}. Observation date: {community.observedOn ?? "Not reported"}. Submission time is not an inspection date.</p>
+        <p>Chosen coordinates: {restroom.latitude.toFixed(6)}, {restroom.longitude.toFixed(6)}. The address and pin are visitor reports.</p>
+        <p>Submission record: {restroom.id}. Contact the project team to request a correction or removal.</p>
+      </> : <><p>Publisher: {datasetSource.publisher}. Operator: {fact(restroom.operator)}.</p>
       <p>Source data updated {sourceDateLabel}. Retrieved {new Date(datasetSource.retrievedAt).toLocaleDateString("en-US", { timeZone: "America/New_York" })}. Retrieval is not an inspection date.</p>
       <p>Source record{restroom.sourceRecordIds.length > 1 ? "s" : ""}: {restroom.sourceRecordIds.join(", ")}</p>
       <a href={restroom.sourceUrl ?? datasetSource.url} target="_blank" rel="noreferrer">View NYC Open Data source <ArrowUpRight size={15} /></a>
+      </>}
       {restroom.website && /^https?:\/\//i.test(restroom.website) && <a href={restroom.website} target="_blank" rel="noreferrer">Visit venue website <ArrowUpRight size={15} /></a>}
     </details>
   </aside>;

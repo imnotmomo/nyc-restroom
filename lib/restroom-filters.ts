@@ -11,8 +11,8 @@ export const FILTER_OPTIONS = [
 ] as const satisfies readonly { value: RestroomFilter; label: string }[];
 
 export const FILTER_HELP: Readonly<Record<RestroomFilter, string>> = {
-  all: "All listings in the dated NYC source collection.",
-  public: "Listed in NYC’s public-restroom directory. Entry rules, fees, and current availability may vary.",
+  all: "The dated NYC source collection and recent visitor-submitted locations. Neither confirms current availability.",
+  public: "NYC directory listings and visitor-reported public entry. Entry rules, fees, and current availability may vary; check each source.",
   clean: "Community cleanliness ratings averaging at least 4 out of 5. Unrated locations are excluded; ratings do not confirm current conditions.",
   accessible: "Facilities listed ‘Fully Accessible’ by NYC. Restroom routes and stalls are not confirmed; check access notes.",
   saved: "Places saved to your signed-in account.",
@@ -24,7 +24,7 @@ export type PublicCleanlinessRating = {
   sourceUrl: string;
 };
 
-export type FilterableRestroom = Pick<Restroom, "id" | "sourceRecordId" | "sourceUrl" | "facilityAccessibility"> & {
+export type FilterableRestroom = Pick<Restroom, "id" | "sourceRecordId" | "sourceUrl" | "facilityAccessibility" | "communitySource"> & {
   cleanlinessRating?: PublicCleanlinessRating | null;
 };
 
@@ -46,8 +46,9 @@ export function matchesRestroomFilter(place: FilterableRestroom, filter: Restroo
     case "all":
       return true;
     case "public":
-      return place.sourceUrl === publicDirectoryUrl
-        && typeof place.sourceRecordId === "string" && place.sourceRecordId.trim().length > 0;
+      return (place.sourceUrl === publicDirectoryUrl
+        && typeof place.sourceRecordId === "string" && place.sourceRecordId.trim().length > 0)
+        || place.communitySource?.entryRule === "public";
     case "clean": {
       const rating = place.cleanlinessRating;
       return rating !== null && rating !== undefined

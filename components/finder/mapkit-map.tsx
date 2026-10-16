@@ -62,7 +62,7 @@ export default function MapKitMap({ places, selectedID, onSelect, userLocation, 
         annotationForCluster: (cluster) => {
           cluster.color = "#2B59C3";
           cluster.glyphColor = "#FFFFFF";
-          cluster.title = `${cluster.memberAnnotations?.length ?? 0} city-listed locations`;
+          cluster.title = `${cluster.memberAnnotations?.length ?? 0} restroom locations`;
           cluster.subtitle = "Select to look closer";
           return cluster;
         },
@@ -151,7 +151,7 @@ export default function MapKitMap({ places, selectedID, onSelect, userLocation, 
       if (annotations.current.has(place.id)) continue;
       const annotation = new mapkit.MarkerAnnotation(place, {
         title: place.name,
-        subtitle: place.locationType ?? "City-listed location",
+        subtitle: place.locationType ?? "Restroom location",
         data: { restroomID: place.id },
         accessibilityLabel: `View ${place.name}`,
         color: "#2B59C3",

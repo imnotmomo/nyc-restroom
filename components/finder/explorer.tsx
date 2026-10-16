@@ -3,10 +3,12 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowDownAZ, ArrowUpRight, Bookmark, ChevronRight, Info, List, LocateFixed, Map as MapIcon, MapPin, Search, X } from "lucide-react";
+import { ArrowDownAZ, ArrowUpRight, Bookmark, ChevronRight, Info, List, LocateFixed, Map as MapIcon, MapPin, Plus, Search, X } from "lucide-react";
 import { FirebaseAccountButton, useFirebaseAccount } from "@/components/firebase-account";
 import { PersonalNotes, RestroomDetail } from "@/components/finder/detail";
 import { RestroomRatings } from "@/components/finder/ratings";
+import { LogRestroomForm } from "@/components/finder/log-restroom";
+import { COMMUNITY_FEED_LIMIT, communityRestroomToPlace, createCommunityRestroom, watchCommunityRestrooms, type CommunityRestroomInput, type CommunityRestroomRecord } from "@/lib/community-restrooms";
 import { COLUMBIA, datasetSource, distanceMeters, formatDistance, isWithinCollection, matchesRestroom, restrooms, sourceDateLabel, type Coordinates } from "@/lib/restrooms";
 import { deleteVisitNote, readLibrary, saveVisitNote, setFavorite, type VisitNote, type VisitNoteInput } from "@/lib/user-data";
 import { locationAvailabilityError, requestBrowserLocation } from "@/lib/location";
@@ -34,6 +36,17 @@ export function RestroomExplorer() {
   const [locationRequestID, setLocationRequestID] = useState(0);
   const [locationError, setLocationError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [communityRecords, setCommunityRecords] = useState<CommunityRestroomRecord[]>([]);
+  const [confirmedSubmissions, setConfirmedSubmissions] = useState<CommunityRestroomRecord[]>([]);
+  const [communityLoading, setCommunityLoading] = useState(true);
+  const [communityError, setCommunityError] = useState<string | null>(null);
+  const [communityRetry, setCommunityRetry] = useState(0);
+  const [showLogForm, setShowLogForm] = useState(false);
+  const [logBusy, setLogBusy] = useState(false);
+  const [logError, setLogError] = useState<string | null>(null);
+  const logButton = useRef<HTMLButtonElement | null>(null);
+  const logOperation = useRef(0);
+  const logInFlight = useRef(false);
   const [library, setLibrary] = useState<{ uid: string | null; favoriteIDs: string[]; notes: VisitNote[] }>({ uid: null, favoriteIDs: [], notes: [] });
   const [libraryLoading, setLibraryLoading] = useState(false);
   const [libraryError, setLibraryError] = useState<string | null>(null);
@@ -60,6 +73,37 @@ export function RestroomExplorer() {
   const favoriteIDs = useMemo(() => library.uid === uid && uid ? library.favoriteIDs : [], [library, uid]);
   const savedIDs = useMemo(() => new Set(favoriteIDs), [favoriteIDs]);
   const privateNotes = library.uid === uid && uid ? library.notes : [];
+
+  useEffect(() => {
+    let active = true;
+    setCommunityLoading(true);
+    setCommunityError(null);
+    const unsubscribe = watchCommunityRestrooms((records) => {
+      if (!active) return;
+      setCommunityRecords(records);
+      setCommunityLoading(false);
+      setCommunityError(null);
+    }, (error) => {
+      if (!active) return;
+      setCommunityLoading(false);
+      setCommunityError(error.message);
+    });
+    return () => { active = false; unsubscribe(); };
+  }, [communityRetry]);
+
+  useEffect(() => {
+    logOperation.current += 1;
+    logInFlight.current = false;
+    setLogBusy(false);
+    setLogError(null);
+  }, [uid]);
+
+  const communityPlaces = useMemo(() => {
+    const records = new Map(communityRecords.map((record) => [record.id, record]));
+    for (const record of confirmedSubmissions) records.set(record.id, record);
+    return [...records.values()].map(communityRestroomToPlace);
+  }, [communityRecords, confirmedSubmissions]);
+  const allRestrooms = useMemo(() => [...restrooms, ...communityPlaces], [communityPlaces]);
 
   useEffect(() => {
     let active = true;
@@ -127,6 +171,7 @@ export function RestroomExplorer() {
   useEffect(() => () => {
     locationVersion.current += 1;
     ratingOperation.current += 1;
+    logOperation.current += 1;
     cancelLocation.current?.();
   }, []);
 
@@ -149,15 +194,15 @@ export function RestroomExplorer() {
 
   const origin = userLocation ?? COLUMBIA;
   const originLabel = userLocation ? "your location" : "Columbia";
-  const places = useMemo(() => restrooms.filter((place) => matchesRestroom(place, query)
+  const places = useMemo(() => allRestrooms.filter((place) => matchesRestroom(place, query)
     && matchesRestroomFilter({ ...place, cleanlinessRating: !ratingsLoading && !ratingsError && ratings[place.id]
       ? { average: ratings[place.id].average, ratingCount: ratings[place.id].ratingCount, sourceUrl: "https://nyc.imfinethanku.me/find/" }
       : null }, filter, savedIDs))
     .map((place) => ({ place, distance: distanceMeters(origin, place) }))
     .sort((a, b) => sort === "name" ? a.place.name.localeCompare(b.place.name) : a.distance - b.distance),
-  [query, filter, savedIDs, origin, sort, ratings, ratingsLoading, ratingsError]);
+  [allRestrooms, query, filter, savedIDs, origin, sort, ratings, ratingsLoading, ratingsError]);
   const mapPlaces = useMemo(() => places.map(({ place }) => place), [places]);
-  const selected = restrooms.find((place) => place.id === selectedID);
+  const selected = allRestrooms.find((place) => place.id === selectedID);
 
   useEffect(() => {
     setListLimit(LIST_PAGE_SIZE);
@@ -191,13 +236,46 @@ export function RestroomExplorer() {
   }, [selectedID]);
 
   useEffect(() => {
-    if (!selectedID) return;
+    if (!selectedID || showLogForm) return;
     function onKey(event: KeyboardEvent) {
       if (event.key === "Escape") closePlace();
     }
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [selectedID, closePlace]);
+  }, [selectedID, closePlace, showLogForm]);
+
+  function closeLogForm() {
+    if (logInFlight.current) return;
+    setShowLogForm(false);
+    setLogError(null);
+    requestAnimationFrame(() => logButton.current?.focus());
+  }
+
+  async function logRestroom(input: CommunityRestroomInput, requestID: string): Promise<boolean> {
+    if (!uid || logInFlight.current) return false;
+    const owner = uid;
+    const operation = ++logOperation.current;
+    const isCurrent = () => currentUID.current === owner && logOperation.current === operation;
+    logInFlight.current = true;
+    setLogBusy(true);
+    setLogError(null);
+    try {
+      const record = await createCommunityRestroom(owner, input, requestID);
+      if (!isCurrent()) return false;
+      setConfirmedSubmissions((records) => [...records.filter((item) => item.id !== record.id), record]);
+      setQuery("");
+      setFilter("all");
+      setShowLogForm(false);
+      setMessage("Restroom logged. Your visitor-submitted location is now public; its details have not been independently checked.");
+      selectPlace(record.id);
+      return true;
+    } catch (error) {
+      if (isCurrent()) setLogError(error instanceof Error ? error.message : "Your submission could not be confirmed. Your details are still here; please retry.");
+      return false;
+    } finally {
+      if (isCurrent()) { logInFlight.current = false; setLogBusy(false); }
+    }
+  }
 
   async function chooseFilter(next: RestroomFilter) {
     if (next === "saved" && !account.user) {
@@ -342,7 +420,8 @@ export function RestroomExplorer() {
     <main id="finder-main">
       <div className="finder-page-heading">
         <div><p className="finder-overline"><span className="finder-small-rule" />NYC / A more useful bathroom break</p><h1>Know before you go<span>.</span></h1></div>
-        <p className="finder-heading-note"><strong>{restrooms.length.toLocaleString("en-US")} city-listed places</strong><br />A citywide NYC Open Data collection</p>
+        <div className="finder-log-heading-actions"><p className="finder-heading-note"><strong>{restrooms.length.toLocaleString("en-US")} city-listed places{communityPlaces.length > 0 ? ` + ${communityPlaces.length.toLocaleString("en-US")} visitor submissions` : ""}</strong><br />Dated sources and visitor reports</p>
+          <button type="button" ref={logButton} className="finder-secondary-button finder-log-open" onClick={() => { setLogError(null); account.clearError(); setShowLogForm(true); }} aria-haspopup="dialog"><Plus size={18} />Log a restroom</button></div>
       </div>
 
       <section className="finder-tools" aria-label="Search and filter restrooms">
@@ -355,9 +434,13 @@ export function RestroomExplorer() {
 
       <p className="finder-filter-help" id="finder-filter-help" aria-live="polite">{FILTER_HELP[filter]}</p>
 
+      {communityLoading && <p className="finder-filter-help" role="status">Loading visitor-submitted locations… City listings are available below.</p>}
+      {communityError && <div className="finder-feedback" role="status"><p>{communityError} {communityPlaces.length ? "Previously loaded visitor reports are still shown." : "City listings are still available."}</p><button type="button" className="finder-retry-button" onClick={() => setCommunityRetry((value) => value + 1)}>Retry visitor locations</button></div>}
+      {communityRecords.length >= COMMUNITY_FEED_LIMIT && <p className="finder-filter-help">Showing the {COMMUNITY_FEED_LIMIT.toLocaleString("en-US")} most recent visitor submissions alongside the city collection.</p>}
+
       {ratingsError && <div className="finder-feedback" role="status"><p>{ratingsError}</p><button type="button" className="finder-retry-button" onClick={() => setRatingsRetry((value) => value + 1)}>Retry ratings</button></div>}
 
-      <div className="finder-data-banner"><Info size={17} /><p><strong>Know what’s known.</strong> NYC Open Data updated {sourceDateLabel}. Availability may have changed. Purchase requirements, restroom floors, and conditions are not reported.</p><a href={datasetSource.url} target="_blank" rel="noreferrer">View source <ArrowUpRight size={14} /></a></div>
+      <div className="finder-data-banner"><Info size={17} /><p><strong>Know what’s known.</strong> NYC Open Data updated {sourceDateLabel}. Visitor submissions carry their own dates and labels. Neither source confirms current availability; missing details stay “Not reported.”</p><a href={datasetSource.url} target="_blank" rel="noreferrer">View city source <ArrowUpRight size={14} /></a></div>
       {(account.error || locationError || message || libraryError) && <div className="finder-feedback" role="status"><p>{locationError || account.error || message || libraryError}</p>{libraryError && <button type="button" className="finder-retry-button" onClick={() => setLibraryRetry((value) => value + 1)}>Retry loading</button>}<button type="button" onClick={() => { account.clearError(); setLocationError(null); setMessage(null); setLibraryError(null); }} aria-label="Dismiss message"><X size={18} /></button></div>}
 
       <div className="finder-mobile-view" aria-label="Results view"><button type="button" aria-pressed={mobileView === "list"} onClick={() => setMobileView("list")}><List size={18} />List</button><button type="button" aria-pressed={mobileView === "map"} onClick={() => setMobileView("map")}><MapIcon size={18} />Map</button></div>
@@ -367,17 +450,18 @@ export function RestroomExplorer() {
           <div className="finder-results-heading"><div><span className="finder-overline">Your starting point</span><p><MapPin size={15} />{userLocation ? "Your location" : "Columbia University"}</p></div><div className="finder-sort"><ArrowDownAZ size={16} /><label className="finder-sr-only" htmlFor="finder-sort">Sort locations</label><select id="finder-sort" value={sort} onChange={(event) => setSort(event.target.value as "distance" | "name")}><option value="distance">Distance</option><option value="name">Name A–Z</option></select></div></div>
           <div className="finder-results-meta"><span role="status">{places.length} {places.length === 1 ? "location" : "locations"}{filter === "saved" ? " saved" : " in this view"}</span><span>Straight-line distance</span></div>
           <div className="finder-result-scroll" ref={listScroll}>
-            {places.length === 0 ? <div className="finder-empty"><Search size={25} /><h2>{emptyTitle}</h2><p>{emptyDescription}</p><button className="finder-text-button" type="button" onClick={() => { setQuery(""); setFilter("all"); }}>Show all locations <ChevronRight size={16} /></button></div> : <ol className="finder-results-list">{places.slice(0, listLimit).map(({ place, distance }, index) => <li key={place.id}><button className={`finder-result${selectedID === place.id ? " is-selected" : ""}`} type="button" data-place-id={place.id} onClick={() => selectPlace(place.id)} aria-controls="restroom-details" aria-expanded={selectedID === place.id}><span className="finder-result-index">{String(index + 1).padStart(2, "0")}</span><span className="finder-result-content"><span className="finder-result-category">{place.locationType} <span>·</span> {formatDistance(distance)}</span><strong>{place.name}</strong><span className="finder-result-operator">{place.operator ?? "Operator not reported"}</span><span className="finder-result-rating">{ratingsLoading ? "Loading ratings…" : ratingsError ? "Ratings unavailable" : ratings[place.id] ? `${ratings[place.id].average.toFixed(1)} / 5 · ${ratings[place.id].ratingCount} cleanliness ${ratings[place.id].ratingCount === 1 ? "rating" : "ratings"}` : "No cleanliness ratings yet"}</span>{filter === "accessible" && place.accessNotes && <span className="finder-result-access-note"><strong>Access note:</strong> {place.accessNotes}</span>}<span className="finder-result-unknown">Purchase · Floor · Conditions <span>Not reported</span></span></span><span className="finder-result-end">{favoriteIDs.includes(place.id) ? <Bookmark size={17} fill="currentColor" aria-label="Saved" /> : <ChevronRight size={18} />}</span></button></li>)}</ol>}
+            {places.length === 0 ? <div className="finder-empty"><Search size={25} /><h2>{emptyTitle}</h2><p>{emptyDescription}</p><button className="finder-text-button" type="button" onClick={() => { setQuery(""); setFilter("all"); }}>Show all locations <ChevronRight size={16} /></button></div> : <ol className="finder-results-list">{places.slice(0, listLimit).map(({ place, distance }, index) => <li key={place.id}><button className={`finder-result${selectedID === place.id ? " is-selected" : ""}`} type="button" data-place-id={place.id} onClick={() => selectPlace(place.id)} aria-controls="restroom-details" aria-expanded={selectedID === place.id}><span className="finder-result-index">{String(index + 1).padStart(2, "0")}</span><span className="finder-result-content"><span className="finder-result-category">{place.locationType} <span>·</span> {formatDistance(distance)}</span><strong>{place.name}</strong><span className="finder-result-operator">{place.communitySource ? "Visitor-submitted · Not independently checked" : place.operator ?? "Operator not reported"}</span><span className="finder-result-rating">{ratingsLoading ? "Loading ratings…" : ratingsError ? "Ratings unavailable" : ratings[place.id] ? `${ratings[place.id].average.toFixed(1)} / 5 · ${ratings[place.id].ratingCount} cleanliness ${ratings[place.id].ratingCount === 1 ? "rating" : "ratings"}` : "No cleanliness ratings yet"}</span>{filter === "accessible" && place.accessNotes && <span className="finder-result-access-note"><strong>Access note:</strong> {place.accessNotes}</span>}<span className="finder-result-unknown">Purchase · Floor · Conditions <span>Not reported</span></span></span><span className="finder-result-end">{favoriteIDs.includes(place.id) ? <Bookmark size={17} fill="currentColor" aria-label="Saved" /> : <ChevronRight size={18} />}</span></button></li>)}</ol>}
             {places.length > 0 && <div className="finder-more-results"><p role="status">Showing {Math.min(listLimit, places.length).toLocaleString("en-US")} of {places.length.toLocaleString("en-US")} locations</p>{listLimit < places.length && <button type="button" className="finder-secondary-button" onClick={() => setListLimit((value) => value + LIST_PAGE_SIZE)}>Show {Math.min(LIST_PAGE_SIZE, places.length - listLimit)} more</button>}</div>}
           </div>
           <p className="finder-list-foot"><Info size={14} />Hours and entry rules can change. Check details before going.</p>
         </section>
 
-        <section className="finder-map-panel" aria-label="Map view"><RestroomMap places={mapPlaces} selectedID={selectedID} onSelect={selectPlace} userLocation={userLocation} locationRequestID={locationRequestID} /><div className="finder-area-label"><span className="finder-overline">The city collection</span><strong>New York City</strong><span>City-listed places. Details worth checking.</span></div></section>
+        <section className="finder-map-panel" aria-label="Map view"><RestroomMap places={mapPlaces} selectedID={selectedID} onSelect={selectPlace} userLocation={userLocation} locationRequestID={locationRequestID} /><div className="finder-area-label"><span className="finder-overline">NYC restroom map</span><strong>New York City</strong><span>City listings and visitor reports.</span></div></section>
 
         {selected && <RestroomDetail restroom={selected} distance={distanceMeters(origin, selected)} originLabel={originLabel} userLocation={userLocation} saved={favoriteIDs.includes(selected.id)} saving={favoriteBusy || libraryLoading} onToggleFavorite={() => void toggleFavorite()} onClose={closePlace} ratingContent={<RestroomRatings key={`${uid ?? "signed-out"}:${selected.id}`} summary={ratings[selected.id] ?? null} publicLoading={ratingsLoading} publicError={ratingsError} ownRating={ownRating?.uid === uid && ownRating.placeID === selected.id ? ownRating.rating : null} ownLoading={ownRatingLoading || Boolean(uid && (!ownRating || ownRating.uid !== uid || ownRating.placeID !== selected.id) && !ownRatingError)} ownError={ownRatingError} signedIn={Boolean(uid)} authLoading={account.loading} configured={account.configured} saving={ratingBusy} onSignIn={() => void account.signInWithGoogle()} onSave={saveRating} onRetry={() => setRatingsRetry((value) => value + 1)} />} feedback={account.error || message || libraryError} onRetryLibrary={libraryError ? () => setLibraryRetry((value) => value + 1) : undefined} personalContent={<PersonalNotes key={`${uid ?? "signed-out"}:${selected.id}`} placeID={selected.id} signedIn={Boolean(uid)} configured={account.configured} loading={account.loading || libraryLoading} saving={noteBusy} notes={privateNotes.filter((note) => note.placeID === selected.id)} onSignIn={() => void account.signInWithGoogle()} onSave={addNote} onDelete={removeNote} />} />}
       </div>
-      <footer className="finder-footer"><p>NYC Open Data · {restrooms.length} locations in this collection · Source details are dated.</p><div><Link href="/privacy/">Privacy</Link><Link href="/">About Restroom Ready <ArrowUpRight size={14} /></Link></div></footer>
+      <footer className="finder-footer"><p>NYC Open Data · {restrooms.length} city-listed locations · {communityPlaces.length} visitor submissions loaded · Source details are dated.</p><div><Link href="/privacy/">Privacy</Link><Link href="/">About Restroom Ready <ArrowUpRight size={14} /></Link></div></footer>
     </main>
+    {showLogForm && <LogRestroomForm key={uid ?? "signed-out"} uid={uid} accountLoading={account.loading} authBusy={account.loading} saving={logBusy} initialCoordinates={userLocation} authError={account.error} submitError={logError} onSignIn={() => void account.signInWithGoogle()} onSubmit={logRestroom} onClose={closeLogForm} />}
   </div>;
 }

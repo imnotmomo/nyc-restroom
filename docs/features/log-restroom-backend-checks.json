@@ -1,0 +1,62 @@
+{
+  "feature": "Login-only community restroom logging",
+  "checkedAt": "2026-10-16T02:16:41.567423+00:00",
+  "firebase": {
+    "project": "nye-restroom",
+    "database": "(default)",
+    "edition": "STANDARD",
+    "location": "nam5",
+    "verifiedWith": "npx -y firebase-tools@latest firestore:databases:get (default) --project nye-restroom",
+    "productionWritesPerformed": false
+  },
+  "modelTests": {
+    "command": "node --test tests/community-restrooms.test.mjs",
+    "passed": 9,
+    "failed": 0,
+    "coverage": [
+      "Strict community request IDs and input schema",
+      "NYC extent coordinates and nonfinite/coercion rejection",
+      "NY calendar date cutoff for new input",
+      "Stored observation dates checked against server submission time across UTC/NY midnight",
+      "Unicode UTF-16 limits matching Firestore, whitespace, controls, and strict enums",
+      "Idempotent content equality"
+    ]
+  },
+  "securityTests": {
+    "emulatorHost": "127.0.0.1:8088",
+    "command": "FIRESTORE_EMULATOR_HOST=127.0.0.1:8088 node --test tests/firebase/community-restrooms-rules.test.mjs",
+    "communityPassed": 103,
+    "communityFailed": 0,
+    "existingPrivateDataPassed": 85,
+    "existingRatingPassed": 50,
+    "totalCasesVerified": 238,
+    "note": "Full regression run passed all 135 existing cases. One new Unicode-length expectation failed; an isolated probe established Firestore String.size uses UTF-16 code units. The expectation and model were aligned, then all 103 community cases passed. No further original-project clears followed UI handoff.",
+    "coverage": [
+      "Authenticated atomic public listing + private ownership receipt + zero rating summary",
+      "Anonymous/signed-out creation denied",
+      "Private ownership receipt read/list and UID spoof rejection",
+      "Immutable documents and strict required/allowed fields",
+      "Orphan, mismatched ID, source-summary reset and nested-write attacks",
+      "Bounded public feed queries",
+      "Timestamp, coordinate, enum and oversized payload attacks",
+      "Controls and Unicode whitespace/length attacks",
+      "Subsequent rating, favorite and private-note compatibility"
+    ]
+  },
+  "clientReadBehavior": {
+    "query": "communityRestrooms orderBy submittedAt desc limit 1000",
+    "pendingOrCachedSnapshotsExposed": false,
+    "malformedRecords": "Hidden individually with explicit partial-data warning; valid records continue to load",
+    "publicIdentityFields": [],
+    "idempotence": "Reuses fixed request ID; confirms matching public payload, private ownership receipt and rating summary from server. Conflicting earlier payload is reported explicitly.",
+    "sessionGuards": "Account UID checked around server reads, before commit, after commit, and during error recovery."
+  },
+  "rulesCompilation": {
+    "command": "npx -y firebase-tools@latest deploy --only firestore:rules --dry-run --project nye-restroom",
+    "result": "rules file firebase/firestore.rules compiled successfully; dry run complete",
+    "deployedByThisAgent": false
+  },
+  "typecheck": "passed",
+  "diffCheck": "passed",
+  "emulators": "Auth 9099 and Firestore 8088 left running for integrated UI QA; no synthetic production data created"
+}

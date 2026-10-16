@@ -25,6 +25,12 @@ export interface Restroom extends Coordinates {
   stairsToRestroom: string | null;
   cleanliness: string | null;
   observationDate: string | null;
+  communitySource?: {
+    submittedAt: string;
+    observedOn: string | null;
+    entryRule: "public" | "customers" | "unknown";
+    stepFreeAccess: "yes" | "no" | "unknown";
+  };
 }
 
 export const restrooms: readonly Restroom[] = dataset.restrooms;

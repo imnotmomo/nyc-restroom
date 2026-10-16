@@ -42,6 +42,19 @@ test("Public recognizes official-directory records including privately owned pub
   }
 });
 
+test("visitor reports of public permission appear in Public without claiming city accessibility", () => {
+  const community = { ...place, id: "community-abcdefghijklmnopqrst", sourceRecordId: null, sourceUrl: null, facilityAccessibility: null,
+    communitySource: { entryRule: "public", stepFreeAccess: "yes", submittedAt: "2026-10-15T12:00:00.000Z", observedOn: null } };
+  assert.equal(matchesRestroomFilter(community, "all", noSavedPlaces), true);
+  assert.equal(matchesRestroomFilter(community, "public", noSavedPlaces), true);
+  assert.equal(matchesRestroomFilter(community, "accessible", noSavedPlaces), false);
+  for (const entryRule of ["customers", "unknown"]) {
+    assert.equal(matchesRestroomFilter({ ...community, communitySource: { ...community.communitySource, entryRule } }, "public", noSavedPlaces), false);
+  }
+  assert.equal(matchesRestroomFilter({ ...community, cleanlinessRating: rating }, "clean", noSavedPlaces), true);
+  assert.equal(matchesRestroomFilter(community, "saved", new Set([community.id])), true);
+});
+
 test("Clean accepts the four-star boundary and requires attributable numeric ratings", () => {
   for (const average of [4, 4.5, 5]) {
     assert.equal(matchesRestroomFilter({ ...place, cleanlinessRating: { ...rating, average } }, "clean", noSavedPlaces), true);

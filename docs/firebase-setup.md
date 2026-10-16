@@ -24,7 +24,7 @@ The app initializes Firebase in the browser, restores auth state, and opens Goog
 
 ## Firestore data
 
-Public location browsing uses the official snapshot bundled in `data/nyc-restrooms/`. The collection now includes all 1,064 distinct citywide listings with valid coordinates from the saved source; all 55 IDs from the initial Upper Manhattan sample are retained. The data importer preserves its source dates, IDs, and unknown fields. It is not a live availability feed. This expansion changes no Firebase schema or rules.
+Public location browsing uses the official snapshot bundled in `data/nyc-restrooms/`. The collection now includes all 1,064 distinct citywide listings with valid coordinates from the saved source; all 55 IDs from the initial Upper Manhattan sample are retained. The data importer preserves its source dates, IDs, and unknown fields. It is not a live availability feed. The bundled city snapshot stays separate from the public visitor-submission collection described below.
 
 Account data uses these private paths:
 
@@ -41,13 +41,21 @@ No profile document, user email, written public review, or administrative role i
 
 The private `restroomRatingSummaries/{placeID}/ratings/{uid}` document stores `stars` (an integer from 1 to 5) and server `updatedAt`. Only that signed-in, non-anonymous account can read its individual rating. Raw vote lists and other users' votes are denied. One vote exists per account/place; updates replace it and removal deletes it.
 
-Both changes must be atomic: the client transaction changes its own vote and the public totals together. Security Rules validate the exact before/after count and sum on both documents, strict schemas, and server timestamps. Clients cannot create/delete summaries, write votes without their paired aggregate, change another account's vote, or increment totals alone. A trusted administrative initializer creates empty zero-count summaries for known source IDs, using create-only writes that preserve every existing document. Zero totals are not sample ratings and are not included in the public feed.
+Both changes must be atomic: the client transaction changes its own vote and the public totals together. Security Rules validate the exact before/after count and sum on both documents, strict schemas, and server timestamps. Clients cannot create city-listing summaries or delete summaries, write votes without their paired aggregate, change another account's vote, or increment totals alone. A trusted administrative initializer creates empty zero-count summaries for known source IDs, using create-only writes that preserve every existing document. Zero totals are not sample ratings and are not included in the public feed.
 
 Read errors and pending/cache snapshots are not presented as confirmed empty ratings. The public feed is independent of sign-in; the selected account's individual rating is read separately and cleared when the account or place changes. No persistent Firestore disk cache is enabled. See [ratings feature record](features/public-ratings.md) for validation and deployment evidence.
 
+## Visitor-submitted locations
+
+Google Sign-in is required to log a missing restroom. Public `communityRestrooms/{community-<20-character-autoID>}` records contain only the name, address, coordinates, category, entry permission, step-free route report, optional notes, optional observation date, and server submission time. The public listener reads the most recent 1,000 records; rules require a bounded list query. Coordinates are checked against an approximate NYC rectangle, not municipal boundaries. These are visitor reports, not city records or inspections.
+
+Each creation atomically includes an immutable private `restroomSubmissions/{sameID}` receipt with only `ownerUID` and server `submittedAt`, plus the same location’s zero-count rating summary. The rules require all three together and reject anonymous accounts, additional fields, malformed values, invalid observation times, reused IDs, client edits/deletes, and identity data in the public record. Empty summaries contain no votes. Receipt reads are owner-only; receipt lists are denied. Ratings, saved places, and private notes accept stable community IDs only when the public listing exists.
+
+The form keeps one request ID through retries. A server read checks the matching public payload, private ownership receipt, and rating setup before acknowledging success. An already saved earlier version with different details is surfaced explicitly rather than overwritten or duplicated. The user must contact the project team for corrections/removal in this version. Chosen pin coordinates become public on submission; private visit notes remain private. See [the feature record](features/log-restroom.md).
+
 For local end-to-end checks, start the Auth/Firestore emulators with a `demo-` project and run Next.js with `NEXT_PUBLIC_USE_FIREBASE_EMULATORS=true` and that demo project ID. This mode requires `localhost` or `127.0.0.1`; production builds leave it unset. Local Google-provider test users do not create accounts or votes in the real project.
 
-The client uses server-only reads and waits for write acknowledgement. The UI clears private state when the account changes, discards stale results, and keeps form entries on a failed write. If a note save succeeds but a subsequent refresh fails, it reports that the note was saved and offers a refresh instead of prompting a duplicate submission. Persistent Firestore disk caching is not enabled. Reads retain references to retired listing IDs; new writes require a location in the current collection.
+The client uses server-only reads and waits for write acknowledgement. The UI clears private state when the account changes, discards stale results, and keeps form entries on a failed write. If a note save succeeds but a subsequent refresh fails, it reports that the note was saved and offers a refresh instead of prompting a duplicate submission. Persistent Firestore disk caching is not enabled. Reads retain references to retired listing IDs; new writes require a location in the current city collection or a valid community listing.
 
 ## Rules and checks
 
@@ -58,8 +66,8 @@ I've set up prototype Security Rules to keep the data in Firestore safe. They ar
 Verification completed:
 
 - TypeScript check and production static build passed.
-- All **31 Node regression tests passed**, including signup, location, source import, filters, and rating arithmetic.
-- **135 Firestore emulator tests passed**: 85 private-data cases in `demo-restroom-ready` and 50 ratings cases in `demo-restroom-ratings`. These cover owner workflows, cross-user/anonymous denial, malformed records, timestamps, immutable notes, exact aggregates, replay, and concurrent edits. No production votes were created.
+- All **41 Node regression tests passed**, including signup, location, source import, filters, and rating arithmetic.
+- **238 Firestore emulator security cases passed**: 85 private-data cases in `demo-restroom-ready`, 50 ratings cases in `demo-restroom-ratings`, and 103 community-submission cases in `demo-restroom-community`. These cover owner workflows, cross-user/anonymous denial, malformed records, timestamps, immutable notes, exact aggregates, replay, and concurrent edits. No production votes were created.
 - The current directory contains all 1,064 source listings. Public/private ratings flows were browser-tested with demo Google accounts, including a separate signed-out reader, submit/update/remove, reload, failure retention, and 320/390px layouts. Map clustering and source-detail checks are recorded separately under `docs/features/`.
 - Google popup reached Google's actual sign-in page using the new app's OAuth client and `nye-restroom.firebaseapp.com/__/auth/handler`.
 - Browser testing did not enter real Google credentials or create real signed-in notes/ratings. A fresh unauthenticated production SDK client verified the public ratings query and private-vote denial without writing data.

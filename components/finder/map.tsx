@@ -256,6 +256,6 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
     {!ready && !error && <div className="finder-map-loading" role="status">Loading the map…</div>}
     {error && <p className="finder-map-error" role="status">{error}</p>}
     <button type="button" className="finder-show-collection" onClick={showCollection} disabled={!ready || !places.length}><MapPinned size={17}/>Show collection</button>
-    <div className="finder-map-key"><span className="finder-key-dot" />City-listed location <span className="finder-key-note">Numbers group nearby locations · Availability may have changed</span></div>
+    <div className="finder-map-key"><span className="finder-key-dot" />Restroom location <span className="finder-key-note">Numbers group nearby locations · Availability may have changed</span></div>
   </div>;
 }

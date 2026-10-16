@@ -17,6 +17,7 @@ export interface RatingSummary {
 
 export interface OwnRating { stars: number; updatedAt: Date }
 const knownPlaceIDs = new Set(restrooms.map((place) => place.id));
+const isKnownOrCommunityPlace = (id: string) => knownPlaceIDs.has(id) || /^community-[A-Za-z0-9]{20}$/.test(id);
 class RatingError extends Error {}
 class RatingUnchanged extends Error {}
 
@@ -36,7 +37,7 @@ function assertAccount(client: FirebaseClient, uid: string, afterRequest = false
 }
 
 function validatePlaceID(placeID: string): void {
-  if (!knownPlaceIDs.has(placeID)) throw new RatingError("This restroom isn’t in the current NYC source collection. Its rating wasn’t changed.");
+  if (!isKnownOrCommunityPlace(placeID)) throw new RatingError("This restroom isn’t a city or community listing. Its rating wasn’t changed.");
 }
 
 function readTimestamp(value: unknown): Date {
@@ -79,7 +80,7 @@ export function watchRatingSummaries(
       try {
         const result: Record<string, RatingSummary> = {};
         for (const document of snapshot.docs) {
-          if (!knownPlaceIDs.has(document.id)) continue;
+          if (!isKnownOrCommunityPlace(document.id)) continue;
           const totals = decodeTotals(document.data());
           if (totals.ratingCount <= 0) throw new RatingError("A public rating summary is incomplete. Please refresh.");
           result[document.id] = { placeID: document.id, ...totals, average: totals.ratingSum / totals.ratingCount };

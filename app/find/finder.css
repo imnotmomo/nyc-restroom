@@ -212,3 +212,48 @@
 @media(max-width:1150px){.finder-filter-help{padding-inline:24px}}
 @media(max-width:850px){.finder-search{grid-column:1;grid-row:1}.finder-locate{grid-column:2;grid-row:1}.finder-filter-group{grid-column:1/-1;grid-row:2;justify-self:stretch}}
 @media(max-width:650px){.finder-filter-group button{flex:1 0 auto;font-size:13px;padding:10px 12px}.finder-filter-help{padding:0 16px 14px}}
+
+.finder-log-dialog{width:min(620px,calc(100% - 32px));max-width:620px;max-height:calc(100dvh - 32px);margin:auto;padding:0;border:1px solid #82969f;border-top:3px solid #2b59c3;border-radius:2px;background:white;color:#1e2a30;overflow:auto;overscroll-behavior:contain;font-family:var(--sans)}
+.finder-log-dialog::backdrop{background:rgba(30,42,48,.48)}
+.finder-log-heading{display:flex;align-items:start;justify-content:space-between;gap:16px;padding:22px 24px 18px;border-bottom:1px solid #bccbd2;background:white;position:sticky;top:0;z-index:1}
+.finder-log-heading>div{min-width:0}
+.finder-log-heading .finder-overline{font-size:10px;color:#2b59c3}
+.finder-log-heading h2{display:flex;align-items:center;gap:9px;font:600 25px/1.3 var(--mono);letter-spacing:-.045em;margin-top:8px;overflow-wrap:anywhere}
+.finder-log-heading h2 svg{color:#2b59c3;flex-shrink:0}
+.finder-log-close{display:flex;align-items:center;justify-content:center;flex-shrink:0;width:44px;min-height:44px;border:1px solid #82969f;background:white;color:#56666e;border-radius:2px}
+.finder-log-body{padding:20px 24px 24px;min-width:0}
+.finder-log-intro{font-size:14px;line-height:1.65;color:#56666e}
+.finder-log-public{margin-top:14px;padding:12px;border:1px dashed #82969f;background:#f3f6f8;font-size:12px;line-height:1.65;color:#1e2a30}
+.finder-log-sign-in{margin-top:24px;padding-top:20px;border-top:1px solid #d4dee3}
+.finder-log-sign-in>p{font-size:14px;line-height:1.6;color:#56666e;margin-bottom:16px}
+.finder-log-sign-in .finder-primary-button{width:100%;flex:none;white-space:normal;text-align:center}
+.finder-log-form{margin-top:22px;min-width:0}
+.finder-log-form fieldset{border:0;margin:0;padding:0;min-width:0}
+.finder-log-field{min-width:0;margin-top:18px}
+.finder-log-field:first-child{margin-top:0}
+.finder-log-field>label{display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:13px;font-weight:600;line-height:1.5;margin-bottom:7px}
+.finder-log-field>label>span{font-size:11px;font-weight:400;color:#56666e;flex-shrink:0}
+.finder-log-field input,.finder-log-field select,.finder-log-field textarea{display:block;width:100%;min-width:0;max-width:100%;min-height:44px;padding:10px 11px;border:1px solid #56666e;border-radius:2px;background:white;color:#1e2a30;font:16px/1.5 var(--sans);box-sizing:border-box}
+.finder-log-field textarea{resize:vertical;min-height:100px}
+.finder-log-field input[aria-invalid=true],.finder-log-field textarea[aria-invalid=true]{border-color:#b8352b;border-width:2px}
+.finder-log-help,.finder-log-field-error{font-size:12px;line-height:1.65;margin-top:7px;overflow-wrap:anywhere}
+.finder-log-help{color:#56666e}
+.finder-log-field-error{color:#8d281f}
+.finder-log-location-heading{display:flex;align-items:start;justify-content:space-between;gap:16px;margin-top:24px;padding-top:20px;border-top:1px solid #d4dee3}
+.finder-log-location-heading>div{min-width:0}
+.finder-log-location-heading h3{font:600 13px/1.5 var(--mono);letter-spacing:-.02em}
+.finder-log-location-heading p{font-size:12px;line-height:1.65;color:#56666e;margin-top:7px}
+.finder-log-location-heading .finder-secondary-button{margin:0;flex-shrink:0;max-width:180px}
+.finder-log-coordinate-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.finder-log-coordinate-grid .finder-log-field{margin-top:0}
+.finder-log-actions{display:flex;gap:12px;margin-top:24px;padding-top:20px;border-top:1px solid #d4dee3;align-items:stretch}
+.finder-log-actions .finder-secondary-button{margin:0}
+.finder-log-actions .finder-primary-button{min-width:0;white-space:normal;text-align:center}
+.finder-log-dialog button:focus-visible,.finder-log-dialog input:focus-visible,.finder-log-dialog select:focus-visible,.finder-log-dialog textarea:focus-visible{outline:3px solid #2b59c3;outline-offset:3px}
+.finder-log-dialog button:disabled,.finder-log-dialog fieldset:disabled{cursor:default}
+.finder-log-dialog button:disabled{opacity:.7}
+@media(max-width:480px){.finder-log-dialog{width:calc(100% - 16px);max-height:calc(100dvh - 16px)}.finder-log-heading{padding:16px;gap:8px}.finder-log-heading h2{font-size:23px;gap:7px}.finder-log-heading h2 svg{width:20px}.finder-log-body{padding:18px 16px 20px}.finder-log-coordinate-grid{grid-template-columns:minmax(0,1fr);gap:16px}.finder-log-location-heading{display:block}.finder-log-location-heading .finder-secondary-button{margin-top:12px;width:100%;max-width:none}.finder-log-field>label{flex-wrap:wrap;gap:3px 10px}.finder-log-actions{flex-direction:column;gap:10px}.finder-log-actions>button{width:100%;min-height:48px}.finder-log-public{font-size:12px}.finder-log-sign-in .finder-primary-button{font-size:14px;min-height:48px}}
+.finder-log-heading-actions{display:flex;align-items:center;justify-content:flex-end;gap:20px;min-width:0}
+.finder-log-open{margin-top:0;flex-shrink:0;white-space:nowrap}
+@media(max-width:850px){.finder-log-heading-actions{flex-direction:column;align-items:flex-end;gap:10px}}
+@media(max-width:650px){.finder-page-heading:has(.finder-log-heading-actions){flex-wrap:wrap;gap:16px}.finder-log-heading-actions{width:100%;align-items:stretch}.finder-log-open{width:100%;justify-content:center}}

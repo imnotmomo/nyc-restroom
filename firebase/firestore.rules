@@ -9,11 +9,23 @@
 // scopes these private subcollections; no identity/role/email field is accepted.
 // restroomRatingSummaries/{placeID}: ratingCount:int (0..1,000,000),
 // ratingSum:int (count..5*count, or zero for zero count), updatedAt:timestamp.
-// A trusted initializer creates these source-listing summaries. Clients may only
-// update one alongside their own vote; they cannot create/delete summaries.
+// A trusted initializer creates source-listing summaries. Clients may initialize
+// a zero summary only alongside a new immutable community listing and receipt.
+// All subsequent changes require a paired private vote; no client deletion.
 // restroomRatingSummaries/{placeID}/ratings/{uid}: stars:int (1..5),
 // updatedAt:timestamp. Only that signed-in non-anonymous account may GET/write
 // its vote. Public reads expose aggregate counts/sums, never raw vote owners.
+// communityRestrooms/{community-<20 alphanumeric chars>}: immutable public report.
+// name:string (1..120), address:string (1..240), latitude:number (40.49..40.93),
+// longitude:number (-74.26..-73.68), locationType:park/library/cafe/restaurant/store/other,
+// entryRule:public/customers/unknown, stepFreeAccess:yes/no/unknown,
+// notes:string (0..1000), observedOn:null or UTC-midnight timestamp (2000..now),
+// submittedAt:timestamp (server time). Bounding rectangle approximates NYC extent;
+// a visitor report is neither city-verified access nor a cleanliness guarantee.
+// restroomSubmissions/{sameID}: private ownerUID:string (1..128, authenticated UID),
+// submittedAt:timestamp (same server time). No public name/email/UID fields accepted.
+// The three creation documents are atomic. Public GET and bounded latest-feed LIST
+// expose venue reports; only the owner can GET their receipt. No receipt LIST.
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -25,7 +37,9 @@ service cloud.firestore {
     }
     function validPlaceID(value) {
       return value is string && value.size() > 0 && value.size() <= 128
-        && value.matches('^[^/]+$');
+        && value.matches('^[^/]+$')
+        && (!value.matches('^community-.*') || (isCommunityPlaceID(value)
+          && exists(/databases/$(database)/documents/communityRestrooms/$(value))));
     }
     function validAnswer(value) {
       return value in ['not-reported', 'yes', 'no'];
@@ -90,6 +104,66 @@ service cloud.firestore {
           + (afterVote == null ? 0 : 1) - (beforeVote == null ? 0 : 1)
         && afterSummary.ratingSum == beforeSummary.ratingSum + newStars - oldStars;
     }
+    function isCommunityPlaceID(value) {
+      return value is string && value.size() == 30 && value.matches('^community-[a-zA-Z0-9]{20}$');
+    }
+    function isValidCommunityText(value) {
+      return value is string && value.matches('^[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*$');
+    }
+    function isValidCommunityRestroom(data) {
+      return data.keys().hasAll(['name', 'address', 'latitude', 'longitude', 'locationType',
+          'entryRule', 'stepFreeAccess', 'notes', 'observedOn', 'submittedAt'])
+        && data.keys().hasOnly(['name', 'address', 'latitude', 'longitude', 'locationType',
+          'entryRule', 'stepFreeAccess', 'notes', 'observedOn', 'submittedAt'])
+        && isValidCommunityText(data.name) && data.name.size() > 0 && data.name.size() <= 120
+        && data.name.matches('.*[^\\s\\x{00A0}\\x{1680}\\x{2000}-\\x{200A}\\x{2028}\\x{2029}\\x{202F}\\x{205F}\\x{3000}\\x{FEFF}].*')
+        && isValidCommunityText(data.address) && data.address.size() > 0 && data.address.size() <= 240
+        && data.address.matches('.*[^\\s\\x{00A0}\\x{1680}\\x{2000}-\\x{200A}\\x{2028}\\x{2029}\\x{202F}\\x{205F}\\x{3000}\\x{FEFF}].*')
+        && data.latitude is number && data.latitude >= 40.49 && data.latitude <= 40.93
+        && data.longitude is number && data.longitude >= -74.26 && data.longitude <= -73.68
+        && data.locationType in ['park', 'library', 'cafe', 'restaurant', 'store', 'other']
+        && data.entryRule in ['public', 'customers', 'unknown']
+        && data.stepFreeAccess in ['yes', 'no', 'unknown']
+        && isValidCommunityText(data.notes) && data.notes.size() <= 1000
+        && (data.observedOn == null || (data.observedOn is timestamp
+          && data.observedOn >= timestamp.date(2000, 1, 1) && data.observedOn <= request.time
+          && data.observedOn.hours() == 0 && data.observedOn.minutes() == 0
+          && data.observedOn.seconds() == 0 && data.observedOn.nanos() == 0))
+        && data.submittedAt is timestamp && data.submittedAt == request.time;
+    }
+    function isValidSubmissionReceipt(data) {
+      return data.keys().hasAll(['ownerUID', 'submittedAt'])
+        && data.keys().hasOnly(['ownerUID', 'submittedAt'])
+        && data.ownerUID is string && data.ownerUID.size() > 0 && data.ownerUID.size() <= 128
+        && data.ownerUID == request.auth.uid
+        && data.submittedAt is timestamp && data.submittedAt == request.time;
+    }
+    function isNewCommunitySubmission(placeID) {
+      let listingPath = /databases/$(database)/documents/communityRestrooms/$(placeID);
+      let receiptPath = /databases/$(database)/documents/restroomSubmissions/$(placeID);
+      let summaryPath = /databases/$(database)/documents/restroomRatingSummaries/$(placeID);
+      let listing = getAfter(listingPath).data;
+      let receipt = getAfter(receiptPath).data;
+      let summary = getAfter(summaryPath).data;
+      return isRatingOwner(request.auth.uid) && isCommunityPlaceID(placeID)
+        && !exists(listingPath) && !exists(receiptPath) && !exists(summaryPath)
+        && isValidCommunityRestroom(listing) && isValidSubmissionReceipt(receipt)
+        && isValidRatingSummary(summary) && summary.ratingCount == 0 && summary.ratingSum == 0
+        && summary.updatedAt == request.time;
+    }
+    match /communityRestrooms/{placeID} {
+      allow get: if isCommunityPlaceID(placeID);
+      allow list: if request.query.limit != null && request.query.limit > 0 && request.query.limit <= 1000;
+      allow create: if isNewCommunitySubmission(placeID);
+      allow update, delete: if false;
+    }
+    match /restroomSubmissions/{placeID} {
+      allow get: if isRatingOwner(request.auth.uid) && isCommunityPlaceID(placeID)
+        && (resource == null || resource.data.ownerUID == request.auth.uid);
+      allow list: if false;
+      allow create: if isNewCommunitySubmission(placeID);
+      allow update, delete: if false;
+    }
     match /users/{uid}/restroomReadySaved/{placeID} {
       allow read, delete: if isOwner(uid);
       allow create: if isOwner(uid) && isValidSaved(request.resource.data, placeID);
@@ -105,7 +179,8 @@ service cloud.firestore {
     match /restroomRatingSummaries/{placeID} {
       allow get: if validPlaceID(placeID);
       allow list: if resource.data.ratingCount > 0;
-      allow create, delete: if false;
+      allow create: if isNewCommunitySubmission(placeID);
+      allow delete: if false;
       allow update: if isRatingOwner(request.auth.uid)
         && isValidRatingSummary(request.resource.data)
         && isValidRatingTransition(placeID, request.auth.uid);
