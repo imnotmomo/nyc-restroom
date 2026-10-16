@@ -1,0 +1,44 @@
+{
+  "source": "a1347144f4f9e2a5e0d275190c7a055841b713ae",
+  "sitesVersion": 20,
+  "runtimeSecretRevision": 2,
+  "vpsRelease": "20261016T161349Z-a1347144f4f9",
+  "authorizedTestRecipients": "Two separately human-approved addresses, redacted",
+  "liveSignupRequests": 2,
+  "signupsSaved": 2,
+  "sendAttempts": 2,
+  "tests": [
+    {
+      "label": "test1",
+      "liveSignupRequests": 1,
+      "signupSaved": true,
+      "outboxStatus": "accepted",
+      "sendAttempts": 1,
+      "providerRecipientStatus": "queued",
+      "inboxDeliveryConfirmed": false,
+      "reportedNotReceived": true,
+      "receiptEvidence": "Human reported the confirmation had not arrived."
+    },
+    {
+      "label": "test2",
+      "liveSignupRequests": 1,
+      "signupSaved": true,
+      "outboxStatus": "accepted",
+      "sendAttempts": 1,
+      "providerRecipientStatus": "queued",
+      "inboxDeliveryConfirmed": true,
+      "receiptEvidence": "Human confirmed receiving the confirmation."
+    }
+  ],
+  "atLeastOneInboxDeliveryConfirmed": true,
+  "allInboxDeliveriesConfirmed": false,
+  "placeholderEmailsSent": false,
+  "historicalBackfill": false,
+  "sourceAndBuildCredentialScan": { "files": 397, "matches": 0 },
+  "bothHosts": { "confirmationCopy": true, "finderGatePreserved": true, "unauthenticatedDispatchStatus": 404 },
+  "secondaryManualDispatch": {
+    "executed": false,
+    "reason": "Automatic approval review rejected a manual drain because it could email other pending subscribers beyond the recipient-specific test authorization."
+  },
+  "verificationLimit": "Cloudflare queued acceptance alone is not inbox delivery. The human confirmed receipt only for test2; test1 was reported not received. Hosted D1 mail dispatch was not separately exercised."
+}
