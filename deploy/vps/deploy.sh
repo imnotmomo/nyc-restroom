@@ -20,7 +20,8 @@ EOF
 archive_path="$staging_dir/$release_id.tar.gz"
 COPYFILE_DISABLE=1 tar --no-xattrs -czf "$archive_path" \
   dist/server/index.js scripts/serve.mjs scripts/local-store.mjs \
-  worker/waitlist.mjs drizzle/0000_waitlist.sql \
+  worker/waitlist.mjs worker/confirmation-email.mjs worker/confirmation-outbox.mjs worker/confirmation-dispatch.mjs \
+  drizzle/0000_waitlist.sql drizzle/0001_waitlist_confirmations.sql \
   deploy/vps/restroom-ready.service deploy/vps/Caddyfile deploy/vps/runtime.env.example \
   -C "$staging_dir" RELEASE.txt
 archive_sha=$(shasum -a 256 "$archive_path" | awk '{print $1}')

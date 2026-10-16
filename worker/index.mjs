@@ -1,15 +1,19 @@
 import { signupResponse, INSERT, values } from './waitlist.mjs';
 import { finderAccess, isFinderResource, isFinderAccessPage, privateFinderResponse } from './access.mjs';
+import { createD1ConfirmationStore } from './confirmation-outbox.mjs';
+import { confirmationDispatchReady, confirmationClientKey, confirmationDispatchResponse, CONFIRMATION_DISPATCH_PATH } from './confirmation-dispatch.mjs';
 export const handler = {
   async fetch(request, env) {
     const url=new URL(request.url);
+    if(url.pathname===CONFIRMATION_DISPATCH_PATH)return confirmationDispatchResponse(request,()=>createD1ConfirmationStore(env.DB),env);
     if(url.pathname==='/api/finder-access')return finderAccess.handle(request,env);
     const protectedFinder=isFinderResource(url.pathname);
     if(protectedFinder){const denied=await finderAccess.protect(request,env);if(denied)return denied;}
     const finish=response=>protectedFinder||isFinderAccessPage(url.pathname)?privateFinderResponse(response):response;
     if(url.pathname==='/api/waitlist')return signupResponse(request,async record=>{
       if(!env.DB)throw new Error('Database unavailable');
-      await env.DB.prepare(INSERT).bind(...values(record)).run();
+      const clientKey=await confirmationClientKey(request.headers.get('CF-Connecting-IP'),env);
+      await createD1ConfirmationStore(env.DB).save(record,{enqueueConfirmation:confirmationDispatchReady(env),clientKey});
     });
     if(!['GET','HEAD'].includes(request.method))return finish(new Response('Method not allowed',{status:405}));
     let normalized;

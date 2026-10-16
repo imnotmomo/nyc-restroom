@@ -54,6 +54,8 @@ Turn Enhanced Measurement off for the selected web stream to avoid duplicate his
 
 Never commit signup databases, export email addresses into this repository, or include email addresses in campaign URLs.
 
+New confirmation-enabled signups atomically create a delivery job. A server-only Cloudflare Email Sending integration sends a fixed receipt with the demo link; duplicate and historical signups do not send again. The VPS dispatcher retries durable jobs and calls the original Sites deployment's authenticated dispatch endpoint every 30 seconds. Configure `CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_EMAIL_API_TOKEN`, `WAITLIST_EMAIL_FROM`, and a shared random `WAITLIST_DISPATCH_SECRET` through runtime secrets. No mail is sent when these are absent. Rate limits reject excess signup requests before saving; subsequent delivery failures preserve accepted signup records. Ambiguous sends require operator review. See [confirmation behavior and checks](docs/features/waitlist-confirmations.md).
+
 ## Build and hosting
 
 `next build` exports the pages to `out/`. `scripts/build-worker.mjs` embeds these assets into a self-contained Worker with `/api/waitlist`. This keeps the frontend in Next.js and makes the signup handler portable to Sites D1. Existing brand sources remain in `brand/logo/`; browser-served copies are in `public/brand/`.

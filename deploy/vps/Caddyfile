@@ -5,5 +5,7 @@ nyc.imfinethanku.me {
 		Permissions-Policy "geolocation=(self)"
 		X-Content-Type-Options nosniff
 	}
-	reverse_proxy 127.0.0.1:3000
+	reverse_proxy 127.0.0.1:3000 {
+		header_up X-RR-Client-IP {remote_host}
+	}
 }

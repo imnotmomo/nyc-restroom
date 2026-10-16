@@ -1,0 +1,20 @@
+# Waitlist confirmation emails
+
+Status: Verified; publishing
+Date: October 16, 2026
+
+Send one transactional signup receipt after a new waitlist entry is saved. Use the existing Cloudflare Email Sending account through its REST API and the fixed sender `welcome@nyc.imfinethanku.me`. The receipt confirms joining the waitlist and links to the public demo; it does not verify ownership of the email address or subscribe someone to an additional campaign. Keep secrets server-only and preserve the existing signup response, validation, privacy controls and access gate.
+
+Only genuinely new signups enqueue a confirmation atomically with the waitlist row. Existing/historical and repeated addresses do not trigger sends. Both existing hosts retain their separate waitlist databases and outboxes; an address joining on both may get one receipt from each. No historical backfill or bulk mail is in scope. The human authorized one test receipt to their supplied Columbia address; placeholder addresses will not be used for real mail.
+
+Use a persistent SQL outbox, bounded leases and three attempts for known transient failures. Per host, accept at most five confirmation jobs per hashed client IP per hour and 60 total per hour. Over-budget requests receive 429 before saving; the form retains their input for a later retry. Keep only an HMAC digest of the trusted proxy/provider IP. Caddy overwrites the VPS client-IP header; Sites uses Cloudflare's client header. After an accepted signup, later delivery delays or failures do not remove the waitlist entry.
+
+The main server's 30-second dispatcher drains SQLite and calls a fixed authenticated Sites endpoint to drain D1. Both use server-only dispatch secrets, bounded calls and token-bound completion. The bridge follows no redirects and returns counts only. Process downtime retains jobs. Cloudflare exposes no documented idempotency guarantee: an ambiguous response or expired sending lease becomes terminal `uncertain`, rather than risking an automatic duplicate. Permanent bounces, suppressions and invalid configuration are terminal; operator review is needed to retry after repair. Provider `queued` means accepted for later delivery, not inbox receipt.
+
+The mail adapter author owns fixed provider calls and mocked tests. The outbox author owns the SQL migration, D1 adapter and queue tests. Root owns Node/Sites integration, SQLite compatibility, secret configuration, copy, packaging and release. An independent reviewer approved the plan with the queue, duplicate, abuse-limit, privacy and uncertainty conditions above and will review the integrated result. No Firebase changes are required.
+
+All 136 Node regression tests passed, including 22 provider-adapter cases, 14 actual SQL outbox cases and 10 dispatch/SQLite integration cases. The real standalone packager and Node gate/signup/health regression also passed. Production TypeScript, static export, final standalone Worker packaging and syntax/whitespace checks passed.
+
+The independent reviewer approved the final implementation after 13 mocked integration groups passed across actual SQLite persistence, the D1 SQL adapter shape, actual Worker routes and provider stubs. Checks cover new-only atomic enqueue, historical/duplicate handling, concurrent claims, rate limits before save, transient retry bounds, ambiguity/lease expiry, secret-protected lazy dispatch and independent Sites retries after local failure. See [independent evidence](waitlist-confirmation-independent-checks.json). These checks sent no real mail and do not certify Cloudflare delivery or hosted D1 behavior.
+
+The supplied token verified active. Public sender SPF, DKIM and bounce MX records were present. API scope did not expose the domain zone, so account/sender delivery readiness will be established by the authorized receipt test. Secrets are configured only in masked Sites runtime entries and the existing restricted VPS environment file. Prior runtime settings and the SQLite database were backed up before configuration; existing access secrets were preserved. Publication and the one authorized test follow.

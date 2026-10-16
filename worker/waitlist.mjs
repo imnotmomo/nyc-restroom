@@ -28,5 +28,8 @@ export async function signupResponse(request,store){
   try { const text=await request.text(); if(new TextEncoder().encode(text).byteLength>4096)return json({error:"This submission is too large."},413);record=validateSignup(JSON.parse(text)); }
   catch(e){return json({error:e instanceof SyntaxError?"Please submit a valid signup.":e.message},400);}
   try {await store(record);return json({ok:true});}
-  catch {return json({error:"Your email wasn’t saved. Please try again shortly."},503);}
+  catch(error){
+    if(error?.code==='WAITLIST_CONFIRMATION_RATE_LIMIT')return json({error:"Too many signup requests. Please try again later."},429);
+    return json({error:"Your email wasn’t saved. Please try again shortly."},503);
+  }
 }

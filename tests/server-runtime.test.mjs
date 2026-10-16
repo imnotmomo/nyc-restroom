@@ -10,7 +10,7 @@ import test from 'node:test';
 async function fixture() {
  const directory=await mkdtemp(join(tmpdir(),'rr-server-runtime-'));
  for(const path of ['scripts','worker','drizzle','dist/server']) await mkdir(join(directory,path),{recursive:true});
- for(const path of ['scripts/serve.mjs','scripts/local-store.mjs','worker/waitlist.mjs','drizzle/0000_waitlist.sql']) {
+ for(const path of ['scripts/serve.mjs','scripts/local-store.mjs','worker/waitlist.mjs','worker/confirmation-email.mjs','worker/confirmation-outbox.mjs','worker/confirmation-dispatch.mjs','drizzle/0000_waitlist.sql','drizzle/0001_waitlist_confirmations.sql']) {
   await copyFile(new URL(`../${path}`,import.meta.url),join(directory,path));
  }
  await writeFile(join(directory,'dist/server/index.js'),"export default { async fetch() { return new Response('static fixture'); } };\n");

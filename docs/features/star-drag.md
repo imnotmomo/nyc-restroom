@@ -1,6 +1,6 @@
 # Drag directly across rating stars
 
-Status: Verified; publishing
+Status: Shipped
 Date: October 16, 2026
 
 The rating gesture belongs on the five stars themselves. Remove the separate visible range track, thumb and endpoint labels from the shared control used by both the finder and demo. Drag or tap a star's left/right half to choose its half/full score, bounded to 1–5. Keep half fills and the numeric selection visible. Preserve an unrated state, explicit Submit/Update/Remove, disabled/auth states, keyboard arrows in 0.5 steps and Home/End.
@@ -13,4 +13,6 @@ Production TypeScript/static export/Worker build and whitespace checks passed. R
 
 All seven independent compiled-browser groups passed: all nine half-step hit targets, captured mouse drag and endpoint clamping/release, secondary-button guard, genuine touch drag without page scroll, touch cancellation, null/focus/keyboard semantics, explicit demo submit/remove and the existing passcode ownership examples. An isolated bundle of the actual real rating wrapper confirmed auth gating, disabled pointer/keyboard locks and Submit/Remove callbacks with normal null-state reset, without initializing Firebase. The 320/390px screenshots show the direct-star strip and no separate bar. Maya approved the control with no blocking findings. See [browser evidence](star-drag-browser-checks.json) and `screenshots/star-drag-{320,390}.png`.
 
-These UI checks made no Firebase requests or API mutations. The previously verified backend and atomic half-star save rules were unchanged. Publication and post-release verification follow.
+These UI checks made no Firebase requests or API mutations. The previously verified backend and atomic half-star save rules were unchanged.
+
+Source `19e2c446952c48ee7cc3172ec077769bde1de339` shipped as Sites version 19 and VPS release `20261016T155544Z-19e2c446952c`. Both demo URLs returned 200 with matching application scripts and retained the uncached finder access gate. Root dragged directly across the live stars to 4.5 and submitted the local demo rating; the transparent native input is confined to the 220×44px star strip, with no separate visible slider. Captured `screenshots/star-drag-live.png`. The owned local preview was stopped after verification.

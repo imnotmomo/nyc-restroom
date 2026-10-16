@@ -10,8 +10,9 @@ The team owns `206.189.203.190`; `nyc.imfinethanku.me` points to it. The server 
 - Signup SQLite lives at `/var/lib/restroom-ready/waitlist.sqlite`, owned by the service user. It survives releases and restarts.
 - `/etc/restroom-ready/runtime.env` sets `PORT`, `WAITLIST_DB_PATH`, and `PUBLIC_ORIGIN=https://nyc.imfinethanku.me`. The origin is validated before opening the database. Signup origin checks remain enabled behind the HTTPS proxy; arbitrary forwarded headers are not trusted.
 - GET/HEAD `/api/health` provides uncached process liveness. It does not certify external Firebase availability or an ongoing database write.
+- Email confirmations use server-only Cloudflare Email Sending credentials and `WAITLIST_DISPATCH_SECRET` in the same restricted runtime file. A 30-second in-process dispatcher drains the durable SQLite outbox and the original Sites D1 outbox through a fixed authenticated endpoint. The Sites copy needs matching secrets; no recipient/token is returned by dispatch responses. See [the confirmation record](features/waitlist-confirmations.md).
 
-The server needs no npm dependencies or Firebase CLI login. The runtime archive includes only the built public assets, Node entry points, shared signup validation, SQL schema, deployment templates, and a release record. Local login sessions, private environment files, signup databases, source research, and `node_modules` are excluded.
+The server needs no npm dependencies or Firebase CLI login. The runtime archive includes only the built public assets, Node entry points, shared signup/email modules, SQL schema, deployment templates, and a release record. Local login sessions, private environment files, signup databases, source research, and `node_modules` are excluded.
 
 ## Build and deploy an update
 

@@ -107,7 +107,7 @@ test('the actual standalone packager and Node server enforce the gate without br
   return new Promise((resolve,reject)=>{let output='',errors='';const timer=setTimeout(()=>reject(new Error('Local access fixture did not start.')),5000);child.stderr.on('data',chunk=>errors+=chunk);child.stdout.on('data',chunk=>{output+=chunk;const match=output.match(/http:\/\/localhost:(\d+)/);if(match){clearTimeout(timer);resolve(`http://127.0.0.1:${match[1]}`);}});child.once('exit',code=>{clearTimeout(timer);reject(new Error(`Local access fixture exited (${code}): ${errors}`));});});
  }
  try{
-  for(const file of ['worker/index.mjs','worker/access.mjs','worker/waitlist.mjs','scripts/serve.mjs','scripts/local-store.mjs','drizzle/0000_waitlist.sql'])await copy(file);
+  for(const file of ['worker/index.mjs','worker/access.mjs','worker/waitlist.mjs','worker/confirmation-email.mjs','worker/confirmation-outbox.mjs','worker/confirmation-dispatch.mjs','scripts/serve.mjs','scripts/local-store.mjs','drizzle/0000_waitlist.sql','drizzle/0001_waitlist_confirmations.sql'])await copy(file);
   const files={'out/index.html':'public marketing','out/demo/index.html':'public demo','out/access/index.html':'access form','out/find/index.html':'private live finder','out/find/index.txt':'private nested RSC','out/find.txt':'private root RSC','.openai/hosting.json':'{}'};
   for(const[path,body]of Object.entries(files)){await mkdir(dirname(join(temporary,path)),{recursive:true});await writeFile(join(temporary,path),body);}
   const build=spawn(process.execPath,[new URL('../scripts/build-worker.mjs',import.meta.url).pathname],{cwd:temporary,stdio:'pipe'});const[buildStatus]=await once(build,'exit');assert.equal(buildStatus,0);

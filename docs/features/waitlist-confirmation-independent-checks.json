@@ -1,0 +1,142 @@
+{
+  "checkedAt": "2026-10-16T16:10:51.315Z",
+  "method": "Independent mocked integration with actual SQLite persistence, shared D1 SQL via an atomic SQLite adapter, actual Worker routes/dispatch, and provider fetch stubs. No real mail or production credentials.",
+  "productionEmails": 0,
+  "productionWrites": false,
+  "status": "passed",
+  "checks": [
+    {
+      "name": "node: history is not backfilled and duplicate concurrent save enqueues exactly one confirmation",
+      "status": "passed"
+    },
+    {
+      "name": "node: actual drain calls fixed provider once, persists accepted status and never resends a duplicate",
+      "status": "passed"
+    },
+    {
+      "name": "node: save succeeds independently of ambiguous delivery; uncertain jobs are never automatically replayed",
+      "status": "passed"
+    },
+    {
+      "name": "node: known rejection backs off60s/300s and fails after three; expired lease rejects stale completion",
+      "status": "passed"
+    },
+    {
+      "name": "d1: history is not backfilled and duplicate concurrent save enqueues exactly one confirmation",
+      "status": "passed"
+    },
+    {
+      "name": "d1: actual drain calls fixed provider once, persists accepted status and never resends a duplicate",
+      "status": "passed"
+    },
+    {
+      "name": "d1: save succeeds independently of ambiguous delivery; uncertain jobs are never automatically replayed",
+      "status": "passed"
+    },
+    {
+      "name": "d1: known rejection backs off60s/300s and fails after three; expired lease rejects stale completion",
+      "status": "passed"
+    },
+    {
+      "name": "Configured per-client cap rejects new save atomically and permits a real retry after the rolling window",
+      "status": "passed"
+    },
+    {
+      "name": "Actual Worker signup route saves+queues but does not send before background dispatch; authorized response reveals counts only",
+      "status": "passed"
+    },
+    {
+      "name": "Dispatch rejects unauthorized requests before unavailable-store construction and never leaks internal errors",
+      "status": "passed"
+    },
+    {
+      "name": "Actual Worker cap returns429 and creates no rejected signup or outbox job",
+      "status": "passed"
+    },
+    {
+      "name": "Periodic bridge remains fixed/authenticated and still runs if local SQLite drain fails",
+      "status": "passed"
+    }
+  ],
+  "outcomes": [
+    {
+      "adapter": "node",
+      "signupCount": 5,
+      "jobs": [
+        {
+          "status": "uncertain",
+          "attempts": 1,
+          "last_reason": "lease-expired"
+        },
+        {
+          "status": "accepted",
+          "attempts": 1,
+          "last_reason": "queued"
+        },
+        {
+          "status": "failed",
+          "attempts": 3,
+          "last_reason": "attempts-exhausted"
+        },
+        {
+          "status": "uncertain",
+          "attempts": 1,
+          "last_reason": "network"
+        }
+      ]
+    },
+    {
+      "adapter": "d1",
+      "signupCount": 5,
+      "jobs": [
+        {
+          "status": "uncertain",
+          "attempts": 1,
+          "last_reason": "lease-expired"
+        },
+        {
+          "status": "accepted",
+          "attempts": 1,
+          "last_reason": "queued"
+        },
+        {
+          "status": "failed",
+          "attempts": 3,
+          "last_reason": "attempts-exhausted"
+        },
+        {
+          "status": "uncertain",
+          "attempts": 1,
+          "last_reason": "network"
+        }
+      ]
+    }
+  ],
+  "unexpectedNetwork": [],
+  "providerStubCalls": 5,
+  "bridgeStubCalls": 1,
+  "sourceVersion": {
+    "worker/confirmation-email.mjs": "6035de9f9a591639afeb3880e59ec0d0a1aa105f3e7c906383e10d2e28e3985d",
+    "worker/confirmation-outbox.mjs": "e4f82d4e30e1bbd2e502110ca3487de47af73e2de146022f617f5484b7663fbb",
+    "worker/confirmation-dispatch.mjs": "a9a5d0ef8b4a25d68f76d7579a60c8760b22b75ee59629f86bbd4114ddbf4db4",
+    "worker/waitlist.mjs": "1e102a223b38c9cb71c93115efe264336c35b2c0503e65dc1654f685b3de4277",
+    "worker/index.mjs": "882ad9bfba76e771545599cc2a30b93c79415d5206f9be820b1879d866d1e17a",
+    "scripts/local-store.mjs": "1e941aadb78cba501e1519a94084a4bd712a9df0ab453549d6616371b25b8032",
+    "scripts/serve.mjs": "1f7a5ded22cb59d405a73817423e7941ba4ffe6505961c951517b1c804e5eec9",
+    "app/privacy/page.tsx": "3dfa818a762a7d75defad49b6f8d158901e85a722b4ae4e5871ffb0dce9acc18",
+    "app/thank-you/page.tsx": "e194363a70abbf79ccad287f9e4b37c5ff1be05199098817e939b7c41f7ef11c"
+  },
+  "review": {
+    "verdict": "approve",
+    "blockingIssues": [],
+    "privacy": "Cloudflare address/message processing, keyed network identifier, delivery status, delayed/failed receipt, no ownership verification, no duplicate resend, and unmonitored sender are disclosed. Thank-you copy does not claim inbox delivery.",
+    "security": "Fixed account endpoint/from/template; server-only runtime secrets; HMAC network key; fixed authenticated bridge with no redirects; lazy auth-before-store construction; token+attempt+lease guarded completion; sanitized outcomes/counts.",
+    "scope": "Only future genuinely new entries enqueue. Historical and duplicate entries are not mailed. Separate host lists can each produce one receipt. No bulk campaign/backfill."
+  },
+  "limitations": [
+    "Provider delivery was mocked; this audit sent no real mail and did not inspect an inbox.",
+    "D1 SQL/transaction behavior was exercised via a SQLite adapter, not a production D1 write.",
+    "Configured over-budget requests return429 without saving; successful signup is independent of later provider delivery.",
+    "Ambiguous/expired sends require operator review and are not automatically retried; known transient failures have at most3 attempts."
+  ]
+}
