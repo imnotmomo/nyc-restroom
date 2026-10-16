@@ -1,6 +1,6 @@
 # Restroom Ready
 
-A mobile-first NYC restroom project. This release includes a homepage, three value-proposition pages, and a durable email waitlist. The illustrated map and café listing are examples; a real restroom directory is planned for the MVP.
+A mobile-first NYC restroom project. This release includes a homepage, three value-proposition pages, and a durable email waitlist. The marketing illustration remains an example. `/find/` is a working map/list of 55 city-listed Upper Manhattan locations, with Google Sign-in and account-owned saved places and private visit notes in Firebase.
 
 ## Run locally
 
@@ -30,6 +30,13 @@ The production preview runs the built pages and the same signup validation using
 - `/dated-reports/` — sources, observation dates, and uncertainty
 - `/thank-you/` — signup confirmation
 - `/privacy/` — stored information and contact/removal options
+- `/find/` — real city listings, map/search, source details, walking directions, Google accounts, saved places, and private visit notes
+
+## Firebase web app
+
+Firebase project: `nye-restroom`. Registered app: **Restroom Ready Web**, `1:547771536579:web:f651ddda4a81b2e9297e76`. The public SDK identifiers are in `firebase/web-config.json`; environment variables can override them. These client identifiers are not admin credentials. Account data is protected by Firestore rules. See [Firebase setup](docs/firebase-setup.md) for provider configuration, rules, and verification.
+
+The existing Standard `(default)` database in `nam5` stores private saved places and notes. The source-backed directory is bundled in `data/nyc-restrooms/`, with a reproducible import script. It is historical source data, not a live availability feed.
 
 ## Analytics
 
@@ -51,4 +58,4 @@ The Sites publishing manifest is `.openai/hosting.json`. Site access starts priv
 - [Style guide](docs/style_guide.md)
 - [Feature process](docs/feature_development.md)
 - [This feature's plan and verification](docs/features/live-pages.md)
-- [UCSB Bathroom Finder reference](https://github.com/ucsb-cs184-f24/team02-bathroom): Swift/iOS, Firebase, search, posts/reviews and admin moderation. The reference informs future scope; its code and campus data are not copied.
+- [UCSB Bathroom Finder reference](https://github.com/ucsb-cs184-f24/team02-bathroom): Swift/iOS, Firebase, search, posts/reviews and admin moderation. The reference informed the MVP scope; its code and campus data are not copied.

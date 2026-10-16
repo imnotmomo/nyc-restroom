@@ -1,0 +1,29 @@
+{
+  "auth": {
+    "providers": {
+      "googleSignIn": {
+        "oAuthBrandDisplayName": "Restroom Ready",
+        "supportEmail": "zc2856@columbia.edu",
+        "authorizedRedirectUris": [
+          "https://nye-restroom.firebaseapp.com/__/auth/handler",
+          "https://restroom-ready-nyc.clcii.chatgpt.site",
+          "http://localhost"
+        ]
+      }
+    }
+  },
+  "firestore": {
+    "database": "(default)",
+    "rules": "firebase/firestore.rules"
+  },
+  "emulators": {
+    "firestore": {
+      "host": "127.0.0.1",
+      "port": 8088
+    },
+    "ui": {
+      "enabled": false
+    },
+    "singleProjectMode": true
+  }
+}

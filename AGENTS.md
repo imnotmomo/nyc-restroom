@@ -120,9 +120,15 @@ Use Node.js 22.13 or newer.
 
 The required runtime binding for hosted signup is `DB` (Sites D1); migrations live in `drizzle/`. Local signup uses ignored `.data/waitlist.sqlite`. `NEXT_PUBLIC_GA_MEASUREMENT_ID` and `NEXT_PUBLIC_SITE_URL` are optional build-time settings in `.env.local`. An unset analytics ID makes no tracking requests. Never claim GA is configured or verified without the team's actual property.
 
-The marketing pages are `/`, `/conditions/`, `/entry-route/`, and `/dated-reports/`. The examples are illustrative, and the full map/review product is planned. The signup handler owns `/api/waitlist`; a static Next.js export does not implement server routes by itself.
+The marketing pages are `/`, `/conditions/`, `/entry-route/`, and `/dated-reports/`. Their examples remain illustrative. `/find/` is the real map/list of a dated 55-location Upper Manhattan collection, with Google accounts, saved places, and private visit notes. Public community reviews remain future work. The signup handler owns `/api/waitlist`; a static Next.js export does not implement server routes by itself.
 
 Keep signup data, session credentials, and email addresses out of Git, page URLs, and analytics. A failed save must retain the email and must not navigate to the thank-you page. Public traffic needs the site audience to be set to public; private deployment does not satisfy that requirement.
+
+## Firebase backend
+
+Always find and use the appropriate Firebase agent skills for Firebase work. They are installed in this course workspace under `../.agents/skills/`; install them with `npx skills add firebase/agent-skills --agent=codex` if missing. Use the latest Firebase CLI through `npx -y firebase-tools@latest` and official Firebase MCP tools.
+
+The selected project is **`nye-restroom`**, registered as **Web**, with Google Sign-in and the existing Standard `(default)` Firestore database in `nam5`. Read `docs/firebase-setup.md` before backend changes. Public SDK identifiers are in `firebase/web-config.json`; never commit CLI tokens or service-account credentials. Account data belongs under the two UID-scoped private subcollections defined in `firebase/firestore.rules`. Validate rule changes against the emulator tests and preserve source/observation/submission date distinctions.
 
 ## Repository structure
 

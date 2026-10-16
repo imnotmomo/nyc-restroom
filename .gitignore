@@ -10,3 +10,8 @@ dist/
 .DS_Store
 .openai/site-state.json
 .openai/preview-config.json
+.firebase-agent/
+firebase-debug*.log
+firestore-debug.log
+ui-debug.log
+.firebase/

@@ -1,0 +1,63 @@
+// Restroom Ready account data. Prototype rules; see docs/firebase-setup.md.
+// users/{uid}/restroomReadySaved/{placeID}: placeID:string (1..128, immutable
+// and equal to document ID), savedAt:timestamp (server write time).
+// users/{uid}/restroomReadyNotes/{noteID}: placeID:string (1..128),
+// observedAt:timestamp (2000..request.time), submittedAt:timestamp (server time),
+// condition:enum, soap/toiletPaper/stairs:enum, entryNote:string (0..1000).
+// Notes are immutable after creation; their owner may delete them.
+// No users/{uid} profile document is required or created. The UID in the path
+// scopes these private subcollections; no identity/role/email field is accepted.
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+    function validPlaceID(value) {
+      return value is string && value.size() > 0 && value.size() <= 128
+        && value.matches('^[^/]+$');
+    }
+    function validAnswer(value) {
+      return value in ['not-reported', 'yes', 'no'];
+    }
+    function isValidSaved(data, placeID) {
+      return data.keys().hasAll(['placeID', 'savedAt'])
+        && data.keys().hasOnly(['placeID', 'savedAt'])
+        && validPlaceID(data.placeID) && data.placeID == placeID
+        && data.savedAt is timestamp && data.savedAt == request.time;
+    }
+    function isValidNote(data) {
+      return data.keys().hasAll(['placeID', 'observedAt', 'submittedAt',
+          'condition', 'soap', 'toiletPaper', 'stairs', 'entryNote'])
+        && data.keys().hasOnly(['placeID', 'observedAt', 'submittedAt',
+          'condition', 'soap', 'toiletPaper', 'stairs', 'entryNote'])
+        && validPlaceID(data.placeID)
+        && data.observedAt is timestamp
+        && data.observedAt >= timestamp.date(2000, 1, 1)
+        && data.observedAt <= request.time
+        && data.submittedAt is timestamp && data.submittedAt == request.time
+        && data.condition in ['not-reported', 'usable', 'needs-attention']
+        && validAnswer(data.soap) && validAnswer(data.toiletPaper)
+        && validAnswer(data.stairs)
+        && data.entryNote is string && data.entryNote.size() <= 1000;
+    }
+    match /users/{uid}/restroomReadySaved/{placeID} {
+      allow read, delete: if isOwner(uid);
+      allow create: if isOwner(uid) && isValidSaved(request.resource.data, placeID);
+      allow update: if isOwner(uid) && isValidSaved(request.resource.data, placeID)
+        && request.resource.data.placeID == resource.data.placeID;
+    }
+    match /users/{uid}/restroomReadyNotes/{noteID} {
+      allow read, delete: if isOwner(uid);
+      allow create: if isOwner(uid) && noteID.size() == 20
+        && noteID.matches('^[a-zA-Z0-9]{20}$') && isValidNote(request.resource.data);
+      allow update: if false;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

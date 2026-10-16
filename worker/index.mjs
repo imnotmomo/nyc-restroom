@@ -11,7 +11,7 @@ export const handler = {
     try { normalized=decodeURIComponent(url.pathname).replace(/\/$/,''); } catch { return new Response('Invalid URL',{status:400}); }
     const file=ASSETS[url.pathname] || ASSETS[normalized+'/index.html'] || ASSETS[normalized+'.html'];
     if(!file){const notFound=ASSETS['/404.html'];return new Response(request.method==='HEAD'?null:decodeAsset(notFound),{status:404,headers:{'Content-Type':'text/html; charset=utf-8','X-Content-Type-Options':'nosniff'}});}
-    return new Response(request.method==='HEAD'?null:decodeAsset(file),{headers:{'Content-Type':file.type,'Cache-Control':url.pathname.includes('/_next/static/')?'public, max-age=31536000, immutable':'public, max-age=0, must-revalidate','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Permissions-Policy':'geolocation=()'}});
+    return new Response(request.method==='HEAD'?null:decodeAsset(file),{headers:{'Content-Type':file.type,'Cache-Control':url.pathname.includes('/_next/static/')?'public, max-age=31536000, immutable':'public, max-age=0, must-revalidate','X-Content-Type-Options':'nosniff','Referrer-Policy':'strict-origin-when-cross-origin','Permissions-Policy':'geolocation=(self)'}});
   }
 };
 function decodeAsset(file){if(!file)return 'Not found';return Uint8Array.from(atob(file.data),c=>c.charCodeAt(0));}

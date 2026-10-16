@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "datasetId": "i7jb-7jku",
+    "title": "Public Restrooms",
+    "url": "https://data.cityofnewyork.us/City-Government/Public-Restrooms/i7jb-7jku",
+    "apiUrl": "https://data.cityofnewyork.us/resource/i7jb-7jku.json",
+    "metadataUrl": "https://data.cityofnewyork.us/api/views/i7jb-7jku.json",
+    "publisher": "NYC Open Data",
+    "agency": "Mayor's Office of Operations (OPS)",
+    "attribution": "Department of Parks and Recreation (DPR), Department of Transportation (DOT), Department of City Planning (DCP), Department of Citywide Administrative Services (DCAS), Mayor's Office of Operations (Ops),  New York Public Library (NYPL), Brooklyn Public Library (BPL), Queens Public Library (QPL), Metropolitan Transportation Authority (MTA)",
+    "officialRestroomInformationUrl": "https://on.nyc.gov/restrooms",
+    "retrievedAt": "2026-10-16T00:04:14Z",
+    "dataUpdatedAt": "2025-06-27T13:37:10Z",
+    "metadataUpdatedAt": "2025-11-05T20:39:42Z",
+    "scope": "Coordinate-bearing source rows within an upper-Manhattan bounding box around Columbia, Harlem, and northern Central Park; not a citywide or complete neighborhood directory.",
+    "bounds": {
+      "south": 40.78,
+      "north": 40.835,
+      "west": -73.98,
+      "east": -73.94
+    },
+    "sourceRowsFetched": 1066,
+    "sourceRowsInBounds": 56,
+    "duplicateRowsMerged": 1,
+    "recordCount": 55,
+    "liveAvailability": false,
+    "teamInspected": false,
+    "limitations": [
+      "The official dataset says availability can change and may not reflect real-time conditions.",
+      "Published status and hours are historical source text, not a prediction that a restroom is open now.",
+      "Facility accessibility describes the building facility and does not establish a step-free route or accessible restroom stall.",
+      "Source text is preserved without correcting apparent errors or deriving schedules.",
+      "Address, neighborhood, purchase requirement, restroom floor, internal stairs, cleanliness, and observation date are not structurally reported by this source and remain null; free-text access notes may contain additional information.",
+      "The retrieval timestamp is not an inspection, visitor report, or per-facility update date."
+    ]
+  },
+  "sha256": {
+    "restrooms.json": "5132df3d3b9439a85685ccd149946f4ce19fd1b4acbc460df5469b9b9f28abf2",
+    "source-records.json": "d914fb61463dd1ee431a0e1ae739beb6bef0120c61d41aa6e3b15b5c1d1d82aa",
+    "source-metadata.json": "5cccb719ce5d81919592c31dc54932d14baa1e6bcd9f27f3bfc00ce86129c6b6"
+  },
+  "statusCounts": {
+    "Operational": 51,
+    "Closed for Construction": 1,
+    "Not Operational": 3
+  },
+  "duplicateSourceIds": [
+    [
+      "row-ew5y~kfcp_3ryy",
+      "row-pvrf_u6zc_s5ja"
+    ]
+  ]
+}

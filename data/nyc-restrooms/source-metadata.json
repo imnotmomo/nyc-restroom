@@ -1,0 +1,1311 @@
+{
+  "id": "i7jb-7jku",
+  "name": "Public Restrooms",
+  "assetType": "dataset",
+  "attribution": "Department of Parks and Recreation (DPR), Department of Transportation (DOT), Department of City Planning (DCP), Department of Citywide Administrative Services (DCAS), Mayor's Office of Operations (Ops),  New York Public Library (NYPL), Brooklyn Public Library (BPL), Queens Public Library (QPL), Metropolitan Transportation Authority (MTA)",
+  "attributionLink": "https://on.nyc.gov/restrooms",
+  "averageRating": 0,
+  "category": "City Government",
+  "createdAt": 1715278974,
+  "description": "This dataset contains information about the public restrooms in New York City. Each row contains as much of the following information as is currently available: the name of the restroom, location information (including geographic coordinates), the location type, operator, any seasonality, hours of operation, ADA accessibility level for facility, the number and gender designation of the stalls, changing stations availability in each restroom, and any specific notes regarding access or location. \n\nNote: Public restroom availability is subject to change due to maintenance needs, construction, or other factors. This dataset may not reflect real time conditions.",
+  "diciBackend": false,
+  "displayType": "table",
+  "downloadCount": 28832,
+  "hideFromCatalog": false,
+  "hideFromDataJson": false,
+  "locked": false,
+  "newBackend": true,
+  "numberOfComments": 0,
+  "oid": 40579892,
+  "provenance": "official",
+  "publicationAppendEnabled": false,
+  "publicationDate": 1716318023,
+  "publicationGroup": 19522330,
+  "publicationStage": "published",
+  "rowsUpdatedAt": 1751031430,
+  "rowsUpdatedBy": "d5dp-fses",
+  "tableId": 19529940,
+  "totalTimesRated": 0,
+  "viewCount": 28076,
+  "viewLastModified": 1762375182,
+  "viewType": "tabular",
+  "approvals": [
+    {
+      "reviewedAt": 1717252683,
+      "reviewedAutomatically": false,
+      "state": "approved",
+      "submissionId": 6332888,
+      "submissionObject": "public_audience_request",
+      "submissionOutcome": "change_audience",
+      "submittedAt": 1717252670,
+      "targetAudience": "public",
+      "workflowId": 2285,
+      "reviewer": {
+        "id": "d5dp-fses",
+        "displayName": "afinkel"
+      },
+      "submissionDetails": {
+        "permissionType": "read"
+      },
+      "submissionOutcomeApplication": {
+        "endedAt": 1717252684,
+        "failureCount": 0,
+        "startedAt": 1717252683,
+        "status": "success"
+      },
+      "submitter": {
+        "id": "d5dp-fses",
+        "displayName": "afinkel"
+      }
+    }
+  ],
+  "clientContext": {
+    "clientContextVariables": [],
+    "inheritedVariables": {}
+  },
+  "columns": [
+    {
+      "id": 592829003,
+      "name": "Facility Name",
+      "dataTypeName": "text",
+      "description": "Name of the public restroom",
+      "fieldName": "facility_name",
+      "position": 1,
+      "renderTypeName": "text",
+      "tableColumnId": 152538635,
+      "cachedContents": {
+        "non_null": "1066",
+        "largest": "Zimmerman Playground",
+        "null": "0",
+        "top": [
+          {
+            "item": "Heckscher Playground",
+            "count": "3"
+          },
+          {
+            "item": "Bloomingdale Playground",
+            "count": "2"
+          },
+          {
+            "item": "Captain Mario Fajardo Park",
+            "count": "2"
+          },
+          {
+            "item": "Grand Central Parkway Gas",
+            "count": "2"
+          },
+          {
+            "item": "The Ramble",
+            "count": "2"
+          },
+          {
+            "item": "Orchard Bch. Pavilion",
+            "count": "2"
+          },
+          {
+            "item": "Midland Beach Zone 4",
+            "count": "2"
+          },
+          {
+            "item": "Cunningham Park Zone 1",
+            "count": "2"
+          },
+          {
+            "item": "Midland Playground",
+            "count": "2"
+          },
+          {
+            "item": "Van Cortlandt Stadium",
+            "count": "2"
+          },
+          {
+            "item": "Wolfe's Pond Park Zone 2",
+            "count": "2"
+          },
+          {
+            "item": "Clove Lakes Park Zone 1",
+            "count": "2"
+          },
+          {
+            "item": "Ancient Playground",
+            "count": "2"
+          },
+          {
+            "item": "Tompkins Square Park",
+            "count": "2"
+          },
+          {
+            "item": "St Nicholas",
+            "count": "2"
+          },
+          {
+            "item": "Nautilus Playground",
+            "count": "2"
+          },
+          {
+            "item": "Bowne Playground",
+            "count": "2"
+          },
+          {
+            "item": "Bushwick Playground",
+            "count": "2"
+          },
+          {
+            "item": "Playground",
+            "count": "2"
+          },
+          {
+            "item": "Mill Pond Indoor Tennis",
+            "count": "2"
+          }
+        ],
+        "smallest": "100% Playground",
+        "count": "1066",
+        "cardinality": "1040"
+      },
+      "format": {}
+    },
+    {
+      "id": 592829004,
+      "name": "Location Type",
+      "dataTypeName": "text",
+      "description": "Type of restroom location  (Ie: subway station, park, library, ect.)",
+      "fieldName": "location_type",
+      "position": 2,
+      "renderTypeName": "text",
+      "tableColumnId": 152538634,
+      "cachedContents": {
+        "non_null": "1066",
+        "largest": "Transit",
+        "null": "0",
+        "top": [
+          {
+            "item": "Park",
+            "count": "824"
+          },
+          {
+            "item": "Library",
+            "count": "216"
+          },
+          {
+            "item": "Privately Owned Public Space",
+            "count": "14"
+          },
+          {
+            "item": "Public Plaza",
+            "count": "7"
+          },
+          {
+            "item": "Transit",
+            "count": "5"
+          }
+        ],
+        "smallest": "Library",
+        "count": "1066",
+        "cardinality": "5"
+      },
+      "format": {}
+    },
+    {
+      "id": 592829005,
+      "name": "Operator",
+      "dataTypeName": "text",
+      "description": "The City Agency or affiliated partner in charge of cleaning and maintaining the public restroom",
+      "fieldName": "operator",
+      "position": 3,
+      "renderTypeName": "text",
+      "tableColumnId": 152538633,
+      "cachedContents": {
+        "non_null": "1066",
+        "largest": "The Trump Organization",
+        "null": "0",
+        "top": [
+          {
+            "item": "NYC Parks",
+            "count": "728"
+          },
+          {
+            "item": "NYPL",
+            "count": "91"
+          },
+          {
+            "item": "NYC Parks Concessionaire",
+            "count": "71"
+          },
+          {
+            "item": "QPL",
+            "count": "63"
+          },
+          {
+            "item": "BPL",
+            "count": "62"
+          },
+          {
+            "item": "Hudson River Park",
+            "count": "11"
+          },
+          {
+            "item": "NYC DOT/JCDecaux",
+            "count": "6"
+          },
+          {
+            "item": "Brooklyn Bridge Park",
+            "count": "4"
+          },
+          {
+            "item": "LIRR",
+            "count": "3"
+          },
+          {
+            "item": "Battery Park City Authority",
+            "count": "2"
+          },
+          {
+            "item": "34th Street Partnership",
+            "count": "2"
+          },
+          {
+            "item": "Central Park Conservancy",
+            "count": "2"
+          },
+          {
+            "item": "NYC DOT/JCDeceaux",
+            "count": "1"
+          },
+          {
+            "item": "550 Madison Property Management",
+            "count": "1"
+          },
+          {
+            "item": "575 Fifth Associates",
+            "count": "1"
+          },
+          {
+            "item": "Friends of the High Line",
+            "count": "1"
+          },
+          {
+            "item": "The Battery Conservancy",
+            "count": "1"
+          },
+          {
+            "item": "Boston Properties",
+            "count": "1"
+          },
+          {
+            "item": "Greenberg Traurig, LLP",
+            "count": "1"
+          },
+          {
+            "item": "Oxford Properties",
+            "count": "1"
+          }
+        ],
+        "smallest": "34th Street Partnership",
+        "count": "1066",
+        "cardinality": "33"
+      },
+      "format": {}
+    },
+    {
+      "id": 592829020,
+      "name": "Status",
+      "dataTypeName": "text",
+      "description": "Whether or not the restroom is operational",
+      "fieldName": "status",
+      "position": 4,
+      "renderTypeName": "text",
+      "tableColumnId": 152670791,
+      "cachedContents": {
+        "non_null": "1066",
+        "largest": "Operational",
+        "null": "0",
+        "top": [
+          {
+            "item": "Operational",
+            "count": "975"
+          },
+          {
+            "item": "Not Operational",
+            "count": "73"
+          },
+          {
+            "item": "Closed for Construction",
+            "count": "17"
+          },
+          {
+            "item": "Closed",
+            "count": "1"
+          }
+        ],
+        "smallest": "Closed",
+        "count": "1066",
+        "cardinality": "4"
+      },
+      "format": {}
+    },
+    {
+      "id": 592829006,
+      "name": "Open",
+      "dataTypeName": "text",
+      "description": "Whether or not the restroom is only operational on a seasonal schedule",
+      "fieldName": "open",
+      "position": 5,
+      "renderTypeName": "text",
+      "tableColumnId": 152538632,
+      "cachedContents": {
+        "non_null": "993",
+        "largest": "Year Round",
+        "null": "73",
+        "top": [
+          {
+            "item": "Year Round",
+            "count": "855"
+          },
+          {
+            "item": "Seasonal",
+            "count": "132"
+          },
+          {
+            "item": "Future",
+            "count": "6"
+          }
+        ],
+        "smallest": "Future",
+        "count": "1066",
+        "cardinality": "3"
+      },
+      "format": {}
+    },
+    {
+      "id": 592829007,
+      "name": "Hours of Operation",
+      "dataTypeName": "text",
+      "description": "The hours of operation which the restroom can be accessed by the public",
+      "fieldName": "hours_of_operation",
+      "position": 6,
+      "renderTypeName": "text",
+      "tableColumnId": 152538631,
+      "cachedContents": {
+        "non_null": "973",
+        "largest": "Weekdays - 12pm-Dusk Weekends 11am-Dusk",
+        "null": "93",
+        "top": [
+          {
+            "item": "8am-4pm, Open later seasonally",
+            "count": "643"
+          },
+          {
+            "item": "Sunday: Closed \nMonday: 10:00 am - 6:00 pm \nTuesday: 1:00 pm - 6:00 pm \nWednesday: 10:00 am - 6:00 pm \nThursday: 12:00 pm - 8:00 pm \nFriday: 10:00 am - 6:00 pm \nSaturday: 10:00 am - 5:00 pm",
+            "count": "51"
+          },
+          {
+            "item": "Monday\t10 am - 6 pm\nTuesday\t1 pm - 8 pm\nWednesday\t10 am - 6 pm\nThursday\t10 am - 8 pm\nFriday\t10 am - 6 pm\nSaturday\t10 am - 5 pm\nSunday\tCLOSED",
+            "count": "44"
+          },
+          {
+            "item": "9:00am-5:00pm",
+            "count": "13"
+          },
+          {
+            "item": "6:00am-8:00pm Daily",
+            "count": "9"
+          },
+          {
+            "item": "Sunday: Closed \nMonday: 10:00 am - 7:00 pm \nTuesday: 10:00 pm - 7:00 pm \nWednesday: 10:00 am - 7:00 pm \nThursday: 10:00 pm - 7:00 pm \nFriday: 10:00 am - 5:00 pm \nSaturday: 10:00 am - 5:00 pm",
+            "count": "8"
+          },
+          {
+            "item": "8am-8pm",
+            "count": "7"
+          },
+          {
+            "item": "24 Hours",
+            "count": "7"
+          },
+          {
+            "item": "Sunday: Closed \nMonday: 11:00 am - 7:00 pm \nTuesday: 11:00 am - 7:00 pm \nWednesday: 11:00 am - 7:00 pm \nThursday: 11:00 am - 7:00 pm \nFriday: 10:00 am - 5:00 pm \nSaturday: 10:00 am - 5:00 pm",
+            "count": "6"
+          },
+          {
+            "item": "Monday\t10 am - 6 pm\nTuesday\t1 pm - 8 pm\nWednesday\t10 am - 6 pm\nThursday\t10 am - 8 pm\nFriday\t10 am - 6 pm\nSaturday\t10 am - 5 pm\nSunday\t1 pm - 5 pm",
+            "count": "5"
+          },
+          {
+            "item": "Bathrooms are open from 7 a.m.-7 p.m., with a one-hour closure for cleaning from 12 noon-1 p.m.",
+            "count": "5"
+          },
+          {
+            "item": "Sunday: Closed \nMonday: 10:00 am - 6:00 pm \nTuesday: 10:00 pm - 6:00 pm \nWednesday: 10:00 am - 6:00 pm \nThursday: 10:00 pm - 6:00 pm \nFriday: 10:00 am - 5:00 pm \nSaturday: 10:00 am - 5:00 pm",
+            "count": "5"
+          },
+          {
+            "item": "Sunday: Closed \nMonday: 10:00 am - 7:00 pm \nTuesday: 10:00 am - 7:00 pm\nWednesday: 10:00 am - 7:00 pm\nThursday: 10:00 am - 7:00 pm\nFriday: 10:00 am - 5:00 pm \nSaturday: 10:00 am - 5:00 pm",
+            "count": "5"
+          },
+          {
+            "item": "Sunday: Closed \nMonday: 10:00 am - 6:00 pm \nTuesday: 10:00 pm - 6:00 pm \nWednesday: 10:00 am - 6:00 pm \nThursday: 10:00 pm - 6:00 pm \nFriday: 10:00 am - 6:00 pm \nSaturday: 10:00 am - 5:00 pm",
+            "count": "5"
+          },
+          {
+            "item": "Sunday: Closed\nMonday: 10:00 am - 6:00 pm\nTuesday: 1:00 pm - 6:00 pm\nWednesday: 10:00 am - 6:00 pm\nThursday: 12:00 pm - 8:00 pm\nFriday: 10:00 am - 6:00 pm\nSaturday: 10:00 am - 5:00 pm",
+            "count": "4"
+          },
+          {
+            "item": "6:00am-11:00pm",
+            "count": "4"
+          },
+          {
+            "item": "Sunday: Closed \nMonday: 10:00 am - 6:00 pm \nTuesday: 10:00 am - 6:00 pm\nWednesday: 10:00 am - 6:00 pm\nThursday: 10:00 am - 6:00 pm\nFriday: 10:00 am - 5:00 pm \nSaturday: 10:00 am - 5:00 pm",
+            "count": "3"
+          },
+          {
+            "item": "Everyday 8:00 am-10:00 pm",
+            "count": "3"
+          },
+          {
+            "item": "7:00am-11:00pm",
+            "count": "3"
+          },
+          {
+            "item": "Sunday: Closed \nMonday: 10:00 am - 7:00 pm \nTuesday: 10:00 am - 7:00 pm \nWednesday: 10:00 am - 7:00 pm \nThursday: 10:00 am - 7:00 pm \nFriday: 10:00 am - 5:00 pm \nSaturday: 10:00 am - 5:00 pm",
+            "count": "3"
+          }
+        ],
+        "smallest": "10:30am-10:30pm",
+        "count": "1066",
+        "cardinality": "145"
+      },
+      "format": {}
+    },
+    {
+      "id": 592829008,
+      "name": "Accessibility",
+      "dataTypeName": "text",
+      "description": "The level of ADA accessibility in the building facility where the restroom is located ",
+      "fieldName": "accessibility",
+      "position": 7,
+      "renderTypeName": "text",
+      "tableColumnId": 152538630,
+      "cachedContents": {
+        "non_null": "891",
+        "largest": "Partially Accessible",
+        "null": "175",
+        "top": [
+          {
+            "item": "Fully Accessible",
+            "count": "619"
+          },
+          {
+            "item": "Not Accessible",
+            "count": "218"
+          },
+          {
+            "item": "Partially Accessible",
+            "count": "53"
+          },
+          {
+            "item": "Limited Accessibility",
+            "count": "1"
+          }
+        ],
+        "smallest": "Fully Accessible",
+        "count": "1066",
+        "cardinality": "4"
+      },
+      "format": {}
+    },
+    {
+      "id": 592829009,
+      "name": "Restroom Type",
+      "dataTypeName": "text",
+      "description": "The number and gender designation of the stalls within each restroom",
+      "fieldName": "restroom_type",
+      "position": 8,
+      "renderTypeName": "text",
+      "tableColumnId": 152538629,
+      "cachedContents": {
+        "non_null": "922",
+        "largest": "Single-Stall All Gender Restroom(s)",
+        "null": "144",
+        "top": [
+          {
+            "item": "Multi-Stall W/M Restrooms",
+            "count": "628"
+          },
+          {
+            "item": "Single-Stall All Gender Restroom(s)",
+            "count": "163"
+          },
+          {
+            "item": "Both Single-Stall All Gender and Multi-Stall W/M",
+            "count": "124"
+          },
+          {
+            "item": "Multi-Stall All Gender Restrooms",
+            "count": "4"
+          },
+          {
+            "item": "Single -Stall All Gender Restroom(s)",
+            "count": "3"
+          }
+        ],
+        "smallest": "Both Single-Stall All Gender and Multi-Stall W/M",
+        "count": "1066",
+        "cardinality": "5"
+      },
+      "format": {}
+    },
+    {
+      "id": 592829010,
+      "name": "Changing Stations",
+      "dataTypeName": "text",
+      "description": "Whether or not a changing table is available in the restroom and, if so, in which stalls",
+      "fieldName": "changing_stations",
+      "position": 9,
+      "renderTypeName": "text",
+      "tableColumnId": 152538628,
+      "cachedContents": {
+        "non_null": "980",
+        "largest": "\"Yes, in women's restroom only\"",
+        "null": "86",
+        "top": [
+          {
+            "item": "Yes",
+            "count": "659"
+          },
+          {
+            "item": "No",
+            "count": "174"
+          },
+          {
+            "item": "\"Yes, in women's restroom only\"",
+            "count": "83"
+          },
+          {
+            "item": "\"Yes, in men's restroom only\"",
+            "count": "27"
+          },
+          {
+            "item": "\"Yes, in single-stall all gender restroom only\"",
+            "count": "26"
+          },
+          {
+            "item": "\"N/A, restrooms closed\"",
+            "count": "8"
+          },
+          {
+            "item": "N/A - closed for capital",
+            "count": "2"
+          },
+          {
+            "item": "N/A",
+            "count": "1"
+          }
+        ],
+        "smallest": "N/A",
+        "count": "1066",
+        "cardinality": "8"
+      },
+      "format": {}
+    },
+    {
+      "id": 592829011,
+      "name": "Additional Notes",
+      "dataTypeName": "text",
+      "description": "Is there information patrons should know about accessing the restroom? Ex: Is a key or pin needed to enter? Is it located behind the turnstile or in a hard to find location?",
+      "fieldName": "additional_notes",
+      "position": 10,
+      "renderTypeName": "text",
+      "tableColumnId": 152538627,
+      "cachedContents": {
+        "non_null": "71",
+        "largest": "Yes, a key is needed to enter",
+        "null": "995",
+        "top": [
+          {
+            "item": "Yes, a key is needed to enter",
+            "count": "44"
+          },
+          {
+            "item": "MTA station with bathrooms located outside of fare gates and open to the wider public",
+            "count": "5"
+          },
+          {
+            "item": "This unit costs $.25 to use.",
+            "count": "4"
+          },
+          {
+            "item": "Changing Table outside restroom",
+            "count": "2"
+          },
+          {
+            "item": "This unit is free to use.",
+            "count": "2"
+          },
+          {
+            "item": "Located within the David Rubenstein Atrium at Lincoln Center.",
+            "count": "1"
+          },
+          {
+            "item": "Only one restroom is partially ADA compliant.  One rest room requires a key another does not.",
+            "count": "1"
+          },
+          {
+            "item": "2 all Gender Restroom available in public American Folk Art Museum - Enclosed portion of Covered Plaza",
+            "count": "1"
+          },
+          {
+            "item": "Red Hook Library is in a temporary interim space 362 Van Brunt Street\nBrooklyn, NY 11231",
+            "count": "1"
+          },
+          {
+            "item": "Restroom next to Black Box Coffee.",
+            "count": "1"
+          },
+          {
+            "item": "Restrooms for adult are in the basement.\nRestrooms for children are located on the 2nd floor in the Children's room and require keys.",
+            "count": "1"
+          },
+          {
+            "item": "Security will grant access to restrooms.",
+            "count": "1"
+          },
+          {
+            "item": "The restrooms have a free feminine hygiene product dispenser.",
+            "count": "1"
+          },
+          {
+            "item": "The unit costs $.25 to use.",
+            "count": "1"
+          },
+          {
+            "item": "Please note that the ADA lift is out of order at Countee Cullen Library. We apologize for any inconvenience.",
+            "count": "1"
+          },
+          {
+            "item": "Changing Table in Children's room",
+            "count": "1"
+          },
+          {
+            "item": "Changing Table inside community room",
+            "count": "1"
+          },
+          {
+            "item": "closed until early july",
+            "count": "1"
+          },
+          {
+            "item": "Each restroom is accessible by key.  They are handicap accessible restrooms. Two are located in our hallway: enter the branch, make a left at our simple scan station and go straight. Key \"A\" is to restroom \"A\" and Key \"B\" is to restroom B.  Our children's bathroom is located in the children's room: walk to the left and it is against the wall. The key is easily accessible, either on the children's desk in a basket or you may ask someone if the key is not found.",
+            "count": "1"
+          }
+        ],
+        "smallest": "2 all Gender Restroom available in public American Folk Art Museum - Enclosed portion of Covered Plaza",
+        "count": "1066",
+        "cardinality": "19"
+      },
+      "format": {}
+    },
+    {
+      "id": 592829012,
+      "name": "Website",
+      "dataTypeName": "url",
+      "description": "A link to the website affiliated with the restroom where a user can find the most up-to-date/real-time information on that restroom (ie: NYPL website, MTA.info, ect)",
+      "fieldName": "website",
+      "position": 11,
+      "renderTypeName": "url",
+      "tableColumnId": 152538626,
+      "format": {},
+      "subColumnTypes": [
+        "url",
+        "description"
+      ]
+    },
+    {
+      "id": 592829013,
+      "name": "Latitude",
+      "dataTypeName": "number",
+      "description": "The restroom's latitudinal coordinates per  WGS84(DD) ",
+      "fieldName": "latitude",
+      "position": 12,
+      "renderTypeName": "number",
+      "tableColumnId": 152538625,
+      "cachedContents": {
+        "non_null": "1066",
+        "largest": "40.903731",
+        "null": "0",
+        "top": [
+          {
+            "item": "40.800550",
+            "count": "2"
+          },
+          {
+            "item": "40.660830",
+            "count": "2"
+          },
+          {
+            "item": "40.577020",
+            "count": "2"
+          },
+          {
+            "item": "40.773050",
+            "count": "2"
+          },
+          {
+            "item": "40.684650",
+            "count": "2"
+          },
+          {
+            "item": "40.726830",
+            "count": "2"
+          },
+          {
+            "item": "40.620340",
+            "count": "2"
+          },
+          {
+            "item": "40.781000",
+            "count": "2"
+          },
+          {
+            "item": "40.834330",
+            "count": "2"
+          },
+          {
+            "item": "40.773580",
+            "count": "2"
+          },
+          {
+            "item": "40.768370",
+            "count": "2"
+          },
+          {
+            "item": "40.749650",
+            "count": "2"
+          },
+          {
+            "item": "40.747270",
+            "count": "2"
+          },
+          {
+            "item": "40.552060",
+            "count": "1"
+          },
+          {
+            "item": "40.552432",
+            "count": "1"
+          },
+          {
+            "item": "40.559620",
+            "count": "1"
+          },
+          {
+            "item": "40.560680",
+            "count": "1"
+          },
+          {
+            "item": "40.561117",
+            "count": "1"
+          },
+          {
+            "item": "40.561486",
+            "count": "1"
+          },
+          {
+            "item": "40.561560",
+            "count": "1"
+          }
+        ],
+        "smallest": "40.502280",
+        "count": "1066",
+        "cardinality": "1053"
+      },
+      "format": {
+        "decimalSeparator": ".",
+        "groupSeparator": ","
+      }
+    },
+    {
+      "id": 592829014,
+      "name": "Longitude",
+      "dataTypeName": "number",
+      "description": "The restroom's longitudinal coordinates per WGS84(DD) ",
+      "fieldName": "longitude",
+      "position": 13,
+      "renderTypeName": "number",
+      "tableColumnId": 152538624,
+      "cachedContents": {
+        "non_null": "1066",
+        "largest": "-73.709600",
+        "null": "0",
+        "top": [
+          {
+            "item": "-73.928400",
+            "count": "3"
+          },
+          {
+            "item": "-73.897800",
+            "count": "3"
+          },
+          {
+            "item": "-73.962200",
+            "count": "3"
+          },
+          {
+            "item": "-73.922700",
+            "count": "3"
+          },
+          {
+            "item": "-73.824700",
+            "count": "3"
+          },
+          {
+            "item": "-73.937900",
+            "count": "3"
+          },
+          {
+            "item": "-73.947200",
+            "count": "3"
+          },
+          {
+            "item": "-73.913400",
+            "count": "2"
+          },
+          {
+            "item": "-73.933500",
+            "count": "2"
+          },
+          {
+            "item": "-73.923900",
+            "count": "2"
+          },
+          {
+            "item": "-73.912000",
+            "count": "2"
+          },
+          {
+            "item": "-73.911900",
+            "count": "2"
+          },
+          {
+            "item": "-73.967700",
+            "count": "2"
+          },
+          {
+            "item": "-73.946700",
+            "count": "2"
+          },
+          {
+            "item": "-73.911200",
+            "count": "2"
+          },
+          {
+            "item": "-73.995400",
+            "count": "2"
+          },
+          {
+            "item": "-73.922000",
+            "count": "2"
+          },
+          {
+            "item": "-73.898500",
+            "count": "2"
+          },
+          {
+            "item": "-73.946400",
+            "count": "2"
+          },
+          {
+            "item": "-73.838600",
+            "count": "2"
+          }
+        ],
+        "smallest": "-74.251700",
+        "count": "1066",
+        "cardinality": "989"
+      },
+      "format": {
+        "decimalSeparator": ".",
+        "groupSeparator": ","
+      }
+    },
+    {
+      "id": 592829015,
+      "name": "Location",
+      "dataTypeName": "point",
+      "description": "Location column used for mapping",
+      "fieldName": "location_1",
+      "position": 14,
+      "renderTypeName": "point",
+      "tableColumnId": 152538713,
+      "cachedContents": {
+        "non_null": "1066",
+        "null": "0",
+        "top": [
+          {
+            "item": {
+              "coordinates": [
+                -73.945,
+                40.77358
+              ],
+              "type": "Point"
+            },
+            "count": "2"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.9771,
+                40.76837
+              ],
+              "type": "Point"
+            },
+            "count": "2"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.9814,
+                40.72683
+              ],
+              "type": "Point"
+            },
+            "count": "2"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.9616,
+                40.781
+              ],
+              "type": "Point"
+            },
+            "count": "2"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.9464,
+                40.81221
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.896,
+                40.62897
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.9073,
+                40.77156
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.9941,
+                40.71673
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.86408,
+                40.699719
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.8328,
+                40.78496
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -74.1177,
+                40.62879
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.965,
+                40.75241
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.9227,
+                40.68068
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -74.0116,
+                40.6023
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -74.149616,
+                40.577587
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.8527,
+                40.86978
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.9677,
+                40.77841
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.9948,
+                40.68087
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.9793,
+                40.69758
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          },
+          {
+            "item": {
+              "coordinates": [
+                -73.9266,
+                40.83503
+              ],
+              "type": "Point"
+            },
+            "count": "1"
+          }
+        ],
+        "count": "1066",
+        "cardinality": "1062"
+      },
+      "format": {}
+    },
+    {
+      "id": 592829017,
+      "name": "Borough Boundaries",
+      "dataTypeName": "number",
+      "description": "This column was automatically created in order to record in what polygon from the dataset 'Borough Boundaries' (yeji-bk3q) the point in column 'location_1' is located.  This enables the creation of region maps (choropleths) in the visualization canvas and data lens.",
+      "fieldName": ":@computed_region_yeji_bk3q",
+      "position": 15,
+      "renderTypeName": "number",
+      "tableColumnId": 152538715,
+      "computationStrategy": {
+        "source_columns": [
+          "location_1"
+        ],
+        "type": "georegion_match_on_point",
+        "parameters": {
+          "region": "_yeji-bk3q",
+          "primary_key": "_feature_id"
+        }
+      },
+      "format": {}
+    },
+    {
+      "id": 592829018,
+      "name": "Police Precincts",
+      "dataTypeName": "number",
+      "description": "This column was automatically created in order to record in what polygon from the dataset 'Police Precincts' (sbqj-enih) the point in column 'location_1' is located.  This enables the creation of region maps (choropleths) in the visualization canvas and data lens.",
+      "fieldName": ":@computed_region_sbqj_enih",
+      "position": 16,
+      "renderTypeName": "number",
+      "tableColumnId": 152538716,
+      "computationStrategy": {
+        "source_columns": [
+          "location_1"
+        ],
+        "type": "georegion_match_on_point",
+        "parameters": {
+          "region": "_sbqj-enih",
+          "primary_key": "_feature_id"
+        }
+      },
+      "format": {}
+    },
+    {
+      "id": 592829019,
+      "name": "City Council Districts",
+      "dataTypeName": "number",
+      "description": "This column was automatically created in order to record in what polygon from the dataset 'City Council Districts' (92fq-4b7q) the point in column 'location_1' is located.  This enables the creation of region maps (choropleths) in the visualization canvas and data lens.",
+      "fieldName": ":@computed_region_92fq_4b7q",
+      "position": 17,
+      "renderTypeName": "number",
+      "tableColumnId": 152538717,
+      "computationStrategy": {
+        "source_columns": [
+          "location_1"
+        ],
+        "type": "georegion_match_on_point",
+        "parameters": {
+          "region": "_92fq-4b7q",
+          "primary_key": "_feature_id"
+        }
+      },
+      "format": {}
+    },
+    {
+      "id": 592829016,
+      "name": "Community Districts",
+      "dataTypeName": "number",
+      "description": "This column was automatically created in order to record in what polygon from the dataset 'Community Districts' (f5dn-yrer) the point in column 'location_1' is located.  This enables the creation of region maps (choropleths) in the visualization canvas and data lens.",
+      "fieldName": ":@computed_region_f5dn_yrer",
+      "position": 18,
+      "renderTypeName": "number",
+      "tableColumnId": 152538714,
+      "computationStrategy": {
+        "source_columns": [
+          "location_1"
+        ],
+        "type": "georegion_match_on_point",
+        "parameters": {
+          "region": "_f5dn-yrer",
+          "primary_key": "_feature_id"
+        }
+      },
+      "format": {}
+    }
+  ],
+  "grants": [
+    {
+      "inherited": false,
+      "type": "viewer",
+      "flags": [
+        "public"
+      ]
+    }
+  ],
+  "metadata": {
+    "attachments": [
+      {
+        "filename": "Public_Restrooms_Data_Dictionary.xlsx",
+        "assetId": "dbbd397d-d368-4a0a-bef5-6ad5d1da5ee6",
+        "name": "Public_Restrooms_Data_Dictionary.xlsx"
+      }
+    ],
+    "custom_fields": {
+      "Update": {
+        "Automation": "No",
+        "Update Frequency Details": "Data will be regularly updated twice per year, with additional updates provided as needed when restrooms change operational status.",
+        "Date Made Public": "6/1/2024",
+        "Update Frequency": "As needed",
+        "Data Change Frequency": "As Needed"
+      },
+      "Dataset Information": {
+        "Agency": "Mayor's Office of Operations (OPS)"
+      }
+    },
+    "rowLabel": "Public Restroom",
+    "availableDisplayTypes": [
+      "table",
+      "fatrow",
+      "page"
+    ]
+  },
+  "owner": {
+    "id": "5fuc-pqz2",
+    "displayName": "NYC OpenData",
+    "profileImageUrlLarge": "/api/users/5fuc-pqz2/profile_images/LARGE",
+    "profileImageUrlMedium": "/api/users/5fuc-pqz2/profile_images/THUMB",
+    "profileImageUrlSmall": "/api/users/5fuc-pqz2/profile_images/TINY",
+    "screenName": "NYC OpenData",
+    "type": "interactive",
+    "flags": [
+      "acceptedEula",
+      "mayBeStoriesCoOwner"
+    ]
+  },
+  "query": {},
+  "rights": [
+    "read"
+  ],
+  "tableAuthor": {
+    "id": "5fuc-pqz2",
+    "displayName": "NYC OpenData",
+    "profileImageUrlLarge": "/api/users/5fuc-pqz2/profile_images/LARGE",
+    "profileImageUrlMedium": "/api/users/5fuc-pqz2/profile_images/THUMB",
+    "profileImageUrlSmall": "/api/users/5fuc-pqz2/profile_images/TINY",
+    "screenName": "NYC OpenData",
+    "type": "interactive",
+    "flags": [
+      "acceptedEula",
+      "mayBeStoriesCoOwner"
+    ]
+  },
+  "tags": [
+    "public restrooms"
+  ],
+  "flags": [
+    "default",
+    "ownerMayBeContacted",
+    "restorable",
+    "restorePossibleForType"
+  ]
+}
