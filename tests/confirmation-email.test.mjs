@@ -52,7 +52,7 @@ for (const delivery of ['delivered', 'queued']) test(`one ${delivery} recipient 
     assert.match(body.html, /You're on the waitlist/);
     for (const content of [body.text, body.html]) {
       assert.match(content, /https:\/\/nyc\.imfinethanku\.me\/demo\//);
-      assert.doesNotMatch(content, /verified|confirm your email|bibilabu|visitor@example/);
+      assert.doesNotMatch(content, /verified|confirm your email|finder[-_ ]?(?:access|passcode)|visitor@example/);
     }
     return reply(accepted(delivery));
   } });
