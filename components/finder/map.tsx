@@ -31,7 +31,7 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
   const map = useRef<Leaflet.Map | null>(null);
   const leaflet = useRef<typeof Leaflet | null>(null);
   const markers = useRef<Leaflet.LayerGroup | null>(null);
-  const markerRecords = useRef(new Map<string, { marker: Leaflet.Marker; index: number }>());
+  const markerRecords = useRef(new Map<string, { marker: Leaflet.Marker }>());
   const locationMarker = useRef<Leaflet.CircleMarker | null>(null);
   const initialFit = useRef(false);
   const previousSelectedID = useRef<string | null>(null);
@@ -95,34 +95,24 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
         markerRecords.current.delete(id);
       }
     }
-    places.forEach((place, index) => {
+    places.forEach((place) => {
       const selected = selectedIDRef.current === place.id;
-      const icon = () => L.divIcon({
-        className: `finder-pin${selected ? " is-selected" : ""}`,
-        html: `<span>${index + 1}</span>`,
-        iconSize: [44, 44], iconAnchor: [22, 36],
-      });
       const existing = markerRecords.current.get(place.id);
-      if (existing) {
-        if (existing.index !== index) {
-          existing.marker.setIcon(icon());
-          existing.index = index;
-        }
-        existing.marker.getElement()?.setAttribute("title", `${index + 1}. ${place.name}`);
-        existing.marker.getElement()?.setAttribute("aria-label", `${index + 1}. View ${place.name}`);
-        existing.marker.getElement()?.setAttribute("data-restroom-id", place.id);
-        return;
-      }
+      if (existing) return;
       const marker = L.marker([place.latitude, place.longitude], {
         keyboard: true,
-        title: `${index + 1}. ${place.name}`,
+        title: place.name,
         alt: place.name,
         zIndexOffset: selected ? 500 : 0,
-        icon: icon(),
+        icon: L.divIcon({
+          className: `finder-pin${selected ? " is-selected" : ""}`,
+          html: '<span aria-hidden="true"></span>',
+          iconSize: [24, 24], iconAnchor: [12, 12],
+        }),
       });
       const label = document.createElement("span");
       label.textContent = place.name;
-      marker.bindTooltip(label, { direction: "top", offset: [0, -20] });
+      marker.bindTooltip(label, { direction: "top", offset: [0, -12] });
       marker.on("click", () => onSelectRef.current(place.id));
       marker.on("keydown", (event: Leaflet.LeafletKeyboardEvent) => {
         const keyboard = event.originalEvent;
@@ -132,8 +122,8 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
         if (!keyboard.repeat) onSelectRef.current(place.id);
       });
       marker.addTo(markers.current!);
-      markerRecords.current.set(place.id, { marker, index });
-      marker.getElement()?.setAttribute("aria-label", `${index + 1}. View ${place.name}`);
+      markerRecords.current.set(place.id, { marker });
+      marker.getElement()?.setAttribute("aria-label", `View ${place.name}`);
       marker.getElement()?.setAttribute("data-restroom-id", place.id);
     });
   }, [ready, places]);

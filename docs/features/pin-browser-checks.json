@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-10-16T01:24:30.783Z",
+  "base": "http://localhost:4173",
+  "checks": [
+    "All1064markers have empty visual labels, 12px dots inside24px boxes, and place-name-only title/ARIA",
+    "Marker element survives filtering/sorting; Enter andSpace open correct details; selected18px dot stays centered",
+    "A compact marker remains pointer-clickable and opens its matching location",
+    "390px mobile map shows unnumbered compact pins without horizontal overflow"
+  ],
+  "errors": []
+}

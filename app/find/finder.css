@@ -86,13 +86,13 @@
 .finder-area-label .finder-overline{font-size:9px}
 .finder-area-label>strong{font:600 20px/1.3 var(--mono);letter-spacing:-.045em}
 .finder-area-label>span:last-child{font-size:11px;color:#56666e}
-.finder-pin{background:none;border:0;display:flex;align-items:center;justify-content:center}
-.finder-pin>span{display:flex;align-items:center;justify-content:center;width:29px;height:34px;background:white;border:1.5px solid #2b59c3;color:#2b59c3;border-radius:4px 4px 13px 13px;font:600 12px var(--mono)}
-.finder-pin.is-selected>span{background:#2b59c3;color:white;border:2px solid white;outline:1px solid #2b59c3;width:33px;height:38px}
-.finder-pin:hover>span{background:#2b59c3;color:white}
-.finder-pin:focus-visible{outline:3px solid #2b59c3;outline-offset:1px;border-radius:3px}
+.finder-leaflet .finder-pin{background:none;border:0;display:flex;align-items:center;justify-content:center}
+.finder-pin>span{display:block;width:12px;height:12px;background:#2b59c3;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px #2b59c3}
+.finder-pin.is-selected>span{width:18px;height:18px;outline:2px solid #2b59c3;outline-offset:1px}
+.finder-pin:hover>span{box-shadow:0 0 0 2px #2b59c3}
+.finder-pin:focus-visible{outline:3px solid #2b59c3;outline-offset:1px;border-radius:50%}
 .finder-map-key{position:absolute;left:16px;bottom:28px;display:flex;align-items:center;gap:8px;background:white;border:1px solid #a3b6c0;padding:9px 12px;font-size:10px;color:#1e2a30;z-index:500;max-width:calc(100% - 82px);flex-wrap:wrap}
-.finder-key-dot{width:9px;height:12px;display:block;border:1.5px solid #2b59c3;border-radius:2px 2px 5px 5px}
+.finder-key-dot{width:10px;height:10px;display:block;background:#2b59c3;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px #2b59c3}
 .finder-key-note{color:#56666e}
 .finder-app .leaflet-control-zoom{border:1px solid #82969f;border-radius:2px;box-shadow:none;margin-right:16px;margin-bottom:40px}
 .finder-app .leaflet-control-zoom a{width:44px;height:44px;line-height:44px;color:#1e2a30}

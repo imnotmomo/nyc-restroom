@@ -30,4 +30,14 @@ Clean remains usable and explains the missing ratings instead of guessing. Acces
 - At 320, 390, 650 and 850px, all five controls remained visible with at least 44px targets and no horizontal overflow. Buttons wrap at 320px. Clean recovery and Accessible worked at each size. Mobile and desktop screenshots were visually reviewed.
 - Browser evidence: `docs/features/filter-browser-checks.json`; screenshots under `docs/features/screenshots/filters-*.png`. No uncaught browser errors.
 
-Publication to both existing hosts follows these checks. No Firebase rules, records, authentication configuration or database schema changes are included.
+No Firebase rules, records, authentication configuration or database schema changes are included.
+
+## Release outcome
+
+Both hosts were updated on October 15, 2026, New York time, from source commit `7f7469cc1e9e29d87c6e19213ba222da890a59bb`.
+
+- `https://nyc.imfinethanku.me/find/`: VPS release `20261016T012053Z-7f7469cc1e9e`; runtime checksum and health check passed. Signup storage remains outside releases.
+- `https://restroom-ready-nyc.clcii.chatgpt.site/find/`: saved version 5, deployment `appgdep_6ad17bfbd98081918e3babdc00fc6322`, status `succeeded`. Existing public access and database binding were preserved.
+- Independent live Chrome verification passed on both hosts: exact five labels, Public 1,064, Clean 0 with its explanation, working recovery to ALL, Accessible 619 with its visible qualifier, and no browser errors. No login or data writes were performed.
+
+This release outcome was added after publication of the matching source archive.
