@@ -1,6 +1,8 @@
 # Half-star rating slider
 
-Status: Verified; publishing
+The current [direct-star control](star-drag.md) replaces this release's separate visible slider bar. Half-star storage and save behavior described below remain unchanged.
+
+Status: Shipped
 Date: October 16, 2026
 
 Replace the five cleanliness rating buttons with one star slider in the real finder and public demo. Allow 1 through 5 stars in steps of 0.5. Show the chosen number and full/half/empty stars, preserve an unrated state, and require an explicit submit. Support dragging, touch, arrow keys and Home/End with a labeled native range and a touch target at least 44px high. Keep public summaries readable without sign-in and require sign-in for real votes. Demo ratings stay in local memory and reset on reload.
@@ -15,4 +17,4 @@ All 90 Node regression tests passed. The full Firestore suite passed 322 cases, 
 
 All 10 independent compiled-browser groups passed against isolated Auth/Firestore emulators: every half-step and keyboard endpoint, unchanged-minimum pointer selection, explicit submission, half-star fill, actual SDK save/reload/update/remove, signed-out aggregate updates, two-account arithmetic, legacy whole-star coexistence, failed-save retention and 320/390px layout. Tests made no production Firebase requests. The demo remained Firebase-free. See [browser evidence](rating-slider-browser-checks.json) and the `rating-slider-*` screenshots.
 
-The production build explicitly disables emulator mode. Publication and post-release checks follow; source and test evidence are preserved with this feature record.
+The production build explicitly disables emulator mode. Source `5c46fb4754488674b9b2d4e68779765824baeaf5` shipped as Sites version 18 and VPS release `20261016T154747Z-5c46fb475448`. Both public demo routes returned 200 with matching application scripts, and unauthenticated finder requests still redirect through the uncached server access gate. Root verified a 4.5-star selection and local demo save on the live VPS host and captured `screenshots/rating-slider-live.png`. The temporary preview and Firebase emulators were stopped. Real account writes were exercised only in the isolated emulator environment.

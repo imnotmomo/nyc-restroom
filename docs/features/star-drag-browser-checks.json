@@ -1,0 +1,64 @@
+{
+  "checkedAt": "2026-10-16T15:54:55.668Z",
+  "preview": "http://127.0.0.1:4181",
+  "status": "passed",
+  "productionWrites": false,
+  "method": "Compiled public demo with genuine mouse and CDP touch input; isolated bundle of actual shared slider and real rating wrapper for disabled/auth/submit props only. No Firebase initialization.",
+  "checks": [
+    {
+      "name": "Direct control has no separate range bar, null stays unrated on focus, native keyboard semantics retained",
+      "status": "passed"
+    },
+    {
+      "name": "Mouse clicks map each star left/right half to exact half steps with minimum1 and decorative half fill",
+      "status": "passed"
+    },
+    {
+      "name": "Captured mouse dragging clamps outside strip and releases cleanly; secondary button does not change selection",
+      "status": "passed"
+    },
+    {
+      "name": "Direct-star selection still requires explicit demo Submit, Remove restores unrated and ownership examples stay intact",
+      "status": "passed"
+    },
+    {
+      "name": "Actual touch tap/drag selects halves without page scrolling; touch cancellation leaves no stuck drag",
+      "status": "passed"
+    },
+    {
+      "name": "320/390px direct-star strip fits with44px height and clear focus/value; no separate track appears",
+      "status": "passed"
+    },
+    {
+      "name": "Actual real rating wrapper preserves auth gate, disabled pointer/keyboard lock and explicit Submit/Remove with shared star control",
+      "status": "passed"
+    }
+  ],
+  "screenshots": [
+    "docs/features/screenshots/star-drag-320.png",
+    "docs/features/screenshots/star-drag-390.png"
+  ],
+  "firebaseRequests": [],
+  "apiMutations": [],
+  "pageErrors": [],
+  "sourceVersion": {
+    "components/star-rating-slider.tsx": "888d5cbef24f4c9254503ef216dcf083a96d25c181a305709e696735468fc8a1",
+    "components/star-rating-slider.module.css": "4b8996e7685a61357f33988521b2192cb6bb3f7f4ed300b4b3c70cd648e99438",
+    "components/finder/ratings.tsx": "eb46fc2731338b70bdde8a89e5e0acaeb63aae49820d84e5308d4a374e5a4374",
+    "components/demo/detail.tsx": "9f6fb8797c1e85e8433c58be78b290046a5e94a20e32603e04c6da246c3c1a71"
+  },
+  "limitations": "Real Firebase persistence was deliberately not repeated; prior half-star emulator evidence covers unchanged backend. Real-wrapper check uses actual component source in an isolated props harness, not a logged-in production account.",
+  "visualReview": "Inspected320/390px captures: five large stars are the interaction target, the fifth star shows a half fill at4.5, the number and explicit Submit are clear, and no separate bar or thumb is visible. No identity information appears.",
+  "personaReview": {
+    "persona": "judge-maya",
+    "artifact": "Direct-star drag interaction in compiled demo; actual real-wrapper props harness",
+    "verdict": "approve",
+    "score": 8,
+    "headline": "The stars themselves now provide a quick, clear half-star selection.",
+    "must_fix": [],
+    "nice_to_have": [],
+    "in_character_reaction": "I can tap or slide across the stars and see the number before submitting. A new selection does not silently become a saved rating. The example labels and limits on cleanliness information stay visible.",
+    "would_flip_me": "",
+    "would_pay": "n/a"
+  }
+}
