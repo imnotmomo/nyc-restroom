@@ -56,6 +56,8 @@
 .finder-results-meta{display:flex;justify-content:space-between;gap:8px;padding:0 20px 14px;color:#56666e;font:10px/1.5 var(--mono);border-bottom:1px solid #bccbd2}
 .finder-result-scroll{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;scrollbar-width:thin;scrollbar-color:#a2b5bf white}
 .finder-results-list{list-style:none;padding:0;margin:0}
+.finder-more-results{padding:16px 20px 20px;border-top:1px solid #bccbd2;color:#56666e;font:11px/1.6 var(--mono)}
+.finder-more-results .finder-secondary-button{width:100%;margin-top:12px}
 .finder-results-list>li{border-bottom:1px solid #d4dee3}
 .finder-result{width:100%;display:flex;align-items:start;gap:12px;text-align:left;padding:21px 18px 20px;background:white;border:0;border-left:3px solid transparent;min-height:146px;border-radius:0!important;color:#1e2a30;transition:background .12s}
 .finder-result:hover{background:#f3f6f8}

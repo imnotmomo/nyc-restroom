@@ -1,0 +1,19 @@
+{
+  "checkedAt": "2026-10-16T00:53:16.097Z",
+  "base": "https://nyc.imfinethanku.me",
+  "syntheticLocation": true,
+  "checks": [
+    "Anonymous HTTPS finder serves 55 listings, working map pins, library filtering, and geolocation=self",
+    "Locate me works on the live HTTPS host with granted synthetic coordinates; Show collection returns to listings",
+    "No Apple SDK requested while token remains unset; OpenStreetMap fallback renders",
+    "New domain reaches Google OAuth sign-in with the existing Firebase auth handler; no credentials entered",
+    "390px mobile list/map toggle and location details work without horizontal overflow",
+    "Real browser HTTPS signup saves a reserved test address before reaching thank-you; email is absent from URL"
+  ],
+  "errors": [],
+  "googlePopup": {
+    "origin": "https://accounts.google.com",
+    "path": "/v3/signin/identifier",
+    "redirectURI": "https://nye-restroom.firebaseapp.com/__/auth/handler"
+  }
+}

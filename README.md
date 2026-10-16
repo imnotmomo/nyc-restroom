@@ -1,6 +1,6 @@
 # Restroom Ready
 
-A mobile-first NYC restroom project. This release includes a homepage, three value-proposition pages, and a durable email waitlist. The marketing illustration remains an example. `/find/` is a working map/list of 55 city-listed Upper Manhattan locations, with Google Sign-in and account-owned saved places and private visit notes in Firebase.
+A mobile-first NYC restroom project. This release includes a homepage, three value-proposition pages, and a durable email waitlist. The marketing illustration remains an example. `/find/` is a working map/list of 1,064 city-listed locations across NYC, with Google Sign-in and account-owned saved places and private visit notes in Firebase. The directory uses a dated official snapshot and does not establish current availability or complete restroom coverage.
 
 ## Run locally
 
@@ -51,6 +51,8 @@ Never commit signup databases, export email addresses into this repository, or i
 `next build` exports the pages to `out/`. `scripts/build-worker.mjs` embeds these assets into a self-contained Worker with `/api/waitlist`. This keeps the frontend in Next.js and makes the signup handler portable to Sites D1. Existing brand sources remain in `brand/logo/`; browser-served copies are in `public/brand/`.
 
 The Sites publishing manifest is `.openai/hosting.json`. Site access starts private; public access is a separate audience setting. GitHub remains the development repository.
+
+The team's VPS deployment at **https://nyc.imfinethanku.me** uses Caddy HTTPS and a nonroot Node.js service. Its signup database lives outside application releases. See [VPS deployment](docs/vps-deployment.md) for runtime configuration, updates, and rollback. Firebase continues to store account-owned saved places and notes; no Firebase administrative credentials are needed on the server.
 
 ## Product references
 

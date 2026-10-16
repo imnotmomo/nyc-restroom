@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Import a bounded, attributed snapshot of NYC's public restroom records."""
+"""Import all coordinate-bearing records in NYC's public restroom snapshot."""
 
 import argparse
 import collections
@@ -16,7 +16,6 @@ DATASET_ID = "i7jb-7jku"
 DATASET_URL = f"https://data.cityofnewyork.us/City-Government/Public-Restrooms/{DATASET_ID}"
 API_URL = f"https://data.cityofnewyork.us/resource/{DATASET_ID}.json"
 METADATA_URL = f"https://data.cityofnewyork.us/api/views/{DATASET_ID}.json"
-BOUNDS = {"south": 40.78, "north": 40.835, "west": -73.98, "east": -73.94}
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 
@@ -68,20 +67,28 @@ def main():
     datetime.datetime.fromisoformat(retrieved.replace("Z", "+00:00"))
 
     selected = []
+    skipped = []
     for row in rows:
+        reason = None
         try:
+            if isinstance(row.get("latitude"), bool) or isinstance(row.get("longitude"), bool):
+                raise ValueError("Boolean coordinates are not numeric locations")
             latitude, longitude = float(row["latitude"]), float(row["longitude"])
         except (KeyError, TypeError, ValueError):
+            reason = "missing_or_non_numeric"
+        if reason is None and not (math.isfinite(latitude) and math.isfinite(longitude)):
+            reason = "non_finite"
+        if reason is None and not (-90 <= latitude <= 90 and -180 <= longitude <= 180):
+            reason = "outside_wgs84_range"
+        if reason is not None:
+            skipped.append({"sourceRecordId": row.get("source_row_id"), "name": text(row.get("facility_name")), "reason": reason})
             continue
-        if not (math.isfinite(latitude) and math.isfinite(longitude)):
-            continue
-        if BOUNDS["south"] <= latitude <= BOUNDS["north"] and BOUNDS["west"] <= longitude <= BOUNDS["east"]:
-            if not row.get("source_row_id") or not text(row.get("facility_name")):
-                raise ValueError("A selected source record is missing its name or official row identifier")
-            selected.append(row)
+        if not row.get("source_row_id") or not text(row.get("facility_name")):
+            raise ValueError("A source record with valid coordinates is missing its name or official row identifier")
+        selected.append(row)
     selected.sort(key=lambda row: row["source_row_id"])
     if not selected:
-        raise ValueError("No records found inside the configured geographic bounds")
+        raise ValueError("No source records contain valid WGS84 coordinates")
 
     groups = {}
     for row in selected:
@@ -121,6 +128,12 @@ def main():
             "observationDate": None,
         })
     restrooms.sort(key=lambda row: (row["name"].casefold(), row["id"]))
+    bounds = {
+        "south": min(row["latitude"] for row in restrooms),
+        "north": max(row["latitude"] for row in restrooms),
+        "west": min(row["longitude"] for row in restrooms),
+        "east": max(row["longitude"] for row in restrooms),
+    }
 
     source = {
         "datasetId": DATASET_ID,
@@ -135,9 +148,12 @@ def main():
         "retrievedAt": retrieved,
         "dataUpdatedAt": timestamp(metadata.get("rowsUpdatedAt")),
         "metadataUpdatedAt": timestamp(metadata.get("viewLastModified")),
-        "scope": "Coordinate-bearing source rows within an upper-Manhattan bounding box around Columbia, Harlem, and northern Central Park; not a citywide or complete neighborhood directory.",
-        "bounds": BOUNDS,
+        "scope": "All source rows in this citywide NYC public restroom snapshot with valid WGS84 coordinates; not a complete inventory of every restroom in NYC.",
+        "bounds": bounds,
         "sourceRowsFetched": len(rows),
+        "sourceRowsWithCoordinates": len(selected),
+        "skippedInvalidCoordinates": len(skipped),
+        "skippedCoordinateReasons": dict(collections.Counter(row["reason"] for row in skipped)),
         "sourceRowsInBounds": len(selected),
         "duplicateRowsMerged": len(selected) - len(restrooms),
         "recordCount": len(restrooms),
@@ -158,8 +174,8 @@ def main():
     write_json(args.output / "source-records.json", rows)
     write_json(args.output / "source-metadata.json", metadata)
     hashes = {name: hashlib.sha256((args.output / name).read_bytes()).hexdigest() for name in ["restrooms.json", "source-records.json", "source-metadata.json"]}
-    write_json(args.output / "provenance.json", {"schemaVersion": 1, "source": source, "sha256": hashes, "statusCounts": dict(collections.Counter(row["publishedStatus"] for row in restrooms)), "duplicateSourceIds": [row["sourceRecordIds"] for row in restrooms if len(row["sourceRecordIds"]) > 1]})
-    print(f"Imported {len(restrooms)} venue records from {len(selected)} bounded source rows; merged {len(selected) - len(restrooms)} identical duplicate rows.")
+    write_json(args.output / "provenance.json", {"schemaVersion": 1, "source": source, "sha256": hashes, "statusCounts": dict(collections.Counter(row["publishedStatus"] for row in restrooms)), "locationTypeCounts": dict(collections.Counter(row["locationType"] for row in restrooms)), "skippedCoordinateRows": skipped, "duplicateSourceIds": [row["sourceRecordIds"] for row in restrooms if len(row["sourceRecordIds"]) > 1]})
+    print(f"Imported {len(restrooms)} venue records from {len(selected)} valid-coordinate source rows; skipped {len(skipped)} invalid-coordinate rows and merged {len(selected) - len(restrooms)} identical duplicate rows.")
 
 
 if __name__ == "__main__":

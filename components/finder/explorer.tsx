@@ -16,12 +16,15 @@ const RestroomMap = dynamic(() => import("@/components/finder/map"), {
 });
 
 type Filter = "all" | "Library" | "Park" | "saved";
+const LIST_PAGE_SIZE = 50;
 
 export function RestroomExplorer() {
   const account = useFirebaseAccount();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
   const [sort, setSort] = useState<"distance" | "name">("distance");
+  const [listLimit, setListLimit] = useState(LIST_PAGE_SIZE);
+  const listScroll = useRef<HTMLDivElement | null>(null);
   const [mobileView, setMobileView] = useState<"list" | "map">("list");
   const [selectedID, setSelectedID] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<Coordinates | null>(null);
@@ -75,6 +78,11 @@ export function RestroomExplorer() {
   [query, filter, favoriteIDs, origin, sort]);
   const mapPlaces = useMemo(() => places.map(({ place }) => place), [places]);
   const selected = restrooms.find((place) => place.id === selectedID);
+
+  useEffect(() => {
+    setListLimit(LIST_PAGE_SIZE);
+    listScroll.current?.scrollTo({ top: 0 });
+  }, [query, filter, sort, userLocation]);
 
   const selectPlace = useCallback((id: string) => {
     lastFocusedControl.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -150,7 +158,7 @@ export function RestroomExplorer() {
         setSelectedID(null);
         setMobileView("map");
         setLocationRequestID((value) => value + 1);
-        if (!isWithinCollection(location)) setLocationError("The map is centered on your location. This first collection only covers upper Manhattan, so we may not list a restroom near you. Choose Show collection to return to the NYC locations.");
+        if (!isWithinCollection(location)) setLocationError("The map is centered on your location, outside this collection’s extent. We may not list a restroom near you. Choose Show collection to return to the NYC locations.");
         setLocating(false);
       },
       onError: (error) => {
@@ -243,11 +251,11 @@ export function RestroomExplorer() {
     <main id="finder-main">
       <div className="finder-page-heading">
         <div><p className="finder-overline"><span className="finder-small-rule" />NYC / A more useful bathroom break</p><h1>Know before you go<span>.</span></h1></div>
-        <p className="finder-heading-note"><strong>{restrooms.length} city-listed places</strong><br />Columbia · Harlem · northern Central Park</p>
+        <p className="finder-heading-note"><strong>{restrooms.length.toLocaleString("en-US")} city-listed places</strong><br />A citywide NYC Open Data collection</p>
       </div>
 
       <section className="finder-tools" aria-label="Search and filter restrooms">
-        <div className="finder-search"><Search size={20} /><label className="finder-sr-only" htmlFor="restroom-search">Search restroom locations</label><input id="restroom-search" type="search" placeholder="Search a place, park, or library" value={query} onChange={(event) => { setQuery(event.target.value); setSelectedID(null); }} autoComplete="off" />{query && <button type="button" onClick={() => setQuery("")} aria-label="Clear search"><X size={18} /></button>}</div>
+        <div className="finder-search"><Search size={20} /><label className="finder-sr-only" htmlFor="restroom-search">Search restroom locations</label><input id="restroom-search" type="search" placeholder="Search a place or location type" value={query} onChange={(event) => { setQuery(event.target.value); setSelectedID(null); }} autoComplete="off" />{query && <button type="button" onClick={() => setQuery("")} aria-label="Clear search"><X size={18} /></button>}</div>
         <div className="finder-filter-group" aria-label="Location type">
           {([ ["all", "All places"], ["Library", "Libraries"], ["Park", "Parks"], ["saved", "Saved"] ] as const).map(([value, label]) => <button type="button" key={value} onClick={() => void chooseFilter(value)} aria-pressed={filter === value} className={filter === value ? "is-active" : ""}>{value === "saved" && <Bookmark size={15} />}{label}</button>)}
         </div>
@@ -263,13 +271,14 @@ export function RestroomExplorer() {
         <section className="finder-list-panel" id="finder-results" aria-label="Restroom locations">
           <div className="finder-results-heading"><div><span className="finder-overline">Your starting point</span><p><MapPin size={15} />{userLocation ? "Your location" : "Columbia University"}</p></div><div className="finder-sort"><ArrowDownAZ size={16} /><label className="finder-sr-only" htmlFor="finder-sort">Sort locations</label><select id="finder-sort" value={sort} onChange={(event) => setSort(event.target.value as "distance" | "name")}><option value="distance">Distance</option><option value="name">Name A–Z</option></select></div></div>
           <div className="finder-results-meta"><span role="status">{places.length} {places.length === 1 ? "location" : "locations"}{filter === "saved" ? " saved" : " in this view"}</span><span>Straight-line distance</span></div>
-          <div className="finder-result-scroll">
-            {places.length === 0 ? <div className="finder-empty"><Search size={25} /><h2>{filter === "saved" && libraryLoading ? "Loading your saved places…" : filter === "saved" ? "Your saved places will live here." : "No matching locations."}</h2><p>{filter === "saved" ? "Save a location from its detail sheet to find it again." : "Try a park or library name, or clear your filters. This first collection covers part of upper Manhattan."}</p><button className="finder-text-button" type="button" onClick={() => { setQuery(""); setFilter("all"); }}>Show all locations <ChevronRight size={16} /></button></div> : <ol className="finder-results-list">{places.map(({ place, distance }, index) => <li key={place.id}><button className={`finder-result${selectedID === place.id ? " is-selected" : ""}`} type="button" data-place-id={place.id} onClick={() => selectPlace(place.id)} aria-controls="restroom-details" aria-expanded={selectedID === place.id}><span className="finder-result-index">{String(index + 1).padStart(2, "0")}</span><span className="finder-result-content"><span className="finder-result-category">{place.locationType} <span>·</span> {formatDistance(distance)}</span><strong>{place.name}</strong><span className="finder-result-operator">{place.operator ?? "Operator not reported"}</span><span className="finder-result-unknown">Purchase · Floor · Conditions <span>Not reported</span></span></span><span className="finder-result-end">{favoriteIDs.includes(place.id) ? <Bookmark size={17} fill="currentColor" aria-label="Saved" /> : <ChevronRight size={18} />}</span></button></li>)}</ol>}
+          <div className="finder-result-scroll" ref={listScroll}>
+            {places.length === 0 ? <div className="finder-empty"><Search size={25} /><h2>{filter === "saved" && libraryLoading ? "Loading your saved places…" : filter === "saved" ? "Your saved places will live here." : "No matching locations."}</h2><p>{filter === "saved" ? "Save a location from its detail sheet to find it again." : "Try a place name or location type, or clear your filters. This collection includes city-listed locations across NYC."}</p><button className="finder-text-button" type="button" onClick={() => { setQuery(""); setFilter("all"); }}>Show all locations <ChevronRight size={16} /></button></div> : <ol className="finder-results-list">{places.slice(0, listLimit).map(({ place, distance }, index) => <li key={place.id}><button className={`finder-result${selectedID === place.id ? " is-selected" : ""}`} type="button" data-place-id={place.id} onClick={() => selectPlace(place.id)} aria-controls="restroom-details" aria-expanded={selectedID === place.id}><span className="finder-result-index">{String(index + 1).padStart(2, "0")}</span><span className="finder-result-content"><span className="finder-result-category">{place.locationType} <span>·</span> {formatDistance(distance)}</span><strong>{place.name}</strong><span className="finder-result-operator">{place.operator ?? "Operator not reported"}</span><span className="finder-result-unknown">Purchase · Floor · Conditions <span>Not reported</span></span></span><span className="finder-result-end">{favoriteIDs.includes(place.id) ? <Bookmark size={17} fill="currentColor" aria-label="Saved" /> : <ChevronRight size={18} />}</span></button></li>)}</ol>}
+            {places.length > 0 && <div className="finder-more-results"><p role="status">Showing {Math.min(listLimit, places.length).toLocaleString("en-US")} of {places.length.toLocaleString("en-US")} locations</p>{listLimit < places.length && <button type="button" className="finder-secondary-button" onClick={() => setListLimit((value) => value + LIST_PAGE_SIZE)}>Show {Math.min(LIST_PAGE_SIZE, places.length - listLimit)} more</button>}</div>}
           </div>
           <p className="finder-list-foot"><Info size={14} />Hours and entry rules can change. Check details before going.</p>
         </section>
 
-        <section className="finder-map-panel" aria-label="Map view"><RestroomMap places={mapPlaces} selectedID={selectedID} onSelect={selectPlace} userLocation={userLocation} locationRequestID={locationRequestID} /><div className="finder-area-label"><span className="finder-overline">The first collection</span><strong>Upper Manhattan</strong><span>City-listed places. Details worth checking.</span></div></section>
+        <section className="finder-map-panel" aria-label="Map view"><RestroomMap places={mapPlaces} selectedID={selectedID} onSelect={selectPlace} userLocation={userLocation} locationRequestID={locationRequestID} /><div className="finder-area-label"><span className="finder-overline">The city collection</span><strong>New York City</strong><span>City-listed places. Details worth checking.</span></div></section>
 
         {selected && <RestroomDetail restroom={selected} distance={distanceMeters(origin, selected)} originLabel={originLabel} userLocation={userLocation} saved={favoriteIDs.includes(selected.id)} saving={favoriteBusy || libraryLoading} onToggleFavorite={() => void toggleFavorite()} onClose={closePlace} feedback={account.error || message || libraryError} onRetryLibrary={libraryError ? () => setLibraryRetry((value) => value + 1) : undefined} personalContent={<PersonalNotes key={`${uid ?? "signed-out"}:${selected.id}`} placeID={selected.id} signedIn={Boolean(uid)} configured={account.configured} loading={account.loading || libraryLoading} saving={noteBusy} notes={privateNotes.filter((note) => note.placeID === selected.id)} onSignIn={() => void account.signInWithGoogle()} onSave={addNote} onDelete={removeNote} />} />}
       </div>

@@ -7,6 +7,7 @@
         "authorizedRedirectUris": [
           "https://nye-restroom.firebaseapp.com/__/auth/handler",
           "https://restroom-ready-nyc.clcii.chatgpt.site",
+          "https://nyc.imfinethanku.me",
           "http://localhost"
         ]
       }

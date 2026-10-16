@@ -13,17 +13,20 @@
     "retrievedAt": "2026-10-16T00:04:14Z",
     "dataUpdatedAt": "2025-06-27T13:37:10Z",
     "metadataUpdatedAt": "2025-11-05T20:39:42Z",
-    "scope": "Coordinate-bearing source rows within an upper-Manhattan bounding box around Columbia, Harlem, and northern Central Park; not a citywide or complete neighborhood directory.",
+    "scope": "All source rows in this citywide NYC public restroom snapshot with valid WGS84 coordinates; not a complete inventory of every restroom in NYC.",
     "bounds": {
-      "south": 40.78,
-      "north": 40.835,
-      "west": -73.98,
-      "east": -73.94
+      "south": 40.50228,
+      "north": 40.903731,
+      "west": -74.2517,
+      "east": -73.7096
     },
     "sourceRowsFetched": 1066,
-    "sourceRowsInBounds": 56,
-    "duplicateRowsMerged": 1,
-    "recordCount": 55,
+    "sourceRowsWithCoordinates": 1066,
+    "skippedInvalidCoordinates": 0,
+    "skippedCoordinateReasons": {},
+    "sourceRowsInBounds": 1066,
+    "duplicateRowsMerged": 2,
+    "recordCount": 1064,
     "liveAvailability": false,
     "teamInspected": false,
     "limitations": [
@@ -36,19 +39,32 @@
     ]
   },
   "sha256": {
-    "restrooms.json": "5132df3d3b9439a85685ccd149946f4ce19fd1b4acbc460df5469b9b9f28abf2",
+    "restrooms.json": "5859522d1dc269f387ae0ab09e125c43a5f2a467112196fb3985f8eee9e07852",
     "source-records.json": "d914fb61463dd1ee431a0e1ae739beb6bef0120c61d41aa6e3b15b5c1d1d82aa",
     "source-metadata.json": "5cccb719ce5d81919592c31dc54932d14baa1e6bcd9f27f3bfc00ce86129c6b6"
   },
   "statusCounts": {
-    "Operational": 51,
-    "Closed for Construction": 1,
-    "Not Operational": 3
+    "Operational": 973,
+    "Closed for Construction": 17,
+    "Not Operational": 73,
+    "Closed": 1
   },
+  "locationTypeCounts": {
+    "Park": 822,
+    "Privately Owned Public Space": 14,
+    "Library": 216,
+    "Transit": 5,
+    "Public Plaza": 7
+  },
+  "skippedCoordinateRows": [],
   "duplicateSourceIds": [
     [
       "row-ew5y~kfcp_3ryy",
       "row-pvrf_u6zc_s5ja"
+    ],
+    [
+      "row-23sh~w2ra_8a88",
+      "row-r5j3-f32v~9j7x"
     ]
   ]
 }

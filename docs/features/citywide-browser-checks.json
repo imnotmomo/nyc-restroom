@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-10-16T01:13:21.076Z",
+  "base": "http://localhost:4173",
+  "listingCount": 1064,
+  "syntheticLocation": true,
+  "checks": [
+    "All 1064 map pins render; initial view fits citywide extrema while list starts at 50",
+    "Enter and Space open a citywide marker beyond the first 50",
+    "Selection preserves existing marker DOM and truthful source/unknown details; Show more reveals 100",
+    "Search finds representative Staten Island, Bronx, Queens, Brooklyn, and Manhattan locations",
+    "All five source types remain discoverable; filters show 216 libraries and 822 parks; query/filter resets pagination",
+    "GPS centers on synthetic Brooklyn location, survives filters, and repeated coordinates recenter after Show collection",
+    "390px and 320px mobile: initial map reveal fits NYC, search and details work, no horizontal overflow"
+  ],
+  "errors": []
+}

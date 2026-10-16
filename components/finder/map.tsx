@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { MapPinned } from "lucide-react";
 import type * as Leaflet from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { COLUMBIA, type Coordinates, type Restroom } from "@/lib/restrooms";
+import { datasetSource, type Coordinates, type Restroom } from "@/lib/restrooms";
 
 interface RestroomMapProps {
   places: readonly Restroom[];
@@ -31,11 +31,16 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
   const map = useRef<Leaflet.Map | null>(null);
   const leaflet = useRef<typeof Leaflet | null>(null);
   const markers = useRef<Leaflet.LayerGroup | null>(null);
+  const markerRecords = useRef(new Map<string, { marker: Leaflet.Marker; index: number }>());
   const locationMarker = useRef<Leaflet.CircleMarker | null>(null);
+  const initialFit = useRef(false);
+  const previousSelectedID = useRef<string | null>(null);
+  const selectedIDRef = useRef(selectedID);
   const onSelectRef = useRef(onSelect);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string | null>(null);
   onSelectRef.current = onSelect;
+  selectedIDRef.current = selectedID;
 
   useEffect(() => {
     let cancelled = false;
@@ -43,9 +48,17 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
     import("leaflet").then((L) => {
       if (cancelled || !container.current) return;
       leaflet.current = L;
+      const { south, north, west, east } = datasetSource.bounds;
       const instance = L.map(container.current, { zoomControl: false, scrollWheelZoom: true, fadeAnimation: false, zoomAnimation: false })
-        .setView([COLUMBIA.latitude, COLUMBIA.longitude], 14);
+        .setView([(south + north) / 2, (west + east) / 2], 10);
       map.current = instance;
+      initialFit.current = false;
+      const fitInitialCollection = () => {
+        if (initialFit.current || !container.current?.clientWidth || !container.current.clientHeight) return;
+        initialFit.current = true;
+        instance.fitBounds([[south, west], [north, east]], { padding: [48, 48], maxZoom: 15, animate: false });
+      };
+      fitInitialCollection();
       L.control.zoom({ position: "bottomright" }).addTo(instance);
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
@@ -53,7 +66,10 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
       }).on("tileerror", () => { if (!cancelled) setError("Map tiles could not load. You can still use the list."); })
         .on("tileload", () => { if (!cancelled) setError(null); }).addTo(instance);
       markers.current = L.layerGroup().addTo(instance);
-      resize = new ResizeObserver(() => instance.invalidateSize({ animate: false }));
+      resize = new ResizeObserver(() => {
+        instance.invalidateSize({ animate: false });
+        fitInitialCollection();
+      });
       resize.observe(container.current);
       setReady(true);
     }).catch(() => { if (!cancelled) setError("The map could not load. You can still use the list."); });
@@ -62,38 +78,79 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
       resize?.disconnect();
       map.current?.remove();
       map.current = null;
+      markers.current = null;
+      markerRecords.current.clear();
+      locationMarker.current = null;
+      previousSelectedID.current = null;
     };
   }, []);
 
   useEffect(() => {
     const L = leaflet.current;
     if (!ready || !L || !map.current || !markers.current) return;
-    markers.current.clearLayers();
+    const visibleIDs = new Set(places.map((place) => place.id));
+    for (const [id, record] of markerRecords.current) {
+      if (!visibleIDs.has(id)) {
+        markers.current.removeLayer(record.marker);
+        markerRecords.current.delete(id);
+      }
+    }
     places.forEach((place, index) => {
+      const selected = selectedIDRef.current === place.id;
+      const icon = () => L.divIcon({
+        className: `finder-pin${selected ? " is-selected" : ""}`,
+        html: `<span>${index + 1}</span>`,
+        iconSize: [44, 44], iconAnchor: [22, 36],
+      });
+      const existing = markerRecords.current.get(place.id);
+      if (existing) {
+        if (existing.index !== index) {
+          existing.marker.setIcon(icon());
+          existing.index = index;
+        }
+        existing.marker.getElement()?.setAttribute("title", `${index + 1}. ${place.name}`);
+        existing.marker.getElement()?.setAttribute("aria-label", `${index + 1}. View ${place.name}`);
+        existing.marker.getElement()?.setAttribute("data-restroom-id", place.id);
+        return;
+      }
       const marker = L.marker([place.latitude, place.longitude], {
         keyboard: true,
         title: `${index + 1}. ${place.name}`,
         alt: place.name,
-        zIndexOffset: selectedID === place.id ? 500 : 0,
-        icon: L.divIcon({
-          className: `finder-pin${selectedID === place.id ? " is-selected" : ""}`,
-          html: `<span>${index + 1}</span>`,
-          iconSize: [44, 44], iconAnchor: [22, 36],
-        }),
+        zIndexOffset: selected ? 500 : 0,
+        icon: icon(),
       });
       const label = document.createElement("span");
       label.textContent = place.name;
       marker.bindTooltip(label, { direction: "top", offset: [0, -20] });
       marker.on("click", () => onSelectRef.current(place.id));
+      marker.on("keydown", (event: Leaflet.LeafletKeyboardEvent) => {
+        const keyboard = event.originalEvent;
+        if (keyboard.key !== "Enter" && keyboard.key !== " ") return;
+        keyboard.preventDefault();
+        keyboard.stopPropagation();
+        if (!keyboard.repeat) onSelectRef.current(place.id);
+      });
       marker.addTo(markers.current!);
+      markerRecords.current.set(place.id, { marker, index });
       marker.getElement()?.setAttribute("aria-label", `${index + 1}. View ${place.name}`);
       marker.getElement()?.setAttribute("data-restroom-id", place.id);
     });
-  }, [ready, places, selectedID]);
+  }, [ready, places]);
 
   useEffect(() => {
-    const place = places.find((candidate) => candidate.id === selectedID);
-    if (ready && place && map.current) map.current.panTo([place.latitude, place.longitude], { animate: false });
+    if (!ready || !map.current) return;
+    const previous = previousSelectedID.current ? markerRecords.current.get(previousSelectedID.current)?.marker : null;
+    previous?.getElement()?.classList.remove("is-selected");
+    previous?.setZIndexOffset(0);
+    const selected = selectedID ? markerRecords.current.get(selectedID)?.marker : null;
+    selected?.getElement()?.classList.add("is-selected");
+    selected?.setZIndexOffset(500);
+    previousSelectedID.current = selectedID;
+    if (selected) {
+      initialFit.current = true;
+      map.current.panTo(selected.getLatLng(), { animate: false });
+    }
   }, [ready, selectedID, places]);
 
   useEffect(() => {
@@ -101,6 +158,7 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
     if (!ready || !L || !map.current) return;
     locationMarker.current?.remove();
     if (userLocation) {
+      initialFit.current = true;
       locationMarker.current = L.circleMarker([userLocation.latitude, userLocation.longitude], {
         radius: 8, color: "#ffffff", weight: 3, fillColor: "#2b59c3", fillOpacity: 1,
       }).addTo(map.current).bindTooltip("Your location");
@@ -111,6 +169,7 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
   function showCollection() {
     const L = leaflet.current;
     if (!L || !map.current || !places.length) return;
+    initialFit.current = true;
     map.current.fitBounds(L.latLngBounds(places.map(place => [place.latitude, place.longitude])), {
       padding: [48, 48], maxZoom: 15, animate: false,
     });

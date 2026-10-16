@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { MapPinned } from "lucide-react";
 import type { Annotation, MapAnnotationSelectionEvent, MapKit, MapKitConfigurationErrorEvent, MarkerAnnotation } from "apple-mapkit";
 import { isMapKitConfigured, loadMapKit } from "@/lib/mapkit-loader";
-import { COLUMBIA, type Coordinates, type Restroom } from "@/lib/restrooms";
+import { datasetSource, type Coordinates, type Restroom } from "@/lib/restrooms";
 
 type AppleMap = InstanceType<MapKit["Map"]>;
 
@@ -22,6 +22,8 @@ export default function MapKitMap({ places, selectedID, onSelect, userLocation, 
   const map = useRef<AppleMap | null>(null);
   const annotations = useRef(new Map<string, MarkerAnnotation>());
   const locationAnnotation = useRef<Annotation | null>(null);
+  const initialFit = useRef(false);
+  const fitInitialCollection = useRef<(() => void) | null>(null);
   const selectedIDRef = useRef(selectedID);
   const selectRef = useRef(onSelect);
   const [ready, setReady] = useState(false);
@@ -39,8 +41,13 @@ export default function MapKitMap({ places, selectedID, onSelect, userLocation, 
     loadMapKit().then((mapkit) => {
       if (disposed || !container.current) return;
       sdk.current = mapkit;
+      const { south, north, west, east } = datasetSource.bounds;
       const instance = new mapkit.Map(container.current, {
-        region: { center: COLUMBIA, span: { latitudeDelta: 0.032, longitudeDelta: 0.035 } },
+        region: {
+          center: { latitude: (south + north) / 2, longitude: (west + east) / 2 },
+          span: { latitudeDelta: north - south, longitudeDelta: east - west },
+        },
+        padding: { top: 100, right: 40, bottom: 60, left: 40 },
         mapType: mapkit.MapType.MutedStandard,
         tintColor: "#2B59C3",
         colorScheme: mapkit.ColorScheme.Light,
@@ -61,11 +68,22 @@ export default function MapKitMap({ places, selectedID, onSelect, userLocation, 
         },
       });
       map.current = instance;
+      initialFit.current = false;
+      fitInitialCollection.current = () => {
+        if (initialFit.current || !container.current?.clientWidth || !container.current.clientHeight || !annotations.current.size) return;
+        initialFit.current = true;
+        instance.showItems([...annotations.current.values()], {
+          animate: false,
+          padding: { top: 100, right: 40, bottom: 60, left: 40 },
+          minimumSpan: { latitudeDelta: 0.002, longitudeDelta: 0.002 },
+        });
+      };
 
       const handleSelect = (event: Event) => {
         const annotation = (event as MapAnnotationSelectionEvent).annotation;
         if (!annotation) return;
         if (annotation.memberAnnotations?.length) {
+          initialFit.current = true;
           instance.showItems(annotation.memberAnnotations, {
             animate: false,
             padding: { top: 80, right: 40, bottom: 60, left: 40 },
@@ -94,7 +112,10 @@ export default function MapKitMap({ places, selectedID, onSelect, userLocation, 
 
       resize = new ResizeObserver((entries) => {
         const size = entries[0]?.contentRect;
-        if (!disposed && size?.width && size.height) instance.setRegionAnimated(instance.region, false);
+        if (!disposed && size?.width && size.height) {
+          instance.setRegionAnimated(instance.region, false);
+          fitInitialCollection.current?.();
+        }
       });
       resize.observe(container.current);
       setReady(true);
@@ -111,6 +132,7 @@ export default function MapKitMap({ places, selectedID, onSelect, userLocation, 
       sdk.current = null;
       annotations.current.clear();
       locationAnnotation.current = null;
+      fitInitialCollection.current = null;
     };
   }, [configured]);
 
@@ -155,6 +177,7 @@ export default function MapKitMap({ places, selectedID, onSelect, userLocation, 
       });
       annotations.current.set(place.id, annotation);
     }
+    fitInitialCollection.current?.();
   }, [ready, places]);
 
   useEffect(() => {
@@ -162,7 +185,10 @@ export default function MapKitMap({ places, selectedID, onSelect, userLocation, 
     if (!ready || !instance) return;
     const annotation = selectedID ? annotations.current.get(selectedID) : null;
     instance.selectedAnnotation = annotation ?? null;
-    if (annotation) instance.setCenterAnimated(annotation.coordinate, false);
+    if (annotation) {
+      initialFit.current = true;
+      instance.setCenterAnimated(annotation.coordinate, false);
+    }
   }, [ready, places, selectedID]);
 
   useEffect(() => {
@@ -190,6 +216,7 @@ export default function MapKitMap({ places, selectedID, onSelect, userLocation, 
 
   useEffect(() => {
     if (ready && map.current && userLocation && locationRequestID > 0) {
+      initialFit.current = true;
       map.current.setCenterAnimated(userLocation, false);
     }
   }, [ready, userLocation, locationRequestID]);
@@ -200,6 +227,7 @@ export default function MapKitMap({ places, selectedID, onSelect, userLocation, 
 
   function showCollection() {
     if (!map.current || !annotations.current.size) return;
+    initialFit.current = true;
     map.current.showItems([...annotations.current.values()], {
       animate: false,
       padding: { top: 100, right: 40, bottom: 60, left: 40 },

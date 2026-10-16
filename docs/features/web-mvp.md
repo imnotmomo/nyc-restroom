@@ -2,6 +2,8 @@
 
 Status: published to the existing private Site
 
+This record describes the initial 55-location release and its original access state. The site was subsequently made public, deployed to the team's domain, and expanded in [Citywide import](citywide-import.md). The checks below remain evidence for that initial release.
+
 ## Brief
 
 Build the usable first slice of Restroom Ready in the existing Next.js web app: browse city-listed locations, inspect dated information and unknowns, get walking directions, and keep account-owned saved places and visit notes.
