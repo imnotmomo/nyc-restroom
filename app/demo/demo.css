@@ -3,6 +3,11 @@
 .demo-banner button{display:inline-flex;align-items:center;gap:7px;min-height:44px;flex-shrink:0;padding:8px 10px;border:1px solid #82969f;background:white;color:#2b59c3;font-size:12px}
 .demo-waitlist-link{display:inline-flex;align-items:center;gap:8px;margin-left:auto;min-height:44px;text-underline-offset:4px;font-size:13px;color:#2b59c3!important}
 .demo-list-label{font:11px/1.5 var(--mono);color:#56666e;letter-spacing:.025em}
+.demo-code-view{display:flex;gap:0;margin-top:14px;max-width:100%}
+.demo-code-view>button{flex:1;min-width:0;min-height:44px;padding:9px 10px;border:1px solid #82969f;background:white;color:#56666e;font-size:12px}
+.demo-code-view>button+button{border-left:0}
+.demo-code-view>button[aria-pressed=true]{background:#eef2f8;color:#2b59c3;font-weight:600}
+.demo-passcodes .finder-passcode-report{margin-top:18px}
 .demo-detail .finder-note-form>label{display:block;font-size:13px;font-weight:600;margin-bottom:8px}
 .demo-detail .finder-note-form>textarea{width:100%;min-width:0;padding:10px;border:1px solid #82969f;font:16px/1.5 var(--sans);resize:vertical}
 .demo-add-flags{display:grid;gap:8px;margin-top:20px}

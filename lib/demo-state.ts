@@ -1,7 +1,10 @@
 /** Isolated example state. Nothing in this module reads or writes application data. */
 export type DemoFilter = "all" | "public" | "clean" | "accessible" | "saved";
 export type DemoVisibility = "private" | "public";
-export interface DemoCode { code: string; visibility: DemoVisibility; updatedAt: string; verifiedAt: string | null }
+export interface DemoPublicCode { reportID: string; code: string; updatedAt: string; verifiedAt: string | null }
+export interface DemoCode extends DemoPublicCode { visibility: DemoVisibility }
+export type DemoCodeView = "owner" | "public";
+export interface DemoVisibleCode extends DemoCode { isOwn: boolean; canEdit: boolean; canVerify: boolean }
 export interface DemoVenue {
   id: string;
   name: string;
@@ -14,7 +17,8 @@ export interface DemoVenue {
   sampleRatingCount: number;
   ownRating: number | null;
   saved: boolean;
-  code: DemoCode | null;
+  ownCode: DemoCode | null;
+  publicReports: DemoPublicCode[];
   note: string;
   added: boolean;
 }
@@ -30,9 +34,19 @@ export function createDemoState(): DemoState {
   return { nextID: 1, venues: [{
     id: "demo-target-herald-square", name: "Target Herald Square", address: "112 W 34th St, New York, NY 10120",
     latitude: 40.749814, longitude: -73.989081, isPublic: true, isAccessible: true,
-    sampleRatingSum: 9, sampleRatingCount: 2, ownRating: null, saved: false,
-    code: { code: "3434", visibility: "public", updatedAt: DEMO_SEED_TIME, verifiedAt: null }, note: "", added: false,
+    sampleRatingSum: 9, sampleRatingCount: 2, ownRating: null, saved: true,
+    ownCode: { reportID: "demo-own-target-report", code: "3535", visibility: "private", updatedAt: DEMO_SEED_TIME, verifiedAt: null },
+    publicReports: [{ reportID: "demo-visitor-target-report", code: "3434", updatedAt: DEMO_SEED_TIME, verifiedAt: null }], note: "", added: false,
   }] };
+}
+
+/** Ownership is structural and stable; sharing never changes who can edit a report. */
+export function visibleDemoCodes(venue: DemoVenue, view: DemoCodeView): DemoVisibleCode[] {
+  const others = venue.publicReports.map((report) => ({ ...report, visibility: "public" as const, isOwn: false, canEdit: false, canVerify: view === "owner" }));
+  const own = venue.ownCode;
+  if (!own || view === "public" && own.visibility === "private") return others;
+  const record = { ...own, isOwn: true, canEdit: view === "owner", canVerify: view === "owner" };
+  return view === "owner" ? [record, ...others] : [...others, record];
 }
 
 export function demoRating(venue: DemoVenue): { average: number | null; count: number } {
@@ -79,23 +93,23 @@ export function saveDemoCode(state: DemoState, id: string, value: string, visibi
   if (visibility !== "private" && visibility !== "public") throw new Error("Choose Only me or Everyone.");
   const time = actionTime(now);
   return updateVenue(state, id, (venue) => {
-    const unchanged = venue.code?.code === code;
-    return { ...venue, saved: visibility === "private" || venue.saved, code: {
-      code, visibility, updatedAt: unchanged ? venue.code!.updatedAt : time, verifiedAt: unchanged ? venue.code!.verifiedAt : null,
+    const unchanged = venue.ownCode?.code === code;
+    return { ...venue, saved: visibility === "private" || venue.saved, ownCode: {
+      reportID: venue.ownCode?.reportID ?? `demo-own-${id}`,
+      code, visibility, updatedAt: unchanged ? venue.ownCode!.updatedAt : time, verifiedAt: unchanged ? venue.ownCode!.verifiedAt : null,
     } };
   });
 }
 
-export function verifyDemoCode(state: DemoState, id: string, now: string): DemoState {
+export function verifyDemoCode(state: DemoState, id: string, reportID: string, now: string): DemoState {
   const time = actionTime(now);
   return updateVenue(state, id, (venue) => {
-    if (!venue.code) throw new Error("Save a sample code before verifying it.");
-    return { ...venue, saved: venue.code.visibility === "private" || venue.saved, code: { ...venue.code, verifiedAt: time } };
+    if (venue.ownCode?.reportID === reportID) return {
+      ...venue, saved: venue.ownCode.visibility === "private" || venue.saved, ownCode: { ...venue.ownCode, verifiedAt: time },
+    };
+    if (!venue.publicReports.some((report) => report.reportID === reportID)) throw new Error("Choose a current sample code before verifying it.");
+    return { ...venue, publicReports: venue.publicReports.map((report) => report.reportID === reportID ? { ...report, verifiedAt: time } : report) };
   });
-}
-
-export function deleteDemoCode(state: DemoState, id: string): DemoState {
-  return updateVenue(state, id, (venue) => ({ ...venue, code: null }));
 }
 
 export function saveDemoNote(state: DemoState, id: string, note: string): DemoState {
@@ -110,12 +124,12 @@ export function addDemoVenue(state: DemoState, input: DemoVenueInput, now: strin
   let venue: DemoVenue = {
     id: `demo-added-${state.nextID}`, name, address, latitude: input.latitude, longitude: input.longitude,
     isPublic: input.isPublic, isAccessible: input.isAccessible, sampleRatingSum: 0, sampleRatingCount: 0,
-    ownRating: null, saved: false, code: null, note: "", added: true,
+    ownRating: null, saved: false, ownCode: null, publicReports: [], note: "", added: true,
   };
   if (input.code?.trim()) {
     const visibility = input.visibility ?? "private";
     if (visibility !== "private" && visibility !== "public") throw new Error("Choose Only me or Everyone.");
-    venue = { ...venue, saved: visibility === "private", code: { code: normalizeCode(input.code), visibility, updatedAt: actionTime(now), verifiedAt: null } };
+    venue = { ...venue, saved: visibility === "private", ownCode: { reportID: `demo-own-${venue.id}`, code: normalizeCode(input.code), visibility, updatedAt: actionTime(now), verifiedAt: null } };
   }
   return { nextID: state.nextID + 1, venues: [...state.venues, venue] };
 }

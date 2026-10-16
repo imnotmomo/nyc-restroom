@@ -36,3 +36,5 @@ Source `6ac4f00978b77157f79566087003d766b6ac8231` shipped as Sites version 15 wi
 The live demo was also inspected in the browser with the single Target sample, 3434 code, working map pin and no account interface. Screenshot: `screenshots/protected-demo-live.jpg`. The temporary local preview was stopped. Chloe's final integrated review approved with an 8/10 score and no blockers.
 
 Keep page access and simulated product data separate. The shared gate controls the live page; Google Sign-in still owns real account actions inside it. The public demo uses a real street address for context, while its restroom facts and interactions remain labeled examples in local memory.
+
+Follow-up: [demo code ownership](demo-code-ownership.md) separates another contributor's public 3434 from the visitor's private 3535, adds a public-view preview, and removes the demo code-delete action.

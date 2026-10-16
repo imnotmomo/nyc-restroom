@@ -1,0 +1,78 @@
+{
+  "checkedAt": "2026-10-16T15:38:36.558Z",
+  "preview": "http://127.0.0.1:4181",
+  "method": "Focused compiled demo; visible DOM and ordinary browser APIs only; no app internals.",
+  "productionWrites": false,
+  "status": "passed",
+  "checks": [
+    {
+      "name": "Initial sample has private own3535 and separate read-only public3434; location autoSaved; no delete-code control",
+      "status": "passed"
+    },
+    {
+      "name": "Verifying one stable report updates only its check time and never its code-update time or the other report",
+      "status": "passed"
+    },
+    {
+      "name": "Publishing own3535 preserves owner edit rights and verification; Public view shows both reports with no mutation controls",
+      "status": "passed"
+    },
+    {
+      "name": "Returning own3535 to private auto-saves an unsaved place and hides only that report in Public view",
+      "status": "passed"
+    },
+    {
+      "name": "Switching preview cancels an open editor; stale input cannot alter either report",
+      "status": "passed"
+    },
+    {
+      "name": "Changing own code clears only its verification while stable report ID and other public report stay intact",
+      "status": "passed"
+    },
+    {
+      "name": "Matching code text does not merge ownership or let the viewer edit another submitter report",
+      "status": "passed"
+    },
+    {
+      "name": "A newly logged local sample owns its private code, auto-saves, and exposes only owner editing",
+      "status": "passed"
+    },
+    {
+      "name": "Reload and Reset restore both independent seed reports and initial Saved status",
+      "status": "passed"
+    },
+    {
+      "name": "320/390px code cards, preview controls and owner editor have no horizontal overflow and remain keyboard usable",
+      "status": "passed"
+    },
+    {
+      "name": "Ownership changes remain local: zero Firebase requests, app API mutations, account UI or runtime exceptions",
+      "status": "passed"
+    }
+  ],
+  "screenshots": [
+    "docs/features/screenshots/demo-code-ownership-320.png",
+    "docs/features/screenshots/demo-code-ownership-390.png"
+  ],
+  "firebaseRequests": [],
+  "apiMutations": [],
+  "pageErrors": [],
+  "sourceVersion": {
+    "lib/demo-state.ts": "926715e62a4e52ddf88468f3ab8960d87cb0e4698660944765ca0a8404261578",
+    "components/demo/detail.tsx": "9ec27211974fe959701215f56f3d50a500e1a40f3f64b206b1bbb5597f071559",
+    "components/demo/explorer.tsx": "ca07512dfede91593305a94fbf6ce5f1e8c34c936051552fb0edc663e49ea7c5"
+  },
+  "verdict": {
+    "persona": "judge-chloe",
+    "artifact": "Compiled demo code ownership correction; source hashes recorded above",
+    "verdict": "approve",
+    "score": 8,
+    "headline": "Ownership and sharing are now separate, with example reports clearly labeled.",
+    "must_fix": [],
+    "nice_to_have": [],
+    "in_character_reaction": "I can see which code is mine and which another visitor shared. Publishing my report does not let me edit theirs, and verifying one leaves the other report alone. The public preview makes the private boundary easy to understand without joining an account.",
+    "would_flip_me": "",
+    "would_pay": "n/a"
+  },
+  "visualReview": "Inspected both 320/390px code-card screenshots. The own private3535 card has edit/verify controls; the other public3434 card has only verify. Dates and visibility labels are legible; no identity information is displayed. Captures are offset below the normal sticky demo banner to keep all report text unobscured."
+}

@@ -30,7 +30,7 @@ The production preview runs the built pages and the same signup validation using
 - `/dated-reports/` — sources, observation dates, and uncertainty
 - `/thank-you/` — signup confirmation
 - `/privacy/` — stored information and contact/removal options
-- `/demo/` — one Target Herald Square example, simulated ratings/saves/filters/new locations/code checks, no Google account
+- `/demo/` — one Target Herald Square example, simulated ratings/saves/filters/new locations/code checks, no Google account; public 3434 and owned private 3535 are separate reports with owner-only editing
 - `/access/` — shared-passcode entry for the live finder
 - `/find/` — passcode-protected real city listings, map/search, source details, walking directions, Google accounts, login-only new-location logging, dated private/shared passcodes, saved places, and private visit notes
 
