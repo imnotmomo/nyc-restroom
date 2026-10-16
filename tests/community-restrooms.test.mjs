@@ -55,3 +55,18 @@ test('Unicode UTF-16 length bounds match Firestore while Unicode whitespace alon
  assert.throws(()=>model.normalizeCommunityRestroomInput({...valid(),name:'🧻'.repeat(61)},now));
  for(const whitespace of ['\u00a0','\u1680','\u2000','\u2028','\u2029','\u202f','\u205f','\u3000','\ufeff'])assert.throws(()=>model.normalizeCommunityRestroomInput({...valid(),name:whitespace},now));
 });
+
+test('legacy code requirements remain unknown and new yes/no reports stay distinct from entry permission',()=>{
+ assert.equal(model.normalizeCommunityRestroomInput(valid(),now).passcodeRequired,'unknown');
+ for(const passcodeRequired of ['yes','no','unknown'])assert.equal(model.normalizeCommunityRestroomInput({...valid(),passcodeRequired},now).passcodeRequired,passcodeRequired);
+ for(const passcodeRequired of [true,false,'public',null,undefined])assert.throws(()=>model.normalizeCommunityRestroomInput({...valid(),passcodeRequired},now));
+ assert.equal(model.sameCommunityRestroomInput(valid(),{...valid(),passcodeRequired:'unknown'}),true);
+ assert.equal(model.sameCommunityRestroomInput(valid(),{...valid(),passcodeRequired:'yes'}),false);
+ assert.equal(model.normalizeCommunityRestroomInput({...valid(),entryRule:'customers',passcodeRequired:'no'},now).entryRule,'customers');
+});
+
+test('public listing normalization rejects code content and privacy instead of leaking it into venue data',()=>{
+ for(const extra of [{code:'0000#'},{visibility:'private'},{passcode:{code:'0000#',visibility:'private'}}])assert.throws(()=>model.normalizeCommunityRestroomInput({...valid(),...extra},now));
+ const normalized=model.normalizeCommunityRestroomInput({...valid(),passcodeRequired:'yes'},now);
+ assert.equal('code'in normalized,false);assert.equal('visibility'in normalized,false);assert.equal('passcode'in normalized,false);
+});

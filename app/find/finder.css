@@ -257,3 +257,51 @@
 .finder-log-open{margin-top:0;flex-shrink:0;white-space:nowrap}
 @media(max-width:850px){.finder-log-heading-actions{flex-direction:column;align-items:flex-end;gap:10px}}
 @media(max-width:650px){.finder-page-heading:has(.finder-log-heading-actions){flex-wrap:wrap;gap:16px}.finder-log-heading-actions{width:100%;align-items:stretch}.finder-log-open{width:100%;justify-content:center}}
+
+.finder-passcodes{min-width:0}
+.finder-passcodes h4{font:600 14px/1.5 var(--sans);margin:0}
+.finder-passcode-own{margin-top:18px;padding:14px;border:1px solid #aabac3;background:#f5f7f8;min-width:0}
+.finder-passcode-own-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.finder-passcode-badge{display:inline-flex;align-items:center;gap:5px;border:1px solid #aabac3;padding:3px 7px;background:white;color:#43545c;font:11px/1.5 var(--mono)}
+.finder-passcode-badge.is-private{border-style:dashed;color:#2b59c3}
+.finder-passcode-value{display:block;max-width:100%;margin-top:12px;padding:11px 12px;border:1px solid #ccd7dc;background:white;color:#1e2a30;font:600 23px/1.4 var(--mono);letter-spacing:.02em;white-space:pre-wrap;overflow-wrap:anywhere;user-select:all}
+.finder-passcode-dates{margin:12px 0 0;font-size:11px;line-height:1.65}
+.finder-passcode-dates>div{display:grid;grid-template-columns:90px minmax(0,1fr);gap:10px;padding-block:4px;border-bottom:1px dotted #ccd7dc}
+.finder-passcode-dates dt{color:#56666e}
+.finder-passcode-dates dd{margin:0;color:#1e2a30;overflow-wrap:anywhere}
+.finder-passcode-status,.finder-passcode-save-note{font-size:12px;line-height:1.65;color:#56666e;margin-top:12px}
+.finder-passcode-save-note{padding:10px 12px;border-left:2px solid #2b59c3;background:#eef2f8;color:#1e2a30}
+.finder-passcode-actions{display:flex;align-items:stretch;flex-wrap:wrap;gap:8px;margin-top:14px}
+.finder-passcodes .finder-secondary-button{margin-top:0;white-space:normal;text-align:left;font-size:12px!important;min-height:44px}
+.finder-passcode-actions .finder-primary-button{white-space:normal;font-size:13px!important;min-height:44px}
+.finder-passcode-delete{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid #aabac3;border-radius:2px;padding:8px 10px;background:white;color:#8d281f;font-size:12px!important;min-height:44px}
+.finder-passcode-delete:disabled{opacity:.65;cursor:default}
+.finder-passcode-delete-confirm{padding-top:12px;margin-top:12px;border-top:1px dashed #82969f;font-size:12px;line-height:1.65}
+.finder-passcode-form{margin-top:16px;padding-top:14px;border-top:1px solid #ccd7dc;min-width:0}
+.finder-passcode-field{min-width:0}
+.finder-passcode-field>label{display:block;font-size:13px;font-weight:600;margin-bottom:7px}
+.finder-passcode-field>input{display:block;width:100%;min-width:0;max-width:100%;min-height:44px;border:1px solid #56666e;border-radius:2px;padding:10px 11px;background:white;color:#1e2a30;font:16px/1.5 var(--mono)}
+.finder-passcode-field>p{font-size:12px;line-height:1.65;color:#56666e;margin-top:7px}
+.finder-passcode-visibility{margin:16px 0 0!important;padding:0!important;border:0!important;min-width:0}
+.finder-passcode-visibility legend{font-size:13px;font-weight:600;margin-bottom:8px;padding:0}
+.finder-passcode-choice{display:flex;align-items:flex-start;gap:10px;padding:10px;margin-top:8px;border:1px solid #aabac3;border-radius:2px;background:white;min-height:56px;cursor:pointer}
+.finder-passcode-choice.is-selected{border-color:#2b59c3;background:#f1f4fb}
+.finder-passcode-choice>input{display:block!important;flex-shrink:0!important;width:18px!important;height:18px!important;min-height:18px!important;padding:0!important;margin:3px 0 0!important;accent-color:#2b59c3}
+.finder-passcode-choice>span{display:grid;gap:3px;min-width:0}
+.finder-passcode-choice strong{display:flex;align-items:center;gap:6px;font-size:13px;line-height:1.5}
+.finder-passcode-choice>span>span{font-size:12px;line-height:1.6;color:#56666e}
+.finder-passcode-visibility:disabled .finder-passcode-choice{cursor:default;opacity:.75}
+.finder-passcode-public{margin-top:22px;min-width:0}
+.finder-passcode-report{margin-top:14px;padding:14px;border:1px solid #ccd7dc;background:white;min-width:0}
+.finder-passcode-label{display:flex;align-items:center;gap:6px;font-size:11px;line-height:1.5;color:#56666e}
+.finder-passcodes .finder-passcode-verify{margin-top:12px}
+.finder-passcode-older{margin-top:12px}
+.finder-passcode-older>summary{min-height:44px;padding-block:12px;font-size:12px;color:#2b59c3;cursor:pointer}
+.finder-passcode-sign-in{margin-top:18px;padding-top:14px;border-top:1px solid #ccd7dc}
+.finder-passcode-sign-in>p{font-size:12px;line-height:1.65;color:#56666e;margin-bottom:12px}
+.finder-passcode-success{display:flex;align-items:start;gap:6px;margin-top:14px;font-size:12px;line-height:1.65;color:#2b59c3}
+.finder-passcode-success>svg{flex-shrink:0;margin-top:2px}
+.finder-log-passcode{margin-top:16px;padding:14px;border:1px dashed #82969f;background:#f5f7f8;min-width:0}
+.finder-log-passcode .finder-log-field{margin-top:0}
+@media(max-width:650px){.finder-passcodes h4{font-size:15px}.finder-passcode-own,.finder-passcode-report{padding:14px}.finder-passcode-value{font-size:25px}.finder-passcode-dates{font-size:12px}.finder-passcode-status,.finder-passcode-save-note,.finder-passcode-label,.finder-passcode-sign-in>p{font-size:13px}.finder-passcodes .finder-secondary-button,.finder-passcode-delete{font-size:13px!important;min-height:44px}.finder-passcode-choice strong{font-size:14px}.finder-passcode-choice>span>span{font-size:13px}.finder-passcode-older>summary{font-size:13px}}
+@media(max-width:350px){.finder-passcode-dates>div{grid-template-columns:1fr;gap:2px}.finder-passcode-actions>button{width:100%;justify-content:center}.finder-passcode-own,.finder-passcode-report{padding:12px}}

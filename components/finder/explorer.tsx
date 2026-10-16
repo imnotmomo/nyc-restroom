@@ -8,7 +8,8 @@ import { FirebaseAccountButton, useFirebaseAccount } from "@/components/firebase
 import { PersonalNotes, RestroomDetail } from "@/components/finder/detail";
 import { RestroomRatings } from "@/components/finder/ratings";
 import { LogRestroomForm } from "@/components/finder/log-restroom";
-import { COMMUNITY_FEED_LIMIT, communityRestroomToPlace, createCommunityRestroom, watchCommunityRestrooms, type CommunityRestroomInput, type CommunityRestroomRecord } from "@/lib/community-restrooms";
+import { PasscodePanel } from "@/components/finder/passcode-panel";
+import { COMMUNITY_FEED_LIMIT, communityRestroomToPlace, createCommunityRestroom, watchCommunityRestrooms, type LogRestroomInput, type CommunityRestroomRecord } from "@/lib/community-restrooms";
 import { COLUMBIA, datasetSource, distanceMeters, formatDistance, isWithinCollection, matchesRestroom, restrooms, sourceDateLabel, type Coordinates } from "@/lib/restrooms";
 import { deleteVisitNote, readLibrary, saveVisitNote, setFavorite, type VisitNote, type VisitNoteInput } from "@/lib/user-data";
 import { locationAvailabilityError, requestBrowserLocation } from "@/lib/location";
@@ -177,7 +178,7 @@ export function RestroomExplorer() {
 
   useEffect(() => {
     let cancelled = false;
-    setLibrary({ uid, favoriteIDs: [], notes: [] });
+    setLibrary((value) => value.uid === uid ? value : { uid, favoriteIDs: [], notes: [] });
     setLibraryError(null);
     setMessage(null);
     setFavoriteBusy(false);
@@ -251,7 +252,16 @@ export function RestroomExplorer() {
     requestAnimationFrame(() => logButton.current?.focus());
   }
 
-  async function logRestroom(input: CommunityRestroomInput, requestID: string): Promise<boolean> {
+  const reflectPrivateSave = useCallback((owner: string, placeID: string) => {
+    if (currentUID.current !== owner) return;
+    // Called only after the atomic code + saved-place write is confirmed.
+    setLibrary((value) => value.uid === owner ? {
+      ...value, favoriteIDs: [...new Set([...value.favoriteIDs, placeID])],
+    } : value);
+    setLibraryRetry((value) => value + 1);
+  }, []);
+
+  async function logRestroom(input: LogRestroomInput, requestID: string): Promise<boolean> {
     if (!uid || logInFlight.current) return false;
     const owner = uid;
     const operation = ++logOperation.current;
@@ -263,6 +273,7 @@ export function RestroomExplorer() {
       const record = await createCommunityRestroom(owner, input, requestID);
       if (!isCurrent()) return false;
       setConfirmedSubmissions((records) => [...records.filter((item) => item.id !== record.id), record]);
+      if (input.passcode?.visibility === "private") reflectPrivateSave(owner, record.id);
       setQuery("");
       setFilter("all");
       setShowLogForm(false);
@@ -458,7 +469,7 @@ export function RestroomExplorer() {
 
         <section className="finder-map-panel" aria-label="Map view"><RestroomMap places={mapPlaces} selectedID={selectedID} onSelect={selectPlace} userLocation={userLocation} locationRequestID={locationRequestID} /><div className="finder-area-label"><span className="finder-overline">NYC restroom map</span><strong>New York City</strong><span>City listings and visitor reports.</span></div></section>
 
-        {selected && <RestroomDetail restroom={selected} distance={distanceMeters(origin, selected)} originLabel={originLabel} userLocation={userLocation} saved={favoriteIDs.includes(selected.id)} saving={favoriteBusy || libraryLoading} onToggleFavorite={() => void toggleFavorite()} onClose={closePlace} ratingContent={<RestroomRatings key={`${uid ?? "signed-out"}:${selected.id}`} summary={ratings[selected.id] ?? null} publicLoading={ratingsLoading} publicError={ratingsError} ownRating={ownRating?.uid === uid && ownRating.placeID === selected.id ? ownRating.rating : null} ownLoading={ownRatingLoading || Boolean(uid && (!ownRating || ownRating.uid !== uid || ownRating.placeID !== selected.id) && !ownRatingError)} ownError={ownRatingError} signedIn={Boolean(uid)} authLoading={account.loading} configured={account.configured} saving={ratingBusy} onSignIn={() => void account.signInWithGoogle()} onSave={saveRating} onRetry={() => setRatingsRetry((value) => value + 1)} />} feedback={account.error || message || libraryError} onRetryLibrary={libraryError ? () => setLibraryRetry((value) => value + 1) : undefined} personalContent={<PersonalNotes key={`${uid ?? "signed-out"}:${selected.id}`} placeID={selected.id} signedIn={Boolean(uid)} configured={account.configured} loading={account.loading || libraryLoading} saving={noteBusy} notes={privateNotes.filter((note) => note.placeID === selected.id)} onSignIn={() => void account.signInWithGoogle()} onSave={addNote} onDelete={removeNote} />} />}
+        {selected && <RestroomDetail restroom={selected} distance={distanceMeters(origin, selected)} originLabel={originLabel} userLocation={userLocation} saved={favoriteIDs.includes(selected.id)} saving={favoriteBusy || libraryLoading} onToggleFavorite={() => void toggleFavorite()} onClose={closePlace} passcodeContent={<PasscodePanel key={`${uid ?? "signed-out"}:${selected.id}`} placeID={selected.id} uid={uid} accountLoading={account.loading} authError={account.error} onSignIn={() => void account.signInWithGoogle()} onPrivateSaved={reflectPrivateSave} />} ratingContent={<RestroomRatings key={`${uid ?? "signed-out"}:${selected.id}`} summary={ratings[selected.id] ?? null} publicLoading={ratingsLoading} publicError={ratingsError} ownRating={ownRating?.uid === uid && ownRating.placeID === selected.id ? ownRating.rating : null} ownLoading={ownRatingLoading || Boolean(uid && (!ownRating || ownRating.uid !== uid || ownRating.placeID !== selected.id) && !ownRatingError)} ownError={ownRatingError} signedIn={Boolean(uid)} authLoading={account.loading} configured={account.configured} saving={ratingBusy} onSignIn={() => void account.signInWithGoogle()} onSave={saveRating} onRetry={() => setRatingsRetry((value) => value + 1)} />} feedback={account.error || message || libraryError} onRetryLibrary={libraryError ? () => setLibraryRetry((value) => value + 1) : undefined} personalContent={<PersonalNotes key={`${uid ?? "signed-out"}:${selected.id}`} placeID={selected.id} signedIn={Boolean(uid)} configured={account.configured} loading={account.loading || libraryLoading} saving={noteBusy} notes={privateNotes.filter((note) => note.placeID === selected.id)} onSignIn={() => void account.signInWithGoogle()} onSave={addNote} onDelete={removeNote} />} />}
       </div>
       <footer className="finder-footer"><p>NYC Open Data · {restrooms.length} city-listed locations · {communityPlaces.length} visitor submissions loaded · Source details are dated.</p><div><Link href="/privacy/">Privacy</Link><Link href="/">About Restroom Ready <ArrowUpRight size={14} /></Link></div></footer>
     </main>

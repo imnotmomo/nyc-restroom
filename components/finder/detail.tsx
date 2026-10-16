@@ -15,8 +15,9 @@ function submissionDate(value: string): string {
 
 const entryLabels = { public: "Public entry reported", customers: "Customers only reported", unknown: "Not reported" };
 const routeLabels = { yes: "Yes — visitor reported", no: "No — visitor reported", unknown: "Not reported" };
+const codeRequiredLabels = { yes: "Yes — visitor reported", no: "No — visitor reported", unknown: "Not reported" };
 
-export function RestroomDetail({ restroom, distance, originLabel, userLocation, saved, saving, onToggleFavorite, onClose, ratingContent, personalContent, feedback, onRetryLibrary }: {
+export function RestroomDetail({ restroom, distance, originLabel, userLocation, saved, saving, onToggleFavorite, onClose, passcodeContent, ratingContent, personalContent, feedback, onRetryLibrary }: {
   restroom: Restroom;
   distance: number;
   originLabel: string;
@@ -25,6 +26,7 @@ export function RestroomDetail({ restroom, distance, originLabel, userLocation, 
   saving: boolean;
   onToggleFavorite: () => void;
   onClose: () => void;
+  passcodeContent?: ReactNode;
   ratingContent: ReactNode;
   personalContent: ReactNode;
   feedback: string | null;
@@ -54,6 +56,7 @@ export function RestroomDetail({ restroom, distance, originLabel, userLocation, 
       <h3><DoorOpen size={19} />Entry</h3>
       <dl>
         {community && <FactRow label="Entry permission — visitor report" value={entryLabels[community.entryRule]} unknown={community.entryRule === "unknown"} />}
+        <FactRow label={community ? "Code required — visitor report" : "Code required"} value={codeRequiredLabels[community?.passcodeRequired ?? "unknown"]} unknown={!community?.passcodeRequired || community.passcodeRequired === "unknown"} />
         <FactRow label="Purchase required" value={restroom.purchaseRequired === null ? "Not reported" : restroom.purchaseRequired ? "Yes" : "No"} unknown={restroom.purchaseRequired === null} />
         {restroom.address && <FactRow label="Address" value={restroom.address} />}
         <FactRow label="Published hours" value={fact(restroom.hours)} unknown={!restroom.hours} />
@@ -86,6 +89,7 @@ export function RestroomDetail({ restroom, distance, originLabel, userLocation, 
       <p className="finder-field-note">Soap, toilet paper, and stall conditions have not been reported in {community ? "this submission" : "this source"}.</p>
     </section>
 
+    {passcodeContent && <div className="finder-detail-section">{passcodeContent}</div>}
     <div className="finder-detail-section">{ratingContent}</div>
     <section className="finder-detail-section finder-personal-section">{personalContent}</section>
 

@@ -5,8 +5,9 @@ import {
 import { getFirebaseClient, getFirebaseConfigurationError, type FirebaseClient } from "@/lib/firebase-client";
 import {
   isCommunityRestroomID, normalizeCommunityRestroomInput, normalizeRecordedCommunityRestroomInput, sameCommunityRestroomInput,
-  type CommunityRestroomInput, type CommunityRestroomRecord,
+  type CommunityRestroomInput, type CommunityRestroomRecord, type LogRestroomInput,
 } from "@/lib/community-restroom-model";
+import { appendInitialPasscodeWrites, confirmInitialPasscode, normalizePasscodeInput } from "@/lib/passcodes";
 import type { Restroom } from "@/lib/restrooms";
 export type { CommunityRestroomInput, CommunityRestroomRecord, LogRestroomInput } from "@/lib/community-restroom-model";
 export { COMMUNITY_RESTROOM_BOUNDS, isCommunityRestroomID } from "@/lib/community-restroom-model";
@@ -37,7 +38,7 @@ function readableError(error: unknown): Error {
 }
 
 function decodeRecord(id: string, data: DocumentData): CommunityRestroomRecord {
-  if (!isCommunityRestroomID(id) || Object.keys(data).length !== 10 || !(data.submittedAt instanceof Timestamp)
+  if (!isCommunityRestroomID(id) || ![10, 11].includes(Object.keys(data).length) || !(data.submittedAt instanceof Timestamp)
     || !Number.isFinite(data.submittedAt.toMillis()) || (data.observedOn !== null && !(data.observedOn instanceof Timestamp))) {
     throw new CommunityRestroomError("A community restroom couldn’t be read safely. Refresh or ask the team to check its format.");
   }
@@ -93,7 +94,7 @@ export function communityRestroomToPlace(record: CommunityRestroomRecord): Restr
     purchaseRequired: null,
     restroomFloor: null, stairsToRestroom: null,
     cleanliness: null, observationDate: record.observedOn,
-    communitySource: { submittedAt: record.submittedAt.toISOString(), observedOn: record.observedOn, entryRule: record.entryRule, stepFreeAccess: record.stepFreeAccess },
+    communitySource: { submittedAt: record.submittedAt.toISOString(), observedOn: record.observedOn, entryRule: record.entryRule, stepFreeAccess: record.stepFreeAccess, passcodeRequired: record.passcodeRequired ?? "unknown" },
   };
 }
 
@@ -115,8 +116,15 @@ async function readConfirmedSubmission(database: Firestore, client: FirebaseClie
   return record;
 }
 
-export async function createCommunityRestroom(uid: string, input: CommunityRestroomInput, id = newCommunityRestroomID()): Promise<CommunityRestroomRecord> {
-  const normalized = normalizeCommunityRestroomInput(input);
+export async function createCommunityRestroom(uid: string, input: LogRestroomInput, id = newCommunityRestroomID()): Promise<CommunityRestroomRecord> {
+  if (input === null || typeof input !== "object" || Array.isArray(input)) throw new CommunityRestroomError("Check the restroom details before saving.");
+  // Keep code content and privacy out of the public immutable venue payload.
+  const { passcode: passcodeDraft, ...listingInput } = input;
+  const normalized = normalizeCommunityRestroomInput(listingInput);
+  let passcode;
+  try { passcode = passcodeDraft === undefined ? undefined : normalizePasscodeInput(passcodeDraft); }
+  catch { throw new CommunityRestroomError("Check the optional code and who can see it. Use 1–40 standard keyboard characters."); }
+  if (passcode && normalized.passcodeRequired !== "yes") throw new CommunityRestroomError("Choose Code required before adding an optional code.");
   if (!isCommunityRestroomID(id)) throw new CommunityRestroomError("This form’s request ID is invalid. Reopen the form before submitting.");
   const client = requireClient();
   assertAccount(client, uid);
@@ -125,6 +133,7 @@ export async function createCommunityRestroom(uid: string, input: CommunityRestr
     const existing = await readConfirmedSubmission(database, client, uid, id);
     if (existing) {
       if (!sameCommunityRestroomInput(existing, normalized)) throw new CommunityRestroomError("An earlier version of this form was already saved. Close the form and find that restroom on the map before logging it again.");
+      if (passcode) await confirmInitialPasscode(uid, id, passcode);
       return existing;
     }
     assertAccount(client, uid, true);
@@ -134,6 +143,7 @@ export async function createCommunityRestroom(uid: string, input: CommunityRestr
     });
     batch.set(doc(database, "restroomSubmissions", id), { ownerUID: uid, submittedAt: serverTimestamp() });
     batch.set(doc(database, "restroomRatingSummaries", id), { ratingCount: 0, ratingSum: 0, updatedAt: serverTimestamp() });
+    if (passcode) appendInitialPasscodeWrites(batch, database, uid, id, passcode);
     assertAccount(client, uid, true);
     try { await batch.commit(); }
     catch (error) {
@@ -142,11 +152,13 @@ export async function createCommunityRestroom(uid: string, input: CommunityRestr
       const recovered = await readConfirmedSubmission(database, client, uid, id);
       if (!recovered) throw error;
       if (!sameCommunityRestroomInput(recovered, normalized)) throw new CommunityRestroomError("An earlier version of this form was already saved. Close the form and find that restroom on the map before logging it again.");
+      if (passcode) await confirmInitialPasscode(uid, id, passcode);
       return recovered;
     }
     assertAccount(client, uid, true);
     const confirmed = await readConfirmedSubmission(database, client, uid, id);
     if (!confirmed || !sameCommunityRestroomInput(confirmed, normalized)) throw new CommunityRestroomError("The restroom save couldn’t be confirmed. Retry this form before creating a new request.");
+    if (passcode) await confirmInitialPasscode(uid, id, passcode);
     return confirmed;
   } catch (error) { assertAccount(client, uid, true); throw readableError(error); }
 }

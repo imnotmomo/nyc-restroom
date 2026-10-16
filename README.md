@@ -1,6 +1,6 @@
 # Restroom Ready
 
-A mobile-first NYC restroom project. This release includes a homepage, three value-proposition pages, and a durable email waitlist. The marketing illustration remains an example. `/find/` is a working map/list of 1,064 city-listed locations across NYC, with public community cleanliness ratings, Google Sign-in, visitor-submitted locations, and account-owned saved places and private visit notes in Firebase. The directory uses a dated official snapshot and does not establish current availability or complete restroom coverage.
+A mobile-first NYC restroom project. This release includes a homepage, three value-proposition pages, and a durable email waitlist. The marketing illustration remains an example. `/find/` is a working map/list of 1,064 city-listed locations across NYC, with public community cleanliness ratings, Google Sign-in, visitor-submitted locations, account-owned saved places and private visit notes, and private or shared restroom passcodes in Firebase. The directory uses a dated official snapshot and does not establish current availability or complete restroom coverage.
 
 ## Run locally
 
@@ -30,13 +30,13 @@ The production preview runs the built pages and the same signup validation using
 - `/dated-reports/` — sources, observation dates, and uncertainty
 - `/thank-you/` — signup confirmation
 - `/privacy/` — stored information and contact/removal options
-- `/find/` — real city listings, map/search, source details, walking directions, Google accounts, login-only new-location logging, saved places, and private visit notes
+- `/find/` — real city listings, map/search, source details, walking directions, Google accounts, login-only new-location logging, dated private/shared passcodes, saved places, and private visit notes
 
 ## Firebase web app
 
 Firebase project: `nye-restroom`. Registered app: **Restroom Ready Web**, `1:547771536579:web:f651ddda4a81b2e9297e76`. The public SDK identifiers are in `firebase/web-config.json`; environment variables can override them. These client identifiers are not admin credentials. Account data is protected by Firestore rules. See [Firebase setup](docs/firebase-setup.md) for provider configuration, rules, and verification.
 
-The existing Standard `(default)` database in `nam5` stores private saved places and notes, public rating summaries, and visitor-submitted locations. Signed-in users can log a missing restroom; everyone can browse its details. Only the 1,000 most recent visitor submissions load alongside the city snapshot. Names, addresses, chosen coordinates, optional notes, and report dates are public; account identities stay in a separate private receipt. Community entry/route reports do not imply a city accessibility label. See [Log a restroom](docs/features/log-restroom.md) for the schema and verification. The source-backed directory is bundled in `data/nyc-restrooms/`, with a reproducible import script. It is historical source data, not a live availability feed.
+The existing Standard `(default)` database in `nam5` stores private saved places and notes, public rating summaries, and visitor-submitted locations. Signed-in users can log a missing restroom; everyone can browse its details. Only the 1,000 most recent visitor submissions load alongside the city snapshot. Names, addresses, chosen coordinates, optional notes, and report dates are public; account identities stay in a separate private receipt. Community entry/route reports do not imply a city accessibility label. See [Log a restroom](docs/features/log-restroom.md) for the schema and verification. Passcodes default to Only me and automatically save the place; owners can later choose Everyone. Public reports show separate code-update and successful-use verification times. Code changes clear verification, and only the owner can change visibility. See [Restroom passcodes](docs/features/restroom-passcodes.md). The source-backed directory is bundled in `data/nyc-restrooms/`, with a reproducible import script. It is historical source data, not a live availability feed.
 
 ## Analytics
 

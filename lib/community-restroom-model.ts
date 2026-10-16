@@ -1,9 +1,12 @@
+import type { PasscodeInput } from "@/lib/passcode-model";
+
 /** Visitor-submitted facts are reports, not a city accessibility certification. */
 export const COMMUNITY_RESTROOM_BOUNDS = { south: 40.49, north: 40.93, west: -74.26, east: -73.68 } as const;
 export const COMMUNITY_LOCATION_TYPES = ["park", "library", "cafe", "restaurant", "store", "other"] as const;
 export type CommunityLocationType = typeof COMMUNITY_LOCATION_TYPES[number];
 export type CommunityEntryRule = "public" | "customers" | "unknown";
 export type CommunityStepFreeAccess = "yes" | "no" | "unknown";
+export type CommunityPasscodeRequired = "yes" | "no" | "unknown";
 
 export interface CommunityRestroomInput {
   name: string;
@@ -15,8 +18,10 @@ export interface CommunityRestroomInput {
   stepFreeAccess: CommunityStepFreeAccess;
   notes: string;
   observedOn: string | null;
+  /** Missing on legacy reports; decode as unknown, never as a negative report. */
+  passcodeRequired?: CommunityPasscodeRequired;
 }
-export type LogRestroomInput = CommunityRestroomInput;
+export interface LogRestroomInput extends CommunityRestroomInput { passcode?: PasscodeInput }
 export interface CommunityRestroomRecord extends CommunityRestroomInput { id: string; submittedAt: Date }
 
 const keys = ["name", "address", "latitude", "longitude", "locationType", "entryRule", "stepFreeAccess", "notes", "observedOn"];
@@ -39,7 +44,7 @@ export function isValidCommunityObservationDate(value: unknown, now = new Date()
 export function normalizeCommunityRestroomInput(value: unknown, now = new Date()): CommunityRestroomInput {
   if (value === null || typeof value !== "object" || Array.isArray(value)) throw new Error("Check the restroom details before saving.");
   const data = value as Record<string, unknown>;
-  if (Object.keys(data).length !== keys.length || Object.keys(data).some((key) => !keys.includes(key))) {
+  if (!keys.every((key) => Object.hasOwn(data, key)) || Object.keys(data).some((key) => !keys.includes(key) && key !== "passcodeRequired")) {
     throw new Error("Check the restroom details before saving. Only the listed fields can be submitted.");
   }
   const text = (field: "name" | "address" | "notes", maximum: number, required: boolean): string => {
@@ -60,17 +65,20 @@ export function normalizeCommunityRestroomInput(value: unknown, now = new Date()
   if (!COMMUNITY_LOCATION_TYPES.includes(data.locationType as CommunityLocationType)) throw new Error("Choose a location type.");
   if (typeof data.entryRule !== "string" || !["public", "customers", "unknown"].includes(data.entryRule)) throw new Error("Choose an entry rule, or leave it as not reported.");
   if (typeof data.stepFreeAccess !== "string" || !["yes", "no", "unknown"].includes(data.stepFreeAccess)) throw new Error("Choose a step-free route report, or leave it as not reported.");
+  const passcodeRequired = Object.hasOwn(data, "passcodeRequired") ? data.passcodeRequired : "unknown";
+  if (typeof passcodeRequired !== "string" || !["yes", "no", "unknown"].includes(passcodeRequired)) throw new Error("Choose a code requirement, or leave it as not reported.");
   if (!isValidCommunityObservationDate(data.observedOn, now)) throw new Error("Use a real observation date from 2000 through today, or leave the date blank.");
   return {
     name: text("name", 120, true), address: text("address", 240, true), latitude, longitude,
     locationType: data.locationType as CommunityLocationType,
     entryRule: data.entryRule as CommunityEntryRule, stepFreeAccess: data.stepFreeAccess as CommunityStepFreeAccess,
-    notes: text("notes", 1000, false), observedOn: data.observedOn,
+    notes: text("notes", 1000, false), observedOn: data.observedOn, passcodeRequired: passcodeRequired as CommunityPasscodeRequired,
   };
 }
 
 export function sameCommunityRestroomInput(left: CommunityRestroomInput, right: CommunityRestroomInput): boolean {
-  return keys.every((key) => left[key as keyof CommunityRestroomInput] === right[key as keyof CommunityRestroomInput]);
+  return keys.every((key) => left[key as keyof CommunityRestroomInput] === right[key as keyof CommunityRestroomInput])
+    && (left.passcodeRequired ?? "unknown") === (right.passcodeRequired ?? "unknown");
 }
 
 /** Stored dates are checked against server submission time, never the reader's clock. */

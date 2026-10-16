@@ -26,6 +26,21 @@
 // submittedAt:timestamp (same server time). No public name/email/UID fields accepted.
 // The three creation documents are atomic. Public GET and bounded latest-feed LIST
 // expose venue reports; only the owner can GET their receipt. No receipt LIST.
+// communityRestrooms may additionally contain passcodeRequired:yes/no/unknown.
+// Codes never belong in that public listing document.
+// users/{uid}/restroomReadyPasscodes/{placeID}: private owner record, exact keys
+// placeID:string, reportID:20 alphanumeric chars (immutable), code:trimmed printable
+// ASCII (1..40), visibility:private/public, createdAt:timestamp (immutable),
+// codeUpdatedAt:timestamp, lastVerifiedAt:null/timestamp. Code edits clear checks.
+// restroomPasscodeOwners/{reportID}: immutable private ownership reservation,
+// ownerUID:string (1..128), placeID:string, createdAt:timestamp. Created with the
+// first own record; removed only with the own record and public projection.
+// restroomPasscodeReports/{placeID}/reports/{reportID}: public projection, exact
+// keys placeID, code, codeUpdatedAt, lastVerifiedAt; no account identity. Public
+// selected-place queries are bounded to 10. Only the reserved owner edits code.
+// users/{uid}/restroomReadyPasscodeChecks/{reportID}: private verification receipt,
+// exact placeID, codeUpdatedAt and verifiedAt:timestamp (server time). A public
+// check changes only lastVerifiedAt, atomically with a receipt for that version.
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -47,7 +62,8 @@ service cloud.firestore {
     function isValidSaved(data, placeID) {
       return data.keys().hasAll(['placeID', 'savedAt'])
         && data.keys().hasOnly(['placeID', 'savedAt'])
-        && validPlaceID(data.placeID) && data.placeID == placeID
+        && (validPlaceID(data.placeID) || (isCommunityPlaceID(data.placeID)
+          && isNewCommunitySubmission(data.placeID))) && data.placeID == placeID
         && data.savedAt is timestamp && data.savedAt == request.time;
     }
     function isValidNote(data) {
@@ -114,7 +130,7 @@ service cloud.firestore {
       return data.keys().hasAll(['name', 'address', 'latitude', 'longitude', 'locationType',
           'entryRule', 'stepFreeAccess', 'notes', 'observedOn', 'submittedAt'])
         && data.keys().hasOnly(['name', 'address', 'latitude', 'longitude', 'locationType',
-          'entryRule', 'stepFreeAccess', 'notes', 'observedOn', 'submittedAt'])
+          'entryRule', 'stepFreeAccess', 'notes', 'observedOn', 'submittedAt', 'passcodeRequired'])
         && isValidCommunityText(data.name) && data.name.size() > 0 && data.name.size() <= 120
         && data.name.matches('.*[^\\s\\x{00A0}\\x{1680}\\x{2000}-\\x{200A}\\x{2028}\\x{2029}\\x{202F}\\x{205F}\\x{3000}\\x{FEFF}].*')
         && isValidCommunityText(data.address) && data.address.size() > 0 && data.address.size() <= 240
@@ -124,6 +140,7 @@ service cloud.firestore {
         && data.locationType in ['park', 'library', 'cafe', 'restaurant', 'store', 'other']
         && data.entryRule in ['public', 'customers', 'unknown']
         && data.stepFreeAccess in ['yes', 'no', 'unknown']
+        && (!('passcodeRequired' in data) || data.passcodeRequired in ['yes', 'no', 'unknown'])
         && isValidCommunityText(data.notes) && data.notes.size() <= 1000
         && (data.observedOn == null || (data.observedOn is timestamp
           && data.observedOn >= timestamp.date(2000, 1, 1) && data.observedOn <= request.time
@@ -150,6 +167,192 @@ service cloud.firestore {
         && isValidCommunityRestroom(listing) && isValidSubmissionReceipt(receipt)
         && isValidRatingSummary(summary) && summary.ratingCount == 0 && summary.ratingSum == 0
         && summary.updatedAt == request.time;
+    }
+    function isPasscodeReportID(value) {
+      return value is string && value.size() == 20 && value.matches('^[a-zA-Z0-9]{20}$');
+    }
+    function isPasscodePlaceID(value) {
+      return value is string && value.size() > 0 && value.size() <= 128
+        && value.matches('^[^/]+$')
+        && existsAfter(/databases/$(database)/documents/restroomRatingSummaries/$(value))
+        && (!value.matches('^community-.*') || (isCommunityPlaceID(value)
+          && existsAfter(/databases/$(database)/documents/communityRestrooms/$(value))));
+    }
+    function isValidPasscodeText(value) {
+      return value is string && value.size() > 0 && value.size() <= 40
+        && value.matches('^[!-~]([ -~]*[!-~])?$');
+    }
+    function isValidPasscodeTimes(data) {
+      return data.codeUpdatedAt is timestamp
+        && data.codeUpdatedAt >= timestamp.date(2000, 1, 1)
+        && data.codeUpdatedAt <= request.time
+        && (data.lastVerifiedAt == null || (data.lastVerifiedAt is timestamp
+          && data.lastVerifiedAt >= data.codeUpdatedAt && data.lastVerifiedAt <= request.time));
+    }
+    function isValidOwnPasscode(data, placeID) {
+      return data.keys().hasAll(['placeID', 'reportID', 'code', 'visibility',
+          'createdAt', 'codeUpdatedAt', 'lastVerifiedAt'])
+        && data.keys().hasOnly(['placeID', 'reportID', 'code', 'visibility',
+          'createdAt', 'codeUpdatedAt', 'lastVerifiedAt'])
+        && data.placeID == placeID && isPasscodePlaceID(data.placeID)
+        && isPasscodeReportID(data.reportID) && isValidPasscodeText(data.code)
+        && data.visibility in ['private', 'public']
+        && data.createdAt is timestamp && data.createdAt >= timestamp.date(2000, 1, 1)
+        && data.createdAt <= data.codeUpdatedAt && isValidPasscodeTimes(data);
+    }
+    function isValidPasscodeOwner(data, reportID) {
+      return isPasscodeReportID(reportID)
+        && data.keys().hasAll(['ownerUID', 'placeID', 'createdAt'])
+        && data.keys().hasOnly(['ownerUID', 'placeID', 'createdAt'])
+        && data.ownerUID is string && data.ownerUID.size() > 0 && data.ownerUID.size() <= 128
+        && data.ownerUID == request.auth.uid && isPasscodePlaceID(data.placeID)
+        && data.createdAt is timestamp && data.createdAt >= timestamp.date(2000, 1, 1)
+        && data.createdAt <= request.time;
+    }
+    function isValidPublicPasscode(data, placeID) {
+      return data.keys().hasAll(['placeID', 'code', 'codeUpdatedAt', 'lastVerifiedAt'])
+        && data.keys().hasOnly(['placeID', 'code', 'codeUpdatedAt', 'lastVerifiedAt'])
+        && data.placeID == placeID && isPasscodePlaceID(data.placeID)
+        && isValidPasscodeText(data.code) && isValidPasscodeTimes(data);
+    }
+    function isValidPasscodeCheck(data) {
+      return data.keys().hasAll(['placeID', 'codeUpdatedAt', 'verifiedAt'])
+        && data.keys().hasOnly(['placeID', 'codeUpdatedAt', 'verifiedAt'])
+        && isPasscodePlaceID(data.placeID) && data.codeUpdatedAt is timestamp
+        && data.codeUpdatedAt >= timestamp.date(2000, 1, 1)
+        && data.verifiedAt is timestamp && data.verifiedAt == request.time
+        && data.codeUpdatedAt <= data.verifiedAt;
+    }
+    function passcodeIsSaved(uid, placeID) {
+      let saved = getAfter(/databases/$(database)/documents/users/$(uid)/restroomReadySaved/$(placeID));
+      return saved != null && saved.data.keys().hasAll(['placeID', 'savedAt'])
+        && saved.data.keys().hasOnly(['placeID', 'savedAt'])
+        && saved.data.placeID == placeID && saved.data.savedAt is timestamp
+        && saved.data.savedAt <= request.time;
+    }
+    function passcodeReservationMatches(uid, placeID, own) {
+      let reservation = getAfter(/databases/$(database)/documents/restroomPasscodeOwners/$(own.reportID));
+      return reservation != null && isValidPasscodeOwner(reservation.data, own.reportID)
+        && reservation.data.ownerUID == uid && reservation.data.placeID == placeID
+        && reservation.data.createdAt == own.createdAt;
+    }
+    function passcodeProjectionMatches(placeID, own, oldOwn) {
+      let path = /databases/$(database)/documents/restroomPasscodeReports/$(placeID)/reports/$(own.reportID);
+      let before = get(path);
+      let after = getAfter(path);
+      let samePublicCode = oldOwn.get('visibility', '') == 'public'
+        && oldOwn.get('code', '') == own.code;
+      let expectedCheck = samePublicCode && before != null ? before.data.lastVerifiedAt : own.lastVerifiedAt;
+      return own.visibility == 'private' ? after == null
+        : after != null && isValidPublicPasscode(after.data, placeID)
+          && after.data.code == own.code && after.data.codeUpdatedAt == own.codeUpdatedAt
+          && after.data.lastVerifiedAt == expectedCheck;
+    }
+    function isValidOwnPasscodeCreate(uid, placeID, data) {
+      return data.createdAt == request.time && data.codeUpdatedAt == request.time
+        && data.lastVerifiedAt == null
+        && !exists(/databases/$(database)/documents/restroomPasscodeOwners/$(data.reportID))
+        && passcodeReservationMatches(uid, placeID, data)
+        && (data.visibility != 'private' || passcodeIsSaved(uid, placeID))
+        && passcodeProjectionMatches(placeID, data, {});
+    }
+    function isValidOwnPasscodeUpdate(uid, placeID, data, before) {
+      let publicBefore = get(/databases/$(database)/documents/restroomPasscodeReports/$(placeID)/reports/$(before.reportID));
+      let sameCode = data.code == before.code;
+      let carriesPublicCheck = before.visibility == 'public' && publicBefore != null
+        && publicBefore.data.code == before.code && publicBefore.data.codeUpdatedAt == before.codeUpdatedAt
+        && data.lastVerifiedAt == publicBefore.data.lastVerifiedAt;
+      let explicitCheck = data.lastVerifiedAt == request.time
+        && data.lastVerifiedAt != before.lastVerifiedAt
+        && data.diff(before).affectedKeys().hasOnly(['lastVerifiedAt']);
+      return data.reportID == before.reportID && data.createdAt == before.createdAt
+        && passcodeReservationMatches(uid, placeID, data)
+        && (sameCode ? data.codeUpdatedAt == before.codeUpdatedAt
+            && (before.visibility == 'public' && data.visibility == 'private'
+              ? carriesPublicCheck
+              : data.lastVerifiedAt == before.lastVerifiedAt || carriesPublicCheck || explicitCheck)
+          : data.codeUpdatedAt == request.time && data.codeUpdatedAt != before.codeUpdatedAt
+            && data.lastVerifiedAt == null)
+        && (data.visibility != 'private' || passcodeIsSaved(uid, placeID))
+        && passcodeProjectionMatches(placeID, data, before);
+    }
+    function isReservedPasscodeOwner(placeID, reportID) {
+      let reservation = get(/databases/$(database)/documents/restroomPasscodeOwners/$(reportID));
+      return reservation != null && reservation.data.ownerUID == request.auth.uid
+        && reservation.data.placeID == placeID;
+    }
+    function isOwnerPublicPasscodeWrite(placeID, reportID) {
+      let reservation = getAfter(/databases/$(database)/documents/restroomPasscodeOwners/$(reportID));
+      let ownPath = /databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodes/$(placeID);
+      let beforeOwn = get(ownPath);
+      let afterOwn = getAfter(ownPath);
+      return reservation != null && isValidPasscodeOwner(reservation.data, reportID)
+        && reservation.data.placeID == placeID
+        && afterOwn != null && isValidOwnPasscode(afterOwn.data, placeID)
+        && afterOwn.data.reportID == reportID && afterOwn.data.visibility == 'public'
+        && passcodeProjectionMatches(placeID, afterOwn.data, beforeOwn == null ? {} : beforeOwn.data);
+    }
+    function isPublicPasscodeVerification(uid, placeID, reportID) {
+      let publicPath = /databases/$(database)/documents/restroomPasscodeReports/$(placeID)/reports/$(reportID);
+      let before = get(publicPath);
+      let after = getAfter(publicPath);
+      let checkPath = /databases/$(database)/documents/users/$(uid)/restroomReadyPasscodeChecks/$(reportID);
+      let beforeCheck = get(checkPath);
+      let afterCheck = getAfter(checkPath);
+      return isPasscodeReportID(reportID) && before != null && after != null
+        && after.data.diff(before.data).affectedKeys().hasOnly(['lastVerifiedAt'])
+        && after.data.lastVerifiedAt == request.time && after.data.lastVerifiedAt != before.data.lastVerifiedAt
+        && isValidPublicPasscode(before.data, placeID)
+        && afterCheck != null && isValidPasscodeCheck(afterCheck.data)
+        && afterCheck.data.placeID == placeID && afterCheck.data.codeUpdatedAt == before.data.codeUpdatedAt
+        && (beforeCheck == null || beforeCheck.data.verifiedAt != afterCheck.data.verifiedAt);
+    }
+    match /users/{uid}/restroomReadyPasscodes/{placeID} {
+      allow read: if isRatingOwner(uid);
+      allow create: if isRatingOwner(uid) && isValidOwnPasscode(request.resource.data, placeID)
+        && isValidOwnPasscodeCreate(uid, placeID, request.resource.data);
+      allow update: if isRatingOwner(uid) && isValidOwnPasscode(request.resource.data, placeID)
+        && isValidOwnPasscodeUpdate(uid, placeID, request.resource.data, resource.data);
+      allow delete: if isRatingOwner(uid)
+        && isReservedPasscodeOwner(placeID, resource.data.reportID)
+        && getAfter(/databases/$(database)/documents/restroomPasscodeOwners/$(resource.data.reportID)) == null
+        && getAfter(/databases/$(database)/documents/restroomPasscodeReports/$(placeID)/reports/$(resource.data.reportID)) == null;
+    }
+    match /restroomPasscodeOwners/{reportID} {
+      allow get: if isRatingOwner(request.auth.uid) && isPasscodeReportID(reportID)
+        && (resource == null || resource.data.ownerUID == request.auth.uid);
+      allow list, update: if false;
+      allow create: if isRatingOwner(request.auth.uid) && isValidPasscodeOwner(request.resource.data, reportID)
+        && request.resource.data.createdAt == request.time
+        && !exists(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodes/$(request.resource.data.placeID))
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodes/$(request.resource.data.placeID)).data.reportID == reportID
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodes/$(request.resource.data.placeID)).data.createdAt == request.time;
+      allow delete: if isRatingOwner(request.auth.uid) && resource.data.ownerUID == request.auth.uid
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodes/$(resource.data.placeID)).data.reportID == reportID
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodes/$(resource.data.placeID)) == null
+        && getAfter(/databases/$(database)/documents/restroomPasscodeReports/$(resource.data.placeID)/reports/$(reportID)) == null;
+    }
+    match /restroomPasscodeReports/{placeID}/reports/{reportID} {
+      allow get: if validPlaceID(placeID) && isPasscodeReportID(reportID);
+      allow list: if validPlaceID(placeID) && request.query.limit != null
+        && request.query.limit > 0 && request.query.limit <= 10;
+      allow create: if isRatingOwner(request.auth.uid) && isPasscodeReportID(reportID)
+        && isValidPublicPasscode(request.resource.data, placeID)
+        && isOwnerPublicPasscodeWrite(placeID, reportID);
+      allow update: if isRatingOwner(request.auth.uid) && isPasscodeReportID(reportID)
+        && isValidPublicPasscode(request.resource.data, placeID)
+        && (isPublicPasscodeVerification(request.auth.uid, placeID, reportID)
+          || isOwnerPublicPasscodeWrite(placeID, reportID));
+      allow delete: if isRatingOwner(request.auth.uid) && isPasscodeReportID(reportID)
+        && isReservedPasscodeOwner(placeID, reportID)
+        && (getAfter(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodes/$(placeID)) == null
+          || getAfter(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodes/$(placeID)).data.visibility == 'private');
+    }
+    match /users/{uid}/restroomReadyPasscodeChecks/{reportID} {
+      allow get: if isRatingOwner(uid) && isPasscodeReportID(reportID);
+      allow list, delete: if false;
+      allow create, update: if isRatingOwner(uid) && isValidPasscodeCheck(request.resource.data)
+        && isPublicPasscodeVerification(uid, request.resource.data.placeID, reportID);
     }
     match /communityRestrooms/{placeID} {
       allow get: if isCommunityPlaceID(placeID);

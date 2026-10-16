@@ -2,8 +2,10 @@
 
 import { useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 import { ArrowUpRight, LocateFixed, MapPin, X } from "lucide-react";
-import { COMMUNITY_RESTROOM_BOUNDS, newCommunityRestroomID, type CommunityRestroomInput } from "@/lib/community-restrooms";
+import { COMMUNITY_RESTROOM_BOUNDS, newCommunityRestroomID, type CommunityRestroomInput, type LogRestroomInput } from "@/lib/community-restrooms";
 import { locationAvailabilityError, requestBrowserLocation, type LocationCoordinates } from "@/lib/location";
+import { MAX_PASSCODE_LENGTH, type PasscodeInput } from "@/lib/passcodes";
+import { PasscodeVisibilityChoices } from "@/components/finder/passcodes";
 
 export interface LogRestroomFormProps {
   uid: string | null;
@@ -14,7 +16,7 @@ export interface LogRestroomFormProps {
   submitError?: string | null;
   initialCoordinates: LocationCoordinates | null;
   onSignIn: () => void;
-  onSubmit: (input: CommunityRestroomInput, requestID: string) => Promise<boolean>;
+  onSubmit: (input: LogRestroomInput, requestID: string) => Promise<boolean>;
   onClose: () => void;
 }
 
@@ -22,6 +24,9 @@ type Draft = Omit<CommunityRestroomInput, "latitude" | "longitude" | "observedOn
   latitude: string;
   longitude: string;
   observedOn: string;
+  passcodeRequired: "yes" | "no" | "unknown";
+  code: string;
+  codeVisibility: PasscodeInput["visibility"];
 };
 type FieldErrors = Partial<Record<keyof Draft, string>>;
 
@@ -31,6 +36,7 @@ function emptyDraft(coordinates: LocationCoordinates | null): Draft {
     latitude: coordinates && Number.isFinite(coordinates.latitude) ? String(coordinates.latitude) : "",
     longitude: coordinates && Number.isFinite(coordinates.longitude) ? String(coordinates.longitude) : "",
     locationType: "other", entryRule: "unknown", stepFreeAccess: "unknown", notes: "", observedOn: "",
+    passcodeRequired: "unknown", code: "", codeVisibility: "private",
   };
 }
 
@@ -48,6 +54,10 @@ function fieldErrors(draft: Draft): FieldErrors {
   if (!draft.latitude.trim() || !Number.isFinite(latitude) || latitude < COMMUNITY_RESTROOM_BOUNDS.south || latitude > COMMUNITY_RESTROOM_BOUNDS.north) errors.latitude = `Use a latitude from ${COMMUNITY_RESTROOM_BOUNDS.south} to ${COMMUNITY_RESTROOM_BOUNDS.north}.`;
   if (!draft.longitude.trim() || !Number.isFinite(longitude) || longitude < COMMUNITY_RESTROOM_BOUNDS.west || longitude > COMMUNITY_RESTROOM_BOUNDS.east) errors.longitude = `Use a longitude from ${COMMUNITY_RESTROOM_BOUNDS.west} to ${COMMUNITY_RESTROOM_BOUNDS.east}.`;
   if (draft.notes.trim().length > 1000) errors.notes = "Keep the notes to 1,000 characters or fewer.";
+  if (draft.passcodeRequired === "yes" && draft.code.trim()
+    && (draft.code.trim().length > MAX_PASSCODE_LENGTH || !/^[\x20-\x7e]+$/.test(draft.code.trim()))) {
+    errors.code = `Use up to ${MAX_PASSCODE_LENGTH} standard letters, numbers, or symbols, or leave the code blank.`;
+  }
   if (draft.observedOn) {
     const date = new Date(`${draft.observedOn}T00:00:00.000Z`);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(draft.observedOn) || !Number.isFinite(date.getTime()) || date.toISOString().slice(0, 10) !== draft.observedOn || draft.observedOn < "2000-01-01" || draft.observedOn > todayInNYC()) errors.observedOn = "Choose a real date from 2000 through today, or leave it blank.";
@@ -97,7 +107,11 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
   }, [uid]);
 
   function change<Field extends keyof Draft>(field: Field, value: Draft[Field]) {
-    setDraftState((previous) => ({ uid, values: { ...(previous.uid === uid ? previous.values : emptyDraft(initialLocation.current)), [field]: value } }));
+    setDraftState((previous) => {
+      const values = { ...(previous.uid === uid ? previous.values : emptyDraft(initialLocation.current)), [field]: value };
+      if (field === "passcodeRequired" && value !== "yes") { values.code = ""; values.codeVisibility = "private"; }
+      return { uid, values };
+    });
     setErrors((previous) => ({ ...previous, [field]: undefined }));
     setFormError(null);
   }
@@ -150,6 +164,8 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
         name: draft.name.trim(), address: draft.address.trim(), latitude: Number(draft.latitude), longitude: Number(draft.longitude),
         locationType: draft.locationType, entryRule: draft.entryRule, stepFreeAccess: draft.stepFreeAccess,
         notes: draft.notes.trim(), observedOn: draft.observedOn || null,
+        passcodeRequired: draft.passcodeRequired,
+        ...(draft.passcodeRequired === "yes" && draft.code.trim() ? { passcode: { code: draft.code.trim(), visibility: draft.codeVisibility } } : {}),
       }, requestID.current);
       if (currentUID.current !== owner || inFlight.current !== operation) return;
       if (confirmed) {
@@ -189,7 +205,7 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
     </header>
     <div className="finder-log-body">
       <p className="finder-log-intro" id={`${id}-intro`}>Share a location you know. It will appear as a community listing, separate from NYC’s published data.</p>
-      <p className="finder-log-public" id={`${id}-public`}>Name, address, chosen coordinates, and these details will be public. Keep personal/contact information out of notes.</p>
+      <p className="finder-log-public" id={`${id}-public`}>Name, address, chosen coordinates, entry notes, and whether a code is required will be public. A code has its own visibility choice below. Keep passcodes and personal/contact information out of public notes.</p>
       {authError && <p className="finder-form-error" role="alert">{authError}</p>}
       {!uid ? <div className="finder-log-sign-in"><p>Sign in to add a location. Everyone can browse the map.</p><button type="button" className="finder-primary-button" disabled={accountLoading || authBusy} onClick={onSignIn}>{accountLoading || authBusy ? "Connecting account…" : "Sign in with Google to log a restroom"}<ArrowUpRight size={17} aria-hidden="true" /></button></div> : <form ref={form} className="finder-log-form" onSubmit={(event) => void submit(event)} noValidate>
         <fieldset disabled={locked}>
@@ -206,6 +222,11 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
 
           <div className="finder-log-field"><label htmlFor={`${id}-type`}>Location type</label><select id={`${id}-type`} name="locationType" value={draft.locationType} onChange={(event) => change("locationType", event.target.value as Draft["locationType"])}><option value="other">Other / not sure</option><option value="park">Park</option><option value="library">Library</option><option value="cafe">Café</option><option value="restaurant">Restaurant</option><option value="store">Store</option></select></div>
           <div className="finder-log-field"><label htmlFor={`${id}-entry`}>Entry rules</label><select id={`${id}-entry`} name="entryRule" value={draft.entryRule} aria-describedby={`${id}-entry-help`} onChange={(event) => change("entryRule", event.target.value as Draft["entryRule"])}><option value="unknown">Not reported</option><option value="public">Public entry</option><option value="customers">Customers only</option></select><p className="finder-log-help" id={`${id}-entry-help`}>Leave unknown rules as “Not reported.” Add any fee or key requirements in notes.</p></div>
+          <div className="finder-log-field"><label htmlFor={`${id}-code-required`}>Does the restroom require a code?</label><select id={`${id}-code-required`} name="passcodeRequired" value={draft.passcodeRequired} aria-describedby={`${id}-code-required-help`} onChange={(event) => change("passcodeRequired", event.target.value as Draft["passcodeRequired"])}><option value="unknown">Not reported</option><option value="yes">Yes — code required</option><option value="no">No code required</option></select><p className="finder-log-help" id={`${id}-code-required-help`}>A code requirement is separate from permission to enter. Leave it unreported if you don’t know.</p></div>
+          {draft.passcodeRequired === "yes" && <div className="finder-log-passcode">
+            <div className="finder-log-field"><label htmlFor={`${id}-code`}>Restroom code <span>Optional</span></label><input id={`${id}-code`} name="code" type="text" value={draft.code} maxLength={MAX_PASSCODE_LENGTH} autoComplete="off" autoCapitalize="off" spellCheck={false} aria-invalid={!!errors.code} aria-describedby={`${id}-code-help${errors.code ? ` ${id}-code-error` : ""}`} onChange={(event) => change("code", event.target.value)} /><p className="finder-log-help" id={`${id}-code-help`}>Save a code you know, or leave it blank. Keep codes in this field rather than public notes.</p>{error("code")}</div>
+            {draft.code.trim() && <><PasscodeVisibilityChoices id={`${id}-code-visibility`} value={draft.codeVisibility} onChange={(visibility) => change("codeVisibility", visibility)} disabled={locked} /><p className="finder-passcode-save-note">{draft.codeVisibility === "private" ? "Only me: the code is saved privately to your account, and this place is automatically added to Saved." : "Everyone: the code is published for anyone to read."} You can edit the code or change visibility later. Saving does not mark it as verified.</p></>}
+          </div>}
           <div className="finder-log-field"><label htmlFor={`${id}-step-free`}>Step-free route to restroom</label><select id={`${id}-step-free`} name="stepFreeAccess" value={draft.stepFreeAccess} aria-describedby={`${id}-step-free-help`} onChange={(event) => change("stepFreeAccess", event.target.value as Draft["stepFreeAccess"])}><option value="unknown">Not reported</option><option value="yes">Yes — a step-free route was observed</option><option value="no">No — route is not step-free</option></select><p className="finder-log-help" id={`${id}-step-free-help`}>From the street entrance all the way to the restroom. An entrance alone does not establish the route or certify an accessible stall.</p></div>
           <div className="finder-log-field"><label htmlFor={`${id}-observed`}>When you observed these details <span>Optional</span></label><input id={`${id}-observed`} name="observedOn" type="date" min="2000-01-01" max={todayInNYC()} value={draft.observedOn} aria-invalid={!!errors.observedOn} aria-describedby={`${id}-observed-help${errors.observedOn ? ` ${id}-observedOn-error` : ""}`} onChange={(event) => change("observedOn", event.target.value)} /><p className="finder-log-help" id={`${id}-observed-help`}>Leave blank if you don’t know. Your submission date is recorded separately.</p>{error("observedOn")}</div>
           <div className="finder-log-field"><label htmlFor={`${id}-notes`}>Entry and route notes <span>Optional</span></label><textarea id={`${id}-notes`} name="notes" rows={3} maxLength={1000} value={draft.notes} aria-invalid={!!errors.notes} aria-describedby={`${id}-notes-help${errors.notes ? ` ${id}-notes-error` : ""}`} onChange={(event) => change("notes", event.target.value)} /><p className="finder-log-help" id={`${id}-notes-help`}>Describe what you know about entry rules, fees, or reaching the restroom. No personal/contact information.</p>{error("notes")}</div>

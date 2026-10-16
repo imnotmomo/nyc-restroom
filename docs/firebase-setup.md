@@ -57,6 +57,21 @@ For local end-to-end checks, start the Auth/Firestore emulators with a `demo-` p
 
 The client uses server-only reads and waits for write acknowledgement. The UI clears private state when the account changes, discards stale results, and keeps form entries on a failed write. If a note save succeeds but a subsequent refresh fails, it reports that the note was saved and offers a refresh instead of prompting a duplicate submission. Persistent Firestore disk caching is not enabled. Reads retain references to retired listing IDs; new writes require a location in the current city collection or a valid community listing.
 
+## Restroom passcodes
+
+Codes are separate from public location records. A new location can report `passcodeRequired: yes/no/unknown`; legacy submissions without it remain unknown. Its optional code is saved in the same atomic batch as the listing, submission receipt and empty rating summary. No raw code or visibility is written to `communityRestrooms`.
+
+| Path | Purpose and access |
+| --- | --- |
+| `users/{uid}/restroomReadyPasscodes/{placeID}` | One account-owned code per place, private/public visibility, creation time, exact code-update version and optional successful-use verification time. Owner-only reads and writes. |
+| `restroomPasscodeOwners/{reportID}` | Immutable private ownership reservation, created/deleted atomically with the own code. Owner-only GET; no LIST. Prevents copying a public report ID to steal control. |
+| `restroomPasscodeReports/{placeID}/reports/{reportID}` | Public projection only after the owner chooses Everyone. Code, place ID, code-update time and optional verification time; no account identity. Selected-place queries are bounded to the latest 10. |
+| `users/{uid}/restroomReadyPasscodeChecks/{reportID}` | Private receipt for an explicit public-code verification, pinned to the exact current code timestamp. No public checker identity or receipt list. |
+
+Only me is the default and atomically ensures a saved-place record exists. A user can later unsave the place normally; a subsequent private-code save or verification may add it again. Removing a code leaves the saved place intact. Only the reserved owner can edit, delete, publish or privatize their report. Multiple people may report different codes independently.
+
+Saving/publishing does not verify a code. The user must explicitly confirm successful use; public confirmations require a signed-in non-anonymous account and an atomic, version-pinned receipt. Code changes clear verification. A same-code visibility change preserves a real check, including the latest community check when a public code becomes private. Transactions and exact timestamp versions reject stale edits and confirmations. Private codes are not sent to public feeds, Analytics, URLs or application error messages. These are visitor reports, not guarantees of entry or current validity. See [passcode feature record](features/restroom-passcodes.md) for current verification and release evidence.
+
 ## Rules and checks
 
 `firebase/firestore.rules` was independently reviewed, compiled successfully by Firebase, and deployed to the selected project. The rules enforce owner-only access, strict field/type/enum/length checks, server submission timestamps, and observed dates between January 1, 2000 and the submission time. Favorites validate creates and updates; notes cannot be updated. A newline/slash ID regression is covered.

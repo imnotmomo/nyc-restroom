@@ -30,6 +30,7 @@ export interface Restroom extends Coordinates {
     observedOn: string | null;
     entryRule: "public" | "customers" | "unknown";
     stepFreeAccess: "yes" | "no" | "unknown";
+    passcodeRequired?: "yes" | "no" | "unknown";
   };
 }
 

@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-10-16T07:33:03.783Z",
+  "emulatorOnly": true,
+  "projectId": "demo-restroom-passcodes-ui",
+  "checks": [
+    "Private default, confirmed owner-only code, atomic automatic Saved, unknown verification, and independent signed-out reader exclusion.",
+    "An unchanged private save succeeds without refreshing update or verification time.",
+    "Explicit private verification changes only check time; publishing same code preserves original update/check times and exposes no UID/name/email.",
+    "The report owner can explicitly verify their own public code through the same receipt-bound verification path.",
+    "Second signed-in account can verify current public code; code edit resets verification; owner privatization removes public projection for anonymous and second-account readers.",
+    "Stale owner-tab edits fail without overwriting a newer code; the old entered draft remains available for review.",
+    "Deleting the owner code removes its private record and reservation while retaining the saved place.",
+    "Account sign-out clears own code and unsaved private draft synchronously.",
+    "New restroom requirement unknown by default; leaving Yes clears hidden draft; atomic private code+listing+Saved succeeds and anonymous listing exposes requirement without code.",
+    "320px and 390px passcode display/editor have no page overflow and controls meet 44px target floor."
+  ],
+  "errors": [],
+  "blockedProduction": [],
+  "status": "pass",
+  "localFixturesCleaned": true
+}
