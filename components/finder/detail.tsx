@@ -17,10 +17,9 @@ const entryLabels = { public: "Public entry reported", customers: "Customers onl
 const routeLabels = { yes: "Yes — visitor reported", no: "No — visitor reported", unknown: "Not reported" };
 const codeRequiredLabels = { yes: "Yes — visitor reported", no: "No — visitor reported", unknown: "Not reported" };
 
-export function RestroomDetail({ restroom, distance, originLabel, userLocation, saved, saving, onToggleFavorite, onClose, passcodeContent, ratingContent, personalContent, feedback, onRetryLibrary }: {
+export function RestroomDetail({ restroom, distance, userLocation, saved, saving, onToggleFavorite, onClose, passcodeContent, ratingContent, personalContent, feedback, onRetryLibrary }: {
   restroom: Restroom;
-  distance: number;
-  originLabel: string;
+  distance: number | null;
   userLocation: Coordinates | null;
   saved: boolean;
   saving: boolean;
@@ -38,7 +37,7 @@ export function RestroomDetail({ restroom, distance, originLabel, userLocation, 
       <button type="button" className="finder-icon-button finder-close" onClick={onClose} aria-label="Close location details"><ArrowLeft size={18} className="finder-close-back-icon" /><span className="finder-close-text">Back to results</span><X size={20} className="finder-close-x-icon" /></button>
       <span className="finder-overline">Location details</span>
       <h2 id="finder-detail-title">{restroom.name}</h2>
-      <p><MapPin size={15} />{restroom.locationType ?? "City-listed location"} <span>·</span> {formatDistance(distance)} straight-line from {originLabel}</p>
+      <p><MapPin size={15} />{restroom.locationType ?? "City-listed location"}{distance !== null && <> <span>·</span> {formatDistance(distance)} straight-line from your location</>}</p>
       <div className="finder-detail-actions">
         <a className="finder-primary-button" href={walkingDirections(restroom, userLocation ?? undefined)} target="_blank" rel="noreferrer">Walking directions <ArrowUpRight size={18} /></a>
         <button className={`finder-save-button${saved ? " is-saved" : ""}`} type="button" onClick={onToggleFavorite} disabled={saving} aria-pressed={saved} aria-label={saved ? "Remove saved restroom" : "Save restroom"}><Bookmark size={20} fill={saved ? "currentColor" : "none"} />{saving ? "Saving…" : saved ? "Saved" : "Save"}</button>

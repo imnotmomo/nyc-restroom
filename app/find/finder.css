@@ -47,10 +47,7 @@
 .finder-workspace{height:max(620px,calc(100dvh - 300px));display:grid;grid-template-columns:365px minmax(0,1fr);border-bottom:1px solid #bccbd2}
 .finder-workspace.has-detail{grid-template-columns:310px minmax(240px,1fr) 400px}
 .finder-list-panel{min-height:0;display:flex;flex-direction:column;background:#fff;border-right:1px solid #a3b6c0;overflow:hidden}
-.finder-results-heading{padding:20px 20px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
-.finder-results-heading .finder-overline{font-size:10px}
-.finder-results-heading p{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:600;margin-top:5px}
-.finder-results-heading p svg{color:#2b59c3}
+.finder-results-heading{padding:20px 20px 16px;display:flex;align-items:center;justify-content:flex-end;gap:12px}
 .finder-sort{display:flex;align-items:center;gap:4px;color:#56666e}
 .finder-sort select{max-width:112px;min-height:44px;background:white;border:0;font-size:12px;padding:0 2px;color:#56666e}
 .finder-results-meta{display:flex;justify-content:space-between;gap:8px;padding:0 20px 14px;color:#56666e;font:10px/1.5 var(--mono);border-bottom:1px solid #bccbd2}

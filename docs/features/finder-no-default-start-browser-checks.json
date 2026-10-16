@@ -1,0 +1,20 @@
+{
+  "checkedAt": "2026-10-16T15:09:09.849Z",
+  "target": "http://127.0.0.1:4181/find/",
+  "productionFirebaseBlocked": true,
+  "signIns": 0,
+  "writes": 0,
+  "checks": [
+    "Starting-point header is absent; first load uses alphabetical order with Distance disabled, no list/detail distances, and no fabricated walking-directions origin.",
+    "Default finder has no horizontal overflow at 320px or 390px; screenshot contains public source listings and no synthetic submissions.",
+    "Denied GPS retains alphabetical browsing and does not introduce a fallback location or distance.",
+    "Explicit successful browser GPS enables and selects distance sorting; a venue at the supplied public test point shows 0 m in list and details, with that real GPS origin in walking directions."
+  ],
+  "errors": [],
+  "blockedFirebaseRequests": 2,
+  "screenshots": [
+    "docs/features/screenshots/finder-no-default-start.png"
+  ],
+  "status": "pass",
+  "browserClosed": true
+}

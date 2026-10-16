@@ -1,6 +1,6 @@
 # Feature: Choose an address when logging a restroom
 
-Status: Ready for release
+Status: Shipped
 Date: October 16, 2026
 
 ## Problem and acceptance
@@ -40,3 +40,9 @@ The frozen integrated demo build passed TypeScript/static export and Worker pack
 Independent compiled-browser acceptance passed all ten groups against `demo-restroom-address-ui`: no inherited GPS pin; missing-coordinate disclosure/focus; explicit typed search and paired selection; GPS shortlist/accuracy; empty, failed, outside-NYC and denied-location fallbacks; stale search/manual-edit responses; closed form/account changes; keyboard and 320/390px layout; private passcode plus Saved persistence on an actual emulator submission; and separate unmocked browser CORS checks for both provider endpoints. There were no page errors, production Firebase requests or provider privacy-header violations. Local fixtures were cleared. Evidence: `address-selection-browser-checks.json` and `screenshots/address-picker-320.png` / `address-picker-390.png`.
 
 Alex's final review approved the compiled implementation and acceptance evidence, with no blocking findings: the public address/pin remains an explicit choice, manual fallback works, and address suggestions do not imply permission or a step-free route. Earlier review findings about GPS accuracy, straight-line distances and inherited venue coordinates were resolved before the final build.
+
+## Release and outcome
+
+Production TypeScript/static export and Worker packaging passed with `nye-restroom`; no demo-project identifier appeared in the production assets. Source commit `d70bb4b4508757c17dcf9f29eb712c14c6a9bf5b` was published as Sites version 13 and VPS release `20261016T075227Z-d70bb4b45087`. Both existing public hosts serve matching finder assets with the new chooser and the provider privacy disclosure; VPS health is `ok`. See `address-selection-production-check.json`. The live Log a restroom dialog was also inspected without creating production accounts or submissions. Temporary local browsers and emulators were stopped.
+
+The original location button filled only coordinates. The delivered flow now pairs a chosen address with its pin, supports explicit nearby lookup or typed search, and retains editable details on failure. An address result remains a suggestion rather than proof of a restroom, entry permission or accessibility. Keep the venue pin empty until a visitor selects or manually enters a location.

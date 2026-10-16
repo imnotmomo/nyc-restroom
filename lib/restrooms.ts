@@ -36,7 +36,6 @@ export interface Restroom extends Coordinates {
 
 export const restrooms: readonly Restroom[] = dataset.restrooms;
 export const datasetSource = dataset.source;
-export const COLUMBIA: Coordinates = { latitude: 40.8075, longitude: -73.9626 };
 
 export function isWithinCollection(location: Coordinates): boolean {
   const { south, north, west, east } = datasetSource.bounds;

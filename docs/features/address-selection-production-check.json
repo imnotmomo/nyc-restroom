@@ -1,0 +1,29 @@
+{
+  "checkedAt": "2026-10-16T07:53:59.891329+00:00",
+  "sourceCommit": "d70bb4b4508757c17dcf9f29eb712c14c6a9bf5b",
+  "sitesVersion": 13,
+  "vpsRelease": "20261016T075227Z-d70bb4b45087",
+  "readOnly": true,
+  "hosts": [
+    {
+      "host": "https://nyc.imfinethanku.me",
+      "finderHTTP": 200,
+      "matchingFeatureBundle": true,
+      "privacyProviderDisclosure": true,
+      "assetCount": 12,
+      "vpsHealth": {
+        "status": "ok"
+      }
+    },
+    {
+      "host": "https://restroom-ready-nyc.clcii.chatgpt.site",
+      "finderHTTP": 200,
+      "matchingFeatureBundle": true,
+      "privacyProviderDisclosure": true,
+      "assetCount": 12
+    }
+  ],
+  "verificationClient": "curl; generic Python urllib client rejected by provider HTTP 403",
+  "matchingFinderAssetsAcrossHosts": true,
+  "status": "pass"
+}
