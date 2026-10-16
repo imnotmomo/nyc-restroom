@@ -62,6 +62,21 @@ test("cancelled/unmounted requests ignore their late callbacks", () => {
   assert.equal(calls, 0);
 });
 
+test("browser accuracy remains visible without fabricating a precision estimate", () => {
+  const results = [];
+  for (const accuracy of [35, 0, NaN, -1, Infinity, undefined]) {
+    requestBrowserLocation({
+      geolocation: { getCurrentPosition(success) { success({ coords: { latitude: 40.8, longitude: -73.9, accuracy } }); } },
+      onSuccess: (value) => results.push(value), onError: () => assert.fail("Valid location should succeed"),
+    });
+  }
+  assert.deepEqual(results.slice(0, 2), [
+    { latitude: 40.8, longitude: -73.9, accuracyMeters: 35 },
+    { latitude: 40.8, longitude: -73.9, accuracyMeters: 0 },
+  ]);
+  for (const value of results.slice(2)) assert.deepEqual(value, { latitude: 40.8, longitude: -73.9 });
+});
+
 test("host silence times out and a later location is ignored", async () => {
   let success;
   let calls = 0;

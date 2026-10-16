@@ -1,6 +1,6 @@
 # Feature: Restroom passcodes
 
-Status: Ready for frontend release
+Status: Shipped
 Date: October 16, 2026
 
 ## Brief and acceptance
@@ -37,7 +37,7 @@ Run the full existing and new Firestore emulator suites, meaningful passcode mod
 
 UI source review against the Maya definition approved the integrated version (8/10): private default, clear dates and unknowns, anonymous shared-code reading, and short contributions; this is a simulated design review, not a customer test. Independent review of the parent wrapper and SDK found a verification readback race: the code or visibility could change between successful verification and the final read. Both own-verification paths now recheck the exact expected revision before reporting success.
 
-The Firebase security auditor checklist was applied separately to the rules: strict create/update schemas, immutable ownership reservations, owner-only private reads, bounded public reads, and paired exact-version verification. A targeted owner-verification test found a rules expression-budget failure in branch evaluation; the verification-first branch and cheap field-change guard resolved it. All 298 security cases now pass, including owner verification and concurrent visitor confirmations. The two nullable-map warnings were removed; the official Firebase MCP validator returns “OK: No errors detected.” The Firebase CLI dry run and production rules deployment both succeeded for `nye-restroom/(default)`; the frontend release is pending.
+The Firebase security auditor checklist was applied separately to the rules: strict create/update schemas, immutable ownership reservations, owner-only private reads, bounded public reads, and paired exact-version verification. A targeted owner-verification test found a rules expression-budget failure in branch evaluation; the verification-first branch and cheap field-change guard resolved it. All 298 security cases now pass, including owner verification and concurrent visitor confirmations. The two nullable-map warnings were removed; the official Firebase MCP validator returns “OK: No errors detected.” The Firebase CLI dry run and production rules deployment both succeeded for `nye-restroom/(default)`; both frontend hosts are now released.
 
 ## Verification results
 
@@ -53,3 +53,11 @@ Final Chloe review approved (8/10), with no remaining must-fix findings: updates
 The user requested this feature in the existing public app; existing authorization covers release to the two current public hosts. Publish the reviewed production build after rules deployment, retaining existing auth, analytics and listing data. The previous deployed rule source was preserved locally before the release. No GitHub PR or origin push is part of this request.
 
 Lessons: opaque IDs need a private ownership reservation; dates shown to people cannot be used as exact Firestore versions; verification needs a receipt tied to the current code; branch ordering can determine whether valid rule evaluation fits Firestore limits; unchanged transactions should confirm server state without submitting verification-only commits.
+
+## Release evidence
+
+Published October 16, 2026 from source `4918c5bd3d5a6d5ff3c5bb56e249db5cc42ab9a6`. Sites version **12** deployment `appgdep_6ad1d3a496308191b00f9dca1cca4fdd` succeeded at [the original public site](https://restroom-ready-nyc.clcii.chatgpt.site/find/). VPS release `20261016T073446Z-4918c5bd3d5a` passed its health check at [the custom domain](https://nyc.imfinethanku.me/find/). Both hosts serve identical finder exports after removing only the provider-injected Cloudflare script.
+
+A fresh unauthenticated production SDK client passed the bounded public-code query and was denied own-code, ownership-reservation and private verification-receipt reads. No production records were written. The signed-out live finder shows Code required / Not reported, the Passcodes section, and the sign-in action; no code was fabricated for the listing. [Live screenshot](screenshots/passcodes-live.jpg). Local emulators and preview servers were stopped.
+
+Independent final rules audit: score 5/5 with no open findings on the exact deployed rules hash; four targeted verification/replay cases were rerun by a reviewer who did not author the rules and passed. This confirms tested authorization/reporting behavior, not venue access or physical code validity. Post-release evidence is a local documentation update after the published source commit.

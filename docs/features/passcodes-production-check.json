@@ -1,0 +1,26 @@
+{
+  "checkedAt": "2026-10-16T07:34:39.186Z",
+  "projectId": "nye-restroom",
+  "readOnly": true,
+  "productionWrites": 0,
+  "checks": [
+    {
+      "name": "anonymous bounded public-code query",
+      "passed": true,
+      "returned": 0
+    },
+    {
+      "name": "anonymous private own code denied",
+      "passed": true
+    },
+    {
+      "name": "anonymous ownership reservation denied",
+      "passed": true
+    },
+    {
+      "name": "anonymous private verification receipt denied",
+      "passed": true
+    }
+  ],
+  "status": "pass"
+}

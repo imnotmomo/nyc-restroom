@@ -305,3 +305,35 @@
 .finder-log-passcode .finder-log-field{margin-top:0}
 @media(max-width:650px){.finder-passcodes h4{font-size:15px}.finder-passcode-own,.finder-passcode-report{padding:14px}.finder-passcode-value{font-size:25px}.finder-passcode-dates{font-size:12px}.finder-passcode-status,.finder-passcode-save-note,.finder-passcode-label,.finder-passcode-sign-in>p{font-size:13px}.finder-passcodes .finder-secondary-button,.finder-passcode-delete{font-size:13px!important;min-height:44px}.finder-passcode-choice strong{font-size:14px}.finder-passcode-choice>span>span{font-size:13px}.finder-passcode-older>summary{font-size:13px}}
 @media(max-width:350px){.finder-passcode-dates>div{grid-template-columns:1fr;gap:2px}.finder-passcode-actions>button{width:100%;justify-content:center}.finder-passcode-own,.finder-passcode-report{padding:12px}}
+
+.finder-address-picker{margin-top:24px;padding-top:20px;border-top:1px solid #d4dee3;min-width:0}
+.finder-address-picker h3{font:600 14px/1.5 var(--mono);letter-spacing:-.025em}
+.finder-address-search{margin-top:16px;min-width:0}
+.finder-address-search>label{display:block;font-size:13px;font-weight:600;margin-bottom:7px}
+.finder-address-search>div{display:flex;align-items:stretch;gap:8px;min-width:0}
+.finder-address-search input{flex:1;min-width:0;width:100%;min-height:46px;padding:10px 11px;border:1px solid #56666e;border-radius:2px;background:white;color:#1e2a30;font:16px/1.5 var(--sans)}
+.finder-address-search input::-webkit-search-cancel-button{cursor:pointer}
+.finder-address-search .finder-secondary-button{margin:0;min-height:46px;font-size:13px!important;white-space:normal;flex-shrink:0}
+.finder-address-picker .finder-address-locate{margin-top:12px;min-height:44px;font-size:13px!important}
+.finder-address-attribution{font-size:11px;line-height:1.7;color:#56666e;margin-top:12px;max-width:66ch}
+.finder-address-attribution a{color:#2b59c3;text-underline-offset:3px}
+.finder-address-status,.finder-address-accuracy{font-size:12px;line-height:1.65;color:#43545c;margin-top:12px}
+.finder-address-accuracy{padding:9px 11px;background:#eef2f8;border-left:2px solid #82969f}
+.finder-address-results{list-style:none;padding:0;margin:12px 0 0;border:1px solid #aabac3;min-width:0}
+.finder-address-results li+li{border-top:1px solid #d4dee3}
+.finder-address-results button{display:flex;align-items:start;gap:10px;width:100%;min-height:64px;padding:12px;border:0;border-radius:0;background:white;color:#1e2a30;text-align:left;min-width:0;font-family:var(--sans)}
+.finder-address-results button:hover{background:#f1f4fb}
+.finder-address-results button>svg{flex-shrink:0;margin-top:2px;color:#2b59c3}
+.finder-address-results button>span{display:grid;gap:5px;min-width:0}
+.finder-address-results strong{font-size:14px;font-weight:600;line-height:1.5;overflow-wrap:anywhere}
+.finder-address-results button>span>span{font-size:11px;line-height:1.5;color:#56666e;overflow-wrap:anywhere}
+.finder-address-results button>span>span:last-child{display:flex;align-items:center;gap:5px;color:#2b59c3}
+.finder-log-selected-location{margin-top:22px;padding:14px;border:1px solid #aabac3;background:#f5f7f8;min-width:0}
+.finder-log-selected-label{font:11px/1.5 var(--mono);text-transform:uppercase;letter-spacing:.025em;color:#2b59c3;margin-bottom:12px}
+.finder-log-selected-location .finder-log-field{margin-top:0}
+.finder-log-pin-summary{display:flex;align-items:start;gap:6px;font-size:11px;line-height:1.65;color:#56666e;margin-top:12px;overflow-wrap:anywhere}
+.finder-log-pin-summary>svg{flex-shrink:0;margin-top:2px}
+.finder-log-manual-location{margin-top:12px;padding:0 2px;min-width:0}
+.finder-log-manual-location>summary{font-size:12px;line-height:1.65;color:#2b59c3;min-height:44px;padding-block:12px;cursor:pointer}
+.finder-log-manual-location .finder-log-coordinate-grid{margin-top:12px}
+@media(max-width:480px){.finder-address-search>div{flex-wrap:wrap}.finder-address-search input{flex-basis:100%}.finder-address-search .finder-secondary-button{width:100%;justify-content:center;min-height:44px}.finder-address-picker .finder-address-locate{width:100%;justify-content:center}.finder-address-attribution{font-size:12px}.finder-address-results strong{font-size:14px}.finder-address-results button>span>span{font-size:12px}.finder-log-selected-location{padding:12px}.finder-log-pin-summary{font-size:12px}}

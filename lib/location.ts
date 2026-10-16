@@ -3,6 +3,10 @@ export interface LocationCoordinates {
   longitude: number;
 }
 
+export interface BrowserLocation extends LocationCoordinates {
+  accuracyMeters?: number;
+}
+
 interface LocationFailure { code?: number; name?: string }
 
 export function validCoordinates(value: LocationCoordinates): boolean {
@@ -33,7 +37,7 @@ export function locationFailureMessage(error: LocationFailure): string {
 /** The browser request cannot be aborted; cancellation ignores its later callbacks. */
 export function requestBrowserLocation({ geolocation, onSuccess, onError, watchdogMs = 15_000 }: {
   geolocation: Pick<Geolocation, "getCurrentPosition">;
-  onSuccess: (coordinates: LocationCoordinates) => void;
+  onSuccess: (coordinates: BrowserLocation) => void;
   onError: (message: string) => void;
   watchdogMs?: number;
 }): () => void {
@@ -47,7 +51,10 @@ export function requestBrowserLocation({ geolocation, onSuccess, onError, watchd
   const watchdog = setTimeout(() => finish(() => onError(locationFailureMessage({ code: 3 }))), watchdogMs);
   try {
     geolocation.getCurrentPosition(({ coords }) => {
-      const coordinates = { latitude: coords.latitude, longitude: coords.longitude };
+      const coordinates: BrowserLocation = {
+        latitude: coords.latitude, longitude: coords.longitude,
+        ...(Number.isFinite(coords.accuracy) && coords.accuracy >= 0 ? { accuracyMeters: coords.accuracy } : {}),
+      };
       finish(() => {
         if (validCoordinates(coordinates)) onSuccess(coordinates);
         else onError("Your browser returned an invalid location. Please try again. You can still browse the listed places.");

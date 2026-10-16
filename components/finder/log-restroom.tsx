@@ -1,11 +1,13 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
-import { ArrowUpRight, LocateFixed, MapPin, X } from "lucide-react";
+import { useCallback, useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
+import { ArrowUpRight, MapPin, X } from "lucide-react";
 import { COMMUNITY_RESTROOM_BOUNDS, newCommunityRestroomID, type CommunityRestroomInput, type LogRestroomInput } from "@/lib/community-restrooms";
-import { locationAvailabilityError, requestBrowserLocation, type LocationCoordinates } from "@/lib/location";
+import type { LocationCoordinates } from "@/lib/location";
+import type { AddressSuggestion } from "@/lib/geocoding";
 import { MAX_PASSCODE_LENGTH, type PasscodeInput } from "@/lib/passcodes";
 import { PasscodeVisibilityChoices } from "@/components/finder/passcodes";
+import { AddressPicker } from "@/components/finder/address-picker";
 
 export interface LogRestroomFormProps {
   uid: string | null;
@@ -30,11 +32,10 @@ type Draft = Omit<CommunityRestroomInput, "latitude" | "longitude" | "observedOn
 };
 type FieldErrors = Partial<Record<keyof Draft, string>>;
 
-function emptyDraft(coordinates: LocationCoordinates | null): Draft {
+function emptyDraft(): Draft {
   return {
     name: "", address: "",
-    latitude: coordinates && Number.isFinite(coordinates.latitude) ? String(coordinates.latitude) : "",
-    longitude: coordinates && Number.isFinite(coordinates.longitude) ? String(coordinates.longitude) : "",
+    latitude: "", longitude: "",
     locationType: "other", entryRule: "unknown", stepFreeAccess: "unknown", notes: "", observedOn: "",
     passcodeRequired: "unknown", code: "", codeVisibility: "private",
   };
@@ -65,50 +66,55 @@ function fieldErrors(draft: Draft): FieldErrors {
   return errors;
 }
 
-export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving = false, authError = null, submitError = null, initialCoordinates, onSignIn, onSubmit, onClose }: LogRestroomFormProps) {
+export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving = false, authError = null, submitError = null, onSignIn, onSubmit, onClose }: LogRestroomFormProps) {
   const id = useId();
   const dialog = useRef<HTMLDialogElement | null>(null);
   const form = useRef<HTMLFormElement | null>(null);
-  const [draftState, setDraftState] = useState(() => ({ uid, values: emptyDraft(initialCoordinates) }));
-  const draft = draftState.uid === uid ? draftState.values : emptyDraft(initialCoordinates);
+  const manualCoordinates = useRef<HTMLDetailsElement | null>(null);
+  const [draftState, setDraftState] = useState(() => ({ uid, values: emptyDraft() }));
+  const draft = draftState.uid === uid ? draftState.values : emptyDraft();
   const [errors, setErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [localSaving, setLocalSaving] = useState(false);
-  const [locating, setLocating] = useState(false);
-  const [locationError, setLocationError] = useState<string | null>(null);
+  const [addressBusy, setAddressBusy] = useState(false);
+  const [locationRevision, setLocationRevision] = useState(0);
+  const [selectedAddress, setSelectedAddress] = useState<{ uid: string | null; label: string } | null>(null);
+  const [pinSource, setPinSource] = useState<"suggestion" | "manual">("manual");
   const requestID = useRef<string | null>(null);
   const inFlight = useRef<object | null>(null);
   const currentUID = useRef(uid);
-  const initialLocation = useRef(initialCoordinates);
-  const cancelLocation = useRef<(() => void) | null>(null);
-  const locationVersion = useRef(0);
   currentUID.current = uid;
-  initialLocation.current = initialCoordinates;
   const busy = saving || localSaving;
   const locked = !uid || accountLoading || authBusy || busy;
+  const updateAddressBusy = useCallback((value: boolean) => setAddressBusy(value), []);
 
   useEffect(() => {
     const element = dialog.current;
     if (element && !element.open) element.showModal();
     return () => {
       inFlight.current = null;
-      locationVersion.current += 1;
-      cancelLocation.current?.();
       element?.close();
     };
   }, []);
 
   useEffect(() => {
-    setDraftState({ uid, values: emptyDraft(initialLocation.current) });
-    setErrors({}); setFormError(null); setLocationError(null);
-    setLocalSaving(false); setLocating(false);
+    setDraftState({ uid, values: emptyDraft() });
+    setErrors({}); setFormError(null);
+    setLocalSaving(false); setAddressBusy(false); setSelectedAddress(null);
+    setPinSource("manual");
+    setLocationRevision((value) => value + 1);
     requestID.current = null; inFlight.current = null;
-    locationVersion.current += 1; cancelLocation.current?.();
   }, [uid]);
 
   function change<Field extends keyof Draft>(field: Field, value: Draft[Field]) {
+    if (field === "address" || field === "latitude" || field === "longitude") {
+      setLocationRevision((revision) => revision + 1);
+      setAddressBusy(false);
+      setSelectedAddress(null);
+      if (field === "latitude" || field === "longitude") setPinSource("manual");
+    }
     setDraftState((previous) => {
-      const values = { ...(previous.uid === uid ? previous.values : emptyDraft(initialLocation.current)), [field]: value };
+      const values = { ...(previous.uid === uid ? previous.values : emptyDraft()), [field]: value };
       if (field === "passcodeRequired" && value !== "yes") { values.code = ""; values.codeVisibility = "private"; }
       return { uid, values };
     });
@@ -116,44 +122,29 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
     setFormError(null);
   }
 
-  function locate() {
-    if (locked || locating) return;
-    cancelLocation.current?.();
-    const version = ++locationVersion.current;
-    const owner = uid;
-    setLocationError(null);
-    let allowedByPolicy: boolean | undefined;
-    try {
-      const policyDocument = document as Document & { permissionsPolicy?: { allowsFeature(feature: string): boolean }; featurePolicy?: { allowsFeature(feature: string): boolean } };
-      allowedByPolicy = (policyDocument.permissionsPolicy ?? policyDocument.featurePolicy)?.allowsFeature("geolocation");
-    } catch { /* Older browsers can still perform the location request. */ }
-    const unavailable = locationAvailabilityError({ secureContext: window.isSecureContext !== false, hasGeolocation: Boolean(navigator.geolocation), allowedByPolicy });
-    if (unavailable) { setLocationError(unavailable); return; }
-    setLocating(true);
-    cancelLocation.current = requestBrowserLocation({
-      geolocation: navigator.geolocation,
-      onSuccess: (coordinates) => {
-        if (locationVersion.current !== version || currentUID.current !== owner) return;
-        const { south, north, west, east } = COMMUNITY_RESTROOM_BOUNDS;
-        if (coordinates.latitude < south || coordinates.latitude > north || coordinates.longitude < west || coordinates.longitude > east) {
-          setLocationError("Your current location is outside the approximate NYC area. Enter the restroom’s NYC coordinates instead.");
-        } else {
-          setDraftState((previous) => ({ uid: owner, values: { ...previous.values, latitude: coordinates.latitude.toFixed(6), longitude: coordinates.longitude.toFixed(6) } }));
-          setErrors((previous) => ({ ...previous, latitude: undefined, longitude: undefined }));
-        }
-        setLocating(false);
-      },
-      onError: (message) => { if (locationVersion.current === version && currentUID.current === owner) { setLocationError(message); setLocating(false); } },
-    });
+  function selectAddress(suggestion: AddressSuggestion) {
+    if (locked || !uid) return;
+    setDraftState((previous) => ({ uid, values: {
+      ...(previous.uid === uid ? previous.values : emptyDraft()),
+      address: suggestion.label, latitude: String(suggestion.latitude), longitude: String(suggestion.longitude),
+    } }));
+    setSelectedAddress({ uid, label: suggestion.label });
+    setPinSource("suggestion");
+    setErrors((previous) => ({ ...previous, address: undefined, latitude: undefined, longitude: undefined }));
+    setFormError(null);
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (locked || locating || inFlight.current) return;
+    if (locked || addressBusy || inFlight.current) return;
     const validation = fieldErrors(draft);
     setErrors(validation); setFormError(null);
     const firstInvalid = Object.keys(validation)[0];
-    if (firstInvalid) { form.current?.querySelector<HTMLElement>(`[name="${firstInvalid}"]`)?.focus(); return; }
+    if (firstInvalid) {
+      if ((firstInvalid === "latitude" || firstInvalid === "longitude") && manualCoordinates.current) manualCoordinates.current.open = true;
+      form.current?.querySelector<HTMLElement>(`[name="${firstInvalid}"]`)?.focus();
+      return;
+    }
     const owner = uid;
     const operation = {};
     inFlight.current = operation;
@@ -170,7 +161,7 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
       if (currentUID.current !== owner || inFlight.current !== operation) return;
       if (confirmed) {
         requestID.current = null;
-        setDraftState({ uid: owner, values: emptyDraft(initialLocation.current) });
+        setDraftState({ uid: owner, values: emptyDraft() });
         setErrors({});
       } else {
         setFormError("Your submission couldn’t be confirmed. Your details are still here; retry this form to check the same submission.");
@@ -211,14 +202,20 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
         <fieldset disabled={locked}>
           <legend className="finder-sr-only">Restroom details</legend>
           <div className="finder-log-field"><label htmlFor={`${id}-name`}>Restroom or venue name <span>Required</span></label><input id={`${id}-name`} name="name" autoComplete="off" maxLength={120} required value={draft.name} aria-invalid={!!errors.name} aria-describedby={errors.name ? `${id}-name-error` : undefined} onChange={(event) => change("name", event.target.value)} />{error("name")}</div>
-          <div className="finder-log-field"><label htmlFor={`${id}-address`}>Street address or park location <span>Required</span></label><input id={`${id}-address`} name="address" autoComplete="off" maxLength={240} required value={draft.address} aria-invalid={!!errors.address} aria-describedby={errors.address ? `${id}-address-error` : undefined} onChange={(event) => change("address", event.target.value)} />{error("address")}</div>
-
-          <div className="finder-log-location-heading"><div><h3>Place the pin</h3><p id={`${id}-location-help`}>Use the restroom’s location, not where you are now unless you’re there. Coordinates must fall within the approximate NYC area.</p></div><button type="button" className="finder-secondary-button" onClick={locate} disabled={locked || locating}><LocateFixed size={17} aria-hidden="true" />{locating ? "Locating…" : "Use my location"}</button></div>
-          <div className="finder-log-coordinate-grid">
-            <div className="finder-log-field"><label htmlFor={`${id}-latitude`}>Latitude <span>Required</span></label><input id={`${id}-latitude`} name="latitude" type="number" inputMode="decimal" step="any" min={COMMUNITY_RESTROOM_BOUNDS.south} max={COMMUNITY_RESTROOM_BOUNDS.north} required value={draft.latitude} disabled={locked || locating} aria-invalid={!!errors.latitude} aria-describedby={`${id}-location-help${errors.latitude ? ` ${id}-latitude-error` : ""}`} onChange={(event) => change("latitude", event.target.value)} />{error("latitude")}</div>
-            <div className="finder-log-field"><label htmlFor={`${id}-longitude`}>Longitude <span>Required</span></label><input id={`${id}-longitude`} name="longitude" type="number" inputMode="decimal" step="any" min={COMMUNITY_RESTROOM_BOUNDS.west} max={COMMUNITY_RESTROOM_BOUNDS.east} required value={draft.longitude} disabled={locked || locating} aria-invalid={!!errors.longitude} aria-describedby={`${id}-location-help${errors.longitude ? ` ${id}-longitude-error` : ""}`} onChange={(event) => change("longitude", event.target.value)} />{error("longitude")}</div>
+          <AddressPicker key={`${uid}:${locationRevision}`} uid={uid} disabled={locked} onSelect={selectAddress} onBusyChange={updateAddressBusy} />
+          <div className="finder-log-selected-location">
+            <p className="finder-log-selected-label">{selectedAddress?.uid === uid ? "Selected location" : "Public address and pin"}</p>
+            <div className="finder-log-field"><label htmlFor={`${id}-address`}>Street address or park location <span>Required</span></label><input id={`${id}-address`} name="address" autoComplete="off" maxLength={240} required value={draft.address} aria-invalid={!!errors.address} aria-describedby={`${id}-address-help${errors.address ? ` ${id}-address-error` : ""}`} onChange={(event) => change("address", event.target.value)} /><p className="finder-log-help" id={`${id}-address-help`}>Choose a suggestion above or enter the address manually. You can correct it here. Check that the pin matches the restroom’s location before posting.</p>{error("address")}</div>
+            {draft.latitude.trim() && draft.longitude.trim() && <p className="finder-log-pin-summary"><MapPin size={14} aria-hidden="true" />Pin: {draft.latitude}, {draft.longitude}{pinSource === "suggestion" ? " · chosen address pin" : " · manual pin"}</p>}
           </div>
-          {locationError && <p className="finder-form-error" role="alert">{locationError}</p>}
+          <details className="finder-log-manual-location" ref={manualCoordinates}>
+            <summary>Enter or adjust coordinates manually</summary>
+            <p className="finder-log-help" id={`${id}-location-help`}>Use the restroom’s location, not where you are now unless you’re there. Coordinates must fall within the approximate NYC area. Search or location access is optional if you enter a valid address and pin yourself.</p>
+          <div className="finder-log-coordinate-grid">
+            <div className="finder-log-field"><label htmlFor={`${id}-latitude`}>Latitude <span>Required</span></label><input id={`${id}-latitude`} name="latitude" type="number" inputMode="decimal" step="any" min={COMMUNITY_RESTROOM_BOUNDS.south} max={COMMUNITY_RESTROOM_BOUNDS.north} required value={draft.latitude} disabled={locked} aria-invalid={!!errors.latitude} aria-describedby={`${id}-location-help${errors.latitude ? ` ${id}-latitude-error` : ""}`} onChange={(event) => change("latitude", event.target.value)} />{error("latitude")}</div>
+            <div className="finder-log-field"><label htmlFor={`${id}-longitude`}>Longitude <span>Required</span></label><input id={`${id}-longitude`} name="longitude" type="number" inputMode="decimal" step="any" min={COMMUNITY_RESTROOM_BOUNDS.west} max={COMMUNITY_RESTROOM_BOUNDS.east} required value={draft.longitude} disabled={locked} aria-invalid={!!errors.longitude} aria-describedby={`${id}-location-help${errors.longitude ? ` ${id}-longitude-error` : ""}`} onChange={(event) => change("longitude", event.target.value)} />{error("longitude")}</div>
+          </div>
+          </details>
 
           <div className="finder-log-field"><label htmlFor={`${id}-type`}>Location type</label><select id={`${id}-type`} name="locationType" value={draft.locationType} onChange={(event) => change("locationType", event.target.value as Draft["locationType"])}><option value="other">Other / not sure</option><option value="park">Park</option><option value="library">Library</option><option value="cafe">Café</option><option value="restaurant">Restaurant</option><option value="store">Store</option></select></div>
           <div className="finder-log-field"><label htmlFor={`${id}-entry`}>Entry rules</label><select id={`${id}-entry`} name="entryRule" value={draft.entryRule} aria-describedby={`${id}-entry-help`} onChange={(event) => change("entryRule", event.target.value as Draft["entryRule"])}><option value="unknown">Not reported</option><option value="public">Public entry</option><option value="customers">Customers only</option></select><p className="finder-log-help" id={`${id}-entry-help`}>Leave unknown rules as “Not reported.” Add any fee or key requirements in notes.</p></div>
@@ -232,7 +229,7 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
           <div className="finder-log-field"><label htmlFor={`${id}-notes`}>Entry and route notes <span>Optional</span></label><textarea id={`${id}-notes`} name="notes" rows={3} maxLength={1000} value={draft.notes} aria-invalid={!!errors.notes} aria-describedby={`${id}-notes-help${errors.notes ? ` ${id}-notes-error` : ""}`} onChange={(event) => change("notes", event.target.value)} /><p className="finder-log-help" id={`${id}-notes-help`}>Describe what you know about entry rules, fees, or reaching the restroom. No personal/contact information.</p>{error("notes")}</div>
         </fieldset>
         {(submitError || formError) && <p className="finder-form-error" role="alert">{submitError || formError}</p>}
-        <div className="finder-log-actions"><button type="submit" className="finder-primary-button" disabled={locked || locating} aria-describedby={`${id}-public`}>{busy ? "Saving restroom…" : "Add restroom to map"}</button><button type="button" className="finder-secondary-button" onClick={onClose} disabled={busy}>Cancel</button></div>
+        <div className="finder-log-actions"><button type="submit" className="finder-primary-button" disabled={locked || addressBusy} aria-describedby={`${id}-public`}>{busy ? "Saving restroom…" : "Add restroom to map"}</button><button type="button" className="finder-secondary-button" onClick={onClose} disabled={busy}>Cancel</button></div>
       </form>}
     </div>
   </dialog>;

@@ -1,0 +1,46 @@
+{
+  "checkedAt": "2026-10-16T07:50:00.258Z",
+  "emulatorOnly": true,
+  "projectId": "demo-restroom-address-ui",
+  "appInteractions": "Visible DOM and normal browser APIs only; no React/app internals.",
+  "fixtures": "Deterministic intercepted GeoSearch responses; no production submissions.",
+  "checks": [
+    "Sharing GPS through the main finder does not inherit a public venue address or pin into the new-restroom form.",
+    "A manually typed address without coordinates cannot publish; validation opens the coordinate disclosure and focuses the missing latitude.",
+    "Login-gated picker; no per-keystroke requests; Enter searches without submitting; explicit address selection fills address and pin atomically and preserves private code/unknown route and entry fields.",
+    "Use my location shows approximate GPS accuracy and nearby choices without overwriting the selected address or pin; choosing one updates both.",
+    "Empty, HTTP-failed and disconnected provider responses and outside-NYC GPS retain the chosen location and private draft; outside-NYC GPS does not query the provider.",
+    "Old requests are cancelled/ignored after a new search or manual address/coordinate edit and never overwrite the newer location or private draft.",
+    "320/390px results have no horizontal overflow and 44px controls; search is keyboard reachable; confirmed emulator submission stores the chosen address/pin and retains private code plus automatic Saved without public code leakage.",
+    "Closing/reopening the form and account sign-out invalidate delayed requests and clear address-search results/drafts.",
+    "A denied browser location request leaves manual address and pin editing available.",
+    "Separate unmocked browser CORS fetches confirm both real GeoSearch endpoints return address features for public NYC test locations; no location submissions are created by connectivity checks."
+  ],
+  "errors": [],
+  "blockedProduction": [],
+  "providerRequests": 11,
+  "providerRequestPrivacyViolations": [],
+  "observedProjects": [
+    "demo-restroom-address-ui"
+  ],
+  "screenshots": [
+    "docs/features/screenshots/address-picker-320.png",
+    "docs/features/screenshots/address-picker-390.png"
+  ],
+  "realProvider": [
+    {
+      "endpoint": "/v2/search",
+      "status": 200,
+      "type": "FeatureCollection",
+      "count": 2
+    },
+    {
+      "endpoint": "/v2/reverse",
+      "status": 200,
+      "type": "FeatureCollection",
+      "count": 2
+    }
+  ],
+  "status": "pass",
+  "localFixturesCleaned": true
+}
