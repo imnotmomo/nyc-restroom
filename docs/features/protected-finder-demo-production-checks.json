@@ -1,0 +1,69 @@
+{
+  "checkedAt": "2026-10-16T15:28:35.182166+00:00",
+  "sourceCommit": "6ac4f00978b77157f79566087003d766b6ac8231",
+  "noFirebaseWrites": true,
+  "noAccountsCreated": true,
+  "hosts": [
+    {
+      "host": "https://nyc.imfinethanku.me",
+      "publicWaitlistAndDemo": true,
+      "demoAccountInterfaceAbsent": true,
+      "finderProtected": true,
+      "wrongCodeRejected": true,
+      "configuredCodeUnlocks": true,
+      "cookieFlagsAndPrivateCache": true,
+      "tamperedCookieRejected": true,
+      "foreignOriginRejected": true,
+      "logoutClearsAccessCookie": true,
+      "unauthorizedAliases": [
+        {
+          "path": "/find/index.html",
+          "status": 303
+        },
+        {
+          "path": "/find/index.txt",
+          "status": 401
+        },
+        {
+          "path": "/%66ind/",
+          "status": 303
+        },
+        {
+          "path": "/find%2findex.txt",
+          "status": 401
+        }
+      ]
+    },
+    {
+      "host": "https://restroom-ready-nyc.clcii.chatgpt.site",
+      "publicWaitlistAndDemo": true,
+      "demoAccountInterfaceAbsent": true,
+      "finderProtected": true,
+      "wrongCodeRejected": true,
+      "configuredCodeUnlocks": true,
+      "cookieFlagsAndPrivateCache": true,
+      "tamperedCookieRejected": true,
+      "foreignOriginRejected": true,
+      "logoutClearsAccessCookie": true,
+      "unauthorizedAliases": [
+        {
+          "path": "/find/index.html",
+          "status": 303
+        },
+        {
+          "path": "/find/index.txt",
+          "status": 401
+        },
+        {
+          "path": "/%66ind/",
+          "status": 303
+        },
+        {
+          "path": "/find%2findex.txt",
+          "status": 401
+        }
+      ]
+    }
+  ],
+  "status": "pass"
+}

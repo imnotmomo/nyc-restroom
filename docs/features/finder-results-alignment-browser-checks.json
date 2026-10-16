@@ -1,0 +1,92 @@
+{
+  "checkedAt": "2026-10-16T15:31:43.618Z",
+  "method": "Focused actual compiled browser DOM geometry; synthetic permission-granted browser GPS only; production Firebase blocked.",
+  "productionWrites": false,
+  "status": "passed",
+  "checks": [
+    "Result count and select share a vertical center within 1px at desktop1280,320,390; no horizontal overflow or overlap.",
+    "GPS caption is absent before location is provided.",
+    "Normal GPS success selects distance sorting and displays caption below the aligned row after returning from mobile Map to List.",
+    "Demo original heading and meta markup remains unchanged; new toolbar classes are absent."
+  ],
+  "geometry": [
+    {
+      "viewport": 1280,
+      "toolbar": {
+        "x": 20,
+        "y": 419.671875,
+        "width": 324,
+        "height": 44
+      },
+      "count": {
+        "x": 20,
+        "y": 434.171875,
+        "width": 162,
+        "height": 15
+      },
+      "select": {
+        "x": 268,
+        "y": 419.671875,
+        "width": 76,
+        "height": 44
+      },
+      "centerDifference": 0,
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": 320,
+      "toolbar": {
+        "x": 16,
+        "y": 752.8125,
+        "width": 288,
+        "height": 44
+      },
+      "count": {
+        "x": 16,
+        "y": 767.3125,
+        "width": 162,
+        "height": 15
+      },
+      "select": {
+        "x": 228,
+        "y": 752.8125,
+        "width": 76,
+        "height": 44
+      },
+      "centerDifference": 0,
+      "horizontalOverflow": false
+    },
+    {
+      "viewport": 390,
+      "toolbar": {
+        "x": 16,
+        "y": 742.015625,
+        "width": 358,
+        "height": 44
+      },
+      "count": {
+        "x": 16,
+        "y": 756.515625,
+        "width": 162,
+        "height": 15
+      },
+      "select": {
+        "x": 298,
+        "y": 742.015625,
+        "width": 76,
+        "height": 44
+      },
+      "centerDifference": 0,
+      "horizontalOverflow": false
+    }
+  ],
+  "screenshots": [
+    "docs/features/screenshots/finder-results-aligned-390.png"
+  ],
+  "gpsGeometry": {
+    "captionBelowToolbar": true,
+    "centerDifference": 0,
+    "horizontalOverflow": false
+  },
+  "harnessNote": "Initial GPS visibility wait omitted the existing automatic mobile switch to Map. Selecting List confirms caption visibility and geometry; no application change required."
+}

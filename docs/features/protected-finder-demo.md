@@ -1,6 +1,6 @@
 # Protected finder and interactive demo
 
-Status: Ready for release
+Status: Shipped
 Date: October 16, 2026
 
 ## Brief and acceptance
@@ -28,3 +28,11 @@ The integrated source passed all 84 Node tests, TypeScript, static export and st
 The passcode and signing key are configured as masked Sites runtime secrets and in the existing VPS service environment. The prior VPS environment was privately backed up; unrelated settings were preserved. The proxy no longer overrides the access gate's no-referrer header.
 
 Independent compiled-browser acceptance passed all 13 groups: actual form unlock/reload/lock; signed host-only Secure/HttpOnly/Lax eight-hour cookie; blocked HTML/encoded/React payload aliases and private headers; public marketing demo links; exactly one initial Target/3434 sample; all filters and the four-star cutoff; rating replacement/removal; saved places, private-code auto-save, code editing/visibility/verification invalidation; notes; local additions; reload/reset; 320/390px layouts; and keyboard detail/dialog focus. The demo issued no Firebase requests or API mutations. No browser errors or blocking review findings remain. See `protected-finder-demo-browser-checks.json` and its screenshot paths. The compiled implementation resolves Chloe's plan-review conditions: sample evidence is visible and demo changes stay isolated and resettable.
+
+## Release and outcome
+
+Source `6ac4f00978b77157f79566087003d766b6ac8231` shipped as Sites version 15 with runtime environment revision 1 and VPS release `20261016T152706Z-6ac4f00978b7`. Both public hosts were checked through their real HTTPS endpoints: waitlist/demo stay public; the configured passcode unlocks the finder; incorrect codes, tampered cookies and foreign-origin attempts are rejected; HTML and encoded/React-payload aliases require access; successful responses remain private/no-store; logout clears the access cookie. No production Firebase writes or accounts were created. See `protected-finder-demo-production-checks.json`.
+
+The live demo was also inspected in the browser with the single Target sample, 3434 code, working map pin and no account interface. Screenshot: `screenshots/protected-demo-live.jpg`. The temporary local preview was stopped. Chloe's final integrated review approved with an 8/10 score and no blockers.
+
+Keep page access and simulated product data separate. The shared gate controls the live page; Google Sign-in still owns real account actions inside it. The public demo uses a real street address for context, while its restroom facts and interactions remain labeled examples in local memory.
