@@ -34,8 +34,8 @@ test("analytics requires a valid explicit ID and an exact production HTTPS origi
 test("only known routes and safe lowercase campaign labels survive URL sanitization", () => {
   assert.equal(model.analyticsPageLocation(`${origin}/find?email=person%40example.com&lat=40.81234&lng=-73.92345&notes=private&utm_source=Reddit&utm_campaign=HW5#user-private-note`), `${origin}/find/?utm_source=reddit&utm_campaign=hw5`);
   assert.equal(model.analyticsPageLocation(`${origin}/?utm_source=%20Reddit%20&utm_term=person%40example.com&utm_medium=40.12345&utm_content=${"a".repeat(121)}`), `${origin}/?utm_source=reddit`);
-  for (const path of ["/", "/conditions/", "/entry-route/", "/dated-reports/", "/find/", "/privacy/", "/thank-you/"]) assert.equal(model.analyticsPageLocation(`${origin}${path}`), `${origin}${path}`);
-  for (const path of ["/person@example.com/", "/40.12345,-73.98765/", "/find/secret/", "/find//"]) assert.equal(model.analyticsPageLocation(`${origin}${path}`), null);
+  for (const path of ["/", "/conditions/", "/entry-route/", "/dated-reports/", "/find/", "/demo/", "/privacy/", "/thank-you/"]) assert.equal(model.analyticsPageLocation(`${origin}${path}`), `${origin}${path}`);
+  for (const path of ["/access/", "/api/finder-access/", "/person@example.com/", "/40.12345,-73.98765/", "/find/secret/", "/find//"]) assert.equal(model.analyticsPageLocation(`${origin}${path}`), null);
 });
 
 test("referrers exclude sensitive query strings, fragments, credentials, and external paths", () => {

@@ -1,6 +1,6 @@
 # Restroom Ready
 
-A mobile-first NYC restroom project. This release includes a homepage, three value-proposition pages, and a durable email waitlist. The marketing illustration remains an example. `/find/` is a working map/list of 1,064 city-listed locations across NYC, with public community cleanliness ratings, Google Sign-in, visitor-submitted locations, account-owned saved places and private visit notes, and private or shared restroom passcodes in Firebase. The directory uses a dated official snapshot and does not establish current availability or complete restroom coverage.
+A mobile-first NYC restroom project. This release includes a homepage, three value-proposition pages, and a durable email waitlist. The marketing illustration remains an example. `/demo/` is a public interactive example with no account or Firebase writes. Its changes reset on reload. `/find/` is a passcode-protected working map/list of 1,064 city-listed locations across NYC, with public community cleanliness ratings, Google Sign-in, visitor-submitted locations, account-owned saved places and private visit notes, and private or shared restroom passcodes in Firebase. The directory uses a dated official snapshot and does not establish current availability or complete restroom coverage.
 
 ## Run locally
 
@@ -30,7 +30,13 @@ The production preview runs the built pages and the same signup validation using
 - `/dated-reports/` — sources, observation dates, and uncertainty
 - `/thank-you/` — signup confirmation
 - `/privacy/` — stored information and contact/removal options
-- `/find/` — real city listings, map/search, source details, walking directions, Google accounts, login-only new-location logging, dated private/shared passcodes, saved places, and private visit notes
+- `/demo/` — one Target Herald Square example, simulated ratings/saves/filters/new locations/code checks, no Google account
+- `/access/` — shared-passcode entry for the live finder
+- `/find/` — passcode-protected real city listings, map/search, source details, walking directions, Google accounts, login-only new-location logging, dated private/shared passcodes, saved places, and private visit notes
+
+## Finder access
+
+Configure server-only `FINDER_ACCESS_PASSCODE` and a random `FINDER_ACCESS_SECRET` through Sites secrets and the VPS service environment. Missing values keep the live finder locked. Never use `NEXT_PUBLIC_` settings for them. A successful same-origin access request issues an eight-hour signed HttpOnly cookie; Lock finder clears it. The Worker and Node preview/development proxy protect finder HTML and exported React payloads before asset resolution, with private/no-store responses. The public demo and waitlist stay available. This protects page access, rather than making existing public source data or Firestore reports confidential. See [protected finder and demo](docs/features/protected-finder-demo.md).
 
 ## Firebase web app
 
@@ -42,7 +48,7 @@ The existing Standard `(default)` database in `nam5` stores private saved places
 
 Use the team's existing GA4 web stream. Its public measurement ID belongs in `analytics/web-config.json`; an optional `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-...` build-time setting overrides it. A blank override falls back to the tracked configuration. A missing or invalid ID makes no tracking requests. The connection status and actual-property verification are recorded in [the Analytics feature record](docs/features/google-analytics.md). Never put a Google password, OAuth token, or Measurement Protocol API secret in either setting.
 
-Tracking runs only on HTTPS `nyc.imfinethanku.me` and `restroom-ready-nyc.clcii.chatgpt.site`, on the seven known application routes. Local previews do not load the tag. Manual pageviews cover initial loads and Next.js navigation, using only approved page paths and bounded lowercase UTM labels. Referrers exclude query strings and fragments; external referrers retain only their origin.
+Tracking runs only on HTTPS `nyc.imfinethanku.me` and `restroom-ready-nyc.clcii.chatgpt.site`, on the approved marketing, finder and demo routes. The access form and access API are excluded. Local previews do not load the tag. Manual pageviews cover initial loads and Next.js navigation, using only approved page paths and bounded lowercase UTM labels. Referrers exclude query strings and fragments; external referrers retain only their origin.
 
 Turn Enhanced Measurement off for the selected web stream to avoid duplicate history pageviews and automatic collection of search terms, form attempts, or outbound directions URLs containing coordinates. Keep user-provided-data collection off. The tag disables Google Signals and advertising personalization. Mark `generate_lead` as a key event in GA4. It is queued on the thank-you page only after a successful signup response and guarded against reload duplication in that session. It counts completed waitlist submissions, including an already-subscribed email that receives a success response; use distinct database records for unique leads. The event includes the source page and method, never the email, Firebase account ID, private notes, or map coordinates. Validate the actual stream in GA Realtime before claiming the account is connected. Local browser checks use intercepted collection requests with both a dummy consumer and Google’s real tag library; they do not establish real demand.
 

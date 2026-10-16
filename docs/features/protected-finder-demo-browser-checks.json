@@ -1,0 +1,102 @@
+{
+  "checkedAt": "2026-10-16T15:26:07.909Z",
+  "preview": "http://127.0.0.1:4181",
+  "method": "Actual compiled app; visible DOM, browser cookies, HTTP responses and ordinary browser APIs only.",
+  "productionWrites": false,
+  "checks": [
+    {
+      "name": "Unauthenticated HTML, encoded aliases and exported payloads are server-gated with private no-store headers",
+      "status": "passed"
+    },
+    {
+      "name": "Access API rejects cross-origin, bad schema and credential placement without opening finder",
+      "status": "passed"
+    },
+    {
+      "name": "Browser password form rejects incorrect value and unlocks using signed host-only HttpOnly Secure cookie",
+      "status": "passed"
+    },
+    {
+      "name": "Lock finder clears access cookie and subsequent navigation and RSC requests are denied",
+      "status": "passed"
+    },
+    {
+      "name": "Public marketing pages expose demo and keep separate team-access link",
+      "status": "passed"
+    },
+    {
+      "name": "Anonymous demo starts with exactly one labeled Target example, code 3434 and no Google/account UI",
+      "status": "passed"
+    },
+    {
+      "name": "ALL/Public/Clean/Accessible/Saved filters work and rating changes affect the 4-star threshold",
+      "status": "passed"
+    },
+    {
+      "name": "Private demo code auto-saves; explicit verification is separate from updates; visibility preserves checks and code edits clear them",
+      "status": "passed"
+    },
+    {
+      "name": "Saved and notes can be changed without login and remain local session examples",
+      "status": "passed"
+    },
+    {
+      "name": "Log a restroom adds only a local sample; private code auto-saves it and filters respect selected attributes",
+      "status": "passed"
+    },
+    {
+      "name": "Reload and Reset demo restore original single example without persistent demo storage",
+      "status": "passed"
+    },
+    {
+      "name": "320px and 390px list/detail/dialog have no horizontal overflow; keyboard closes details and dialog restores trigger focus",
+      "status": "passed"
+    },
+    {
+      "name": "All public demo interactions issue zero Firebase requests or app API mutations, and no demo runtime exception",
+      "status": "passed"
+    }
+  ],
+  "screenshots": [
+    "docs/features/screenshots/protected-demo-320.png",
+    "docs/features/screenshots/protected-demo-390.png",
+    "docs/features/screenshots/protected-demo-detail-390.png"
+  ],
+  "demoFirebaseRequests": [],
+  "demoAPIMutations": [],
+  "pageErrors": [],
+  "status": "passed",
+  "accessCookie": {
+    "httpOnly": true,
+    "secure": true,
+    "sameSite": "Lax",
+    "path": "/",
+    "hostOnly": true,
+    "lifetimeSeconds": 28800,
+    "tokenPersistedInEvidence": false
+  },
+  "verdict": {
+    "persona": "judge-chloe",
+    "artifact": "Protected finder and public demo compiled preview; source hashes recorded in sourceVersion",
+    "verdict": "approve",
+    "score": 8,
+    "headline": "I can try the product without mistaking its example code or rating for checked Target information.",
+    "must_fix": [],
+    "nice_to_have": [],
+    "in_character_reaction": "The page tells me the pin is an address point and the code and access labels are examples. Code updated and Last verified are separate, and verifying clearly says it records a demo action. I can try the actions before joining anything.",
+    "would_flip_me": "",
+    "would_pay": "n/a"
+  },
+  "sourceVersion": {
+    "worker/access.mjs": "cc9f26ed22eabfb3f034e520395b04f768ded90d523b5b30d492ac1c8703264f",
+    "worker/index.mjs": "9fddb45296d47339198efdc00efb5e8cb7546a408c8e29c6669aa2ce64dbb9f4",
+    "scripts/serve.mjs": "2660b9ce1c3074fbeffeef53add8b3af454eef76387caa92294084792e7dc49e",
+    "components/finder-access.tsx": "cae8cd805c4baa48659ca27bc9f0ea1721c358b548e7d786efcb0c322c8bc02a",
+    "components/demo/explorer.tsx": "9a7a1904bdf60fb5b5060c066d3c1c5f19523b316d5697729bab82b12b95e387",
+    "components/demo/detail.tsx": "bf2b6c2ff085bce24cbd9f860a5a33050c71246deaa8a207a29e7857cde973b0",
+    "components/demo/add-restroom.tsx": "52493659ef8cdaff3b0c6a9209700ca2171ed6c235ff196cf862a6b1491998f6",
+    "components/demo/map.tsx": "8186c2f6128bf57f8766255111dcc6e42a151d09f19d13cfce1542b044bcba9e",
+    "lib/demo-state.ts": "00b62bdcbd51ae0c7ebb6c317de5ef54f7d3c53e2ee7619f91255e952d657707"
+  },
+  "visualReview": "Inspected the 320px and 390px list captures and 390px complete detail capture. Text, unknown fields, sample labels and 3434 are legible; no personal identity or real visitor submission appears."
+}

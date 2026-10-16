@@ -1,0 +1,13 @@
+.demo-banner{position:sticky;top:0;z-index:850;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:9px 32px;background:#eef2f8;border-bottom:1px solid #aabac3;color:#43545c;font-size:12px;line-height:1.65}
+.demo-banner strong{font-weight:600;color:#2b59c3}
+.demo-banner button{display:inline-flex;align-items:center;gap:7px;min-height:44px;flex-shrink:0;padding:8px 10px;border:1px solid #82969f;background:white;color:#2b59c3;font-size:12px}
+.demo-waitlist-link{display:inline-flex;align-items:center;gap:8px;margin-left:auto;min-height:44px;text-underline-offset:4px;font-size:13px;color:#2b59c3!important}
+.demo-list-label{font:11px/1.5 var(--mono);color:#56666e;letter-spacing:.025em}
+.demo-detail .finder-note-form>label{display:block;font-size:13px;font-weight:600;margin-bottom:8px}
+.demo-detail .finder-note-form>textarea{width:100%;min-width:0;padding:10px;border:1px solid #82969f;font:16px/1.5 var(--sans);resize:vertical}
+.demo-add-flags{display:grid;gap:8px;margin-top:20px}
+.demo-add-flags>label{display:flex;align-items:center;gap:10px;min-height:44px;padding:8px 10px;border:1px solid #aabac3;font-size:13px}
+.demo-add-flags input{width:18px;height:18px;accent-color:#2b59c3}
+.demo-add-dialog .finder-log-body>.finder-log-form>.finder-secondary-button{margin-top:12px;max-width:100%;white-space:normal}
+@media(max-width:650px){.demo-banner{padding:8px 16px;gap:10px;font-size:11px}.demo-banner button{font-size:11px;padding:7px 8px}.demo-waitlist-link{font-size:12px;gap:5px}.demo-app .finder-brand img{width:165px}.demo-app .finder-header{flex-wrap:wrap}.demo-app .finder-workspace.has-detail .finder-detail{scroll-margin-top:90px}.demo-app .finder-map-panel{min-height:440px}.demo-app .finder-rating-options{gap:4px}.demo-detail .finder-passcode-value{font-size:24px}}
+@media(max-width:350px){.demo-banner{padding-inline:12px;font-size:11px}.demo-banner button{max-width:94px;gap:5px}.demo-app .finder-brand img{width:150px}.demo-waitlist-link{font-size:11px}.demo-app .finder-result{padding-inline:16px}.demo-app .finder-result-index{display:none}}

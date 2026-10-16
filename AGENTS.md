@@ -124,6 +124,12 @@ The marketing pages are `/`, `/conditions/`, `/entry-route/`, and `/dated-report
 
 Keep signup data, session credentials, and email addresses out of Git, page URLs, and analytics. A failed save must retain the email and must not navigate to the thank-you page. Public traffic needs the site audience to be set to public; private deployment does not satisfy that requirement.
 
+## Protected finder and public demo
+
+The live `/find/` page and its exported React payloads require the server access gate in `worker/access.mjs`. Apply the same gate in Node production and development before resolving assets. Preserve fail-closed configuration, same-origin mutations, signed expiring HttpOnly cookies, private/no-store protected responses and secret-only runtime configuration. Never place the shared access passcode or signing key in source, URLs, logs, Analytics, browser assets or `NEXT_PUBLIC_` settings. Lock finder clears access. This page gate is separate from Firebase authentication and public read rules.
+
+The public `/demo/` starts with one Target Herald Square example. Its ratings, route/entry attributes and code checks are simulated. Keep a visible sample-data label and local memory only; no Firebase initialization, account UI, persistent writes or analytics events for demo actions. Added demo places, saves, ratings and codes reset on reload. Keep demo code values separate from the live finder access passcode. Public marketing links should favor the demo; team access remains a separate link.
+
 ## Firebase backend
 
 Always find and use the appropriate Firebase agent skills for Firebase work. They are installed in this course workspace under `../.agents/skills/`; install them with `npx skills add firebase/agent-skills --agent=codex` if missing. Use the latest Firebase CLI through `npx -y firebase-tools@latest` and official Firebase MCP tools.

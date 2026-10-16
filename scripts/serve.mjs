@@ -30,7 +30,11 @@ const server=createServer(async(req,res)=>{
     const body=JSON.stringify({status:'ok'});
     response=new Response(request.method==='HEAD'?null:body,{headers:{'Content-Type':'application/json; charset=utf-8','Content-Length':String(Buffer.byteLength(body)),'Cache-Control':'no-store'}});
    }
-  } else response=pathname==='/api/waitlist'?await signupResponse(request,store.save):await worker.fetch(request,{});
+  } else response=pathname==='/api/waitlist'?await signupResponse(request,store.save):await worker.fetch(request,{
+   FINDER_ACCESS_PASSCODE:process.env.FINDER_ACCESS_PASSCODE,
+   FINDER_ACCESS_SECRET:process.env.FINDER_ACCESS_SECRET,
+   FINDER_ACCESS_CLIENT_IP:req.socket.remoteAddress??'local-client',
+  });
   res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));
  }catch{res.writeHead(500);res.end('Something went wrong. Please try again.');}
 });

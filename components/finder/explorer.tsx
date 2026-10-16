@@ -9,6 +9,7 @@ import { PersonalNotes, RestroomDetail } from "@/components/finder/detail";
 import { RestroomRatings } from "@/components/finder/ratings";
 import { LogRestroomForm } from "@/components/finder/log-restroom";
 import { PasscodePanel } from "@/components/finder/passcode-panel";
+import { LockFinderButton } from "@/components/finder/lock-finder";
 import { COMMUNITY_FEED_LIMIT, communityRestroomToPlace, createCommunityRestroom, watchCommunityRestrooms, type LogRestroomInput, type CommunityRestroomRecord } from "@/lib/community-restrooms";
 import { datasetSource, distanceMeters, formatDistance, isWithinCollection, matchesRestroom, restrooms, sourceDateLabel, type Coordinates } from "@/lib/restrooms";
 import { deleteVisitNote, readLibrary, saveVisitNote, setFavorite, type VisitNote, type VisitNoteInput } from "@/lib/user-data";
@@ -424,7 +425,7 @@ export function RestroomExplorer() {
     <header className="finder-header">
       <Link href="/" className="finder-brand" aria-label="Restroom Ready home"><img src="/brand/lockup.svg" alt="Restroom Ready" width="224" height="42" /></Link>
       <nav className="finder-nav" aria-label="Main navigation"><Link href="/find/" aria-current="page"><MapPin size={16} />Find a restroom</Link><Link href="/">About the project <ArrowUpRight size={15} /></Link></nav>
-      <FirebaseAccountButton className="finder-account-button" />
+      <div className="finder-access-controls"><FirebaseAccountButton className="finder-account-button" /><LockFinderButton/></div>
     </header>
 
     <main id="finder-main">

@@ -3,7 +3,7 @@ const PRODUCTION_HOSTS = new Set([
   "restroom-ready-nyc.clcii.chatgpt.site",
 ]);
 const PAGE_PATHS = new Set([
-  "/", "/conditions/", "/entry-route/", "/dated-reports/", "/find/", "/privacy/", "/thank-you/",
+  "/", "/conditions/", "/entry-route/", "/dated-reports/", "/find/", "/demo/", "/privacy/", "/thank-you/",
 ]);
 const SIGNUP_SOURCES = new Set(["home", "conditions", "entry-route", "dated-reports"]);
 const CAMPAIGN_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
