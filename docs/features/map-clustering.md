@@ -28,4 +28,6 @@ Integrated Chrome checks pass at desktop and 390px, with a separate reviewer che
 
 Evidence: [main browser checks](cluster-browser-checks.json), [independent checks and focus regression](cluster-independent-checks.json), and [screenshots](screenshots/). A spiderfied group retains a faded parent element while its individual children are shown, and viewport pruning omits off-screen markers; source membership is the definitive count outside the initial full-collection view. Synthetic geolocation does not establish the user's Safari permission state.
 
-Publication to the existing public Site and VPS is pending. Account data and source records are unchanged.
+Published the tested source `6507a268416e859f4c3f88862e81dd14662ea0e9` to both hosts. Sites version 7, deployment `appgdep_6ad17ff499e081918c3ce651b42db5c9`, returned `succeeded`. The VPS activated release `20261016T013806Z-6507a268416e`; public HTTPS `/find/` returned 200 and `/api/health` returned `ok`. Account data and source records are unchanged.
+
+Independent fresh-browser release checks passed on both hosts: 1,064 group members, correct numbered circles, Accessible 619, keyboard expansion with map focus, and synthetic neighborhood location with individual dots. The first Sites visit requested an old CSS asset and failed; a fresh retry loaded the current release and passed without browser errors. Current Sites HTML asset references also match the VPS and local build. Refresh an already-open page to load the new version. The owned local preview was stopped after verification.

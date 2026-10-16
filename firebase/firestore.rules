@@ -7,6 +7,13 @@
 // Notes are immutable after creation; their owner may delete them.
 // No users/{uid} profile document is required or created. The UID in the path
 // scopes these private subcollections; no identity/role/email field is accepted.
+// restroomRatingSummaries/{placeID}: ratingCount:int (0..1,000,000),
+// ratingSum:int (count..5*count, or zero for zero count), updatedAt:timestamp.
+// A trusted initializer creates these source-listing summaries. Clients may only
+// update one alongside their own vote; they cannot create/delete summaries.
+// restroomRatingSummaries/{placeID}/ratings/{uid}: stars:int (1..5),
+// updatedAt:timestamp. Only that signed-in non-anonymous account may GET/write
+// its vote. Public reads expose aggregate counts/sums, never raw vote owners.
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
@@ -44,6 +51,45 @@ service cloud.firestore {
         && validAnswer(data.stairs)
         && data.entryNote is string && data.entryNote.size() <= 1000;
     }
+    function isRatingOwner(uid) {
+      return isOwner(uid)
+        && request.auth.token.get('firebase', {}).get('sign_in_provider', '') != 'anonymous';
+    }
+    function isValidRatingSummary(data) {
+      return data.keys().hasAll(['ratingCount', 'ratingSum', 'updatedAt'])
+        && data.keys().hasOnly(['ratingCount', 'ratingSum', 'updatedAt'])
+        && data.ratingCount is int && data.ratingCount >= 0 && data.ratingCount <= 1000000
+        && data.ratingSum is int && data.ratingSum >= data.ratingCount
+        && data.ratingSum <= data.ratingCount * 5
+        && data.updatedAt is timestamp;
+    }
+    function isValidRatingVote(data) {
+      return data.keys().hasAll(['stars', 'updatedAt'])
+        && data.keys().hasOnly(['stars', 'updatedAt'])
+        && data.stars is int && data.stars >= 1 && data.stars <= 5
+        && data.updatedAt is timestamp;
+    }
+    function isValidRatingTransition(placeID, uid) {
+      let summaryPath = /databases/$(database)/documents/restroomRatingSummaries/$(placeID);
+      let votePath = /databases/$(database)/documents/restroomRatingSummaries/$(placeID)/ratings/$(uid);
+      let beforeSummary = get(summaryPath).data;
+      let afterSummary = getAfter(summaryPath).data;
+      let beforeVote = get(votePath);
+      let afterVote = getAfter(votePath);
+      let oldStars = beforeVote == null ? 0 : beforeVote.data.stars;
+      let newStars = afterVote == null ? 0 : afterVote.data.stars;
+      return validPlaceID(placeID)
+        && isValidRatingSummary(beforeSummary) && isValidRatingSummary(afterSummary)
+        && afterSummary.updatedAt == request.time
+        && afterSummary.updatedAt != beforeSummary.updatedAt
+        && (beforeVote == null || isValidRatingVote(beforeVote.data))
+        && (afterVote == null || (isValidRatingVote(afterVote.data) && afterVote.data.updatedAt == request.time))
+        && (beforeVote != null || afterVote != null)
+        && oldStars != newStars
+        && afterSummary.ratingCount == beforeSummary.ratingCount
+          + (afterVote == null ? 0 : 1) - (beforeVote == null ? 0 : 1)
+        && afterSummary.ratingSum == beforeSummary.ratingSum + newStars - oldStars;
+    }
     match /users/{uid}/restroomReadySaved/{placeID} {
       allow read, delete: if isOwner(uid);
       allow create: if isOwner(uid) && isValidSaved(request.resource.data, placeID);
@@ -55,6 +101,23 @@ service cloud.firestore {
       allow create: if isOwner(uid) && noteID.size() == 20
         && noteID.matches('^[a-zA-Z0-9]{20}$') && isValidNote(request.resource.data);
       allow update: if false;
+    }
+    match /restroomRatingSummaries/{placeID} {
+      allow get: if validPlaceID(placeID);
+      allow list: if resource.data.ratingCount > 0;
+      allow create, delete: if false;
+      allow update: if isRatingOwner(request.auth.uid)
+        && isValidRatingSummary(request.resource.data)
+        && isValidRatingTransition(placeID, request.auth.uid);
+      match /ratings/{uid} {
+        allow get: if isRatingOwner(uid);
+        allow list: if false;
+        allow create, update: if isRatingOwner(uid)
+          && isValidRatingVote(request.resource.data)
+          && request.resource.data.updatedAt == request.time
+          && isValidRatingTransition(placeID, uid);
+        allow delete: if isRatingOwner(uid) && isValidRatingTransition(placeID, uid);
+      }
     }
     match /{document=**} {
       allow read, write: if false;

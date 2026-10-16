@@ -1,6 +1,6 @@
 # Restroom Ready
 
-A mobile-first NYC restroom project. This release includes a homepage, three value-proposition pages, and a durable email waitlist. The marketing illustration remains an example. `/find/` is a working map/list of 1,064 city-listed locations across NYC, with Google Sign-in and account-owned saved places and private visit notes in Firebase. The directory uses a dated official snapshot and does not establish current availability or complete restroom coverage.
+A mobile-first NYC restroom project. This release includes a homepage, three value-proposition pages, and a durable email waitlist. The marketing illustration remains an example. `/find/` is a working map/list of 1,064 city-listed locations across NYC, with public community cleanliness ratings, Google Sign-in, and account-owned saved places and private visit notes in Firebase. The directory uses a dated official snapshot and does not establish current availability or complete restroom coverage.
 
 ## Run locally
 

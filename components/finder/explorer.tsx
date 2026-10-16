@@ -6,10 +6,12 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ArrowDownAZ, ArrowUpRight, Bookmark, ChevronRight, Info, List, LocateFixed, Map as MapIcon, MapPin, Search, X } from "lucide-react";
 import { FirebaseAccountButton, useFirebaseAccount } from "@/components/firebase-account";
 import { PersonalNotes, RestroomDetail } from "@/components/finder/detail";
+import { RestroomRatings } from "@/components/finder/ratings";
 import { COLUMBIA, datasetSource, distanceMeters, formatDistance, isWithinCollection, matchesRestroom, restrooms, sourceDateLabel, type Coordinates } from "@/lib/restrooms";
 import { deleteVisitNote, readLibrary, saveVisitNote, setFavorite, type VisitNote, type VisitNoteInput } from "@/lib/user-data";
 import { locationAvailabilityError, requestBrowserLocation } from "@/lib/location";
 import { FILTER_HELP, FILTER_OPTIONS, matchesRestroomFilter, type RestroomFilter } from "@/lib/restroom-filters";
+import { readOwnRating, setRating, watchRatingSummaries, type OwnRating, type RatingSummary } from "@/lib/ratings";
 
 const RestroomMap = dynamic(() => import("@/components/finder/map"), {
   ssr: false,
@@ -38,6 +40,17 @@ export function RestroomExplorer() {
   const [libraryRetry, setLibraryRetry] = useState(0);
   const [favoriteBusy, setFavoriteBusy] = useState(false);
   const [noteBusy, setNoteBusy] = useState(false);
+  const [ratings, setRatings] = useState<Record<string, RatingSummary>>({});
+  const [ratingsLoading, setRatingsLoading] = useState(true);
+  const [ratingsError, setRatingsError] = useState<string | null>(null);
+  const [ratingsRetry, setRatingsRetry] = useState(0);
+  const [ownRating, setOwnRating] = useState<{ uid: string; placeID: string; rating: OwnRating | null } | null>(null);
+  const [ownRatingLoading, setOwnRatingLoading] = useState(false);
+  const [ownRatingError, setOwnRatingError] = useState<string | null>(null);
+  const [ratingBusy, setRatingBusy] = useState(false);
+  const ratingOperation = useRef(0);
+  const currentPlaceID = useRef(selectedID);
+  currentPlaceID.current = selectedID;
   const lastFocusedControl = useRef<HTMLElement | null>(null);
   const cancelLocation = useRef<(() => void) | null>(null);
   const locationVersion = useRef(0);
@@ -48,8 +61,72 @@ export function RestroomExplorer() {
   const savedIDs = useMemo(() => new Set(favoriteIDs), [favoriteIDs]);
   const privateNotes = library.uid === uid && uid ? library.notes : [];
 
+  useEffect(() => {
+    let active = true;
+    setRatingsLoading(true);
+    setRatingsError(null);
+    const unsubscribe = watchRatingSummaries((next) => {
+      if (!active) return;
+      setRatings(next);
+      setRatingsLoading(false);
+      setRatingsError(null);
+    }, (error) => {
+      if (!active) return;
+      setRatings({});
+      setRatingsLoading(false);
+      setRatingsError(error.message);
+    });
+    return () => { active = false; unsubscribe(); };
+  }, [ratingsRetry]);
+
+  useEffect(() => {
+    let active = true;
+    ratingOperation.current += 1;
+    setOwnRating(null);
+    setOwnRatingError(null);
+    setRatingBusy(false);
+    if (!uid || !selectedID) { setOwnRatingLoading(false); return; }
+    setOwnRatingLoading(true);
+    readOwnRating(uid, selectedID).then((rating) => {
+      if (active) setOwnRating({ uid, placeID: selectedID, rating });
+    }).catch((error: unknown) => {
+      if (active) setOwnRatingError(error instanceof Error ? error.message : "Your rating could not be loaded. Please retry.");
+    }).finally(() => { if (active) setOwnRatingLoading(false); });
+    return () => { active = false; };
+  }, [uid, selectedID, ratingsRetry]);
+
+  async function saveRating(stars: number | null): Promise<boolean> {
+    if (!uid || !selectedID || ratingBusy || ownRatingLoading || ownRatingError || ownRating?.uid !== uid || ownRating.placeID !== selectedID) return false;
+    const owner = uid;
+    const placeID = selectedID;
+    const operation = ++ratingOperation.current;
+    const isCurrent = () => currentUID.current === owner && currentPlaceID.current === placeID && ratingOperation.current === operation;
+    setRatingBusy(true);
+    setOwnRatingError(null);
+    setMessage(null);
+    let committed = false;
+    try {
+      await setRating(owner, placeID, stars);
+      committed = true;
+      const rating = await readOwnRating(owner, placeID);
+      if (!isCurrent()) return false;
+      setOwnRating({ uid: owner, placeID, rating });
+      return true;
+    } catch (error) {
+      if (!isCurrent()) return false;
+      if (committed) {
+        setOwnRating(null);
+        setOwnRatingError("Your rating change was saved, but your rating could not refresh. Retry loading it before making another change.");
+        return true;
+      }
+      setMessage(error instanceof Error ? error.message : "Your rating could not be saved. Please retry.");
+      return false;
+    } finally { if (isCurrent()) setRatingBusy(false); }
+  }
+
   useEffect(() => () => {
     locationVersion.current += 1;
+    ratingOperation.current += 1;
     cancelLocation.current?.();
   }, []);
 
@@ -73,10 +150,12 @@ export function RestroomExplorer() {
   const origin = userLocation ?? COLUMBIA;
   const originLabel = userLocation ? "your location" : "Columbia";
   const places = useMemo(() => restrooms.filter((place) => matchesRestroom(place, query)
-    && matchesRestroomFilter(place, filter, savedIDs))
+    && matchesRestroomFilter({ ...place, cleanlinessRating: !ratingsLoading && !ratingsError && ratings[place.id]
+      ? { average: ratings[place.id].average, ratingCount: ratings[place.id].ratingCount, sourceUrl: "https://nyc.imfinethanku.me/find/" }
+      : null }, filter, savedIDs))
     .map((place) => ({ place, distance: distanceMeters(origin, place) }))
     .sort((a, b) => sort === "name" ? a.place.name.localeCompare(b.place.name) : a.distance - b.distance),
-  [query, filter, savedIDs, origin, sort]);
+  [query, filter, savedIDs, origin, sort, ratings, ratingsLoading, ratingsError]);
   const mapPlaces = useMemo(() => places.map(({ place }) => place), [places]);
   const selected = restrooms.find((place) => place.id === selectedID);
 
@@ -243,11 +322,13 @@ export function RestroomExplorer() {
 
   const emptyTitle = filter === "saved"
     ? libraryLoading ? "Loading your saved places…" : libraryError ? "Saved places could not load." : "No saved places yet."
-    : filter === "clean" ? "No 4★+ cleanliness ratings yet." : "No matching locations.";
+    : filter === "clean" ? ratingsLoading ? "Loading cleanliness ratings…" : ratingsError ? "Cleanliness ratings could not load." : "No locations with 4★+ cleanliness ratings." : "No matching locations.";
   const emptyDescription = filter === "saved"
     ? libraryError ? "Retry loading your saved places using the message above." : "Save a location from its detail sheet to find it again."
     : filter === "clean"
-      ? "The city dataset has no public cleanliness star ratings. Unrated places are not treated as clean. You can still browse every location with ALL."
+      ? ratingsLoading ? "Loading public community ratings. You can keep browsing with ALL."
+        : ratingsError ? "Retry loading community ratings below, or choose ALL to browse the city listings."
+          : "This filter needs a community cleanliness average of at least 4 out of 5. Unrated places are not treated as clean."
       : "Try a place name or location type, change the filter, or clear your search.";
 
   return <div className="finder-app">
@@ -274,6 +355,8 @@ export function RestroomExplorer() {
 
       <p className="finder-filter-help" id="finder-filter-help" aria-live="polite">{FILTER_HELP[filter]}</p>
 
+      {ratingsError && <div className="finder-feedback" role="status"><p>{ratingsError}</p><button type="button" className="finder-retry-button" onClick={() => setRatingsRetry((value) => value + 1)}>Retry ratings</button></div>}
+
       <div className="finder-data-banner"><Info size={17} /><p><strong>Know what’s known.</strong> NYC Open Data updated {sourceDateLabel}. Availability may have changed. Purchase requirements, restroom floors, and conditions are not reported.</p><a href={datasetSource.url} target="_blank" rel="noreferrer">View source <ArrowUpRight size={14} /></a></div>
       {(account.error || locationError || message || libraryError) && <div className="finder-feedback" role="status"><p>{locationError || account.error || message || libraryError}</p>{libraryError && <button type="button" className="finder-retry-button" onClick={() => setLibraryRetry((value) => value + 1)}>Retry loading</button>}<button type="button" onClick={() => { account.clearError(); setLocationError(null); setMessage(null); setLibraryError(null); }} aria-label="Dismiss message"><X size={18} /></button></div>}
 
@@ -284,7 +367,7 @@ export function RestroomExplorer() {
           <div className="finder-results-heading"><div><span className="finder-overline">Your starting point</span><p><MapPin size={15} />{userLocation ? "Your location" : "Columbia University"}</p></div><div className="finder-sort"><ArrowDownAZ size={16} /><label className="finder-sr-only" htmlFor="finder-sort">Sort locations</label><select id="finder-sort" value={sort} onChange={(event) => setSort(event.target.value as "distance" | "name")}><option value="distance">Distance</option><option value="name">Name A–Z</option></select></div></div>
           <div className="finder-results-meta"><span role="status">{places.length} {places.length === 1 ? "location" : "locations"}{filter === "saved" ? " saved" : " in this view"}</span><span>Straight-line distance</span></div>
           <div className="finder-result-scroll" ref={listScroll}>
-            {places.length === 0 ? <div className="finder-empty"><Search size={25} /><h2>{emptyTitle}</h2><p>{emptyDescription}</p><button className="finder-text-button" type="button" onClick={() => { setQuery(""); setFilter("all"); }}>Show all locations <ChevronRight size={16} /></button></div> : <ol className="finder-results-list">{places.slice(0, listLimit).map(({ place, distance }, index) => <li key={place.id}><button className={`finder-result${selectedID === place.id ? " is-selected" : ""}`} type="button" data-place-id={place.id} onClick={() => selectPlace(place.id)} aria-controls="restroom-details" aria-expanded={selectedID === place.id}><span className="finder-result-index">{String(index + 1).padStart(2, "0")}</span><span className="finder-result-content"><span className="finder-result-category">{place.locationType} <span>·</span> {formatDistance(distance)}</span><strong>{place.name}</strong><span className="finder-result-operator">{place.operator ?? "Operator not reported"}</span>{filter === "accessible" && place.accessNotes && <span className="finder-result-access-note"><strong>Access note:</strong> {place.accessNotes}</span>}<span className="finder-result-unknown">Purchase · Floor · Conditions <span>Not reported</span></span></span><span className="finder-result-end">{favoriteIDs.includes(place.id) ? <Bookmark size={17} fill="currentColor" aria-label="Saved" /> : <ChevronRight size={18} />}</span></button></li>)}</ol>}
+            {places.length === 0 ? <div className="finder-empty"><Search size={25} /><h2>{emptyTitle}</h2><p>{emptyDescription}</p><button className="finder-text-button" type="button" onClick={() => { setQuery(""); setFilter("all"); }}>Show all locations <ChevronRight size={16} /></button></div> : <ol className="finder-results-list">{places.slice(0, listLimit).map(({ place, distance }, index) => <li key={place.id}><button className={`finder-result${selectedID === place.id ? " is-selected" : ""}`} type="button" data-place-id={place.id} onClick={() => selectPlace(place.id)} aria-controls="restroom-details" aria-expanded={selectedID === place.id}><span className="finder-result-index">{String(index + 1).padStart(2, "0")}</span><span className="finder-result-content"><span className="finder-result-category">{place.locationType} <span>·</span> {formatDistance(distance)}</span><strong>{place.name}</strong><span className="finder-result-operator">{place.operator ?? "Operator not reported"}</span><span className="finder-result-rating">{ratingsLoading ? "Loading ratings…" : ratingsError ? "Ratings unavailable" : ratings[place.id] ? `${ratings[place.id].average.toFixed(1)} / 5 · ${ratings[place.id].ratingCount} cleanliness ${ratings[place.id].ratingCount === 1 ? "rating" : "ratings"}` : "No cleanliness ratings yet"}</span>{filter === "accessible" && place.accessNotes && <span className="finder-result-access-note"><strong>Access note:</strong> {place.accessNotes}</span>}<span className="finder-result-unknown">Purchase · Floor · Conditions <span>Not reported</span></span></span><span className="finder-result-end">{favoriteIDs.includes(place.id) ? <Bookmark size={17} fill="currentColor" aria-label="Saved" /> : <ChevronRight size={18} />}</span></button></li>)}</ol>}
             {places.length > 0 && <div className="finder-more-results"><p role="status">Showing {Math.min(listLimit, places.length).toLocaleString("en-US")} of {places.length.toLocaleString("en-US")} locations</p>{listLimit < places.length && <button type="button" className="finder-secondary-button" onClick={() => setListLimit((value) => value + LIST_PAGE_SIZE)}>Show {Math.min(LIST_PAGE_SIZE, places.length - listLimit)} more</button>}</div>}
           </div>
           <p className="finder-list-foot"><Info size={14} />Hours and entry rules can change. Check details before going.</p>
@@ -292,7 +375,7 @@ export function RestroomExplorer() {
 
         <section className="finder-map-panel" aria-label="Map view"><RestroomMap places={mapPlaces} selectedID={selectedID} onSelect={selectPlace} userLocation={userLocation} locationRequestID={locationRequestID} /><div className="finder-area-label"><span className="finder-overline">The city collection</span><strong>New York City</strong><span>City-listed places. Details worth checking.</span></div></section>
 
-        {selected && <RestroomDetail restroom={selected} distance={distanceMeters(origin, selected)} originLabel={originLabel} userLocation={userLocation} saved={favoriteIDs.includes(selected.id)} saving={favoriteBusy || libraryLoading} onToggleFavorite={() => void toggleFavorite()} onClose={closePlace} feedback={account.error || message || libraryError} onRetryLibrary={libraryError ? () => setLibraryRetry((value) => value + 1) : undefined} personalContent={<PersonalNotes key={`${uid ?? "signed-out"}:${selected.id}`} placeID={selected.id} signedIn={Boolean(uid)} configured={account.configured} loading={account.loading || libraryLoading} saving={noteBusy} notes={privateNotes.filter((note) => note.placeID === selected.id)} onSignIn={() => void account.signInWithGoogle()} onSave={addNote} onDelete={removeNote} />} />}
+        {selected && <RestroomDetail restroom={selected} distance={distanceMeters(origin, selected)} originLabel={originLabel} userLocation={userLocation} saved={favoriteIDs.includes(selected.id)} saving={favoriteBusy || libraryLoading} onToggleFavorite={() => void toggleFavorite()} onClose={closePlace} ratingContent={<RestroomRatings key={`${uid ?? "signed-out"}:${selected.id}`} summary={ratings[selected.id] ?? null} publicLoading={ratingsLoading} publicError={ratingsError} ownRating={ownRating?.uid === uid && ownRating.placeID === selected.id ? ownRating.rating : null} ownLoading={ownRatingLoading || Boolean(uid && (!ownRating || ownRating.uid !== uid || ownRating.placeID !== selected.id) && !ownRatingError)} ownError={ownRatingError} signedIn={Boolean(uid)} authLoading={account.loading} configured={account.configured} saving={ratingBusy} onSignIn={() => void account.signInWithGoogle()} onSave={saveRating} onRetry={() => setRatingsRetry((value) => value + 1)} />} feedback={account.error || message || libraryError} onRetryLibrary={libraryError ? () => setLibraryRetry((value) => value + 1) : undefined} personalContent={<PersonalNotes key={`${uid ?? "signed-out"}:${selected.id}`} placeID={selected.id} signedIn={Boolean(uid)} configured={account.configured} loading={account.loading || libraryLoading} saving={noteBusy} notes={privateNotes.filter((note) => note.placeID === selected.id)} onSignIn={() => void account.signInWithGoogle()} onSave={addNote} onDelete={removeNote} />} />}
       </div>
       <footer className="finder-footer"><p>NYC Open Data · {restrooms.length} locations in this collection · Source details are dated.</p><div><Link href="/privacy/">Privacy</Link><Link href="/">About Restroom Ready <ArrowUpRight size={14} /></Link></div></footer>
     </main>

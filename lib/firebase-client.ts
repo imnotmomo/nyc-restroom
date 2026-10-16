@@ -1,5 +1,6 @@
 import { getApps, initializeApp, type FirebaseApp, type FirebaseOptions } from "firebase/app";
-import { getAuth, type Auth } from "firebase/auth";
+import { connectAuthEmulator, getAuth, type Auth } from "firebase/auth";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
 import registeredWebConfig from "@/firebase/web-config.json";
 
 const options: FirebaseOptions = {
@@ -37,6 +38,14 @@ export function getFirebaseClient(): FirebaseClient | null {
     throw new Error("A different Firebase project is already connected. Reload after checking the app configuration.");
   }
   const app = existing ?? initializeApp(options);
-  client = { app, auth: getAuth(app) };
+  const auth = getAuth(app);
+  if (process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATORS === "true") {
+    if (!options.projectId?.startsWith("demo-") || !["localhost", "127.0.0.1"].includes(window.location.hostname)) {
+      throw new Error("Firebase emulator mode requires a demo project on localhost.");
+    }
+    connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true });
+    connectFirestoreEmulator(getFirestore(app), "127.0.0.1", 8088);
+  }
+  client = { app, auth };
   return client;
 }

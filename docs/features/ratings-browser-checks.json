@@ -1,0 +1,76 @@
+{
+  "checkedAt": "2026-10-16T01:59:42.536Z",
+  "base": "http://127.0.0.1:4181",
+  "projectId": "demo-restroom-ready",
+  "emulatorOnly": true,
+  "syntheticAccounts": true,
+  "checks": [
+    "Signed-out visitors see confirmed zero as No ratings yet without a fake date or rating controls",
+    "Signed-out public reader sees seeded5.0/5 from1synthetic rating, source-specific update date, and Clean4+ filters it correctly without sign-in",
+    "Synthetic GoogleAuth emulator account gets five native keyboard radio choices; arrows select without writing; explicit Submit4 creates count1/sum4 and unchanged Update is disabled",
+    "Separate signed-out browser context receives real server-confirmed public aggregate written by another account",
+    "Reload restores authenticated own4star vote and public aggregate from emulator server",
+    "At320px all five radio labels meet44px targets and stay within viewport with no horizontal overflow",
+    "Updating same account4→2 replaces its vote, keeps count1, and updates another signed-out reader live",
+    "Rejected emulator commit shows uncertainty rather than claiming no-save, keeps selected5stars, shows no success, and leaves confirmed aggregate2.0/1",
+    "Switching locations clears unsavedchoice/error/success and returning loads own confirmed2star vote",
+    "Sign-out clears own form/success while preserving public aggregate; second synthetic account starts blank and3stars combine with first5stars into4.0/2",
+    "Second account update3→1 gives3.0/2; explicit Remove deletes only its vote, restores5.0/1 and resets form"
+  ],
+  "errors": [],
+  "blockedProductionRequests": [],
+  "radioTargets320": [
+    {
+      "width": 52,
+      "height": 58,
+      "x": 20,
+      "right": 72
+    },
+    {
+      "width": 52,
+      "height": 58,
+      "x": 77,
+      "right": 129
+    },
+    {
+      "width": 52,
+      "height": 58,
+      "x": 134,
+      "right": 186
+    },
+    {
+      "width": 52,
+      "height": 58,
+      "x": 191,
+      "right": 243
+    },
+    {
+      "width": 52,
+      "height": 58,
+      "x": 248,
+      "right": 300
+    }
+  ],
+  "status": "pass",
+  "followupChecks": [
+    "Removing final5star vote returns public summary to confirmed No ratings yet, removes average/update date, and resets own form; explicit success is server-confirmed.",
+    "Malformed own-vote fixture causes distinct read error and disabled submission instead of assuming zero; removing fixture and Retry recovers the verified empty form.",
+    "Malformed public aggregate shows error with no false zero/average/date; Retry remains truthful while malformed, then source restoration automatically recovers5.0/1."
+  ],
+  "mobileIndependent": {
+    "viewports": [
+      320,
+      390
+    ],
+    "signedOutPositiveSummary": "5.0 /5,1rating visible without sign-in",
+    "rateCTATarget": {
+      "width": 190.72,
+      "height": 44
+    },
+    "horizontalOverflow": false,
+    "keyboardFocus": "3pxsolidblueoutline; Back restoreslistbutton",
+    "sourceDisclosureKeyboard": true,
+    "productionFirebaseRequests": 0
+  },
+  "harnessNote": "Earlier followup script attempted Retry after Firestore had already automatically recovered; corrected check retries while malformed and then verifies restored public summary."
+}

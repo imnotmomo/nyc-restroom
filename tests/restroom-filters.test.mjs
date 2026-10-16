@@ -26,7 +26,8 @@ test("filter options have the requested order, exact labels, and meaningful expl
   ]);
   for (const option of FILTER_OPTIONS) assert.ok(FILTER_HELP[option.value].length > 20);
   assert.match(FILTER_HELP.public, /Entry rules, fees/);
-  assert.match(FILTER_HELP.clean, /does not provide cleanliness ratings/);
+  assert.match(FILTER_HELP.clean, /Community cleanliness ratings averaging at least 4/);
+  assert.match(FILTER_HELP.clean, /Unrated locations are excluded/);
   assert.match(FILTER_HELP.accessible, /routes and stalls are not confirmed/);
 });
 

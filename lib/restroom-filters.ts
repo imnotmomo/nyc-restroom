@@ -13,7 +13,7 @@ export const FILTER_OPTIONS = [
 export const FILTER_HELP: Readonly<Record<RestroomFilter, string>> = {
   all: "All listings in the dated NYC source collection.",
   public: "Listed in NYC’s public-restroom directory. Entry rules, fees, and current availability may vary.",
-  clean: "Requires an attributed public cleanliness rating of at least 4 out of 5. The NYC source does not provide cleanliness ratings.",
+  clean: "Community cleanliness ratings averaging at least 4 out of 5. Unrated locations are excluded; ratings do not confirm current conditions.",
   accessible: "Facilities listed ‘Fully Accessible’ by NYC. Restroom routes and stalls are not confirmed; check access notes.",
   saved: "Places saved to your signed-in account.",
 };

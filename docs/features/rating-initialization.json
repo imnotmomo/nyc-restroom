@@ -1,0 +1,10 @@
+{
+  "project": "nye-restroom",
+  "database": "(default)",
+  "collection": "restroomRatingSummaries",
+  "startedAt": "2026-10-16T01:55:44.783Z",
+  "created": 1064,
+  "alreadyExists": 0,
+  "total": 1064,
+  "completedAt": "2026-10-16T01:56:11.313Z"
+}

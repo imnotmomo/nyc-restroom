@@ -9,7 +9,7 @@ function FactRow({ label, value, unknown = false }: { label: string; value: stri
   return <div className={`finder-fact${unknown ? " is-unknown" : ""}`}><dt>{label}</dt><dd>{value}</dd></div>;
 }
 
-export function RestroomDetail({ restroom, distance, originLabel, userLocation, saved, saving, onToggleFavorite, onClose, personalContent, feedback, onRetryLibrary }: {
+export function RestroomDetail({ restroom, distance, originLabel, userLocation, saved, saving, onToggleFavorite, onClose, ratingContent, personalContent, feedback, onRetryLibrary }: {
   restroom: Restroom;
   distance: number;
   originLabel: string;
@@ -18,6 +18,7 @@ export function RestroomDetail({ restroom, distance, originLabel, userLocation, 
   saving: boolean;
   onToggleFavorite: () => void;
   onClose: () => void;
+  ratingContent: ReactNode;
   personalContent: ReactNode;
   feedback: string | null;
   onRetryLibrary?: () => void;
@@ -72,6 +73,7 @@ export function RestroomDetail({ restroom, distance, originLabel, userLocation, 
       <p className="finder-field-note">Soap, toilet paper, and stall conditions have not been reported in this source.</p>
     </section>
 
+    <div className="finder-detail-section">{ratingContent}</div>
     <section className="finder-detail-section finder-personal-section">{personalContent}</section>
 
     <details className="finder-provenance">
