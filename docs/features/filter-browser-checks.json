@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-10-16T01:19:40.639Z",
+  "base": "http://localhost:4173",
+  "checks": [
+    "Exact five filters; ALL/Public1064 includingPOPS; Clean0with truthful empty state and ALL recovery; Accessible619 with facility qualifier and contradictory access note visible",
+    "Signed-out Saved opens Google sign-in and cancellation preserves the current filter; no account credentials entered",
+    "320/390/650/850px have no horizontal overflow; five visible44px targets wrap at320; Clean recovery and Accessible filtering work on mobile"
+  ],
+  "errors": []
+}
