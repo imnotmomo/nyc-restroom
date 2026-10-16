@@ -1,0 +1,233 @@
+{
+  "checkedAt": "2026-10-16T01:36:00.502Z",
+  "base": "http://localhost:4173",
+  "isolatedBrowser": true,
+  "syntheticLocation": {
+    "latitude": 40.8075,
+    "longitude": -73.9626
+  },
+  "checks": [
+    "At320px hidden-map reveal and eight List/Map cycles preserve all1064 cluster members/counts, valid ARIA, nonzero map dimensions, and no horizontal overflow",
+    "At320px synthetic Columbia GPS centers zoom16 and reveals individual dots after repeated view switching",
+    "Selecting either distinct TompkinsSquare source listing from the filtered list while clustered reveals and keeps its selected dot after three animation frames and200ms",
+    "Six rapid Accessible/ALL/search sequences settle to619; unmatched search clears all markers; clearing recovers1064 with correct numeric/ARIA cluster counts",
+    "Keyboard-focus regression resolved: Enter/Space after citywide and Tompkins cluster expansion leave focus in the named map region, not BODY."
+  ],
+  "errors": [],
+  "mobileInitial": {
+    "zoom": 9,
+    "mapSize": {
+      "width": 320,
+      "height": 574
+    },
+    "members": 1064,
+    "clusters": 6,
+    "pins": 0,
+    "visibleTotal": 1064,
+    "labelsValid": true,
+    "selectedIDs": [],
+    "overflow": false
+  },
+  "mobileLocated": {
+    "zoom": 16,
+    "mapSize": {
+      "width": 320,
+      "height": 574
+    },
+    "members": 1064,
+    "clusters": 0,
+    "pins": 17,
+    "visibleTotal": 17,
+    "labelsValid": true,
+    "selectedIDs": [],
+    "overflow": false
+  },
+  "coincidentIDs": [
+    "i7jb-7jku:row-2e6m-jgvz.siig",
+    "i7jb-7jku:row-p4r2_qz73-dyts"
+  ],
+  "coincidentSelections": [
+    {
+      "id": "i7jb-7jku:row-2e6m-jgvz.siig",
+      "state": {
+        "zoom": 19,
+        "mapSize": {
+          "width": 730,
+          "height": 699
+        },
+        "members": 2,
+        "clusters": 1,
+        "pins": 2,
+        "visibleTotal": 4,
+        "labelsValid": true,
+        "selectedIDs": [
+          "i7jb-7jku:row-2e6m-jgvz.siig"
+        ],
+        "overflow": false
+      }
+    },
+    {
+      "id": "i7jb-7jku:row-p4r2_qz73-dyts",
+      "state": {
+        "zoom": 19,
+        "mapSize": {
+          "width": 730,
+          "height": 699
+        },
+        "members": 2,
+        "clusters": 1,
+        "pins": 2,
+        "visibleTotal": 4,
+        "labelsValid": true,
+        "selectedIDs": [
+          "i7jb-7jku:row-p4r2_qz73-dyts"
+        ],
+        "overflow": false
+      }
+    }
+  ],
+  "accessibleAfterRapidChanges": {
+    "zoom": 10,
+    "mapSize": {
+      "width": 1075,
+      "height": 699
+    },
+    "members": 619,
+    "clusters": 17,
+    "pins": 0,
+    "visibleTotal": 619,
+    "labelsValid": true,
+    "selectedIDs": [],
+    "overflow": false
+  },
+  "allAfterClearing": {
+    "zoom": 10,
+    "mapSize": {
+      "width": 1075,
+      "height": 699
+    },
+    "members": 1064,
+    "clusters": 17,
+    "pins": 1,
+    "visibleTotal": 1064,
+    "labelsValid": true,
+    "selectedIDs": [],
+    "overflow": false
+  },
+  "keyboardFocus": [
+    {
+      "query": "",
+      "key": "Enter",
+      "before": "5 restroom locations. Zoom in or expand this group.",
+      "zoom": 14,
+      "activeTag": "DIV",
+      "activeClass": "finder-leaflet leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom",
+      "activeRole": "region",
+      "activeAria": "Restroom locations map. The same locations and details are available in the list.",
+      "activeTabindex": "0",
+      "activeOpacity": "1",
+      "activeConnected": true
+    },
+    {
+      "query": "",
+      "key": "Space",
+      "before": "5 restroom locations. Zoom in or expand this group.",
+      "zoom": 14,
+      "activeTag": "DIV",
+      "activeClass": "finder-leaflet leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom",
+      "activeRole": "region",
+      "activeAria": "Restroom locations map. The same locations and details are available in the list.",
+      "activeTabindex": "0",
+      "activeOpacity": "1",
+      "activeConnected": true
+    },
+    {
+      "query": "Tompkins Square Park",
+      "key": "Enter",
+      "before": "2 restroom locations. Zoom in or expand this group.",
+      "zoom": 15,
+      "activeTag": "DIV",
+      "activeClass": "finder-leaflet leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom",
+      "activeRole": "region",
+      "activeAria": "Restroom locations map. The same locations and details are available in the list.",
+      "activeTabindex": "0",
+      "activeOpacity": "1",
+      "activeConnected": true
+    },
+    {
+      "query": "Tompkins Square Park",
+      "key": "Space",
+      "before": "2 restroom locations. Zoom in or expand this group.",
+      "zoom": 15,
+      "activeTag": "DIV",
+      "activeClass": "finder-leaflet leaflet-container leaflet-touch leaflet-grab leaflet-touch-drag leaflet-touch-zoom",
+      "activeRole": "region",
+      "activeAria": "Restroom locations map. The same locations and details are available in the list.",
+      "activeTabindex": "0",
+      "activeOpacity": "1",
+      "activeConnected": true
+    }
+  ],
+  "focusRegression": {
+    "checkedAt": "2026-10-16T01:36:21.862433Z",
+    "initialObservation": "Citywide Enter/Space cluster expansion dropped keyboard focus to BODY.",
+    "initialEvidence": [
+      {
+        "query": "",
+        "key": "Enter",
+        "before": "5 restroom locations. Zoom in or expand this group.",
+        "zoom": 14,
+        "activeTag": "BODY",
+        "activeClass": "",
+        "activeRole": null,
+        "activeAria": null,
+        "activeTabindex": null,
+        "activeOpacity": "1",
+        "activeConnected": true
+      },
+      {
+        "query": "",
+        "key": "Space",
+        "before": "5 restroom locations. Zoom in or expand this group.",
+        "zoom": 14,
+        "activeTag": "BODY",
+        "activeClass": "",
+        "activeRole": null,
+        "activeAria": null,
+        "activeTabindex": null,
+        "activeOpacity": "1",
+        "activeConnected": true
+      },
+      {
+        "query": "Tompkins Square Park",
+        "key": "Enter",
+        "before": "2 restroom locations. Zoom in or expand this group.",
+        "zoom": 15,
+        "activeTag": "DIV",
+        "activeClass": "leaflet-marker-icon finder-cluster leaflet-zoom-hide leaflet-interactive",
+        "activeRole": "button",
+        "activeAria": "2 restroom locations. Zoom in or expand this group.",
+        "activeTabindex": "0",
+        "activeOpacity": "0.3",
+        "activeConnected": true
+      },
+      {
+        "query": "Tompkins Square Park",
+        "key": "Space",
+        "before": "2 restroom locations. Zoom in or expand this group.",
+        "zoom": 15,
+        "activeTag": "DIV",
+        "activeClass": "leaflet-marker-icon finder-cluster leaflet-zoom-hide leaflet-interactive",
+        "activeRole": "button",
+        "activeAria": "2 restroom locations. Zoom in or expand this group.",
+        "activeTabindex": "0",
+        "activeOpacity": "0.3",
+        "activeConnected": true
+      }
+    ],
+    "resolved": true,
+    "resolution": "Enter and Space now retain focus in the named, focusable map region for both citywide zoom expansion and coincident-point spiderfy."
+  },
+  "coincidentDomCountNote": "During spiderfy the plugin retains the faded parent cluster alongside the two source markers. The raw DOM-node count total can include that parent; actual cluster membership remains two distinct source records.",
+  "status": "pass"
+}

@@ -4,8 +4,28 @@ import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { MapPinned } from "lucide-react";
 import type * as Leaflet from "leaflet";
+import type {} from "leaflet.markercluster";
 import "leaflet/dist/leaflet.css";
+import "leaflet.markercluster/dist/MarkerCluster.css";
 import { datasetSource, type Coordinates, type Restroom } from "@/lib/restrooms";
+
+let clusteredLeaflet: Promise<typeof Leaflet> | undefined;
+
+function loadClusteredLeaflet(): Promise<typeof Leaflet> {
+  if (!clusteredLeaflet) {
+    clusteredLeaflet = import("leaflet").then(async (exports) => {
+      // The plugin patches global L; an ESM namespace itself is read-only.
+      const L = { ...exports } as typeof Leaflet;
+      (window as Window & { L: typeof Leaflet }).L = L;
+      await import("leaflet.markercluster");
+      return L;
+    }).catch((error: unknown) => {
+      clusteredLeaflet = undefined;
+      throw error;
+    });
+  }
+  return clusteredLeaflet;
+}
 
 interface RestroomMapProps {
   places: readonly Restroom[];
@@ -30,7 +50,7 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<Leaflet.Map | null>(null);
   const leaflet = useRef<typeof Leaflet | null>(null);
-  const markers = useRef<Leaflet.LayerGroup | null>(null);
+  const markers = useRef<Leaflet.MarkerClusterGroup | null>(null);
   const markerRecords = useRef(new Map<string, { marker: Leaflet.Marker }>());
   const locationMarker = useRef<Leaflet.CircleMarker | null>(null);
   const initialFit = useRef(false);
@@ -45,7 +65,7 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
   useEffect(() => {
     let cancelled = false;
     let resize: ResizeObserver | undefined;
-    import("leaflet").then((L) => {
+    loadClusteredLeaflet().then((L) => {
       if (cancelled || !container.current) return;
       leaflet.current = L;
       const { south, north, west, east } = datasetSource.bounds;
@@ -65,7 +85,52 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       }).on("tileerror", () => { if (!cancelled) setError("Map tiles could not load. You can still use the list."); })
         .on("tileload", () => { if (!cancelled) setError(null); }).addTo(instance);
-      markers.current = L.layerGroup().addTo(instance);
+      const clusters = L.markerClusterGroup({
+        animate: false,
+        animateAddingMarkers: false,
+        showCoverageOnHover: false,
+        removeOutsideVisibleBounds: true,
+        zoomToBoundsOnClick: true,
+        spiderfyOnMaxZoom: true,
+        spiderfyDistanceMultiplier: 1.4,
+        maxClusterRadius: (zoom) => zoom >= 16 ? 1 : 56,
+        spiderLegPolylineOptions: { color: "#2B59C3", weight: 1, opacity: 0.5 },
+        iconCreateFunction: (cluster) => {
+          const count = cluster.getChildCount();
+          const size = count >= 100 ? 52 : count >= 10 ? 46 : 40;
+          const icon = L.divIcon({
+            className: "finder-cluster",
+            html: `<span aria-hidden="true">${count}</span>`,
+            iconSize: [size, size], iconAnchor: [size / 2, size / 2],
+          });
+          const createIcon = icon.createIcon.bind(icon);
+          icon.createIcon = (oldIcon) => {
+            const element = createIcon(oldIcon);
+            element.setAttribute("aria-label", `${count} restroom locations. Zoom in or expand this group.`);
+            element.setAttribute("data-cluster-count", String(count));
+            element.setAttribute("role", "button");
+            element.tabIndex = 0;
+            return element;
+          };
+          return icon;
+        },
+      }).addTo(instance);
+      clusters.on("clusterkeydown", (event: Leaflet.LeafletEvent) => {
+        const { layer, originalEvent: keyboard } = event as Leaflet.LeafletEvent & {
+          layer: Leaflet.MarkerCluster;
+          originalEvent: KeyboardEvent;
+        };
+        if (keyboard.key !== "Enter" && keyboard.key !== " ") return;
+        keyboard.preventDefault();
+        keyboard.stopPropagation();
+        if (keyboard.repeat) return;
+        initialFit.current = true;
+        const bounds = layer.getBounds();
+        if (instance.getZoom() >= instance.getMaxZoom() || bounds.getNorthEast().equals(bounds.getSouthWest())) layer.spiderfy();
+        else layer.zoomToBounds({ padding: [48, 48], animate: false });
+        instance.getContainer().focus({ preventScroll: true });
+      });
+      markers.current = clusters;
       resize = new ResizeObserver(() => {
         instance.invalidateSize({ animate: false });
         fitInitialCollection();
@@ -89,12 +154,15 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
     const L = leaflet.current;
     if (!ready || !L || !map.current || !markers.current) return;
     const visibleIDs = new Set(places.map((place) => place.id));
+    const removed: Leaflet.Marker[] = [];
     for (const [id, record] of markerRecords.current) {
       if (!visibleIDs.has(id)) {
-        markers.current.removeLayer(record.marker);
+        removed.push(record.marker);
         markerRecords.current.delete(id);
       }
     }
+    if (removed.length) markers.current.removeLayers(removed);
+    const added: Leaflet.Marker[] = [];
     places.forEach((place) => {
       const selected = selectedIDRef.current === place.id;
       const existing = markerRecords.current.get(place.id);
@@ -121,11 +189,16 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
         keyboard.stopPropagation();
         if (!keyboard.repeat) onSelectRef.current(place.id);
       });
-      marker.addTo(markers.current!);
+      marker.on("add", () => {
+        const element = marker.getElement();
+        element?.setAttribute("aria-label", `View ${place.name}`);
+        element?.setAttribute("data-restroom-id", place.id);
+        element?.classList.toggle("is-selected", selectedIDRef.current === place.id);
+      });
+      added.push(marker);
       markerRecords.current.set(place.id, { marker });
-      marker.getElement()?.setAttribute("aria-label", `View ${place.name}`);
-      marker.getElement()?.setAttribute("data-restroom-id", place.id);
     });
+    if (added.length) markers.current.addLayers(added);
   }, [ready, places]);
 
   useEffect(() => {
@@ -137,9 +210,21 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
     selected?.getElement()?.classList.add("is-selected");
     selected?.setZIndexOffset(500);
     previousSelectedID.current = selectedID;
-    if (selected) {
+    const clusters = markers.current;
+    const instance = map.current;
+    const L = leaflet.current;
+    if (selected && clusters) {
       initialFit.current = true;
-      map.current.panTo(selected.getLatLng(), { animate: false });
+      instance.panTo(selected.getLatLng(), { animate: false });
+      clusters.zoomToShowLayer(selected, () => {
+        requestAnimationFrame(() => {
+          if (map.current !== instance || markers.current !== clusters || selectedIDRef.current !== selectedID) return;
+          // With animations off, zoomend may collapse a just-spiderfied pair.
+          const parent = clusters.getVisibleParent(selected);
+          if (!selected.getElement() && L && parent instanceof L.MarkerCluster) parent.spiderfy();
+          selected.getElement()?.classList.add("is-selected");
+        });
+      });
     }
   }, [ready, selectedID, places]);
 
@@ -152,7 +237,8 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
       locationMarker.current = L.circleMarker([userLocation.latitude, userLocation.longitude], {
         radius: 8, color: "#ffffff", weight: 3, fillColor: "#2b59c3", fillOpacity: 1,
       }).addTo(map.current).bindTooltip("Your location");
-      map.current.setView([userLocation.latitude, userLocation.longitude], 15, { animate: false });
+      map.current.stop();
+      map.current.setView([userLocation.latitude, userLocation.longitude], 16, { animate: false });
     }
   }, [ready, userLocation, locationRequestID]);
 
@@ -170,6 +256,6 @@ function OpenStreetMap({ places, selectedID, onSelect, userLocation, locationReq
     {!ready && !error && <div className="finder-map-loading" role="status">Loading the map…</div>}
     {error && <p className="finder-map-error" role="status">{error}</p>}
     <button type="button" className="finder-show-collection" onClick={showCollection} disabled={!ready || !places.length}><MapPinned size={17}/>Show collection</button>
-    <div className="finder-map-key"><span className="finder-key-dot" />City-listed location <span className="finder-key-note">Availability may have changed</span></div>
+    <div className="finder-map-key"><span className="finder-key-dot" />City-listed location <span className="finder-key-note">Numbers group nearby locations · Availability may have changed</span></div>
   </div>;
 }

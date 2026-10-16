@@ -91,6 +91,10 @@
 .finder-pin.is-selected>span{width:18px;height:18px;outline:2px solid #2b59c3;outline-offset:1px}
 .finder-pin:hover>span{box-shadow:0 0 0 2px #2b59c3}
 .finder-pin:focus-visible{outline:3px solid #2b59c3;outline-offset:1px;border-radius:50%}
+.finder-leaflet .finder-cluster{display:flex;align-items:center;justify-content:center;border:3px solid white;border-radius:50%;background:#2b59c3;color:white;box-shadow:0 0 0 1px #2b59c3;font:600 13px/1 var(--mono);cursor:pointer}
+.finder-cluster:hover{background:#20489f;box-shadow:0 0 0 2px #2b59c3}
+.finder-cluster:focus-visible{outline:3px solid #2b59c3;outline-offset:3px}
+.finder-cluster>span{pointer-events:none}
 .finder-map-key{position:absolute;left:16px;bottom:28px;display:flex;align-items:center;gap:8px;background:white;border:1px solid #a3b6c0;padding:9px 12px;font-size:10px;color:#1e2a30;z-index:500;max-width:calc(100% - 82px);flex-wrap:wrap}
 .finder-key-dot{width:10px;height:10px;display:block;background:#2b59c3;border:2px solid white;border-radius:50%;box-shadow:0 0 0 1px #2b59c3}
 .finder-key-note{color:#56666e}

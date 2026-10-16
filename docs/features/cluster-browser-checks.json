@@ -1,0 +1,57 @@
+{
+  "checkedAt": "2026-10-16T01:36:19.153Z",
+  "base": "http://localhost:4173",
+  "checks": [
+    "All 1,064 source listings are represented by fewer than 100 citywide markers; numbered blue clusters and unnumbered dots preserve counts and accessible labels",
+    "Cluster pointer clicks, Enter, and Space expand toward children; keyboard activation retains map focus",
+    "Filters rebuild correct cluster counts and labels: Accessible 619, Public 1,064, Clean 0",
+    "Selecting a list item reveals and highlights its child marker from inside a cluster",
+    "Synthetic Locate me at Columbia centers zoom 16, reveals individual unnumbered dots, and keeps one user marker outside the 1,064 restroom members",
+    "Search keeps matching source IDs and named individual dots; Enter/Space open the correct place details",
+    "Two genuine same-coordinate Tompkins Square listings remain a count-2 group and expand into two distinct clickable dots with pointer or Space",
+    "The 390px mobile map fits the complete collection when revealed, supports Locate me and view switching, and has no horizontal overflow"
+  ],
+  "errors": [],
+  "citywide": {
+    "zoom": 10,
+    "members": 1064,
+    "clusters": 17,
+    "pins": 1,
+    "displayedTotal": 1064,
+    "validLabels": true,
+    "unnumberedPins": true,
+    "center": {
+      "latitude": 40.7030252595921,
+      "longitude": -73.9812469482422
+    },
+    "userDots": 0
+  },
+  "located": {
+    "zoom": 16,
+    "members": 1064,
+    "clusters": 0,
+    "pins": 51,
+    "displayedTotal": 51,
+    "validLabels": true,
+    "unnumberedPins": true,
+    "center": {
+      "latitude": 40.8075,
+      "longitude": -73.9626
+    },
+    "userDots": 1
+  },
+  "mobile": {
+    "zoom": 9,
+    "members": 1064,
+    "clusters": 6,
+    "pins": 0,
+    "displayedTotal": 1064,
+    "validLabels": true,
+    "unnumberedPins": true,
+    "center": {
+      "latitude": 40.70330796054251,
+      "longitude": -73.98065000000001
+    },
+    "userDots": 0
+  }
+}
