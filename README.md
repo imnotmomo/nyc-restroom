@@ -40,9 +40,11 @@ The existing Standard `(default)` database in `nam5` stores private saved places
 
 ## Analytics
 
-Create your own GA4 web data stream. Put `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-...` in `.env.local` before building; use the environment example for other settings. No measurement ID is included in source, and no GA requests are made while it is unset.
+Use the team's existing GA4 web stream. Its public measurement ID belongs in `analytics/web-config.json`; an optional `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-...` build-time setting overrides it. A blank override falls back to the tracked configuration. A missing or invalid ID makes no tracking requests. The connection status and actual-property verification are recorded in [the Analytics feature record](docs/features/google-analytics.md). Never put a Google password, OAuth token, or Measurement Protocol API secret in either setting.
 
-Mark `generate_lead` as a key event in GA4. It is queued on the thank-you page only after a successful server save and guarded against reload duplication in that session. The event includes the source page, never the email. Campaign fields stored with the signup are lowercase. Validate the installed ID in GA Realtime; this cannot be certified without the team's property.
+Tracking runs only on HTTPS `nyc.imfinethanku.me` and `restroom-ready-nyc.clcii.chatgpt.site`, on the seven known application routes. Local previews do not load the tag. Manual pageviews cover initial loads and Next.js navigation, using only approved page paths and bounded lowercase UTM labels. Referrers exclude query strings and fragments; external referrers retain only their origin.
+
+Turn Enhanced Measurement off for the selected web stream to avoid duplicate history pageviews and automatic collection of search terms, form attempts, or outbound directions URLs containing coordinates. Keep user-provided-data collection off. The tag disables Google Signals and advertising personalization. Mark `generate_lead` as a key event in GA4. It is queued on the thank-you page only after a successful signup response and guarded against reload duplication in that session. It counts completed waitlist submissions, including an already-subscribed email that receives a success response; use distinct database records for unique leads. The event includes the source page and method, never the email, Firebase account ID, private notes, or map coordinates. Validate the actual stream in GA Realtime before claiming the account is connected. Local browser checks use intercepted collection requests with both a dummy consumer and Google’s real tag library; they do not establish real demand.
 
 Never commit signup databases, export email addresses into this repository, or include email addresses in campaign URLs.
 

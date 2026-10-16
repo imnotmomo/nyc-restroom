@@ -1,0 +1,112 @@
+{
+  "checkedAt": "2026-10-16T04:07:57.763Z",
+  "origin": "https://nyc.imfinethanku.me",
+  "measurementId": "G-MOCKTEST",
+  "library": "mocked-queue-draining-library",
+  "localPreview": "http://127.0.0.1:4173",
+  "checks": [
+    "Actual bundle initializes sanitized global defaults and one explicit pageview before a deliberately delayed Google library; config send_page_view is false.",
+    "Late-loading mocked queue-draining library consumes the queued event without an extra config pageview. Every collection request is intercepted with204.",
+    "Next.js native-history client navigation and browser back/forward each produce one pageview; private query/hash-only changes on the same sanitized route produce none.",
+    "All seven supported route initial loads produce exactly one sanitized pageview; direct thank-you visits produce no lead.",
+    "Mocked successful signup response creates exactly one source-allowlisted generate_lead on thank-you; reload emits no lead; email never enters the analytics payload. No real signup API write occurred.",
+    "Failed mocked signup stays on the form with email retained, no success marker, and no lead.",
+    "Ordinary localhost preview emits no Google tag or analytics requests despite carrying the public production ID."
+  ],
+  "collectionRequestsIntercepted": 17,
+  "productionCollectionRequestsSent": 0,
+  "productionSignupWrites": 0,
+  "pageErrors": [],
+  "unexpectedExternalRequests": [
+    "www.google.com",
+    "www.google.com"
+  ],
+  "googleCollectionEvents": [
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/?utm_source=reddit&utm_medium=organic&utm_campaign=hw5",
+      "referrer": "https://outside.example.invalid"
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/find/",
+      "referrer": "https://nyc.imfinethanku.me/?utm_source=reddit&utm_medium=organic&utm_campaign=hw5"
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/conditions/",
+      "referrer": "https://nyc.imfinethanku.me/find/"
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/find/",
+      "referrer": "https://nyc.imfinethanku.me/conditions/"
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/conditions/",
+      "referrer": "https://nyc.imfinethanku.me/find/"
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/",
+      "referrer": ""
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/conditions/",
+      "referrer": ""
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/entry-route/",
+      "referrer": ""
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/dated-reports/",
+      "referrer": ""
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/find/",
+      "referrer": ""
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/privacy/",
+      "referrer": ""
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/thank-you/",
+      "referrer": ""
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/conditions/?utm_source=reddit",
+      "referrer": ""
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/thank-you/",
+      "referrer": "https://nyc.imfinethanku.me/conditions/"
+    },
+    {
+      "event": "generate_lead",
+      "pageLocation": "https://nyc.imfinethanku.me/thank-you/",
+      "referrer": "https://nyc.imfinethanku.me/conditions/"
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/thank-you/",
+      "referrer": "https://nyc.imfinethanku.me/conditions/"
+    },
+    {
+      "event": "page_view",
+      "pageLocation": "https://nyc.imfinethanku.me/",
+      "referrer": ""
+    }
+  ],
+  "status": "pass"
+}
