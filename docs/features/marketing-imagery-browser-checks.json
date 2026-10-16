@@ -1,0 +1,122 @@
+[
+  {
+    "route": "/",
+    "width": 390,
+    "credit": "Bryant Park · May 26, 2022Photo: © 2022 Larry D. Moore / Wikimedia Commons · CC BY 4.0 · resized; displayed crop.",
+    "documentWidth": 390,
+    "forms": 2,
+    "photo": [
+      {
+        "alt": true,
+        "loaded": true,
+        "naturalWidth": 350,
+        "source": "/images/nyc/bryant-park-1280.webp"
+      }
+    ]
+  },
+  {
+    "route": "/conditions/",
+    "width": 390,
+    "credit": "New York Public Library · Main Branch exterior · July 31, 2024Photo: Kidfly182 / Wikimedia Commons · CC BY 4.0 · resized; displayed crop.",
+    "documentWidth": 390,
+    "forms": 2,
+    "photo": [
+      {
+        "alt": true,
+        "loaded": true,
+        "naturalWidth": 350,
+        "source": "/images/nyc/nypl-exterior-1280.webp"
+      }
+    ]
+  },
+  {
+    "route": "/entry-route/",
+    "width": 390,
+    "credit": "Bryant Park restroom · 42nd Street view · December 28, 2023Photo: SnowFire / Wikimedia Commons · CC BY 4.0 · resized; displayed crop.",
+    "documentWidth": 390,
+    "forms": 2,
+    "photo": [
+      {
+        "alt": true,
+        "loaded": true,
+        "naturalWidth": 350,
+        "source": "/images/nyc/bryant-restroom-side-1280.webp"
+      }
+    ]
+  },
+  {
+    "route": "/dated-reports/",
+    "width": 390,
+    "credit": "Bryant Park restroom · exterior · December 28, 2023Photo: SnowFire / Wikimedia Commons · CC BY 4.0 · resized; displayed crop.",
+    "documentWidth": 390,
+    "forms": 2,
+    "photo": [
+      {
+        "alt": true,
+        "loaded": true,
+        "naturalWidth": 350,
+        "source": "/images/nyc/bryant-restroom-back-1280.webp"
+      }
+    ]
+  },
+  {
+    "route": "/",
+    "width": 1280,
+    "credit": "Bryant Park · May 26, 2022Photo: © 2022 Larry D. Moore / Wikimedia Commons · CC BY 4.0 · resized; displayed crop.",
+    "documentWidth": 1280,
+    "forms": 2,
+    "photo": [
+      {
+        "alt": true,
+        "loaded": true,
+        "naturalWidth": 500,
+        "source": "/images/nyc/bryant-park-1280.webp"
+      }
+    ]
+  },
+  {
+    "route": "/conditions/",
+    "width": 1280,
+    "credit": "New York Public Library · Main Branch exterior · July 31, 2024Photo: Kidfly182 / Wikimedia Commons · CC BY 4.0 · resized; displayed crop.",
+    "documentWidth": 1280,
+    "forms": 2,
+    "photo": [
+      {
+        "alt": true,
+        "loaded": true,
+        "naturalWidth": 500,
+        "source": "/images/nyc/nypl-exterior-1280.webp"
+      }
+    ]
+  },
+  {
+    "route": "/entry-route/",
+    "width": 1280,
+    "credit": "Bryant Park restroom · 42nd Street view · December 28, 2023Photo: SnowFire / Wikimedia Commons · CC BY 4.0 · resized; displayed crop.",
+    "documentWidth": 1280,
+    "forms": 2,
+    "photo": [
+      {
+        "alt": true,
+        "loaded": true,
+        "naturalWidth": 500,
+        "source": "/images/nyc/bryant-restroom-side-1280.webp"
+      }
+    ]
+  },
+  {
+    "route": "/dated-reports/",
+    "width": 1280,
+    "credit": "Bryant Park restroom · exterior · December 28, 2023Photo: SnowFire / Wikimedia Commons · CC BY 4.0 · resized; displayed crop.",
+    "documentWidth": 1280,
+    "forms": 2,
+    "photo": [
+      {
+        "alt": true,
+        "loaded": true,
+        "naturalWidth": 500,
+        "source": "/images/nyc/bryant-restroom-back-1280.webp"
+      }
+    ]
+  }
+]

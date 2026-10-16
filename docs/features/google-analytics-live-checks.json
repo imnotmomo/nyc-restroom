@@ -1,0 +1,82 @@
+{
+  "checkedAt": "2026-10-16T05:51:27.264Z",
+  "measurementId": "G-YJG2N05KY9",
+  "hosts": [
+    {
+      "origin": "https://nyc.imfinethanku.me",
+      "pageErrors": [],
+      "tagRequests": [
+        "https://www.googletagmanager.com/gtag/js?id=G-YJG2N05KY9"
+      ],
+      "interceptedCollections": [
+        {
+          "responseStatus": 204,
+          "googleReceived": false,
+          "endpoint": "https://www.google-analytics.com/g/collect",
+          "measurementId": "G-YJG2N05KY9",
+          "event": "page_view",
+          "pageLocation": "https://nyc.imfinethanku.me/find/",
+          "referrer": ""
+        }
+      ],
+      "blockedBackgroundHosts": [
+        "fonts.googleapis.com",
+        "firestore.googleapis.com",
+        "www.google.com",
+        "tile.openstreetmap.org"
+      ],
+      "blockedSameOriginWrites": [],
+      "status": 200,
+      "eventNames": [
+        "page_view"
+      ],
+      "publicMeasurementIdVerified": true,
+      "initialPageviewCount": 1,
+      "privateParametersExcluded": true,
+      "pass": true
+    },
+    {
+      "origin": "https://restroom-ready-nyc.clcii.chatgpt.site",
+      "pageErrors": [],
+      "tagRequests": [
+        "https://www.googletagmanager.com/gtag/js?id=G-YJG2N05KY9"
+      ],
+      "interceptedCollections": [
+        {
+          "responseStatus": 204,
+          "googleReceived": false,
+          "endpoint": "https://www.google-analytics.com/g/collect",
+          "measurementId": "G-YJG2N05KY9",
+          "event": "page_view",
+          "pageLocation": "https://restroom-ready-nyc.clcii.chatgpt.site/find/",
+          "referrer": ""
+        }
+      ],
+      "blockedBackgroundHosts": [
+        "fonts.googleapis.com",
+        "firestore.googleapis.com",
+        "www.google.com",
+        "tile.openstreetmap.org"
+      ],
+      "blockedSameOriginWrites": [
+        {
+          "method": "POST",
+          "path": "/cdn-cgi/challenge-platform/[transient-path-omitted]"
+        }
+      ],
+      "status": 200,
+      "eventNames": [
+        "page_view"
+      ],
+      "publicMeasurementIdVerified": true,
+      "initialPageviewCount": 1,
+      "privateParametersExcluded": true,
+      "pass": true
+    }
+  ],
+  "productionSignupWrites": 0,
+  "productionCollectionRequestsSent": 0,
+  "realAccountSignIns": 0,
+  "status": "pass",
+  "sourceCommit": "c60cbd699b340b995d6149bd9b2ece8ad2990ae5"
+}
