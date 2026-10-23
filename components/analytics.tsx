@@ -47,11 +47,12 @@ export function Analytics() {
   return <Suspense fallback={null}><PageAnalytics /></Suspense>;
 }
 
-export function SignupConfirmation() {
-  useEffect(() => {
-    try {
-      browserAnalytics()?.confirmedSignup(window.sessionStorage, window.location.href, document.title);
-    } catch { /* Analytics or storage availability never changes the saved signup. */ }
-  }, []);
-  return null;
+export function trackNewGoogleAccount(result: {
+  isNewUser?: boolean;
+  providerId?: string | null;
+  accountId: string;
+  currentAccountId: string | null;
+}) {
+  try { browserAnalytics()?.confirmedGoogleSignup(result); }
+  catch { /* Analytics must never fail an otherwise successful sign-in. */ }
 }

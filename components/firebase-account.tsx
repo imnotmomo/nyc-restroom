@@ -11,11 +11,13 @@ import {
 } from "react";
 import {
   GoogleAuthProvider,
+  getAdditionalUserInfo,
   onAuthStateChanged,
   signInWithPopup,
   signOut as firebaseSignOut,
   type User,
 } from "firebase/auth";
+import { trackNewGoogleAccount } from "@/components/analytics";
 import { getFirebaseClient, getFirebaseConfigurationError } from "@/lib/firebase-client";
 
 export interface FirebaseAccountContextValue {
@@ -110,6 +112,15 @@ export function FirebaseAccountProvider({ children }: { children: ReactNode }) {
       // Keep the popup directly within the click action so browsers can open it.
       const result = await signInWithPopup(client.auth, provider);
       setUser(result.user);
+      try {
+        const info = getAdditionalUserInfo(result);
+        trackNewGoogleAccount({
+          isNewUser: info?.isNewUser,
+          providerId: info?.providerId,
+          accountId: result.user.uid,
+          currentAccountId: client.auth.currentUser?.uid ?? null,
+        });
+      } catch { /* Metadata or Analytics failures cannot turn a completed sign-in into failure. */ }
       return true;
     } catch (nextError) {
       setError(accountError(nextError));

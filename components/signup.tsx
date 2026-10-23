@@ -17,7 +17,6 @@ export function Signup({ source, compact = false }: { source: PageKey; compact?:
     try {
       const response = await fetch("/api/waitlist", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, source, website, ...attribution }) });
       if (!response.ok) { const body = await response.json().catch(() => ({})); throw new Error(body.error ?? "Your email wasn’t saved. Please try again."); }
-      try { sessionStorage.setItem("rr-signup", JSON.stringify({ id: crypto.randomUUID(), source })); } catch { /* Saving the email already succeeded; analytics must not block confirmation. */ }
       window.location.assign("/thank-you/");
     } catch (e) { setError(e instanceof Error ? e.message : "We couldn’t connect. Please try again."); setBusy(false); }
   }

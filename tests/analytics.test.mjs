@@ -6,15 +6,10 @@ import test from "node:test";
 const source = await readFile(new URL("../lib/analytics.ts", import.meta.url), "utf8");
 const model = await import(`data:text/javascript;base64,${Buffer.from(stripTypeScriptTypes(source)).toString("base64")}`);
 const origin = "https://nyc.imfinethanku.me";
-const signupId = "581d873a-2bc2-4f23-828e-8c3d43bf8969";
 function harness(url = `${origin}/`, referrer = "") {
   const calls = [];
   const client = model.createAnalyticsClient({ id: "G-MOCKTEST", initialUrl: url, referrer, transport: (...args) => calls.push(args) });
   return { client, calls, events: (name) => calls.filter(([kind, event]) => kind === "event" && event === name) };
-}
-function storage(initial = {}) {
-  const values = new Map(Object.entries(initial));
-  return { getItem: (key) => values.get(key) ?? null, setItem: (key, value) => values.set(key, value), removeItem: (key) => values.delete(key) };
 }
 
 test("analytics requires a valid explicit ID and an exact production HTTPS origin", () => {
@@ -67,28 +62,25 @@ test("manual pageviews deduplicate repeated effects but count navigation and bac
   assert.doesNotMatch(JSON.stringify(calls), /secret|40\.123456|person@|user_id|email_address/);
 });
 
-test("a confirmed marker produces one lead only on thank-you and survives reload deduplication", () => {
-  const { client, events } = harness(`${origin}/thank-you/`);
-  const saved = storage({ "rr-signup": JSON.stringify({ id: signupId, source: "conditions", email: "never-send@example.com", uid: "private-uid" }) });
-  assert.equal(client.confirmedSignup(saved, `${origin}/find/`, "Find"), false);
-  assert.equal(client.confirmedSignup(saved, `${origin}/thank-you/`, "Thank you"), true);
-  assert.equal(client.confirmedSignup(saved, `${origin}/thank-you/`, "Thank you"), false);
-  assert.equal(events("generate_lead").length, 1);
-  assert.equal(events("page_view").length, 1);
-  assert.deepEqual(events("generate_lead")[0][2], { source_page: "conditions", method: "email_waitlist", send_to: "G-MOCKTEST" });
-  saved.setItem("rr-signup", JSON.stringify({ id: signupId, source: "conditions" }));
-  assert.equal(harness(`${origin}/thank-you/`).client.confirmedSignup(saved, `${origin}/thank-you/`, "Thanks"), false);
-  assert.doesNotMatch(JSON.stringify(events("generate_lead")), /never-send|private-uid/);
+test("only a confirmed first-time Google account produces one private signup event", () => {
+  const { client, events, calls } = harness(`${origin}/find/`);
+  const result = { isNewUser: true, providerId: "google.com", accountId: "private-account", currentAccountId: "private-account" };
+  assert.equal(client.confirmedGoogleSignup(result), true);
+  assert.equal(client.confirmedGoogleSignup(result), false);
+  assert.deepEqual(events("sign_up"), [["event", "sign_up", { method: "google", send_to: "G-MOCKTEST" }]]);
+  assert.equal(events("generate_lead").length, 0);
+  assert.doesNotMatch(JSON.stringify(calls), /private-account|user_id|email|uid|waitlist/);
 });
 
-test("direct thank-you visits, malformed markers, and unavailable duplicate storage never emit leads", () => {
-  const { client, events } = harness(`${origin}/thank-you/`);
-  for (const marker of [null, "bad json", "null", "[]", JSON.stringify({ id: signupId, source: "untrusted" }), JSON.stringify({ id: "email@example.com", source: "home" })]) {
-    const saved = storage(marker ? { "rr-signup": marker } : {});
-    assert.equal(client.confirmedSignup(saved, `${origin}/thank-you/`, "Thanks"), false);
-  }
-  const blocked = storage({ "rr-signup": JSON.stringify({ id: signupId, source: "home" }) });
-  blocked.setItem = () => { throw new Error("Storage blocked"); };
-  assert.equal(client.confirmedSignup(blocked, `${origin}/thank-you/`, "Thanks"), false);
+test("returning, restored, unknown, non-Google and stale-account results never count as signup", () => {
+  const { client, events } = harness(`${origin}/find/`);
+  const result = { isNewUser: true, providerId: "google.com", accountId: "private-account", currentAccountId: "private-account" };
+  for (const change of [
+    { isNewUser: false }, { isNewUser: undefined }, { providerId: "password" },
+    { providerId: null }, { accountId: "" }, { currentAccountId: null }, { currentAccountId: "different-account" },
+  ]) assert.equal(client.confirmedGoogleSignup({ ...result, ...change }), false);
+  client.pageView(`${origin}/thank-you/`, "Legacy thank you");
+  assert.equal(events("sign_up").length, 0);
   assert.equal(events("generate_lead").length, 0);
+  assert.equal(client.confirmedGoogleSignup(result), true);
 });

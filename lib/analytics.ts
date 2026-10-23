@@ -5,11 +5,9 @@ const PRODUCTION_HOSTS = new Set([
 const PAGE_PATHS = new Set([
   "/", "/conditions/", "/entry-route/", "/dated-reports/", "/find/", "/demo/", "/privacy/", "/thank-you/",
 ]);
-const SIGNUP_SOURCES = new Set(["home", "conditions", "entry-route", "dated-reports"]);
 const CAMPAIGN_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
 
 export type AnalyticsTransport = (...args: unknown[]) => void;
-export type AnalyticsStorage = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 
 export function measurementId(override: string | undefined, configured: string): string | null {
   const candidate = override?.trim() || configured;
@@ -61,7 +59,7 @@ export function createAnalyticsClient({ id, initialUrl, referrer, transport }: {
   const origin = new URL(firstPage).origin;
   let previousPage = analyticsReferrer(referrer, origin);
   let currentPage: string | null = null;
-  const consumedLeads = new Set<string>();
+  const countedAccounts = new Set<string>();
 
   transport("js", new Date());
   transport("set", { page_location: firstPage, page_referrer: previousPage });
@@ -89,31 +87,21 @@ export function createAnalyticsClient({ id, initialUrl, referrer, transport }: {
     return true;
   }
 
-  function confirmedSignup(storage: AnalyticsStorage, url: string, title: string): boolean {
-    const page = analyticsPageLocation(url);
-    if (!page || new URL(page).pathname !== "/thank-you/" || new URL(page).origin !== origin) return false;
-    try {
-      const raw = storage.getItem("rr-signup");
-      if (!raw || raw.length > 512) return false;
-      const marker: unknown = JSON.parse(raw);
-      if (!marker || typeof marker !== "object") return false;
-      const { id: eventId, source } = marker as { id?: unknown; source?: unknown };
-      if (typeof eventId !== "string" || !/^[a-f0-9]{8}-(?:[a-f0-9]{4}-){3}[a-f0-9]{12}$/i.test(eventId)
-        || typeof source !== "string" || !SIGNUP_SOURCES.has(source)
-        || consumedLeads.has(eventId) || storage.getItem(`rr-counted-${eventId}`)) return false;
-      // Persist the duplicate guard before queueing. Storage failures cannot create false leads.
-      storage.setItem(`rr-counted-${eventId}`, "1");
-      storage.removeItem("rr-signup");
-      consumedLeads.add(eventId);
-      pageView(url, title);
-      transport("event", "generate_lead", {
-        source_page: source,
-        method: "email_waitlist",
-        send_to: id,
-      });
-      return true;
-    } catch { return false; }
+  // Called only with the result of a successful Firebase Google credential exchange.
+  // Account IDs stay in this memory-only duplicate guard and never enter an event.
+  function confirmedGoogleSignup(result: {
+    isNewUser?: boolean;
+    providerId?: string | null;
+    accountId: string;
+    currentAccountId: string | null;
+  }): boolean {
+    if (result.isNewUser !== true || result.providerId !== "google.com"
+      || !result.accountId || result.accountId !== result.currentAccountId
+      || countedAccounts.has(result.accountId)) return false;
+    countedAccounts.add(result.accountId);
+    transport("event", "sign_up", { method: "google", send_to: id });
+    return true;
   }
 
-  return { pageView, confirmedSignup };
+  return { pageView, confirmedGoogleSignup };
 }
