@@ -51,3 +51,8 @@ docs/reviews/**/*.jpg
 brand/logo/explorations/
 brand/logo/flat-refresh-2026-11-05/
 screenshots/
+
+# Local review harnesses and text dumps.
+docs/reviews/**/*.sh
+docs/reviews/**/*.swift
+docs/reviews/**/*.txt
