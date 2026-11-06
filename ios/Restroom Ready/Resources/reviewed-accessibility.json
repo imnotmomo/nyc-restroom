@@ -1,0 +1,2165 @@
+{
+  "schemaVersion": 1,
+  "manifestSHA256": "adee7ab48de4bbf78d8286c150f9a1d7b7f392490c4c7de2c224a021719c4b74",
+  "sourceSHA256": "5ed8782e4b8a4aa80dffc60bbef654437bf22028276ec9fc54670694bbe2f118",
+  "entries": [
+    {
+      "placeID": "community-19b6be6f3511a42ad9d3",
+      "claims": [
+        {
+          "id": "3b4f9b0df49b3966b479",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "Wheelchair-accessible restrooms on floor 2",
+          "sourceID": "fcd903ddd22e3908eda0"
+        }
+      ]
+    },
+    {
+      "placeID": "community-201b2be1bf91a2497d97",
+      "claims": [
+        {
+          "id": "ab14604cfb78f9b611fb",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "Accessible stalls in Visitor Center and Conservatory; accessible single-user restrooms by Yellow Magnolia Café and Flatbush Avenue entrance.",
+          "sourceID": "1cb410c48d2c86370fbe"
+        }
+      ]
+    },
+    {
+      "placeID": "community-3380be70a43bffe65f01",
+      "claims": [
+        {
+          "id": "70780453feae420f5879",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "Accessible restrooms; single-user/all-gender options on -1, 3 and 8",
+          "sourceID": "08eee3195f81d66f7dec"
+        }
+      ]
+    },
+    {
+      "placeID": "community-3c68558d82ec4abdb27b",
+      "claims": [
+        {
+          "id": "37fa649602f439f0834f",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "All public arena restrooms are accessible",
+          "sourceID": "4e4f0d4b60013b90eb96"
+        }
+      ]
+    },
+    {
+      "placeID": "community-4781ba4da796da2dbbe3",
+      "claims": [
+        {
+          "id": "0ffcfbd1e1a309bfca21",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Lincoln Center venues have accessible entrances and restrooms.",
+          "sourceID": "9a68974e0e0554e2061d"
+        }
+      ]
+    },
+    {
+      "placeID": "community-52fff5ec0bd1867fe62f",
+      "claims": [
+        {
+          "id": "6254ca8b699d43e9669a",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Museum supports wheelchair users and visitors avoiding stairs; staff and the interactive map identify step-free routes.",
+          "sourceID": "50faa169566d487b66ca"
+        }
+      ]
+    },
+    {
+      "placeID": "community-5c0c3f0b9985891decf5",
+      "claims": [
+        {
+          "id": "97388923f913263f9593",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "Accessible restrooms are identified on the Rotunda Floor and Tower Level 7",
+          "sourceID": "6bc4466898526801afae"
+        }
+      ]
+    },
+    {
+      "placeID": "community-6b0f38bf975f7b4136a3",
+      "claims": [
+        {
+          "id": "19b50579525e87e8c829",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "All public museum restrooms have wheelchair-accessible stalls",
+          "sourceID": "b4ec4be4823fa92b878d"
+        }
+      ]
+    },
+    {
+      "placeID": "community-6e48bb42d45797ebcd15",
+      "claims": [
+        {
+          "id": "bf19d57c9f853dea744f",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Operator describes entrances, public spaces and common amenities as ADA-accessible",
+          "sourceID": "7cd8c8b48bfa563a8454"
+        }
+      ]
+    },
+    {
+      "placeID": "community-7398fe084d3d87eed23c",
+      "claims": [
+        {
+          "id": "331be2da9560b4455b5b",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Main entrance has stairs; alternative elevator route to reception reported.",
+          "sourceID": "0dca757299328a5c6e99"
+        }
+      ]
+    },
+    {
+      "placeID": "community-797e08697aa50c90e4f1",
+      "claims": [
+        {
+          "id": "5884592f5cbb87d04940",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "Every public Top of the Rock restroom has wheelchair-accessible stalls",
+          "sourceID": "9b21b208dbfe230edc84"
+        }
+      ]
+    },
+    {
+      "placeID": "community-82d3c2a31534b1f5fcfd",
+      "claims": [
+        {
+          "id": "93a0247cf9b14b34d1ab",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Operator says the Museum and its programs are wheelchair accessible",
+          "sourceID": "0c227f3b42a3574ece85"
+        }
+      ]
+    },
+    {
+      "placeID": "community-8320749f97d218a26c7d",
+      "claims": [
+        {
+          "id": "2cc0dfcba6980ae90221",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "Operator describes all restrooms and main entrances as handicap-accessible",
+          "sourceID": "bb944ab53a620859310f"
+        },
+        {
+          "id": "7374cc44ea608621b16a",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "City Point main entrances/public restrooms are designed for wheelchair and mobility-device users",
+          "sourceID": "fa0cf232b03179c4b8c3"
+        }
+      ]
+    },
+    {
+      "placeID": "community-872a38a5e0a5023926b8",
+      "claims": [
+        {
+          "id": "2f7a36811847fb9ff5d9",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Oculus levels are wheelchair accessible and served by elevators; transfers may be required",
+          "sourceID": "5e673413532c910a0878"
+        }
+      ]
+    },
+    {
+      "placeID": "community-bfe050aec8fb42671b63",
+      "claims": [
+        {
+          "id": "e3961780636b0372403f",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "Operator says terminal restrooms are ADA accessible",
+          "sourceID": "ea9fb8985f36a10f4611"
+        }
+      ]
+    },
+    {
+      "placeID": "community-dd355e0bf05f96a1a74d",
+      "claims": [
+        {
+          "id": "3b3866b00bcb84bb9edb",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "All restrooms are wheelchair accessible",
+          "sourceID": "786e14a529de7f8a107c"
+        }
+      ]
+    },
+    {
+      "placeID": "community-de7fe5891f99cc072bd3",
+      "claims": [
+        {
+          "id": "c8fff345ca52e25df018",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "Accessible restrooms on every museum floor",
+          "sourceID": "a0c1dbe63af7ca6033cb"
+        }
+      ]
+    },
+    {
+      "placeID": "community-f4ff8ef0da38bd0b5523",
+      "claims": [
+        {
+          "id": "ae822fa6e16f947c7fea",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "86th Floor Observation Deck restrooms are described as accessible",
+          "sourceID": "724110409b9e8f45d114"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-3rgb_nvpf.egz9",
+      "claims": [
+        {
+          "id": "80715b6e02907da06d33",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "f70b945da5a5b3d7d7b6"
+        },
+        {
+          "id": "14bb0b649d5ebaad006c",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "4ea7b7963f8b6b3c3a8c"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-3vzb-iewn.uxqm",
+      "claims": [
+        {
+          "id": "6a59e779f46d9dadb4c1",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "6c26a54fca06db7f6713"
+        },
+        {
+          "id": "d87ed42381b8807df74e",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "1b49e719f57d51bd6562"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-4ad4~fgu4_y7fx",
+      "claims": [
+        {
+          "id": "bd82b5d999fa7c892f67",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "1edc8209c0b48a72f3a9"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-4ewc.xjie-ge9g",
+      "claims": [
+        {
+          "id": "0c108e21dc7d48e28612",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Partially accessible",
+          "sourceID": "c75a4e49b0d844a9a044"
+        },
+        {
+          "id": "c989daad42793cb9da1c",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "57f96edfcaa811ff7fd1"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-4hsq_mqvq_cpuh",
+      "claims": [
+        {
+          "id": "6c5a5b11b4f0b3b9a3fd",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "107dff5bdd7f3a3be473"
+        },
+        {
+          "id": "63fe45ba22dcda5398d2",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "40a0f658bb7116f1203d"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-56mc~4tki~wxzf",
+      "claims": [
+        {
+          "id": "cbad40c750031b14baa4",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Partially accessible",
+          "sourceID": "60d0a6eb02fbec1d2be1"
+        },
+        {
+          "id": "6b40453b72cf039e60b7",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Partially Accessible",
+          "sourceID": "8b337b382cece9bf8788"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-5dzr.hkqc.sfmk",
+      "claims": [
+        {
+          "id": "8a3a1de7e6ce806e4bb5",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "bcfe6d2564799e812d11"
+        },
+        {
+          "id": "69450c87aac1aa97ead5",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "4d6eb729a70026692f3a"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-5ghr~t4yv.4dtg",
+      "claims": [
+        {
+          "id": "2a5f1b4033e9300201b3",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "b3dd30907fba9cdd02fb"
+        },
+        {
+          "id": "36a03eb018cb2175d476",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "311051dbfc13b8bd5d4d"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-5mi2.bi3p_6t9x",
+      "claims": [
+        {
+          "id": "03a06bdb5a7fab77f22b",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Partially accessible",
+          "sourceID": "700431d3ea108897e563"
+        },
+        {
+          "id": "fad833a8f67979fd2506",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "a778d05c3df4b714cd9e"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-5ucz-3vgr~8ixs",
+      "claims": [
+        {
+          "id": "30cf6f5102f890e54203",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Not accessible",
+          "sourceID": "03b9b5d3c24b35b03fc5"
+        },
+        {
+          "id": "a97bee1eceb2ef2d44b9",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Partially Accessible",
+          "sourceID": "1df00ecbba30e2f8c586"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-6n4k_akuu.9yab",
+      "claims": [
+        {
+          "id": "8b8ad2fecb09e345b6a6",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Partially accessible",
+          "sourceID": "1cb81fd05535b6b5a79a"
+        },
+        {
+          "id": "c300b1b81a31185d25fc",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "2c044254c7b04eb8010b"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-6rx2_uruy-hmz7",
+      "claims": [
+        {
+          "id": "1749c5fccc7b2a6790cb",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "60cf50a1607f124c6643"
+        },
+        {
+          "id": "0a0275854f10f5ff6f12",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Partially Accessible",
+          "sourceID": "e03918cfdbd883239546"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-6x49_amwa.x9uh",
+      "claims": [
+        {
+          "id": "b2c067423ec19c6c4005",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "3d060042702166c41bf7"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-734h.9uy9~ujsn",
+      "claims": [
+        {
+          "id": "b4bc38828341b126778f",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "8c9c74d005dbd4fdbe69"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-792t_pncc_q67d",
+      "claims": [
+        {
+          "id": "d7b5ca16691ce391e21f",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Partially accessible",
+          "sourceID": "3f38c789701581c05e8a"
+        },
+        {
+          "id": "46b938660399bf88569c",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Partially Accessible",
+          "sourceID": "3ddbbba72d30576df6fc"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-7cn9.c74j-3498",
+      "claims": [
+        {
+          "id": "4ccc8892e171f3c12b1d",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "47bc268c021b4f5beb92"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-7ivi.vnin-h27g",
+      "claims": [
+        {
+          "id": "7094314b5a9e04dbcf2d",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "eeaa8f7e56d68f276a57"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-7jk9~4v3z-hp9x",
+      "claims": [
+        {
+          "id": "369e4bca2b78c2abba6a",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "5b577c0e4a181fc8cb87"
+        },
+        {
+          "id": "44ad2abfdd8b91010b25",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "a2760a8422eaea3a401d"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-7pk5-fda6-6svx",
+      "claims": [
+        {
+          "id": "3bd31f3be5520d8273df",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "a150348eae00b3774577"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-7q9c_fp45.6f5j",
+      "claims": [
+        {
+          "id": "2cf7e0dc0efa98fc12e9",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Partially accessible",
+          "sourceID": "3ffc175de651bc99dec6"
+        },
+        {
+          "id": "4966fa82c927bd4018b7",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Partially Accessible",
+          "sourceID": "09b960eae1dfbf069d7c"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-7zry~ghds~x5jx",
+      "claims": [
+        {
+          "id": "1aca0c7bb32a8f9466a6",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "a30c69738ef473eee9e3"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-82qz-5wti~wak6",
+      "claims": [
+        {
+          "id": "4d1c4d78d36e3833ba01",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "b665922b921ba115a1f8"
+        },
+        {
+          "id": "88d9500b6026160a8407",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "NYC311 describes automatic public toilets as wheelchair accessible",
+          "sourceID": "d7b6dc953e50f4c1eb6b"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-84hx_camc-yc36",
+      "claims": [
+        {
+          "id": "30f184c68866585d771a",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "49a273ad946f4b8178ab"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-8bhn.bnzq~2ihw",
+      "claims": [
+        {
+          "id": "fe879dc66d68ed651229",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Partially accessible",
+          "sourceID": "be4bf3357f5dce01bd5a"
+        },
+        {
+          "id": "aad48ffa0429b94a8f86",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Partially Accessible",
+          "sourceID": "762c1471906962ae63d6"
+        },
+        {
+          "id": "f50e8565fc5b4e6c7e95",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "BPL describes one public restroom as wheelchair-accessible. The branch is currently closed for renovations.",
+          "sourceID": "be4bf3357f5dce01bd5a"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-8j7z.qcze~ydt4",
+      "claims": [
+        {
+          "id": "21f2ea77535447c83737",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "299ed90d497a002b4add"
+        },
+        {
+          "id": "e9d3953f630364998011",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "de499ced9b00152659b6"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-8vrv.vpqb.vnxi",
+      "claims": [
+        {
+          "id": "62e436dbba46d49ab423",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "6c23712932e2549e24df"
+        },
+        {
+          "id": "065b6c48bb9cb27fc2aa",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "01714315598ce82c8da3"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-9dcr_g4rb_4d5f",
+      "claims": [
+        {
+          "id": "1a09bd0c64ba83777178",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "49b1dcdff4fb9aa59503"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-a2kc.jmzv~rijz",
+      "claims": [
+        {
+          "id": "369fe261e26ae8d3df8c",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "5473d9d7204b4f9cabe2"
+        },
+        {
+          "id": "2d12bfd1c06c7591da29",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "20883cc26fdfdc3a4816"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-agmv-cixr-ps88",
+      "claims": [
+        {
+          "id": "4ade0fcc558b33401e03",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "33a225f625d456166055"
+        },
+        {
+          "id": "f9f7cbf7a7283fc783f4",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "NYC311 describes automatic public toilets as wheelchair accessible",
+          "sourceID": "8909108fe61bde59eacb"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-agnj.8ryi.rjrz",
+      "claims": [
+        {
+          "id": "6260789cb9df37c0474e",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "2680867873f0f3180595"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-ajvn-hcch.bitb",
+      "claims": [
+        {
+          "id": "d13840284014a54b90eb",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "ef3b814e3e8800867229"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-amty_gstd_79jz",
+      "claims": [
+        {
+          "id": "0e998994a78a44dd4eff",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "c37d11c9e47856b9bfe9"
+        },
+        {
+          "id": "4d2b8a83d9c016754e24",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "dd2e2f1e56a9e3ee0d44"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-apqx-dmhd.75a3",
+      "claims": [
+        {
+          "id": "05c13fa57d3e803ec58e",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "e6d2ee434426fcaf1b4b"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-at5g.tzxx_esbz",
+      "claims": [
+        {
+          "id": "05f40c1b7332511857b9",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "6cb0892ab14879453920"
+        },
+        {
+          "id": "3e47343474b6a696cf01",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "6c904da317e009328ad8"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-azfq~mx62_6gia",
+      "claims": [
+        {
+          "id": "aaf136cc561fa2ced120",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "b07771f7ebb3a2c509b7"
+        },
+        {
+          "id": "0ed1ff8d2415a0f40e0e",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Partially Accessible",
+          "sourceID": "0c191b514b568de8e68b"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-bf5p.rd9u-2j34",
+      "claims": [
+        {
+          "id": "eaefc538daf510f0ff11",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Partially accessible",
+          "sourceID": "9d150a6bf3c1d5425791"
+        },
+        {
+          "id": "69ce546326e02f8e1fb5",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Partially Accessible",
+          "sourceID": "d6cff0d9be4947bdfd00"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-bjfq-dafq~p3qg",
+      "claims": [
+        {
+          "id": "ad84204e60a9768076bc",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "372ea7ee2a2a5797c259"
+        },
+        {
+          "id": "c5601b2988c805d0c93b",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "f1ac3952a1f6622412d0"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-bm57-a55v-hmyh",
+      "claims": [
+        {
+          "id": "fc600fe61378c4bb5a4b",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "c94dd83aac36a9ad393a"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-bmgy~8384~utf8",
+      "claims": [
+        {
+          "id": "d766b0a5df84d02e66a0",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Partially accessible",
+          "sourceID": "14dc692f1db0a95b4f09"
+        },
+        {
+          "id": "39d68dfa0c3d59e74dc0",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Partially Accessible",
+          "sourceID": "a5533b1e47cd2e6b65e5"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-c6z9.n6ji.cqjf",
+      "claims": [
+        {
+          "id": "eb1bcef867b2a029d20e",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "6b6beb669c497b6ed4de"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-d7pg_3q56.7vkz",
+      "claims": [
+        {
+          "id": "7c47c5e89c21f9db48be",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "8c3c56ff6e0b773b43d7"
+        },
+        {
+          "id": "36f4d8bafbef687c2535",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "0fbeb697b46b873f6319"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-dafy~qbuh-prhn",
+      "claims": [
+        {
+          "id": "2ada1f26622907c4f955",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "4e90c53f5e09f42f48e3"
+        },
+        {
+          "id": "2d8839f931b96988ac64",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "5fc01b079406de436219"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-e6dj.w6ud~rdv4",
+      "claims": [
+        {
+          "id": "880f240c02debacf1a5f",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "445bda59a7f5dcec8255"
+        },
+        {
+          "id": "6650de0bb6c0e7e93fb4",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "NYC311 describes automatic public toilets as wheelchair accessible",
+          "sourceID": "fd623e4a9810580de375"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-eqy8_bjbd.6izc",
+      "claims": [
+        {
+          "id": "01a45055bef7a53246c5",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "d3bdc75ddb8bae2d6cc2"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-f9ze_agqn.btzm",
+      "claims": [
+        {
+          "id": "f0b370bed4d424bed538",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "299c50752487e09fb9f5"
+        },
+        {
+          "id": "cd9938f52aea34be369c",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "1bc5af6937051f94e51f"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-fjws.ygde.q3j7",
+      "claims": [
+        {
+          "id": "53e6da0ab9caab358027",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "25a3504d62c4acd15123"
+        },
+        {
+          "id": "07002171ab38ea5a176a",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "a406b3073d8120730c76"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-fnzz.97yc_kbvt",
+      "claims": [
+        {
+          "id": "45537635a61b67429e81",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "200aeaedc5e256abfddb"
+        },
+        {
+          "id": "7520c878b6430b4b62d2",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "bd45190ca64ae392e878"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-fx2s~jwq4~pkmi",
+      "claims": [
+        {
+          "id": "f2d45f70aade437e7e34",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "cc9f180375badc95197d"
+        },
+        {
+          "id": "9635054450a70a353ee6",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "2a599fabaa86bac10f54"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-fxia_5ktc_w875",
+      "claims": [
+        {
+          "id": "b1c47adc02fca644c013",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "098b389ee3f856a589b4"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-g5wq.5uq9~rr74",
+      "claims": [
+        {
+          "id": "692c8c64b77d5375ec42",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "f4d510e5d2c26a2be87c"
+        },
+        {
+          "id": "4c5b63f52b9868354c82",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "7981ebe5b3795dc49c42"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-gnkm-dyrn_7f3v",
+      "claims": [
+        {
+          "id": "43e03c456ba054e13057",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "543666f48e445344a2d6"
+        },
+        {
+          "id": "3592db36e0461869d184",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "1bf77432decae78742a3"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-h22i.qcxg-yinc",
+      "claims": [
+        {
+          "id": "2e4d42ea9cefb5a45f00",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "fe1324283ef31a739d00"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-hgf3_4kj2_3e79",
+      "claims": [
+        {
+          "id": "e85044568b93342d9fc9",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Partially accessible",
+          "sourceID": "ab2060d535a29254ca7f"
+        },
+        {
+          "id": "9680a95c1c4f91708908",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "bc16f1919143540192bf"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-hrbr~x3h9-fhj8",
+      "claims": [
+        {
+          "id": "19a6d3b67bf3bb1dde31",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "9c0cad5e74292ee7eecd"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-hs5k-prc2-u3iv",
+      "claims": [
+        {
+          "id": "da5374243c2a0456e8af",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "68da28d9dc85d987c6a8"
+        },
+        {
+          "id": "6744547b3276b01344e6",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "2dcd20d00a8818e688ac"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-htev.etdx~qfuz",
+      "claims": [
+        {
+          "id": "2794a00b56b7e345fa83",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "ba43ab33c2028122f9f7"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-ibn6.hcur~4mi5",
+      "claims": [
+        {
+          "id": "5f8e08a6f786463df07e",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Partially accessible",
+          "sourceID": "ab78192e53b084acf8bd"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-ieyd.kcks-tpv9",
+      "claims": [
+        {
+          "id": "96d860f021c967467100",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "c65057687fcf63eb6a22"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-imq2-ihue-kfxt",
+      "claims": [
+        {
+          "id": "ce324d07f4815b8189db",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "e29d08b00910a151fa61"
+        },
+        {
+          "id": "eb9bdfdebbd0eac1fe07",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "c51ff8084c31c7210a70"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-iyd4.w7sb~vgqk",
+      "claims": [
+        {
+          "id": "be8a912c2a51eb071524",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "44114013a56443a51f68"
+        },
+        {
+          "id": "40cdccceb0d65524c630",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "a6abd761269d9d0e0c4d"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-jkb5_q3p9_zcwu",
+      "claims": [
+        {
+          "id": "638afa3d200bd0351cef",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "3588005f69a7ffacc49b"
+        },
+        {
+          "id": "bd6e3013f0d3055c4736",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "35cb8a58302ec2caa0d6"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-juf7.px5u_zutx",
+      "claims": [
+        {
+          "id": "9b35c6b29695609eb076",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "129e323cbb751f7ea5bf"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-k3yx.mf84_tysy",
+      "claims": [
+        {
+          "id": "8ad7b2844641681bc92a",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "abea3be139ef957ae728"
+        },
+        {
+          "id": "baeb203e2be4c992b64d",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "366207572595e3b5ce1f"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-kcpg.ypte.u76a",
+      "claims": [
+        {
+          "id": "ad29844040324cb32e6c",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "5fae556c62a4e64e98f7"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-kj3e_cnfe-i5py",
+      "claims": [
+        {
+          "id": "f9bdf537e3f48cfb504f",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "5400c74dc89e2fbdfce7"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-kjd2~vgvx~nzqv",
+      "claims": [
+        {
+          "id": "cf42a5e8be9dcccade1c",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "c0dc714435b9e3aae46d"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-kwdc~vgp9.jaq2",
+      "claims": [
+        {
+          "id": "38b580fc8d999bd7e5c9",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "0883cae1bab9f05eadad"
+        },
+        {
+          "id": "27a01fafeca686427ab2",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "342fb18f17471ca63a5a"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-m3gs~ixbg_mk5w",
+      "claims": [
+        {
+          "id": "218b6d0ba5217d8d8d78",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "6048994e953cf2aea228"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-m9m8-d9gt_hzi8",
+      "claims": [
+        {
+          "id": "b2f4c98d58b49c3eecd8",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "9cdbaace8e435dc0d64a"
+        },
+        {
+          "id": "32d5c2490f1cde429a97",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "d8b54c6b83dab1b3c0a9"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-mbbm-brup_gyfq",
+      "claims": [
+        {
+          "id": "0e8c8a154554712df3dc",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "b6f7943fbabec9f994a5"
+        },
+        {
+          "id": "30fa431d4e5e83746e6b",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "ab1088a89bcefebead2d"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-mq3m~7sj9-t5vd",
+      "claims": [
+        {
+          "id": "d434c2e8660cef66609c",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "ad941da3eab55c301ae6"
+        },
+        {
+          "id": "d686adb29982d0b39f73",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "5cf6516ccfbb1d1c89be"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-mt8b-p9kg-9z4k",
+      "claims": [
+        {
+          "id": "a6de9305047146727bd1",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "3d9eb5137d382a90a933"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-mt9g-e7tz-gw6y",
+      "claims": [
+        {
+          "id": "ed34fc1077c7fa3d1fbd",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "ffbf2f00384060af0e60"
+        },
+        {
+          "id": "65b6e46a2b7087196d4a",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "NYC311 describes automatic public toilets as wheelchair accessible",
+          "sourceID": "412b5d981b621150cd39"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-mu9d~s3xi_p79p",
+      "claims": [
+        {
+          "id": "6511eed0bf6c89028f00",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Not accessible",
+          "sourceID": "754b8bf99b9df10e6d7f"
+        },
+        {
+          "id": "304300caf306b384c565",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "820174717a86e1725c47"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-n54e-cku6-j4f4",
+      "claims": [
+        {
+          "id": "f5f26fdbe49ff845abf4",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "49e6b8f4da8713eec813"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-n7p7.5su4.cbcj",
+      "claims": [
+        {
+          "id": "e66c33ec35775f2a28f5",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "8e8e91be73f542c9c60e"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-nrej~cce2~kkjq",
+      "claims": [
+        {
+          "id": "46c58784012feb3ed091",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "9f244a10dc4ac71dc1d2"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-paqk_2ufa_vmcc",
+      "claims": [
+        {
+          "id": "63a1ea9caa48b1098a21",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "d4ea6c9c63b0ebcd6c07"
+        },
+        {
+          "id": "e303802e11f2edd1a84b",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "NYC311 describes automatic public toilets as wheelchair accessible",
+          "sourceID": "3e21c3a2a4ee5c4d3623"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-pqbv_szjd_789s",
+      "claims": [
+        {
+          "id": "12c13d2c1c5bb0827526",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "a9260e1787019a17bc69"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-pziy~w5fm_kmua",
+      "claims": [
+        {
+          "id": "be0a7e052f00dcaff5dd",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "e3ce08727ab31bc9120a"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-q5rg-7vq5~kq2q",
+      "claims": [
+        {
+          "id": "b7b295f18ee60fbc0f35",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "3ecd006e104e42a0c5be"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-qg8w_aww2~8t8n",
+      "claims": [
+        {
+          "id": "2fbe87817bd59efcb220",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "e25c56178c4f58d4de09"
+        },
+        {
+          "id": "93c6a404603952453b81",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "61ac94479a08b25004ac"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-qtr9~tb8a-jubk",
+      "claims": [
+        {
+          "id": "930e4a469b20c0a845f8",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "64fb3e10de32cc63dbb9"
+        },
+        {
+          "id": "80a9e1a3fb732e53c4fe",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "3b6b973d8d84f98921aa"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-r24c~ap63_m5va",
+      "claims": [
+        {
+          "id": "d575026f994f61dba125",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "6d0e131a8b5d51831538"
+        },
+        {
+          "id": "426cdbf57b53bf811f48",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "1e5ca6d5990c65692f53"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-r734_is9i.ff9y",
+      "claims": [
+        {
+          "id": "bee637ed7bacd3c5fbb5",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "7193d48e89dccf249ca6"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-ruzn_8fk5-jfu7",
+      "claims": [
+        {
+          "id": "6fa11e6aefc156fc1a60",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "c63bd2f0887387af01f4"
+        },
+        {
+          "id": "62cd0e3231b91a2bf8e4",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "ba1103fe90653e7655b0"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-shgx-69pj.gnys",
+      "claims": [
+        {
+          "id": "8d102c00cac14c899bdd",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "1bfb739695d079f24f20"
+        },
+        {
+          "id": "965534c31b422c6a5e34",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "b31fda394406464db2eb"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-st7n.wnax-ktpy",
+      "claims": [
+        {
+          "id": "1605b163f9380df85d2c",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "febe7745add1bf8b8034"
+        },
+        {
+          "id": "d9797784596042f7a480",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "dbaf9b4e0c8fec5b9f17"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-suhr.qw2m_djem",
+      "claims": [
+        {
+          "id": "ef240556ac7ba493b463",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "3db34198c3a4b8d0f00b"
+        },
+        {
+          "id": "b092642edb204c41acbd",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "7c73c6e15d860b21dcea"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-t2gd.7tmd-8t79",
+      "claims": [
+        {
+          "id": "cc77c56b0911583a0153",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "d441c3041ddf42fa45fb"
+        },
+        {
+          "id": "776f9337ea89bc423dd5",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "8f5dd4f5bed56281ec79"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-tqdp.2hqz~3pni",
+      "claims": [
+        {
+          "id": "35ae3389036e7467bceb",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "564860af798f28880158"
+        },
+        {
+          "id": "2cceb0fadab4c6a25f31",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "NYC311 describes automatic public toilets as wheelchair accessible",
+          "sourceID": "2bf2f2b8123e40df167a"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-tr8t_ys4i.ikkx",
+      "claims": [
+        {
+          "id": "26f11497b9cbb7d5d642",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "765bdd3f3091c91edcf5"
+        },
+        {
+          "id": "bcf7997bdbbedc19054b",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "929c8bafe09f56d62424"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-u4si.bpvs-mzax",
+      "claims": [
+        {
+          "id": "f0fba6d3a6769e8d5cb0",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "085cad9f7ea0f3dc376b"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-uhme_3bdp_ckze",
+      "claims": [
+        {
+          "id": "1195116d0b7c7d2ae84d",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "23118776078170fe811d"
+        },
+        {
+          "id": "9e2dbbc01b3497fbe5fc",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "NYC311 describes automatic public toilets as wheelchair accessible",
+          "sourceID": "36ba94429f12733a4423"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-uidc-dur3_hfk4",
+      "claims": [
+        {
+          "id": "39922c54afcf809faa44",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "f8b5fec4be394485cd11"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-um8r_fdib_d49c",
+      "claims": [
+        {
+          "id": "adf8b46248c89ef86b62",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "230c336826109c9e120e"
+        },
+        {
+          "id": "d2a2dbae077c3ab2cfef",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "55deff4cf362161cf50d"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-v43d-pte4~4mbb",
+      "claims": [
+        {
+          "id": "d62009c292b2a5d05373",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "bdf2568c6325e4559014"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-v7tc~hepw_cxhg",
+      "claims": [
+        {
+          "id": "5d602a8d6a1eb29732e8",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "5640d22a1dc496891dc8"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-vakm~tw8g-3kcm",
+      "claims": [
+        {
+          "id": "ffea6de3cf558b61e3c2",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "3efac67638ec5109cb60"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-vau7-n8ev-h3vk",
+      "claims": [
+        {
+          "id": "9f8aeb68aea382bd90fb",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "8ad8283924b52ca1bbd8"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-vj6d.gbzp.gwy8",
+      "claims": [
+        {
+          "id": "09404e2d0b77718a6ac0",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "49ddb58e0a9d73fec7f9"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-vw67.xd75.ssc4",
+      "claims": [
+        {
+          "id": "3c200b4e7f8b40d8a440",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "877af3b99043b3d4e63e"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-whkc_76gs-4y6f",
+      "claims": [
+        {
+          "id": "5013a44ac54f56449a43",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "8bd97acca6e37a5a4142"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-x3pe-hgvn.mbhz",
+      "claims": [
+        {
+          "id": "f897c92f4963583b782d",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "f1bf38e68457b22fd0d6"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-x86q~kfpg~e6w8",
+      "claims": [
+        {
+          "id": "47b49e98a3f6e6134171",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "7b017a30620d5d45c34f"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-xan9_qssg.xfan",
+      "claims": [
+        {
+          "id": "75183eca342eb4752657",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "47a92eac16a4ceb32975"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-xapv.bemv~6tyf",
+      "claims": [
+        {
+          "id": "8981493680790ef99edc",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "cbd36ec31a4b0e3c5a0b"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-xbyw-gbuj-dyix",
+      "claims": [
+        {
+          "id": "24a45530363275ac9c0f",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "12f710a58aea1c03bf19"
+        },
+        {
+          "id": "f988b99111adfc044331",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "d7b78013a48f8107e9cf"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-xjzj.d9jc-fdus",
+      "claims": [
+        {
+          "id": "cb06a220a4989abdc209",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "2b355967b8889d608e16"
+        },
+        {
+          "id": "d60adf31d4084f2c96c8",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "83a9a94aba4f6faed075"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-xk3h.eb3j.j9dt",
+      "claims": [
+        {
+          "id": "1a9a96f08915d18a5e03",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "e095b7fc8140525338d9"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-xsvz.t5kf_9hhx",
+      "claims": [
+        {
+          "id": "ba9e4a308f8db31f0d61",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Partially accessible",
+          "sourceID": "b6a9fa69b203327cc263"
+        },
+        {
+          "id": "66e4699b19cad1a9d639",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Partially Accessible",
+          "sourceID": "9d00977f6d0bfbb0ce90"
+        },
+        {
+          "id": "f0f0422f3445adbbacef",
+          "field": "restroomAccessibility",
+          "scope": "restroom",
+          "value": "BPL explicitly describes an ADA restroom.",
+          "sourceID": "b6a9fa69b203327cc263"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-yk34.ygp9-rmiy",
+      "claims": [
+        {
+          "id": "716ba74d1d24c7a8a2d9",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "0b6fe7e9d6bf21400f6f"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-ymkv_m4vr.nqk5",
+      "claims": [
+        {
+          "id": "01d1c48215ed871cfbbc",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "ff57d8c1511e54c14500"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-yp3a~xvia_ibcs",
+      "claims": [
+        {
+          "id": "61445891f3b8ec88a95d",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "b938b4c75c06c5d115ea"
+        },
+        {
+          "id": "a007962bf128701ab7e6",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "6f895a2e778316558b06"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-yudv-jjum_x9sy",
+      "claims": [
+        {
+          "id": "574653f58e276c6ad9d7",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "05d2e8f18b52586dbb1e"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-yzgh_nkfm~vi6t",
+      "claims": [
+        {
+          "id": "da826be8267e30008de2",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "f8e5890da99bd2705a38"
+        },
+        {
+          "id": "f4542314140bac90e671",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "6a449fda1a2a053c72df"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-z4gg-3h8p-sqq9",
+      "claims": [
+        {
+          "id": "f36394ffda1e4de6d69f",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Fully accessible",
+          "sourceID": "809ded8fa1f27002567b"
+        },
+        {
+          "id": "fbc9caf7a05d62ddbb8e",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "1be1438ea1dce4f7d2b3"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-z93k~2t52~uhfy",
+      "claims": [
+        {
+          "id": "2e721b218b3e0cedd2ce",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "0f4efcb10c8f6db16233"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-zgr7-we64_yti2",
+      "claims": [
+        {
+          "id": "cef660fd3464626a5087",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "76421296d27321a83aa5"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-zpfb.zeti.3ci3",
+      "claims": [
+        {
+          "id": "cace9619141537eaa36b",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "75e1e08f0210db0ae133"
+        }
+      ]
+    },
+    {
+      "placeID": "i7jb-7jku:row-zwxi.85pq-igc2",
+      "claims": [
+        {
+          "id": "b01c01f4b027bff3aba5",
+          "field": "buildingAccessibility",
+          "scope": "building",
+          "value": "Wheelchair accessible",
+          "sourceID": "6c7324fcb7f729c3c923"
+        },
+        {
+          "id": "0c894058a15c97f4cd80",
+          "field": "facilityAccessibility",
+          "scope": "restroom",
+          "value": "Fully Accessible",
+          "sourceID": "c7ab517f3a54ee354dd4"
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Feature Development — Restroom Ready
 
-We chose [Feature Forge](https://github.com/kenxle/feature-forge/blob/main/README.md) because its brief, plan, build, verify, ship, and learn stages connect each small feature to a user problem and evidence that it works. We use its process through Markdown records. Next.js is the application framework; Feature Forge command skills are not installed.
+We chose [Feature Forge](https://github.com/kenxle/feature-forge/blob/main/README.md) because its brief, plan, build, verify, ship, and learn stages connect each small feature to a user problem and evidence that it works. We use its process through Markdown records. This `main` branch uses SwiftUI and MapKit for the iPhone app, with shared Firebase and Node backend services. Next.js website work belongs to `webapp`; Feature Forge command skills are not installed.
 
 ## One record per feature
 
@@ -57,4 +57,4 @@ Post-delivery check:
 Lessons or follow-up questions:
 ```
 
-For a small, understood fix, keep a short record of the problem, changed files, checks, review, and outcome. Application commands must come from the actual project configuration once Next.js is scaffolded; none are supported yet.
+For a small, understood fix, keep a short record of the problem, changed files, checks, review, and outcome. Use the build and test commands documented in this branch's README and iOS README.
