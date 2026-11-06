@@ -1,0 +1,42 @@
+[Unit]
+Description=Restroom Ready moderator API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=restroom-ready-moderation
+Group=restroom-ready-moderation
+WorkingDirectory=/srv/restroom-ready-moderation/current
+Environment=NODE_ENV=production
+Environment=GOOGLE_APPLICATION_CREDENTIALS=/etc/restroom-ready-moderation/admin.json
+EnvironmentFile=/etc/restroom-ready-moderation/runtime.env
+UnsetEnvironment=FIRESTORE_EMULATOR_HOST FIREBASE_AUTH_EMULATOR_HOST NODE_OPTIONS
+ExecStart=/opt/node/bin/node /srv/restroom-ready-moderation/current/src/server.mjs
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=30
+UMask=0077
+StateDirectory=restroom-ready-moderation
+StateDirectoryMode=0700
+ReadWritePaths=/var/lib/restroom-ready-moderation
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectKernelLogs=true
+ProtectControlGroups=true
+ProtectClock=true
+RestrictSUIDSGID=true
+RestrictNamespaces=true
+LockPersonality=true
+RemoveIPC=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+
+[Install]
+WantedBy=multi-user.target

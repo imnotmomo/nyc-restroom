@@ -49,3 +49,7 @@ Use the standalone mark when space is too small for the name to read comfortably
 | [favicon_512.png](favicon_512.png) | 512 × 512 | Opaque square mark. |
 
 The assets.json file records the source drawing, colors, lettering, sizes, and generated file inventory.
+
+## Native app icon refresh — November 5, 2026
+
+The native app icon uses the [flat soft-blue variant](flat-refresh-2026-11-05/README.md): full-bleed **#4F70C3**, the existing white R, and no inset white frame or decorative effects. Its production export is opaque RGB at 1024×1024. The active app-icon source is `flat-refresh-2026-11-05/app-icon-flat.svg`; the rounded preview is illustrative. The detailed paper-roll counter was rejected; further R refinements remain preview only. This local asset is prepared for the next iOS build.

@@ -72,7 +72,7 @@ export function DemoExplorer() {
     const version = ++locationVersion.current;
     setLocating(true); setMessage(null);
     cancelLocation.current = requestBrowserLocation({ geolocation: navigator.geolocation,
-      onSuccess: (location) => { if (locationVersion.current !== version) return; setUserLocation(location); setLocating(false); setMessage("Your approximate location is shown for this session. The sample venue stays the same."); },
+      onSuccess: (location) => { if (locationVersion.current !== version) return; setUserLocation(location); setSelectedID(null); setMapFocusID(null); setMobileView("map"); setLocating(false); setMessage("Your approximate location is shown for this session. The sample venue stays the same."); },
       onError: (error) => { if (locationVersion.current === version) { setLocating(false); setMessage(error); } },
     });
   }
@@ -99,7 +99,7 @@ export function DemoExplorer() {
 
   return <div className="finder-app demo-app">
     <a className="skip-link" href="#demo-results">Skip to sample list</a>
-    <header className="finder-header"><Link href="/" className="finder-brand" aria-label="Restroom Ready home"><img src="/brand/lockup.svg" alt="Restroom Ready" width="224" height="42" /></Link><nav className="finder-nav" aria-label="Main navigation"><Link href="/demo/" aria-current="page"><MapPin size={16} />Interactive demo</Link><Link href="/">About the project <ArrowUpRight size={15} /></Link></nav><Link href="/#join" className="demo-waitlist-link">Get updates <ArrowUpRight size={15} /></Link></header>
+    <header className="finder-header"><Link href="/" className="finder-brand" aria-label="Restroom Ready home"><img src="/brand/lockup.svg" alt="Restroom Ready" width="224" height="42" /></Link><nav className="finder-nav" aria-label="Main navigation"><Link href="/demo/" aria-current="page"><MapPin size={16} />Interactive demo</Link><Link href="/">About the project <ArrowUpRight size={15} /></Link></nav><Link href="/find/" className="demo-waitlist-link">Open NYC finder <ArrowUpRight size={15} /></Link></header>
     <div className="demo-banner"><p><strong>Interactive demo</strong> · Sample data. Changes stay in this session.</p><button type="button" onClick={reset}><RotateCcw size={15} />Reset demo</button></div>
     <main id="demo-main">
       <div className="finder-page-heading"><div><p className="finder-overline"><span className="finder-small-rule" />NYC / Try it for yourself</p><h1>Know before you go<span>.</span></h1></div><div className="finder-log-heading-actions"><p className="finder-heading-note"><strong>{data.venues.length} sample {data.venues.length === 1 ? "location" : "locations"}</strong><br />Start with Target Herald Square</p><button type="button" ref={logButton} className="finder-secondary-button finder-log-open" aria-haspopup="dialog" onClick={() => setShowAdd(true)}><Plus size={18} />Log a restroom</button></div></div>

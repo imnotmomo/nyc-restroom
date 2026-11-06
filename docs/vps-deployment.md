@@ -11,6 +11,7 @@ The team owns `206.189.203.190`; `nyc.imfinethanku.me` points to it. The server 
 - `/etc/restroom-ready/runtime.env` sets `PORT`, `WAITLIST_DB_PATH`, and `PUBLIC_ORIGIN=https://nyc.imfinethanku.me`. The origin is validated before opening the database. Signup origin checks remain enabled behind the HTTPS proxy; arbitrary forwarded headers are not trusted.
 - GET/HEAD `/api/health` provides uncached process liveness. It does not certify external Firebase availability or an ongoing database write.
 - Email confirmations use server-only Cloudflare Email Sending credentials and `WAITLIST_DISPATCH_SECRET` in the same restricted runtime file. A 30-second in-process dispatcher drains the durable SQLite outbox and the original Sites D1 outbox through a fixed authenticated endpoint. The Sites copy needs matching secrets; no recipient/token is returned by dispatch responses. See [the confirmation record](features/waitlist-confirmations.md).
+- `/find/` and its exported React payloads are public. The previous shared finder gate is retired; no finder-access passcode or signing secret is required. Old `/access/` links redirect to `/find/`, while the old access API returns 410 and expires its cookie. Firebase Google Sign-in and Firestore rules still control account writes and private data; venue restroom passcodes retain their own visibility rules.
 
 The server needs no npm dependencies or Firebase CLI login. The runtime archive includes only the built public assets, Node entry points, shared signup/email modules, SQL schema, deployment templates, and a release record. Local login sessions, private environment files, signup databases, source research, and `node_modules` are excluded.
 
@@ -41,7 +42,7 @@ curl -fsS https://nyc.imfinethanku.me/api/health
 
 To roll back, select a retained release under `/srv/restroom-ready/releases/`, repoint `current` using a temporary symlink and atomic rename, then restart only `restroom-ready.service`. Do not replace or delete `/var/lib/restroom-ready` during a rollback. Stop the app before copying its SQLite file for a consistent backup, or use SQLite's backup API. Keep backups private and outside Git.
 
-The original Sites deployment remains available. Its D1 waitlist and this server's SQLite waitlist are separate stores; existing D1 signups have not been migrated or deleted. Saved places and private notes continue using the same Firebase database across both hosts.
+The original Sites deployment remains available. Its D1 waitlist and this server's SQLite waitlist are separate stores; existing D1 signups have not been migrated or deleted. Saved places, public anonymous visit notes and private codes use the same Firebase database across both hosts. Older clients retain their legacy private-note schema; those notes are not automatically published.
 
 ## Verification
 

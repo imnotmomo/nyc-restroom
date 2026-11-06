@@ -17,7 +17,7 @@ import {
   signOut as firebaseSignOut,
   type User,
 } from "firebase/auth";
-import { trackNewGoogleAccount } from "@/components/analytics";
+import { setAnalyticsAccount, trackNewGoogleAccount } from "@/components/analytics";
 import { getFirebaseClient, getFirebaseConfigurationError } from "@/lib/firebase-client";
 
 export interface FirebaseAccountContextValue {
@@ -66,7 +66,7 @@ function accountError(error: unknown): string {
   }
 }
 
-export function FirebaseAccountProvider({ children }: { children: ReactNode }) {
+export function FirebaseAccountProvider({ children, trackSignups = true }: { children: ReactNode; trackSignups?: boolean }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [configured, setConfigured] = useState(false);
@@ -82,19 +82,22 @@ export function FirebaseAccountProvider({ children }: { children: ReactNode }) {
         return;
       }
       setConfigured(true);
-      return onAuthStateChanged(client.auth, (nextUser) => {
+      const unsubscribe = onAuthStateChanged(client.auth, (nextUser) => {
+        setAnalyticsAccount(nextUser?.uid ?? null, trackSignups);
         setUser(nextUser);
         setLoading(false);
       }, (nextError) => {
+        setAnalyticsAccount(null);
         setUser(null);
         setError(accountError(nextError));
         setLoading(false);
       });
+      return () => { unsubscribe(); setAnalyticsAccount(null); };
     } catch (nextError) {
       setError(accountError(nextError));
       setLoading(false);
     }
-  }, []);
+  }, [trackSignups]);
 
   const signInWithGoogle = useCallback(async () => {
     if (busy.current) return false;
@@ -114,9 +117,10 @@ export function FirebaseAccountProvider({ children }: { children: ReactNode }) {
       setUser(result.user);
       try {
         const info = getAdditionalUserInfo(result);
-        trackNewGoogleAccount({
+        if (trackSignups) trackNewGoogleAccount({
           isNewUser: info?.isNewUser,
           providerId: info?.providerId,
+          credentialProviderId: "google.com",
           accountId: result.user.uid,
           currentAccountId: client.auth.currentUser?.uid ?? null,
         });
@@ -129,7 +133,7 @@ export function FirebaseAccountProvider({ children }: { children: ReactNode }) {
       busy.current = false;
       setLoading(false);
     }
-  }, []);
+  }, [trackSignups]);
 
   const signOut = useCallback(async () => {
     if (busy.current) return false;

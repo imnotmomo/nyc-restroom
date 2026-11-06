@@ -7,11 +7,16 @@
 // Notes are immutable after creation; their owner may delete them.
 // No users/{uid} profile document is required or created. The UID in the path
 // scopes these private subcollections; no identity/role/email field is accepted.
+// accountDeletionLocks/{uid}: administrator-only deletion marker. Its existence
+// blocks that account's private access and contribution writes, including requests
+// with an already-issued token. Server cleanup uses administrative access and
+// retains the marker until deletion is complete and old tokens have expired.
+// Marker fields are server-owned; every client read/write remains default-denied.
 // restroomRatingSummaries/{placeID}: ratingCount:int (0..1,000,000),
 // ratingSum:number (multiples of 0.5 in count..5*count, zero for zero count),
 // updatedAt:timestamp. Existing integer totals remain valid.
-// A trusted initializer creates source-listing summaries. Clients may initialize
-// a zero summary only alongside a new immutable community listing and receipt.
+// A trusted initializer/moderator creates source/approved-community summaries.
+// Clients cannot create rating parents or publish community listings directly.
 // All subsequent changes require a paired private vote; no client deletion.
 // restroomRatingSummaries/{placeID}/ratings/{uid}: stars:number (1..5 by 0.5),
 // updatedAt:timestamp. Only that signed-in non-anonymous account may GET/write
@@ -25,10 +30,23 @@
 // a visitor report is neither city-verified access nor a cleanliness guarantee.
 // restroomSubmissions/{sameID}: private ownerUID:string (1..128, authenticated UID),
 // submittedAt:timestamp (same server time). No public name/email/UID fields accepted.
-// The three creation documents are atomic. Public GET and bounded latest-feed LIST
-// expose venue reports; only the owner can GET their receipt. No receipt LIST.
+// The receipt reserves an ID atomically with an owner-private pending request.
+// Only backend approval creates the public listing and zero rating parent.
+// Public GET and bounded latest-feed LIST expose approved/grandfathered reports;
+// only the owner can GET their receipt. No receipt LIST.
 // communityRestrooms may additionally contain passcodeRequired:yes/no/unknown.
 // Codes never belong in that public listing document.
+// users/{uid}/restroomReadySubmissionRequests/{same communityID}: immutable
+// client-created pending request, exact schemaVersion:int(1), status:pending,
+// revision:int(1), submittedAt:server time, listing:the exact community schema
+// at the same timestamp, codeDraft:null or exact {code:ASCII(1..40),visibility}.
+// The optional code stays owner-private until backend approval. Terminal
+// status/revision/reviewedAt/reason/codeFingerprint are server-owned; raw draft
+// codes are scrubbed at review. GET/bounded LIST(50) are owner-only. No client
+// update/delete/approval, including from clients claiming moderator privileges.
+// restroomModerationRemovals/{placeID}/publicNotes/{noteID} or
+// /unifiedVisits/{reportID}: server-only no-body/no-author removal markers.
+// Marked IDs cannot be recreated, including after subsequent owner deletion.
 // users/{uid}/restroomReadyPasscodes/{placeID}: private owner record, exact keys
 // placeID:string, reportID:20 alphanumeric chars (immutable), code:trimmed printable
 // ASCII (1..40), visibility:private/public, createdAt:timestamp (immutable),
@@ -42,11 +60,46 @@
 // users/{uid}/restroomReadyPasscodeChecks/{reportID}: private verification receipt,
 // exact placeID, codeUpdatedAt and verifiedAt:timestamp (server time). A public
 // check changes only lastVerifiedAt, atomically with a receipt for that version.
+// restroomVisitReports/{placeID}/reports/{20-character reportID}: immutable public
+// observedAt:timestamp (2000..request.time), submittedAt:timestamp (server time),
+// placeID:string (existing public place; 1..128), entryRule:not-reported/public/customers,
+// purchaseRequired/codeRequired/stairs/soap/toiletPaper:not-reported/yes/no,
+// floor:not-reported/entrance/below/above, condition:not-reported/usable/needs-attention.
+// At least one fact is known; no identity, free text, code value or coordinates.
+// users/{uid}/restroomReadyVisitReceipts/{same reportID}: exact placeID/submittedAt.
+// Public selected-place reads are bounded to 10; private receipts use owner GET only.
+// Both creation and owner deletion require the paired public/private transition.
+// restroomPublicNotes/{placeID}/notes/{20-character noteID}: immutable public
+// schemaVersion:int(1), placeID:string, observedAt/submittedAt:timestamp,
+// body:string(0..1000), condition:enum, soap/toiletPaper/stairs:answer enum.
+// A nonblank body or one known structured answer is required. No account
+// identity is attached; people must avoid personal information in public text.
+// users/{uid}/restroomReadyPublicNoteReceipts/{same noteID}: exact
+// placeID/submittedAt ownership pair. Public latest-note reads are bounded to
+// ten; receipt GET and bounded LIST (at most 50) are restricted to their owner.
+// Creation/deletion require both documents.
+// restroomAccessDetails/{placeID}: optional administrator-written public data.
+// Exact 15-field SDK contract: schemaVersion:int(1), placeID:safe public ID(1..160),
+// restroomHours:null/string(1..160), entranceLocation:null/string(1..500),
+// entranceStepFree/stairFreeRoute/elevatorToRestroom:yes/no/unknown,
+// elevatorNote:null/string(1..300), restroomFloor:null/string(1..80),
+// stairsAfterEntry:null/int(0..200), sourceTitle:string(1..160),
+// reportedAt:timestamp, observedOn:null/timestamp, updatedAt:timestamp,
+// limitations:string(1..1000). No account identity, private notes or codes.
+// Trusted administration provisions the public projection; every client write
+// is denied, including clients with an admin claim. SDKs reject malformed data
+// and mismatched IDs. Public collection queries must explicitly limit to 1,000.
+// restroomResearchProfiles/{placeID}: administrator-written public card facts.
+// schemaVersion 1, exact placeID, reviewed manifest SHA256, generatedAt, bounded
+// sources/facts/comments and coveredCommentIDs. No private authors or ownership.
+// Both clients strictly decode the projection. Exact public GET only; collection
+// lists, descendants and every client write (including claimed admins) stay denied.
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function isAuthenticated() {
-      return request.auth != null;
+      return request.auth != null
+        && !exists(/databases/$(database)/documents/accountDeletionLocks/$(request.auth.uid));
     }
     function isOwner(uid) {
       return isAuthenticated() && request.auth.uid == uid;
@@ -63,8 +116,7 @@ service cloud.firestore {
     function isValidSaved(data, placeID) {
       return data.keys().hasAll(['placeID', 'savedAt'])
         && data.keys().hasOnly(['placeID', 'savedAt'])
-        && (validPlaceID(data.placeID) || (isCommunityPlaceID(data.placeID)
-          && isNewCommunitySubmission(data.placeID))) && data.placeID == placeID
+        && validPlaceID(data.placeID) && data.placeID == placeID
         && data.savedAt is timestamp && data.savedAt == request.time;
     }
     function isValidNote(data) {
@@ -85,6 +137,116 @@ service cloud.firestore {
     function isRatingOwner(uid) {
       return isOwner(uid)
         && request.auth.token.get('firebase', {}).get('sign_in_provider', '') != 'anonymous';
+    }
+    // Server-only suspensions never block browsing, private Saved or owned cleanup.
+    function canContribute(uid) {
+      return isRatingOwner(uid)
+        && !exists(/databases/$(database)/documents/restroomContributorSuspensions/$(uid));
+    }
+    // First-pass whole-token filter; private reporting and human moderation cover context.
+    function allowedPublicText(value) {
+      return value is string && !value.lower().matches("(?s).*(?:^|[^a-z0-9_])(?:fuck(?:ing|er|ers|ed)?|motherfuck(?:er|ers|ing)?|n[i1]gg(?:er|ers|a|as)|f[a4]gg?[o0]t(?:s)?|k[i1]ll[ \\t]+yourself|go[ \\t]+die|child[ \\t]+porn|rape[ \\t]+you)(?:$|[^a-z0-9_]).*");
+    }
+    function isVisitPlaceID(placeID) {
+      return placeID is string && placeID.size() > 0 && placeID.size() <= 128
+        && placeID.matches('^[A-Za-z0-9][A-Za-z0-9:._~-]{0,127}$')
+        && exists(/databases/$(database)/documents/restroomRatingSummaries/$(placeID))
+        && (!placeID.matches('^community-.*') || (isCommunityPlaceID(placeID)
+          && exists(/databases/$(database)/documents/communityRestrooms/$(placeID))));
+    }
+    function isValidVisitReport(data, placeID) {
+      return data.keys().hasAll(['placeID', 'observedAt', 'submittedAt', 'entryRule',
+          'purchaseRequired', 'codeRequired', 'stairs', 'soap', 'toiletPaper', 'floor', 'condition'])
+        && data.keys().hasOnly(['placeID', 'observedAt', 'submittedAt', 'entryRule',
+          'purchaseRequired', 'codeRequired', 'stairs', 'soap', 'toiletPaper', 'floor', 'condition'])
+        && isVisitPlaceID(data.placeID) && data.placeID == placeID
+        && data.observedAt is timestamp && data.observedAt >= timestamp.date(2000, 1, 1)
+        && data.observedAt <= request.time
+        && data.submittedAt is timestamp && data.submittedAt == request.time
+        && data.entryRule in ['not-reported', 'public', 'customers']
+        && data.floor in ['not-reported', 'entrance', 'below', 'above']
+        && data.condition in ['not-reported', 'usable', 'needs-attention']
+        && validAnswer(data.purchaseRequired) && validAnswer(data.codeRequired)
+        && validAnswer(data.stairs) && validAnswer(data.soap) && validAnswer(data.toiletPaper)
+        && (data.entryRule != 'not-reported' || data.floor != 'not-reported'
+          || data.condition != 'not-reported' || data.purchaseRequired != 'not-reported'
+          || data.codeRequired != 'not-reported' || data.stairs != 'not-reported'
+          || data.soap != 'not-reported' || data.toiletPaper != 'not-reported');
+    }
+    function isValidVisitReceipt(data, placeID) {
+      return data.keys().hasAll(['placeID', 'submittedAt'])
+        && data.keys().hasOnly(['placeID', 'submittedAt'])
+        && isVisitPlaceID(data.placeID) && data.placeID == placeID
+        && data.submittedAt is timestamp && data.submittedAt == request.time;
+    }
+    function isNewVisitReport(uid, placeID, reportID) {
+      let publicPath = /databases/$(database)/documents/restroomVisitReports/$(placeID)/reports/$(reportID);
+      let privatePath = /databases/$(database)/documents/users/$(uid)/restroomReadyVisitReceipts/$(reportID);
+      return canContribute(uid) && isPasscodeReportID(reportID)
+        && !exists(publicPath) && !exists(privatePath)
+        && isValidVisitReport(getAfter(publicPath).data, placeID)
+        && isValidVisitReceipt(getAfter(privatePath).data, placeID)
+        && getAfter(publicPath).data.submittedAt == getAfter(privatePath).data.submittedAt;
+    }
+    function isOwnerVisitDeletion(uid, placeID, reportID) {
+      let publicPath = /databases/$(database)/documents/restroomVisitReports/$(placeID)/reports/$(reportID);
+      let privatePath = /databases/$(database)/documents/users/$(uid)/restroomReadyVisitReceipts/$(reportID);
+      return isRatingOwner(uid) && isPasscodeReportID(reportID)
+        && exists(publicPath) && exists(privatePath)
+        && get(privatePath).data.keys().hasAll(['placeID', 'submittedAt'])
+        && get(privatePath).data.keys().hasOnly(['placeID', 'submittedAt'])
+        && get(privatePath).data.placeID == placeID
+        && get(publicPath).data.placeID == placeID
+        && get(privatePath).data.submittedAt is timestamp
+        && get(privatePath).data.submittedAt == get(publicPath).data.submittedAt
+        && getAfter(publicPath) == null && getAfter(privatePath) == null;
+    }
+    function isValidPublicNote(data, placeID) {
+      return data.keys().hasAll(['schemaVersion', 'placeID', 'observedAt',
+          'submittedAt', 'body', 'condition', 'soap', 'toiletPaper', 'stairs'])
+        && data.keys().hasOnly(['schemaVersion', 'placeID', 'observedAt',
+          'submittedAt', 'body', 'condition', 'soap', 'toiletPaper', 'stairs'])
+        && data.schemaVersion is int && data.schemaVersion == 1
+        && isVisitPlaceID(data.placeID) && data.placeID == placeID
+        && data.observedAt is timestamp && data.observedAt >= timestamp.date(2000, 1, 1)
+        && data.observedAt <= request.time
+        && data.submittedAt is timestamp && data.submittedAt == request.time
+        && data.body is string && data.body.size() <= 1000 && allowedPublicText(data.body)
+        && data.body.matches('^[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*$')
+        && data.condition in ['not-reported', 'usable', 'needs-attention']
+        && validAnswer(data.soap) && validAnswer(data.toiletPaper) && validAnswer(data.stairs)
+        && (data.body.matches('(?s).*[^\\s\\p{Z}\\x85].*') || data.condition != 'not-reported'
+          || data.soap != 'not-reported' || data.toiletPaper != 'not-reported'
+          || data.stairs != 'not-reported');
+    }
+    function isValidPublicNoteReceipt(data, placeID) {
+      return data.keys().hasAll(['placeID', 'submittedAt'])
+        && data.keys().hasOnly(['placeID', 'submittedAt'])
+        && isVisitPlaceID(data.placeID) && data.placeID == placeID
+        && data.submittedAt is timestamp && data.submittedAt == request.time;
+    }
+    function isNewPublicNote(uid, placeID, noteID) {
+      let publicPath = /databases/$(database)/documents/restroomPublicNotes/$(placeID)/notes/$(noteID);
+      let privatePath = /databases/$(database)/documents/users/$(uid)/restroomReadyPublicNoteReceipts/$(noteID);
+      return canContribute(uid) && isPasscodeReportID(noteID)
+        && !exists(/databases/$(database)/documents/restroomModerationRemovals/$(placeID)/publicNotes/$(noteID))
+        && !exists(publicPath) && !exists(privatePath)
+        && isValidPublicNote(getAfter(publicPath).data, placeID)
+        && isValidPublicNoteReceipt(getAfter(privatePath).data, placeID)
+        && getAfter(publicPath).data.submittedAt == getAfter(privatePath).data.submittedAt;
+    }
+    function isOwnerPublicNoteDeletion(uid, placeID, noteID) {
+      let publicPath = /databases/$(database)/documents/restroomPublicNotes/$(placeID)/notes/$(noteID);
+      let privatePath = /databases/$(database)/documents/users/$(uid)/restroomReadyPublicNoteReceipts/$(noteID);
+      return isRatingOwner(uid) && isPasscodeReportID(noteID)
+        && exists(publicPath) && exists(privatePath)
+        && get(privatePath).data.keys().hasAll(['placeID', 'submittedAt'])
+        && get(privatePath).data.keys().hasOnly(['placeID', 'submittedAt'])
+        && get(privatePath).data.placeID == placeID
+        && get(publicPath).data.placeID == placeID
+        && get(privatePath).data.submittedAt is timestamp
+        && get(privatePath).data.submittedAt == get(publicPath).data.submittedAt
+        && getAfter(publicPath) == null && getAfter(privatePath) == null;
     }
     function isValidRatingSummary(data) {
       return data.keys().hasAll(['ratingCount', 'ratingSum', 'updatedAt'])
@@ -157,18 +319,34 @@ service cloud.firestore {
         && data.ownerUID == request.auth.uid
         && data.submittedAt is timestamp && data.submittedAt == request.time;
     }
-    function isNewCommunitySubmission(placeID) {
+    function isValidPendingCommunityRequest(data) {
+      return data.keys().hasAll(['schemaVersion', 'status', 'revision', 'submittedAt', 'listing', 'codeDraft'])
+        && data.keys().hasOnly(['schemaVersion', 'status', 'revision', 'submittedAt', 'listing', 'codeDraft'])
+        && data.schemaVersion is int && data.schemaVersion == 1
+        && data.status == 'pending' && data.revision is int && data.revision == 1
+        && data.submittedAt is timestamp && data.submittedAt == request.time
+        && data.listing is map && isValidCommunityRestroom(data.listing)
+        && data.listing.keys().hasAll(['passcodeRequired'])
+        && data.listing.submittedAt == data.submittedAt
+        && (data.codeDraft == null || (data.codeDraft is map
+          && data.codeDraft.keys().hasAll(['code', 'visibility'])
+          && data.codeDraft.keys().hasOnly(['code', 'visibility'])
+          && data.listing.get('passcodeRequired', 'unknown') == 'yes'
+          && isValidPasscodeText(data.codeDraft.code)
+          && data.codeDraft.visibility in ['private', 'public']));
+    }
+    function isNewPendingCommunityRequest(uid, placeID) {
+      let requestPath = /databases/$(database)/documents/users/$(uid)/restroomReadySubmissionRequests/$(placeID);
       let listingPath = /databases/$(database)/documents/communityRestrooms/$(placeID);
       let receiptPath = /databases/$(database)/documents/restroomSubmissions/$(placeID);
       let summaryPath = /databases/$(database)/documents/restroomRatingSummaries/$(placeID);
-      let listing = getAfter(listingPath).data;
+      let pending = getAfter(requestPath).data;
       let receipt = getAfter(receiptPath).data;
-      let summary = getAfter(summaryPath).data;
-      return isRatingOwner(request.auth.uid) && isCommunityPlaceID(placeID)
-        && !exists(listingPath) && !exists(receiptPath) && !exists(summaryPath)
-        && isValidCommunityRestroom(listing) && isValidSubmissionReceipt(receipt)
-        && isValidRatingSummary(summary) && summary.ratingCount == 0 && summary.ratingSum == 0
-        && summary.updatedAt == request.time;
+      return canContribute(uid) && isCommunityPlaceID(placeID)
+        && !exists(requestPath) && !exists(receiptPath)
+        && !exists(listingPath) && !exists(summaryPath)
+        && isValidPendingCommunityRequest(pending) && isValidSubmissionReceipt(receipt)
+        && pending.submittedAt == receipt.submittedAt;
     }
     function isPasscodeReportID(value) {
       return value is string && value.size() == 20 && value.matches('^[a-zA-Z0-9]{20}$');
@@ -183,6 +361,14 @@ service cloud.firestore {
     function isValidPasscodeText(value) {
       return value is string && value.size() > 0 && value.size() <= 40
         && value.matches('^[!-~]([ -~]*[!-~])?$');
+    }
+    function allowedPublicCodeVersion(placeID, reportID, version, kind) {
+      let marker = kind == 'legacy-code'
+        ? get(/databases/$(database)/documents/restroomModerationRemovals/$(placeID)/legacyCodes/$(reportID))
+        : get(/databases/$(database)/documents/restroomModerationRemovals/$(placeID)/v2Codes/$(reportID));
+      return marker == null || (kind == 'legacy-code' && marker.data.kind == kind && marker.data.placeID == placeID
+        && marker.data.recordID == reportID && marker.data.codeUpdatedAt is timestamp
+        && version is timestamp && version > marker.data.codeUpdatedAt);
     }
     function isValidPasscodeTimes(data) {
       return data.codeUpdatedAt is timestamp
@@ -271,7 +457,7 @@ service cloud.firestore {
         && passcodeReservationMatches(uid, placeID, data)
         && (sameCode ? data.codeUpdatedAt == before.codeUpdatedAt
             && (before.visibility == 'public' && data.visibility == 'private'
-              ? carriesPublicCheck
+              ? (publicBefore == null ? data.lastVerifiedAt == before.lastVerifiedAt : carriesPublicCheck)
               : data.lastVerifiedAt == before.lastVerifiedAt || carriesPublicCheck || explicitCheck)
           : data.codeUpdatedAt == request.time && data.codeUpdatedAt != before.codeUpdatedAt
             && data.lastVerifiedAt == null)
@@ -338,11 +524,15 @@ service cloud.firestore {
       allow get: if validPlaceID(placeID) && isPasscodeReportID(reportID);
       allow list: if validPlaceID(placeID) && request.query.limit != null
         && request.query.limit > 0 && request.query.limit <= 10;
-      allow create: if isRatingOwner(request.auth.uid) && isPasscodeReportID(reportID)
+      allow create: if canContribute(request.auth.uid) && isPasscodeReportID(reportID)
         && isValidPublicPasscode(request.resource.data, placeID)
+        && allowedPublicText(request.resource.data.code)
+        && allowedPublicCodeVersion(placeID, reportID, request.resource.data.codeUpdatedAt, 'legacy-code')
         && isOwnerPublicPasscodeWrite(placeID, reportID);
-      allow update: if isRatingOwner(request.auth.uid) && isPasscodeReportID(reportID)
+      allow update: if canContribute(request.auth.uid) && isPasscodeReportID(reportID)
         && isValidPublicPasscode(request.resource.data, placeID)
+        && allowedPublicText(request.resource.data.code)
+        && allowedPublicCodeVersion(placeID, reportID, request.resource.data.codeUpdatedAt, 'legacy-code')
         && (isPublicPasscodeVerification(request.auth.uid, placeID, reportID)
           || isOwnerPublicPasscodeWrite(placeID, reportID));
       allow delete: if isRatingOwner(request.auth.uid) && isPasscodeReportID(reportID)
@@ -353,20 +543,358 @@ service cloud.firestore {
     match /users/{uid}/restroomReadyPasscodeChecks/{reportID} {
       allow get: if isRatingOwner(uid) && isPasscodeReportID(reportID);
       allow list, delete: if false;
-      allow create, update: if isRatingOwner(uid) && isValidPasscodeCheck(request.resource.data)
+      allow create, update: if canContribute(uid) && isValidPasscodeCheck(request.resource.data)
         && isPublicPasscodeVerification(uid, request.resource.data.placeID, reportID);
+    }
+    // V2 reports preserve every submitted code as a separate immutable version.
+    // Legacy schemas above remain exact and unchanged for installed clients.
+    function isValidOwnPasscodeV2(data, reportID) {
+      return isPasscodeReportID(reportID)
+        && data.keys().hasAll(['placeID', 'code', 'visibility', 'createdAt', 'codeUpdatedAt', 'lastVerifiedAt'])
+        && data.keys().hasOnly(['placeID', 'code', 'visibility', 'createdAt', 'codeUpdatedAt', 'lastVerifiedAt'])
+        && isPasscodePlaceID(data.placeID) && isValidPasscodeText(data.code)
+        && data.visibility in ['private', 'public']
+        && data.createdAt is timestamp && data.createdAt == data.codeUpdatedAt
+        && isValidPasscodeTimes(data);
+    }
+    function isValidPublicPasscodeV2(data, placeID) {
+      return data.keys().hasAll(['placeID', 'code', 'codeUpdatedAt'])
+        && data.keys().hasOnly(['placeID', 'code', 'codeUpdatedAt'])
+        && data.placeID == placeID && isPasscodePlaceID(placeID)
+        && isValidPasscodeText(data.code) && data.codeUpdatedAt is timestamp
+        && data.codeUpdatedAt >= timestamp.date(2000, 1, 1) && data.codeUpdatedAt <= request.time;
+    }
+    function passcodeV2ReservationMatches(uid, reportID, own) {
+      let owner = getAfter(/databases/$(database)/documents/restroomPasscodeV2Owners/$(reportID));
+      return owner != null && isValidPasscodeOwner(owner.data, reportID)
+        && owner.data.ownerUID == uid && owner.data.placeID == own.placeID
+        && owner.data.createdAt == own.createdAt;
+    }
+    function passcodeV2ProjectionMatches(reportID, own) {
+      let shared = getAfter(/databases/$(database)/documents/restroomPasscodeReportsV2/$(own.placeID)/reports/$(reportID));
+      return own.visibility == 'private' ? shared == null
+        : shared != null && isValidPublicPasscodeV2(shared.data, own.placeID)
+          && shared.data.code == own.code && shared.data.codeUpdatedAt == own.codeUpdatedAt;
+    }
+    function isOwnerPasscodeV2Projection(placeID, reportID) {
+      let own = getAfter(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodesV2/$(reportID));
+      return own != null && isValidOwnPasscodeV2(own.data, reportID)
+        && own.data.placeID == placeID && own.data.visibility == 'public'
+        && passcodeV2ReservationMatches(request.auth.uid, reportID, own.data)
+        && passcodeV2ProjectionMatches(reportID, own.data);
+    }
+    match /users/{uid}/restroomReadyPasscodesV2/{reportID} {
+      allow get: if isRatingOwner(uid) && isPasscodeReportID(reportID);
+      allow list: if isRatingOwner(uid) && request.query.limit != null
+        && request.query.limit > 0 && request.query.limit <= 10;
+      allow create: if isRatingOwner(uid) && isValidOwnPasscodeV2(request.resource.data, reportID)
+        && request.resource.data.createdAt == request.time && request.resource.data.lastVerifiedAt == null
+        && !exists(/databases/$(database)/documents/restroomPasscodeV2Owners/$(reportID))
+        && passcodeV2ReservationMatches(uid, reportID, request.resource.data)
+        && passcodeV2ProjectionMatches(reportID, request.resource.data)
+        && (request.resource.data.visibility != 'private' || passcodeIsSaved(uid, request.resource.data.placeID));
+      allow update: if isRatingOwner(uid) && isValidOwnPasscodeV2(request.resource.data, reportID)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['visibility', 'lastVerifiedAt'])
+        && (request.resource.data.lastVerifiedAt == resource.data.lastVerifiedAt
+          || (resource.data.visibility == 'private' && request.resource.data.visibility == 'private'
+            && request.resource.data.lastVerifiedAt == request.time
+            && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastVerifiedAt'])))
+        && passcodeV2ReservationMatches(uid, reportID, request.resource.data)
+        && passcodeV2ProjectionMatches(reportID, request.resource.data)
+        && (request.resource.data.visibility != 'private' || passcodeIsSaved(uid, request.resource.data.placeID));
+      allow delete: if isRatingOwner(uid) && isPasscodeReportID(reportID)
+        && get(/databases/$(database)/documents/restroomPasscodeV2Owners/$(reportID)).data.ownerUID == uid
+        && get(/databases/$(database)/documents/restroomPasscodeV2Owners/$(reportID)).data.placeID == resource.data.placeID
+        && getAfter(/databases/$(database)/documents/restroomPasscodeV2Owners/$(reportID)) == null
+        && getAfter(/databases/$(database)/documents/restroomPasscodeReportsV2/$(resource.data.placeID)/reports/$(reportID)) == null;
+    }
+    match /restroomPasscodeV2Owners/{reportID} {
+      allow get: if isRatingOwner(request.auth.uid) && isPasscodeReportID(reportID)
+        && (resource == null || resource.data.ownerUID == request.auth.uid);
+      allow list, update: if false;
+      allow create: if isRatingOwner(request.auth.uid) && isValidPasscodeOwner(request.resource.data, reportID)
+        && request.resource.data.createdAt == request.time
+        && !exists(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodesV2/$(reportID))
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodesV2/$(reportID)).data.createdAt == request.time
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodesV2/$(reportID)).data.placeID == request.resource.data.placeID;
+      allow delete: if isRatingOwner(request.auth.uid) && resource.data.ownerUID == request.auth.uid
+        && getAfter(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodesV2/$(reportID)) == null
+        && getAfter(/databases/$(database)/documents/restroomPasscodeReportsV2/$(resource.data.placeID)/reports/$(reportID)) == null;
+    }
+    match /restroomPasscodeReportsV2/{placeID}/reports/{reportID} {
+      allow get: if validPlaceID(placeID) && isPasscodeReportID(reportID);
+      allow list: if validPlaceID(placeID) && request.query.limit != null
+        && request.query.limit > 0 && request.query.limit <= 10;
+      allow create: if canContribute(request.auth.uid) && isValidPublicPasscodeV2(request.resource.data, placeID)
+        && allowedPublicText(request.resource.data.code)
+        && allowedPublicCodeVersion(placeID, reportID, request.resource.data.codeUpdatedAt, 'v2-code')
+        && isOwnerPasscodeV2Projection(placeID, reportID);
+      allow update: if false;
+      allow delete: if isRatingOwner(request.auth.uid) && isPasscodeReportID(reportID)
+        && get(/databases/$(database)/documents/restroomPasscodeV2Owners/$(reportID)).data.ownerUID == request.auth.uid
+        && get(/databases/$(database)/documents/restroomPasscodeV2Owners/$(reportID)).data.placeID == placeID
+        && (getAfter(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodesV2/$(reportID)) == null
+          || getAfter(/databases/$(database)/documents/users/$(request.auth.uid)/restroomReadyPasscodesV2/$(reportID)).data.visibility == 'private');
+    }
+    function isPasscodeKind(kind) { return kind in ['legacy', 'v2']; }
+    function passcodeFeedbackKey(kind, reportID) { return kind + '_' + reportID; }
+    function publicFeedbackCode(placeID, kind, reportID) {
+      return kind == 'legacy'
+        ? get(/databases/$(database)/documents/restroomPasscodeReports/$(placeID)/reports/$(reportID))
+        : get(/databases/$(database)/documents/restroomPasscodeReportsV2/$(placeID)/reports/$(reportID));
+    }
+    function isFeedbackNonOwner(uid, placeID, kind, reportID) {
+      let owner = kind == 'legacy'
+        ? get(/databases/$(database)/documents/restroomPasscodeOwners/$(reportID))
+        : get(/databases/$(database)/documents/restroomPasscodeV2Owners/$(reportID));
+      // Imported legacy IDs can recur at another place. A reservation there
+      // must not let its owner suppress feedback on this ownerless source code.
+      return kind == 'legacy'
+        ? owner == null || owner.data.placeID != placeID || owner.data.ownerUID != uid
+        : owner != null && owner.data.placeID == placeID && owner.data.ownerUID != uid;
+    }
+    function isValidPasscodeVote(data, key) {
+      return data.keys().hasAll(['placeID', 'kind', 'reportID', 'codeUpdatedAt', 'vote', 'updatedAt'])
+        && data.keys().hasOnly(['placeID', 'kind', 'reportID', 'codeUpdatedAt', 'vote', 'updatedAt'])
+        && isPasscodePlaceID(data.placeID) && isPasscodeKind(data.kind) && isPasscodeReportID(data.reportID)
+        && key == data.placeID + '~' + passcodeFeedbackKey(data.kind, data.reportID)
+        && data.vote in ['used', 'invalid'] && data.codeUpdatedAt is timestamp
+        && data.codeUpdatedAt >= timestamp.date(2000, 1, 1) && data.codeUpdatedAt <= request.time
+        && data.updatedAt is timestamp && data.updatedAt == request.time;
+    }
+    function isValidPasscodeFeedback(data, placeID, kind, reportID) {
+      return data.keys().hasAll(['placeID', 'kind', 'reportID', 'codeUpdatedAt', 'usedCount', 'invalidCount', 'lastUsedAt', 'updatedAt'])
+        && data.keys().hasOnly(['placeID', 'kind', 'reportID', 'codeUpdatedAt', 'usedCount', 'invalidCount', 'lastUsedAt', 'updatedAt'])
+        && data.placeID == placeID && data.kind == kind && data.reportID == reportID
+        && isPasscodePlaceID(placeID) && isPasscodeKind(kind) && isPasscodeReportID(reportID)
+        && data.codeUpdatedAt is timestamp && data.codeUpdatedAt >= timestamp.date(2000, 1, 1)
+        && data.codeUpdatedAt <= request.time
+        && data.usedCount is int && data.usedCount >= 0 && data.usedCount <= 1000000
+        && data.invalidCount is int && data.invalidCount >= 0 && data.invalidCount <= 1000000
+        && (data.lastUsedAt == null || (data.lastUsedAt is timestamp
+          && data.lastUsedAt >= data.codeUpdatedAt && data.lastUsedAt <= request.time))
+        && data.updatedAt is timestamp && data.updatedAt == request.time;
+    }
+    function isPasscodeFeedbackTransition(uid, placeID, kind, reportID) {
+      let code = publicFeedbackCode(placeID, kind, reportID);
+      let key = passcodeFeedbackKey(kind, reportID);
+      let before = get(/databases/$(database)/documents/restroomPasscodeFeedback/$(placeID)/codes/$(key));
+      let after = getAfter(/databases/$(database)/documents/restroomPasscodeFeedback/$(placeID)/codes/$(key));
+      let oldVote = get(/databases/$(database)/documents/users/$(uid)/restroomReadyPasscodeVotes/$(placeID + '~' + key));
+      let newVote = getAfter(/databases/$(database)/documents/users/$(uid)/restroomReadyPasscodeVotes/$(placeID + '~' + key));
+      let sameVersion = before != null && code != null && before.data.codeUpdatedAt == code.data.codeUpdatedAt;
+      let counted = sameVersion && oldVote != null && oldVote.data.codeUpdatedAt == code.data.codeUpdatedAt;
+      let oldOutcome = counted ? oldVote.data.vote : '';
+      return canContribute(uid) && isPasscodeKind(kind) && isPasscodeReportID(reportID)
+        && code != null && code.data.placeID == placeID && isFeedbackNonOwner(uid, placeID, kind, reportID)
+        && after != null && isValidPasscodeFeedback(after.data, placeID, kind, reportID)
+        && after.data.codeUpdatedAt == code.data.codeUpdatedAt
+        && newVote != null && isValidPasscodeVote(newVote.data, placeID + '~' + key)
+        && newVote.data.placeID == placeID && newVote.data.kind == kind && newVote.data.reportID == reportID
+        && newVote.data.codeUpdatedAt == code.data.codeUpdatedAt
+        && (oldVote == null || (oldVote.data.placeID == placeID && oldVote.data.kind == kind
+          && oldVote.data.reportID == reportID && oldVote.data.updatedAt != newVote.data.updatedAt))
+        && after.data.usedCount == (sameVersion ? before.data.usedCount : 0)
+          - (oldOutcome == 'used' ? 1 : 0) + (newVote.data.vote == 'used' ? 1 : 0)
+        && after.data.invalidCount == (sameVersion ? before.data.invalidCount : 0)
+          - (oldOutcome == 'invalid' ? 1 : 0) + (newVote.data.vote == 'invalid' ? 1 : 0)
+        && after.data.lastUsedAt == (newVote.data.vote == 'used' ? request.time : (sameVersion ? before.data.lastUsedAt : null));
+    }
+    match /restroomPasscodeFeedback/{placeID}/codes/{key} {
+      // Stale legacy summaries remain GET-readable while that public report exists,
+      // so a transaction can reset them. Clients must pin the displayed version.
+      allow get: if validPlaceID(placeID) && key.matches('^(legacy|v2)_[a-zA-Z0-9]{20}$')
+        && (key.matches('^legacy_.*')
+          ? exists(/databases/$(database)/documents/restroomPasscodeReports/$(placeID)/reports/$(key.replace('^legacy_', '')))
+          : exists(/databases/$(database)/documents/restroomPasscodeReportsV2/$(placeID)/reports/$(key.replace('^v2_', ''))));
+      allow list, delete: if false;
+      allow create, update: if key == passcodeFeedbackKey(request.resource.data.kind, request.resource.data.reportID)
+        && isPasscodeFeedbackTransition(request.auth.uid, placeID, request.resource.data.kind, request.resource.data.reportID);
+    }
+    match /users/{uid}/restroomReadyPasscodeVotes/{key} {
+      allow get: if isRatingOwner(uid) && key.size() <= 156;
+      allow list, delete: if false;
+      // The shared transition validates this exact after-vote and authenticated
+      // UID. Bind its path here instead of repeating those expensive validators.
+      allow create, update: if key == request.resource.data.placeID + '~'
+          + passcodeFeedbackKey(request.resource.data.kind, request.resource.data.reportID)
+        && isPasscodeFeedbackTransition(uid, request.resource.data.placeID, request.resource.data.kind, request.resource.data.reportID);
+    }
+    // Unified visitor reports are additive; legacy 11/9-key schemas stay unchanged.
+    // users/{uid}/restroomReadyUnifiedVisitReceipts/{reportID}: the private
+    // placeID/submittedAt/codeReportID pair permits owner GET and bounded LIST
+    // (at most 50); creation and deletion remain paired with the public report.
+    // elevatorPresent / automaticDoorPresent are optional dated observations,
+    // not route-accessibility certifications. Private owner receipts may be
+    // enumerated only by that non-anonymous owner, with at most 50 per query.
+    function isValidUnifiedVisit(data, placeID) {
+      return data.keys().hasAll(['schemaVersion', 'placeID', 'observedAt', 'submittedAt', 'entryRule',
+          'purchaseRequired', 'codeRequired', 'stairs', 'soap', 'toiletPaper', 'floor', 'condition',
+          'comment', 'anonymous', 'authorName'])
+        && data.keys().hasOnly(['schemaVersion', 'placeID', 'observedAt', 'submittedAt', 'entryRule',
+          'purchaseRequired', 'codeRequired', 'stairs', 'soap', 'toiletPaper', 'floor', 'condition',
+          'comment', 'anonymous', 'authorName', 'elevatorPresent', 'automaticDoorPresent'])
+        && data.schemaVersion is int && data.schemaVersion == 1
+        && isVisitPlaceID(data.placeID) && data.placeID == placeID
+        && data.observedAt is timestamp && data.observedAt >= timestamp.date(2000, 1, 1)
+        && data.observedAt <= request.time
+        && data.submittedAt is timestamp && data.submittedAt == request.time
+        && data.entryRule in ['not-reported', 'public', 'customers']
+        && data.floor in ['not-reported', 'entrance', 'below', 'above']
+        && data.condition in ['not-reported', 'usable', 'needs-attention']
+        && validAnswer(data.purchaseRequired) && validAnswer(data.codeRequired)
+        && validAnswer(data.stairs) && validAnswer(data.soap) && validAnswer(data.toiletPaper)
+        && (!('elevatorPresent' in data) || validAnswer(data.elevatorPresent))
+        && (!('automaticDoorPresent' in data) || validAnswer(data.automaticDoorPresent))
+        && data.comment is string && data.comment.size() <= 1000 && data.comment.trim() == data.comment && allowedPublicText(data.comment)
+        && data.comment.matches('^[^\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]*$')
+        && (data.comment.matches('(?s).*[^\\s\\p{Z}\\x85].*') || data.entryRule != 'not-reported'
+          || data.floor != 'not-reported' || data.condition != 'not-reported'
+          || data.purchaseRequired != 'not-reported' || data.codeRequired != 'not-reported'
+          || data.stairs != 'not-reported' || data.soap != 'not-reported' || data.toiletPaper != 'not-reported'
+          || data.get('elevatorPresent', 'not-reported') != 'not-reported'
+          || data.get('automaticDoorPresent', 'not-reported') != 'not-reported')
+        && data.anonymous is bool
+        && (data.anonymous ? data.authorName == null : data.authorName is string
+          && data.authorName.size() > 0 && data.authorName.size() <= 120
+          && allowedPublicText(data.authorName)
+          && data.authorName.matches('^[^\\x00-\\x1F\\x7F]*$')
+          && data.authorName.matches('(?s).*[^\\s\\p{Z}\\x85].*')
+          && data.authorName == request.auth.token.get('name', null));
+    }
+    function isValidUnifiedVisitReceipt(data, placeID) {
+      return data.keys().hasAll(['placeID', 'submittedAt', 'codeReportID'])
+        && data.keys().hasOnly(['placeID', 'submittedAt', 'codeReportID'])
+        && data.placeID == placeID && isVisitPlaceID(placeID)
+        && data.submittedAt is timestamp && data.submittedAt == request.time
+        && (data.codeReportID == null || isPasscodeReportID(data.codeReportID));
+    }
+    function unifiedFreshCodeMatches(uid, placeID, codeID) {
+      let codePath = /databases/$(database)/documents/users/$(uid)/restroomReadyPasscodesV2/$(codeID);
+      // Existing V2 rules independently enforce the full owner/reservation,
+      // projection and private Saved pair. Here bind a fresh code to this report.
+      return !exists(codePath) && getAfter(codePath) != null
+        && getAfter(codePath).data.placeID == placeID
+        && getAfter(codePath).data.createdAt == request.time
+        && getAfter(codePath).data.codeUpdatedAt == request.time;
+    }
+    function unifiedOptionalCodeMatches(uid, placeID, data, receipt) {
+      return receipt.codeReportID == null || (data.codeRequired == 'yes'
+        && unifiedFreshCodeMatches(uid, placeID, receipt.codeReportID));
+    }
+    function isNewUnifiedVisit(uid, placeID, reportID) {
+      let publicPath = /databases/$(database)/documents/restroomUnifiedVisits/$(placeID)/reports/$(reportID);
+      let privatePath = /databases/$(database)/documents/users/$(uid)/restroomReadyUnifiedVisitReceipts/$(reportID);
+      let shared = getAfter(publicPath);
+      let receipt = getAfter(privatePath);
+      return canContribute(uid) && isPasscodeReportID(reportID)
+        && !exists(/databases/$(database)/documents/restroomModerationRemovals/$(placeID)/unifiedVisits/$(reportID))
+        && !exists(publicPath) && !exists(privatePath)
+        && shared != null && receipt != null
+        && isValidUnifiedVisit(shared.data, placeID)
+        && isValidUnifiedVisitReceipt(receipt.data, placeID)
+        && unifiedOptionalCodeMatches(uid, placeID, shared.data, receipt.data);
+    }
+    function isOwnerUnifiedVisitDeletion(uid, placeID, reportID) {
+      let publicPath = /databases/$(database)/documents/restroomUnifiedVisits/$(placeID)/reports/$(reportID);
+      let privatePath = /databases/$(database)/documents/users/$(uid)/restroomReadyUnifiedVisitReceipts/$(reportID);
+      let shared = get(publicPath);
+      let receipt = get(privatePath);
+      return isRatingOwner(uid) && isPasscodeReportID(reportID)
+        && shared != null && receipt != null
+        && receipt.data.keys().hasAll(['placeID', 'submittedAt', 'codeReportID'])
+        && receipt.data.keys().hasOnly(['placeID', 'submittedAt', 'codeReportID'])
+        && receipt.data.placeID == placeID && shared.data.placeID == placeID
+        && receipt.data.submittedAt is timestamp && receipt.data.submittedAt == shared.data.submittedAt
+        && (receipt.data.codeReportID == null || isPasscodeReportID(receipt.data.codeReportID))
+        && getAfter(publicPath) == null && getAfter(privatePath) == null;
+    }
+    match /restroomUnifiedVisits/{placeID}/reports/{reportID} {
+      allow get: if isVisitPlaceID(placeID) && isPasscodeReportID(reportID);
+      allow list: if isVisitPlaceID(placeID) && request.query.limit != null
+        && request.query.limit > 0 && request.query.limit <= 10;
+      allow create: if isNewUnifiedVisit(request.auth.uid, placeID, reportID);
+      allow update: if false;
+      allow delete: if isOwnerUnifiedVisitDeletion(request.auth.uid, placeID, reportID);
+    }
+    match /users/{uid}/restroomReadyUnifiedVisitReceipts/{reportID} {
+      allow get: if isRatingOwner(uid) && isPasscodeReportID(reportID);
+      allow list: if isRatingOwner(uid) && request.query.limit != null
+        && request.query.limit > 0 && request.query.limit <= 50;
+      allow update: if false;
+      allow create: if isNewUnifiedVisit(uid, request.resource.data.placeID, reportID);
+      allow delete: if isOwnerUnifiedVisitDeletion(uid, resource.data.placeID, reportID);
+    }
+
+    // Imported source notes contain only the reviewed public projection; original
+    // handles, transcripts and evidence remain in the denied research archive.
+    // Browser clients may read a bounded per-place feed, but never write it.
+    match /restroomSourceComments/{placeID}/comments/{commentID} {
+      allow get: if isVisitPlaceID(placeID) && isPasscodeReportID(commentID);
+      allow list: if isVisitPlaceID(placeID) && request.query.limit != null
+        && request.query.limit > 0 && request.query.limit <= 10;
+      allow create, update, delete: if false;
+    }
+    match /restroomVisitReports/{placeID}/reports/{reportID} {
+      allow get: if isVisitPlaceID(placeID) && isPasscodeReportID(reportID);
+      allow list: if isVisitPlaceID(placeID) && request.query.limit != null
+        && request.query.limit > 0 && request.query.limit <= 10;
+      allow create: if isNewVisitReport(request.auth.uid, placeID, reportID);
+      allow update: if false;
+      allow delete: if isOwnerVisitDeletion(request.auth.uid, placeID, reportID);
+    }
+    match /users/{uid}/restroomReadyVisitReceipts/{reportID} {
+      allow get: if isRatingOwner(uid) && isPasscodeReportID(reportID);
+      allow list: if false;
+      allow create: if isNewVisitReport(uid, request.resource.data.placeID, reportID);
+      allow update: if false;
+      allow delete: if isOwnerVisitDeletion(uid, resource.data.placeID, reportID);
+    }
+    match /restroomPublicNotes/{placeID}/notes/{noteID} {
+      allow get: if isVisitPlaceID(placeID) && isPasscodeReportID(noteID);
+      allow list: if isVisitPlaceID(placeID) && request.query.limit != null
+        && request.query.limit > 0 && request.query.limit <= 10;
+      allow create: if isNewPublicNote(request.auth.uid, placeID, noteID);
+      allow update: if false;
+      allow delete: if isOwnerPublicNoteDeletion(request.auth.uid, placeID, noteID);
+    }
+    match /users/{uid}/restroomReadyPublicNoteReceipts/{noteID} {
+      allow get: if isRatingOwner(uid) && isPasscodeReportID(noteID);
+      allow list: if isRatingOwner(uid) && request.query.limit != null
+        && request.query.limit > 0 && request.query.limit <= 50;
+      allow create: if isNewPublicNote(uid, request.resource.data.placeID, noteID);
+      allow update: if false;
+      allow delete: if isOwnerPublicNoteDeletion(uid, resource.data.placeID, noteID);
+    }
+    match /restroomResearchProfiles/{placeID} {
+      allow get: if placeID.size() > 0 && placeID.size() <= 160
+        && placeID.matches('^[A-Za-z0-9][A-Za-z0-9:._~-]{0,159}$');
+      allow list, create, update, delete: if false;
+    }
+    match /restroomAccessDetails/{placeID} {
+      allow get: if placeID.size() > 0 && placeID.size() <= 160
+        && placeID.matches('^[A-Za-z0-9][A-Za-z0-9:._~-]{0,159}$');
+      allow list: if request.query.limit != null
+        && request.query.limit > 0 && request.query.limit <= 1000;
+      allow create, update, delete: if false;
     }
     match /communityRestrooms/{placeID} {
       allow get: if isCommunityPlaceID(placeID);
       allow list: if request.query.limit != null && request.query.limit > 0 && request.query.limit <= 1000;
-      allow create: if isNewCommunitySubmission(placeID);
-      allow update, delete: if false;
+      allow create, update, delete: if false;
     }
     match /restroomSubmissions/{placeID} {
       allow get: if isRatingOwner(request.auth.uid) && isCommunityPlaceID(placeID)
         && (resource == null || resource.data.ownerUID == request.auth.uid);
       allow list: if false;
-      allow create: if isNewCommunitySubmission(placeID);
+      allow create: if isNewPendingCommunityRequest(request.auth.uid, placeID);
+      allow update, delete: if false;
+    }
+    match /users/{uid}/restroomReadySubmissionRequests/{placeID} {
+      allow get: if isRatingOwner(uid) && isCommunityPlaceID(placeID);
+      allow list: if isRatingOwner(uid) && request.query.limit != null
+        && request.query.limit > 0 && request.query.limit <= 50;
+      allow create: if isNewPendingCommunityRequest(uid, placeID);
       allow update, delete: if false;
     }
     match /users/{uid}/restroomReadySaved/{placeID} {
@@ -384,7 +912,7 @@ service cloud.firestore {
     match /restroomRatingSummaries/{placeID} {
       allow get: if validPlaceID(placeID);
       allow list: if resource.data.ratingCount > 0;
-      allow create: if isNewCommunitySubmission(placeID);
+      allow create: if false;
       allow delete: if false;
       allow update: if isRatingOwner(request.auth.uid)
         && isValidRatingSummary(request.resource.data)
@@ -392,13 +920,17 @@ service cloud.firestore {
       match /ratings/{uid} {
         allow get: if isRatingOwner(uid);
         allow list: if false;
-        allow create, update: if isRatingOwner(uid)
+        allow create, update: if canContribute(uid)
           && isValidRatingVote(request.resource.data)
           && request.resource.data.updatedAt == request.time
           && isValidRatingTransition(placeID, uid);
         allow delete: if isRatingOwner(uid) && isValidRatingTransition(placeID, uid);
       }
     }
+    // Private safety state is readable/writable only through the reviewed Admin backend.
+    match /restroomContentReports/{id} { allow read, write: if false; }
+    match /restroomContentReportLimits/{uid} { allow read, write: if false; }
+    match /restroomContributorSuspensions/{uid} { allow read, write: if false; }
     match /{document=**} {
       allow read, write: if false;
     }

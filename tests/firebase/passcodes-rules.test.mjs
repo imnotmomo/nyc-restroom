@@ -245,18 +245,30 @@ describe('passcode privacy, ownership, freshness and atomicity',{concurrency:fal
     await create(alice,{visibility:'public'});await verify(bob);const receipt=(await getDocFromServer(check(bob))).data();await remove(alice);
     const batch=writeBatch(bob);batch.set(pub(bob),{placeID:PLACE,code:'1234#',codeUpdatedAt:receipt.codeUpdatedAt,lastVerifiedAt:serverTimestamp()});batch.set(check(bob),{...receipt,verifiedAt:serverTimestamp()});await assertFails(batch.commit());
   });
-  test('new community creation can atomically include a private code and saved place',async()=>{
-    await assertSucceeds(community(alice));assert.equal((await getDocFromServer(own(alice,'alice',COMMUNITY))).data().visibility,'private');
-    assert.equal((await getDocFromServer(saved(alice,'alice',COMMUNITY))).exists(),true);assert.equal((await getDocFromServer(doc(out,'communityRestrooms',COMMUNITY))).data().passcodeRequired,'yes');
+  test('legacy community-plus-private-code publication is denied until moderator approval',async()=>{
+    await assertFails(community(alice));
+    assert.equal((await getDocFromServer(doc(out,'communityRestrooms',COMMUNITY))).exists(),false);
   });
-  test('new community creation can include a public code without leaking code into listing fields',async()=>{
-    await assertSucceeds(community(alice,{visibility:'public'}));const listing=(await getDocFromServer(doc(out,'communityRestrooms',COMMUNITY))).data();
-    assert.equal(listing.code,undefined);assert.equal(listing.visibility,undefined);assert.equal((await getDocFromServer(pub(out,COMMUNITY))).data().code,'1234#');
+  test('legacy community-plus-public-code publication cannot bypass the pending queue',async()=>{
+    await assertFails(community(alice,{visibility:'public'}));
+    assert.equal((await getDocFromServer(doc(out,'communityRestrooms',COMMUNITY))).exists(),false);
   });
   for(const missing of['listing','receipt','summary','own','reservation','saved'])test(`community plus private-code batch rejects missing ${missing}`,async()=>{await assertFails(community(alice,{omit:[missing]}));});
-  test('a yes requirement can be reported without knowing or publishing a code',async()=>{await assertSucceeds(community(alice,{includeCode:false}));assert.equal((await getDocFromServer(pub(out,COMMUNITY))).exists(),false);});
+  test('omitting a code does not restore direct client community publication',async()=>{await assertFails(community(alice,{includeCode:false}));assert.equal((await getDocFromServer(doc(out,'communityRestrooms',COMMUNITY))).exists(),false);});
   test('community code-required enum rejects arbitrary values without weakening legacy records',async()=>{for(const flag of['maybe',true,4,null])await assertFails(community(alice,{passcodeRequired:flag,includeCode:false}));});
   test('passcode operations cannot smuggle profile roles or arbitrary nested documents',async()=>{
     await create(alice);for(const path of['users/alice','roles/alice',`restroomPasscodeReports/${PLACE}/identity/alice`])await assertFails(setDoc(doc(alice,path),{isAdmin:true}));
   });
+  test('public-code text filter covers legacy create/share but preserves private code storage',async()=>{
+    await assertFails(create(alice,{visibility:'public',payload:{...original(PLACE,REPORT,'public'),code:'FUCK'}}));
+    await assertSucceeds(create(alice,{payload:{...original(),code:'FUCK'}}));
+    await assertFails(edit(alice,{visibility:'public'}));
+    assert.equal((await getDocFromServer(own(alice))).data().code,'FUCK');
+  });
+  test('removed legacy code version cannot republish, owner can hide privately and report a genuinely new version',async()=>{
+    await assertSucceeds(create(alice,{visibility:'public'}));const before=(await getDocFromServer(own(alice))).data();
+    await env.withSecurityRulesDisabled(async c=>{const b=writeBatch(c.firestore());b.delete(pub(c.firestore()));b.set(doc(c.firestore(),'restroomModerationRemovals',PLACE,'legacyCodes',REPORT),{kind:'legacy-code',placeID:PLACE,recordID:REPORT,codeUpdatedAt:before.codeUpdatedAt,reason:'spam',removedAt:serverTimestamp()});await b.commit();});
+    await assertFails(edit(alice,{visibility:'public'}));await assertSucceeds(edit(alice,{visibility:'private'}));assert.equal((await getDocFromServer(own(alice))).data().code,before.code);await assertSucceeds(edit(alice,{code:'5678#',visibility:'public'}));
+  });
+
 });

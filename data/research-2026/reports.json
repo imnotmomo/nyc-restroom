@@ -1,0 +1,772 @@
+{
+  "cutoff": "2026-10-21",
+  "sources": [
+    {
+      "id": "official-hrp-20260803",
+      "title": "Restrooms — Hudson River Park",
+      "url": "https://hudsonriverpark.org/restrooms/",
+      "publishedOn": "2026-08-03",
+      "dateKind": "updated",
+      "sourceType": "official",
+      "dateEvidence": "Hours explicitly current as of August 3, 2026.",
+      "limitations": "Seasonal schedule; August publication is not October observation. No passcodes or elevator routes stated."
+    },
+    {
+      "id": "G26-001",
+      "title": "A UWS Guide to the Best Public Bathrooms",
+      "url": "https://exploringtheupperwestside.com/a-uws-guide-to-the-best-public-bathrooms/",
+      "publishedOn": "2026-05-26",
+      "dateKind": "published",
+      "sourceType": "guide",
+      "dateEvidence": "Visible article date: May 26, 2026.",
+      "limitations": "No visit date or measurements; all observedOn values remain null. Public-facing lobby claim at Geffen is general, not an unconditional admission guarantee."
+    },
+    {
+      "id": "G26-002",
+      "title": "How to Find the Best Public Bathrooms in NYC: A Step-by-Step Location Guide",
+      "url": "https://www.beyond-borders.org/best-public-bathrooms-in-nyc/",
+      "publishedOn": "2026-09-08",
+      "dateKind": "updated",
+      "sourceType": "guide",
+      "dateEvidence": "Public HTML metadata: dateModified 2026-09-08T19:21:28+00:00; datePublished 2026-05-23T18:14:25+00:00.",
+      "limitations": "No observation dates. Source contains obvious AM/PM errors and stale Starbucks policy; omitted its hours and chain-policy claims. Escalators do not establish step-free access. Oculus elevator direction reaches retail floor; continuous accessible route unverified."
+    },
+    {
+      "id": "G26-004",
+      "title": "Where to Find a Restroom in Manhattan With Kids: The Honest Map",
+      "url": "https://boroughsandbrood.com/guides/restrooms-in-manhattan-with-kids.html",
+      "publishedOn": "2026-10-05",
+      "dateKind": "updated",
+      "sourceType": "guide",
+      "dateEvidence": "Visible: By Dan Updated Monday, October 5, 2026; Checked October 5, 2026. HTML datePublished/dateModified = 2026-10-05.",
+      "limitations": "Desk check is not a restroom visit. Some underlying city data explicitly from 2025. Guide repeats now-disputed 25-cent APT fees; omitted. Hall opening hours not converted into restroom hours; no elevator inference."
+    },
+    {
+      "id": "reddit-1vp3cve",
+      "title": "Where are all the decent public restrooms in this city?",
+      "url": "https://www.reddit.com/r/AskNYC/comments/1vp3cve/where_are_all_the_decent_public_restrooms_in_this/",
+      "publishedOn": "2026-08-15",
+      "dateKind": "published",
+      "sourceType": "discussion",
+      "dateEvidence": "Post/comments: Saturday August 15 2026; route comments: Sunday August 16 2026.",
+      "limitations": "Anecdotal; branch identification needs matching. Floors do not establish stairs or step-free access."
+    },
+    {
+      "id": "reddit-1tc14ro",
+      "title": "Public bathrooms in NYC",
+      "url": "https://www.reddit.com/r/AskNYC/comments/1tc14ro/public_bathrooms_in_nyc/",
+      "publishedOn": "2026-05-13",
+      "dateKind": "published",
+      "sourceType": "discussion",
+      "dateEvidence": "Comments explicitly dated May 13–14 2026; Port Authority comment September 7 2026.",
+      "limitations": "Anecdotal; fare is a historical comment claim. No numeric door code. Conflicting Penn Station closure claim was omitted."
+    },
+    {
+      "id": "reddit-1urbs88",
+      "title": "Nicest public bathroom",
+      "url": "https://www.reddit.com/r/AskNYC/comments/1urbs88/nicest_public_bathroom/",
+      "publishedOn": "2026-07-09",
+      "dateKind": "published",
+      "sourceType": "discussion",
+      "dateEvidence": "Post and relevant comments shown Thursday July 09 2026.",
+      "limitations": "Anecdotal. Nordstrom branch wording is imprecise. No elevator or step-free route is stated. Historical hotel recollections omitted."
+    },
+    {
+      "id": "reddit-1tr3ej4",
+      "title": "Staying In NYC for 3 Months. Need Helps on Finding Bathrooms along Lines B and C",
+      "url": "https://www.reddit.com/r/AskNYC/comments/1tr3ej4/staying_in_nyc_for_3_months_need_helps_on_finding/",
+      "publishedOn": "2026-05-29",
+      "dateKind": "published",
+      "sourceType": "discussion",
+      "dateEvidence": "Post shown Friday May 29 2026. Relevant comments appear within this 2026 thread; rendered ages are relative.",
+      "limitations": "Exact comment days are not separately exposed in opened UI; 2026 publication bounds comments to 2026 at collection cutoff. One reply specifies second floor. Elevator report does not prove entire street-to-stall route is step free."
+    },
+    {
+      "id": "reddit-1waugwo",
+      "title": "bathroom situation during rush",
+      "url": "https://www.reddit.com/r/lostboysmusical/comments/1waugwo/bathroom_situation_during_rush/",
+      "publishedOn": "2026-09-08",
+      "dateKind": "published",
+      "sourceType": "discussion",
+      "dateEvidence": "Relevant comments shown September 8–10 2026.",
+      "limitations": "Opened URL returned cache miss; dated full discussion text available in search. Hotel branch matching needs review. Do not recommend evading staff/key controls."
+    },
+    {
+      "id": "reddit-1rrxhth",
+      "title": "Up-to-date park bathroom status?",
+      "url": "https://www.reddit.com/r/RunNYC/comments/1rrxhth/uptodate_park_bathroom_status/",
+      "publishedOn": "2026-03-12",
+      "dateKind": "published",
+      "sourceType": "discussion",
+      "dateEvidence": "Relevant comments explicitly shown Thursday March 12 2026.",
+      "limitations": "Historical March reports; no precise unit identified for orange restrooms. Pier 1/Breads must not be conflated with closed Pierhouse restroom."
+    },
+    {
+      "id": "reddit-1wpwoi8",
+      "title": "Earlier Bathroom Opening Times on WSH",
+      "url": "https://www.reddit.com/r/RunNYC/comments/1wpwoi8/earlier_bathroom_opening_times_on_wsh/",
+      "publishedOn": "2026-09-25",
+      "dateKind": "published",
+      "sourceType": "discussion",
+      "dateEvidence": "Post shown Friday September 25 2026; relevant comments captured within this 2026 thread.",
+      "limitations": "Anecdotal; exact closing time absent. Broad complaints about unidentified late-opening restrooms were omitted."
+    },
+    {
+      "id": "reddit-1wurits",
+      "title": "Astoria Public Bathroom opened at the foot of the Astoria Blvd N/W",
+      "url": "https://www.reddit.com/r/astoria/comments/1wurits/astoria_public_bathroom_opened_at_the_foot_of_the/",
+      "publishedOn": "2026-10-01",
+      "dateKind": "published",
+      "sourceType": "discussion",
+      "dateEvidence": "Post/comments explicitly shown Thursday October 01 2026.",
+      "limitations": "Opening post references prior Wednesday afternoon. Staff presence is not a published ongoing assistance schedule. Open returned cache miss; dated text available via search."
+    },
+    {
+      "id": "reddit-1wi6hlj",
+      "title": "3 public bathrooms coming to Astoria",
+      "url": "https://www.reddit.com/r/astoria/comments/1wi6hlj/3_public_bathrooms_coming_to_astoria/",
+      "publishedOn": "2026-09-16",
+      "dateKind": "published",
+      "sourceType": "discussion",
+      "dateEvidence": "Hours correction September 17 2026; playground location September 19; use report October 18.",
+      "limitations": "Open returned cache miss; dated full comments available in search. Rejects earlier 24/7 claim, explicitly corrected. Playground name cross-referenced to separate October 1 thread; requires match review."
+    },
+    {
+      "id": "reddit-1t3mshq",
+      "title": "The City is building new restrooms in East River Park!",
+      "url": "https://www.reddit.com/r/nyc/comments/1t3mshq/the_city_is_building_new_restrooms_in_east_river/",
+      "publishedOn": "2026-05-04",
+      "dateKind": "published",
+      "sourceType": "discussion",
+      "dateEvidence": "Post/relevant comment explicitly shown Monday May 04 2026.",
+      "limitations": "Park-name normalization requires review. Historical May closure; do not assume still closed."
+    }
+  ],
+  "reports": [
+    {
+      "id": "d8a0b48329e8a8644c3d",
+      "placeID": "i7jb-7jku:row-u4w2~sxrz_579e",
+      "sourceID": "official-hrp-20260803",
+      "venueLabel": "Pier 25",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "Mon-Wed 07:30-23:00; Thu-Sun 07:30-21:30"
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Wheelchair accessible"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "cb19896f66fb0dc25be9",
+      "placeID": "i7jb-7jku:row-aiei~fxis.e8q4",
+      "sourceID": "official-hrp-20260803",
+      "venueLabel": "Pier 40 Courtyard Tunnel",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "06:00-00:00"
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Wheelchair accessible"
+        },
+        {
+          "field": "restroomLocation",
+          "value": "Courtyard tunnel"
+        }
+      ],
+      "limitations": "Preserve venueLabel. Keep courtyard/second-floor or ground/rooftop hours independent. Do not assign one subfacility’s hours or floor to the whole combined record."
+    },
+    {
+      "id": "ef6100c073318b60d506",
+      "placeID": "i7jb-7jku:row-aiei~fxis.e8q4",
+      "sourceID": "official-hrp-20260803",
+      "venueLabel": "Pier 40 Second Floor",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "08:00-22:00"
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Wheelchair accessible"
+        },
+        {
+          "field": "restroomFloor",
+          "value": "2"
+        }
+      ],
+      "limitations": "Preserve venueLabel. Keep courtyard/second-floor or ground/rooftop hours independent. Do not assign one subfacility’s hours or floor to the whole combined record."
+    },
+    {
+      "id": "b4d8422e43e030ae0685",
+      "placeID": "i7jb-7jku:row-saau-v5xp~qt7j",
+      "sourceID": "official-hrp-20260803",
+      "venueLabel": "Pier 45",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "09:00-00:00"
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Wheelchair accessible"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "47009f51e7bf73348bf2",
+      "placeID": "i7jb-7jku:row-7j6g.7erj_ffxx",
+      "sourceID": "official-hrp-20260803",
+      "venueLabel": "Pier 51",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "07:30-20:30/dusk"
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Wheelchair accessible"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "1099fe856d054d2e8fc1",
+      "placeID": "i7jb-7jku:row-empg.xb2f-qvi3",
+      "sourceID": "official-hrp-20260803",
+      "venueLabel": "Little Island",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "06:00-21:00"
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Wheelchair accessible"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "eb98bd70e25aef55e8c3",
+      "placeID": "i7jb-7jku:row-v5mi-qx3b.jt5f",
+      "sourceID": "official-hrp-20260803",
+      "venueLabel": "Pier 57 Ground Floor",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "06:00-01:00"
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Wheelchair accessible"
+        },
+        {
+          "field": "restroomFloor",
+          "value": "Ground"
+        }
+      ],
+      "limitations": "Preserve venueLabel. Keep courtyard/second-floor or ground/rooftop hours independent. Do not assign one subfacility’s hours or floor to the whole combined record."
+    },
+    {
+      "id": "be54fe289c4162f4ec50",
+      "placeID": "i7jb-7jku:row-v5mi-qx3b.jt5f",
+      "sourceID": "official-hrp-20260803",
+      "venueLabel": "Pier 57 Rooftop",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "07:00-22:00"
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Wheelchair accessible"
+        },
+        {
+          "field": "restroomFloor",
+          "value": "Rooftop"
+        }
+      ],
+      "limitations": "Preserve venueLabel. Keep courtyard/second-floor or ground/rooftop hours independent. Do not assign one subfacility’s hours or floor to the whole combined record."
+    },
+    {
+      "id": "19757748c13f2bc0c728",
+      "placeID": "i7jb-7jku:row-xn8a-3bbd-v7jk",
+      "sourceID": "official-hrp-20260803",
+      "venueLabel": "Chelsea Piers at Pier 61",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "10:00-20:00"
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Wheelchair accessible"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "e9b96691c6c086164edf",
+      "placeID": "i7jb-7jku:row-96nw~mq4i_ivsn",
+      "sourceID": "official-hrp-20260803",
+      "venueLabel": "Chelsea Waterside Park",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "Mon-Tue 08:00-00:00; Wed-Thu 10:00-00:00; Fri 08:00-22:00; Sat-Sun 08:00-22:30"
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Wheelchair accessible"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "7d02ce0ab21cfccf8bf6",
+      "placeID": "i7jb-7jku:row-ah4u-r88w_gjc4",
+      "sourceID": "official-hrp-20260803",
+      "venueLabel": "Pier 83 Circle Line",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "09:30-21:30"
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Wheelchair accessible"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "9a00ab4b998905846f5d",
+      "placeID": "i7jb-7jku:row-dtq6.in6h.pc3z",
+      "sourceID": "official-hrp-20260803",
+      "venueLabel": "Pier 84",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "Sun/Mon/Wed 09:30-22:00; Tue/Thu/Fri/Sat 09:30-20:00"
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Wheelchair accessible"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "daa9c0be6bc5a3aa4bfc",
+      "placeID": "community-4781ba4da796da2dbbe3",
+      "sourceID": "G26-001",
+      "venueLabel": "David Geffen Hall — 10 Lincoln Center Plaza",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "restroomLocation",
+          "value": "Off main lobby areas near performance spaces."
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "90b8f8980ca29f6c878b",
+      "placeID": "i7jb-7jku:row-5uuk-ecf8-y9eg",
+      "sourceID": "G26-001",
+      "venueLabel": "New York Public Library for the Performing Arts — 40 Lincoln Center Plaza",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "restroomFloor",
+          "value": "Main lobby level."
+        },
+        {
+          "field": "restroomLocation",
+          "value": "Near reading rooms."
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "75bcba12e4d9be4ea95e",
+      "placeID": "i7jb-7jku:row-ydta.8p7n.yyyv",
+      "sourceID": "G26-001",
+      "venueLabel": "Bloomingdale Library — 150 West 100th Street",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "restroomFloor",
+          "value": "Main floor."
+        },
+        {
+          "field": "stairsToRestroom",
+          "value": "No stairs needed, according to guide."
+        },
+        {
+          "field": "restroomAccessibility",
+          "value": "Guide explicitly calls restroom fully accessible."
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "f005040a125abdd2a660",
+      "placeID": "community-2749c8b70a653c55dc4c",
+      "sourceID": "G26-002",
+      "venueLabel": "The Shops at Hudson Yards — Tenth Avenue, opposite Vessel",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "restroomFloor",
+          "value": "Levels 3 and 4 recommended."
+        },
+        {
+          "field": "restroomLocation",
+          "value": "Escalators on right; rear-left retail corridor."
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "7e357bd832b142605e31",
+      "placeID": "community-30c01c58b8ff4dd8e3c4",
+      "sourceID": "G26-002",
+      "venueLabel": "Bloomingdale's SoHo — 504 Broadway",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "restroomFloor",
+          "value": "Lower level, men's apparel."
+        },
+        {
+          "field": "elevatorAccess",
+          "value": "Explicitly directs elevator down to restroom level."
+        },
+        {
+          "field": "stairsToRestroom",
+          "value": "Alternative open stair at center-back."
+        },
+        {
+          "field": "restroomLocation",
+          "value": "Far-left rear corridor past apparel."
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "d3bd443095fe4d836401",
+      "placeID": "i7jb-7jku:row-v5mi-qx3b.jt5f",
+      "sourceID": "G26-004",
+      "venueLabel": "Pier 57 — Hudson River Park",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "restroomFloor",
+          "value": "Ground floor."
+        },
+        {
+          "field": "hours",
+          "value": "Guide lists 06:00–01:00."
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "734f3c600bcb169b1dee",
+      "placeID": "i7jb-7jku:row-empg.xb2f-qvi3",
+      "sourceID": "G26-004",
+      "venueLabel": "Little Island — Hudson River Park",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "Guide lists 06:00–21:00."
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "236c690f603b9d8c2c12",
+      "placeID": "i7jb-7jku:row-xn8a-3bbd-v7jk",
+      "sourceID": "G26-004",
+      "venueLabel": "Chelsea Piers / Pier 61 — Hudson River Park",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "Guide lists 10:00–20:00."
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "e4c45cadd7034d58161e",
+      "placeID": "community-2fcb6a52055d49d776fa",
+      "sourceID": "reddit-1vp3cve",
+      "venueLabel": "Trader Joe's — 72nd Street",
+      "reportedOn": "2026-08-15",
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "closure",
+          "value": "Reported closed"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "e8db86c659c4e101d927",
+      "placeID": "i7jb-7jku:row-saau-v5xp~qt7j",
+      "sourceID": "reddit-1vp3cve",
+      "venueLabel": "Pier 45, Hudson River Park — West 10th / Christopher Street waterfront",
+      "reportedOn": "2026-08-16",
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "restroomLocation",
+          "value": "Across bike path, at water"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "2a0b965625a9bacc059d",
+      "placeID": "community-f53f60e4bb713800fd8f",
+      "sourceID": "reddit-1tc14ro",
+      "venueLabel": "Barnes & Noble — Park Slope",
+      "reportedOn": "2026-05-13",
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "entryRule",
+          "value": "Code required; digits absent"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "75dca13c2a6c4f4ef89d",
+      "placeID": "community-427f711c65b8b3ab1ba3",
+      "sourceID": "reddit-1tc14ro",
+      "venueLabel": "Barnes & Noble — Union Square",
+      "reportedOn": "2026-05-13",
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "staffAssistance",
+          "value": "Bathroom doormen reported"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "7dcd009a52ca8bf92b13",
+      "placeID": "i7jb-7jku:row-6th7_hmne.zwny",
+      "sourceID": "reddit-1tc14ro",
+      "venueLabel": "Trump Tower — Lower level",
+      "reportedOn": "2026-05-13",
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "restroomFloor",
+          "value": "Lower level"
+        },
+        {
+          "field": "entryRule",
+          "value": "Public restrooms reported"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "e3009d13941c458727d6",
+      "placeID": "i7jb-7jku:row-tmt8_zzvc_8g8v",
+      "sourceID": "reddit-1urbs88",
+      "venueLabel": "Stavros Niarchos Foundation Library — Midtown",
+      "reportedOn": "2026-07-09",
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "restroomLocation",
+          "value": "Inside library"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "3c6f08a298358aee3d69",
+      "placeID": "i7jb-7jku:row-tmt8_zzvc_8g8v",
+      "sourceID": "reddit-1tr3ej4",
+      "venueLabel": "Stavros Niarchos Foundation Library — Midtown",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "restroomFloor",
+          "value": "Nearly every floor"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "c34131705656f3ba6755",
+      "placeID": "community-1b015ac4fc7adf2bb0d9",
+      "sourceID": "reddit-1waugwo",
+      "venueLabel": "Marriott Marquis lobby restrooms",
+      "reportedOn": "2026-09-08",
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "restroomFloor",
+          "value": "8 / lobby"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "a2482ac37a893bc1fcc2",
+      "placeID": "community-1b015ac4fc7adf2bb0d9",
+      "sourceID": "reddit-1waugwo",
+      "venueLabel": "Marriott Marquis lobby restrooms",
+      "reportedOn": "2026-09-09",
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "elevatorAccess",
+          "value": "Elevator to lobby"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "982386e9af2a48a089af",
+      "placeID": "community-1b015ac4fc7adf2bb0d9",
+      "sourceID": "reddit-1waugwo",
+      "venueLabel": "Marriott Marquis lobby restrooms",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "entryRule",
+          "value": "Conflicting Sep 8–10 discussion: employee reportedly barred public use; other commenters reported access."
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "0c111ee52268552676c9",
+      "placeID": "i7jb-7jku:row-qws7~rggw.g49d",
+      "sourceID": "reddit-1rrxhth",
+      "venueLabel": "Pier 1 / Breads restroom",
+      "reportedOn": "2026-03-12",
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "07:00–23:00 reported"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "f233e40e064cc1cf246e",
+      "placeID": "i7jb-7jku:row-empg.xb2f-qvi3",
+      "sourceID": "reddit-1wpwoi8",
+      "venueLabel": "Little Island — Hudson River waterfront",
+      "reportedOn": null,
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "Opens 06:00 reported"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "b3bf14e5538665eb34c9",
+      "placeID": "i7jb-7jku:row-8rsb~ujmy~jhca",
+      "sourceID": "reddit-1wurits",
+      "venueLabel": "Hoyt Playground — Across street from new Astoria station unit",
+      "reportedOn": "2026-10-01",
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "hours",
+          "value": "Limited hours reported; exact times absent"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "05b1afac63ebb8e1284b",
+      "placeID": "i7jb-7jku:row-8rsb~ujmy~jhca",
+      "sourceID": "reddit-1wi6hlj",
+      "venueLabel": "Hoyt Playground restroom — 29th Street entrance (playground contextual identification)",
+      "reportedOn": "2026-09-19",
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "restroomLocation",
+          "value": "29th Street entrance"
+        }
+      ],
+      "limitations": ""
+    },
+    {
+      "id": "85651ff3a033bb7f0ee3",
+      "placeID": "i7jb-7jku:row-ezcr_wpqx-34y5",
+      "sourceID": "reddit-1t3mshq",
+      "venueLabel": "Corlears Hook Park — Source spells Corliss's Hook",
+      "reportedOn": "2026-05-04",
+      "observedOn": null,
+      "facts": [
+        {
+          "field": "closure",
+          "value": "Restrooms reported closed"
+        }
+      ],
+      "limitations": ""
+    }
+  ]
+}

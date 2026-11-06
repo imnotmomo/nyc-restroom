@@ -1,0 +1,42 @@
+.section {
+  padding: 24px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  background: var(--surface);
+  min-width: 0;
+}
+.heading { display: flex; align-items: center; gap: 9px; font: 600 13px/1.5 var(--mono); letter-spacing: -.025em; }
+.heading svg { color: var(--blue); flex-shrink: 0; }
+.intro { margin-top: 12px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.reports { margin-top: 18px; display: grid; gap: 16px; }
+.report { min-width: 0; border: 1px solid var(--line); border-left: 3px solid var(--blue); }
+.reportHeader { padding: 14px; background: var(--paper); border-bottom: 1px solid var(--line); }
+.venue { font-weight: 600; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+.sourceLink { display: inline-flex; align-items: flex-start; gap: 6px; margin-top: 5px; color: var(--blue); font-size: 12px; line-height: 1.65; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.sourceLink svg { margin-top: 3px; flex-shrink: 0; }
+.date { margin-top: 6px; color: var(--muted); font: 10px/1.7 var(--mono); }
+.observation { margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.6; }
+.group { padding: 14px; }
+.group + .group { border-top: 1px dashed var(--line); }
+.group h4 { margin: 0 0 9px; font: 600 11px/1.6 var(--mono); color: var(--ink); }
+.facts { margin: 0; }
+.fact { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.25fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 12px; line-height: 1.65; }
+.fact:first-child { padding-top: 0; }
+.fact:last-child { border-bottom: 0; padding-bottom: 0; }
+.fact dt { color: var(--muted); overflow-wrap: anywhere; }
+.fact dd { margin: 0; white-space: pre-line; overflow-wrap: anywhere; }
+.caution { margin: 0 14px 14px; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.limitations { border-top: 1px dashed var(--line); padding: 0 14px; color: var(--muted); font-size: 11px; line-height: 1.7; }
+.limitations summary { min-height: 44px; padding: 12px 0; cursor: pointer; font-weight: 600; }
+.limitations p { margin: 0 0 12px; overflow-wrap: anywhere; }
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+@media (max-width: 650px) {
+  .section { padding-inline: 20px; }
+  .heading { font-size: 14px; }
+  .intro, .sourceLink, .observation, .caution, .limitations { font-size: 12px; }
+  .date { font-size: 11px; }
+  .fact { font-size: 13px; }
+}
+@media (max-width: 360px) {
+  .fact { grid-template-columns: minmax(0, 1fr); gap: 3px; }
+}

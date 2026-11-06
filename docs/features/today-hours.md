@@ -1,0 +1,15 @@
+# Today’s hours and missing-hours research
+
+Updated November 5, 2026. The existing flat blue R logo is unchanged.
+
+The collapsed Hours row now shows today’s entry from a complete weekly schedule, using America/New_York even when the device is elsewhere. Expand Hours to read the full week. Identical daily hours remain a compact daily label. Unparseable, seasonal, event-dependent and conflicting schedules retain their qualifications instead of becoming an unsupported open-now claim. Web dates refresh at New York midnight and on return to the page; native dates refresh while the card is open and when the app returns to the foreground.
+
+The live inventory contained 1,167 locations, including 136 with no usable hours. Each missing location was researched against the city’s current public dataset and exact venue/operator pages; qualified directory evidence was used for some businesses. The reviewed update appended **77 schedules and three official branch-closure notices** to 80 existing public research profiles. **56 entries still lack a reliable ongoing schedule**. Finite calendars, mismatched branches, nearby facilities and unresolved closure conflicts were withheld.
+
+Venue hours remain labeled as venue hours when a separate restroom schedule is unavailable. Seasonal ranges, overnight closing times, holiday qualifications, source links and retrieval/publication boundaries are preserved. Existing place IDs, source facts, comments, codes, ratings and visitor reports were retained; no pins or visitor contributions were created by this update.
+
+The research packet and exact per-location outcomes are in [the reviewed findings](../../data/hours-research-2026-11-05/reviewed-findings.json) and [selection summary](../../data/hours-research-2026-11-05/selection-summary.json). Independent reviews cover community and city/operator evidence. Operational backups and credentials remain outside Git in the ignored `.firebase-agent` directory.
+
+Validation includes all 80 exact profiles read back through the signed-out Firebase SDK, an import replay with zero writes, 319 web tests, TypeScript checking, a production build and live responsive checks. The website is deployed at https://nyc.imfinethanku.me/ with release `20261105T064821Z-378edaa8fc9f`; its active server bundle matches the local build.
+
+Native code uses an expandable weekly schedule with compact source references, while the original hours facts remain in Sources & dates. 170 model tests and two real Firebase-linked simulator checks passed, covering New York dates, readable weekday rows, scrolling and the largest accessibility text size. See [native UI checks](native-hours-ui-checks-20261105.json) and [overall checks](today-hours-checks-20261105.json). The native change is now [build 1.0 (15)](https://appstoreconnect.apple.com/teams/88e8ae98-ca7a-4e37-a5c5-0a81af6531e6/apps/6826010051/testflight/ios/35bd274a-6ced-4482-a4f9-3a8f76ebb551), Testing in the existing Team internal group only. The broader usability audit findings remain; see [the release record](native-testflight.md#todays-hours-and-weekly-schedules-build-15).

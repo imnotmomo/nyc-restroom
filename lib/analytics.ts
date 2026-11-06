@@ -9,6 +9,60 @@ const CAMPAIGN_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content"
 
 export type AnalyticsTransport = (...args: unknown[]) => void;
 
+export interface ConfirmedGoogleAccount {
+  isNewUser?: boolean;
+  providerId?: string | null;
+  /** Fixed by the successful credential flow, never inferred from account history. */
+  credentialProviderId?: "google.com";
+  accountId: string;
+  currentAccountId: string | null;
+}
+
+function isConfirmedGoogleSignup(result: ConfirmedGoogleAccount): boolean {
+  const provider = result.providerId ?? result.credentialProviderId;
+  return result.isNewUser === true && provider === "google.com"
+    && (!result.credentialProviderId || result.credentialProviderId === provider)
+    && Boolean(result.accountId) && result.accountId === result.currentAccountId;
+}
+
+/** Retry only a known new account whose event has not yet entered the tag queue.
+ * Account identities never leave this short-lived, memory-only guard. The tag
+ * owns delivery after enqueue; retrying it then could count the signup twice.
+ */
+export function createPendingGoogleSignupDelivery({ deliver, now = Date.now }: {
+  deliver: (result: ConfirmedGoogleAccount) => boolean;
+  now?: () => number;
+}) {
+  let currentAccountId: string | null = null;
+  let pending: { result: ConfirmedGoogleAccount; expiresAt: number } | null = null;
+  const accepted = new Set<string>();
+  const lifetime = 10 * 60 * 1000;
+
+  function clear() { pending = null; }
+  function setAccount(accountId: string | null, allowed = true) {
+    if (!allowed || accountId !== currentAccountId) clear();
+    currentAccountId = allowed ? accountId : null;
+  }
+  function retry(): boolean {
+    if (!pending) return false;
+    const { result, expiresAt } = pending;
+    if (now() >= expiresAt || result.accountId !== currentAccountId) { clear(); return false; }
+    try {
+      if (!deliver({ ...result, currentAccountId })) return false;
+    } catch { return false; }
+    accepted.add(result.accountId);
+    clear();
+    return true;
+  }
+  function confirm(result: ConfirmedGoogleAccount): boolean {
+    if (!isConfirmedGoogleSignup(result) || result.accountId !== currentAccountId
+      || accepted.has(result.accountId)) return false;
+    if (!pending) pending = { result: { ...result }, expiresAt: now() + lifetime };
+    return retry();
+  }
+  return { setAccount, confirm, retry, clear };
+}
+
 export function measurementId(override: string | undefined, configured: string): string | null {
   const candidate = override?.trim() || configured;
   return /^G-[A-Z0-9]+$/.test(candidate) ? candidate : null;
@@ -89,17 +143,11 @@ export function createAnalyticsClient({ id, initialUrl, referrer, transport }: {
 
   // Called only with the result of a successful Firebase Google credential exchange.
   // Account IDs stay in this memory-only duplicate guard and never enter an event.
-  function confirmedGoogleSignup(result: {
-    isNewUser?: boolean;
-    providerId?: string | null;
-    accountId: string;
-    currentAccountId: string | null;
-  }): boolean {
-    if (result.isNewUser !== true || result.providerId !== "google.com"
-      || !result.accountId || result.accountId !== result.currentAccountId
-      || countedAccounts.has(result.accountId)) return false;
-    countedAccounts.add(result.accountId);
+  function confirmedGoogleSignup(result: ConfirmedGoogleAccount): boolean {
+    if (!isConfirmedGoogleSignup(result) || countedAccounts.has(result.accountId)) return false;
     transport("event", "sign_up", { method: "google", send_to: id });
+    // A synchronous initialization/enqueue failure must remain retryable.
+    countedAccounts.add(result.accountId);
     return true;
   }
 

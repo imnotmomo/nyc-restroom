@@ -36,11 +36,7 @@ const server=createServer(async(req,res)=>{
   else if(pathname==='/api/waitlist') {
    const clientKey=await confirmationClientKey(req.headers['x-rr-client-ip']??req.socket.remoteAddress,process.env);
    response=await signupResponse(request,record=>store.save(record,{enqueueConfirmation:confirmationDispatchReady(process.env),clientKey}));
-  } else response=await worker.fetch(request,{
-   FINDER_ACCESS_PASSCODE:process.env.FINDER_ACCESS_PASSCODE,
-   FINDER_ACCESS_SECRET:process.env.FINDER_ACCESS_SECRET,
-   FINDER_ACCESS_CLIENT_IP:req.socket.remoteAddress??'local-client',
-  });
+  } else response=await worker.fetch(request,{});
   res.writeHead(response.status,Object.fromEntries(response.headers));res.end(Buffer.from(await response.arrayBuffer()));
  }catch{res.writeHead(500);res.end('Something went wrong. Please try again.');}
 });

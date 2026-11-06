@@ -2,11 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { RestroomPasscodes } from "@/components/finder/passcodes";
+import { useFirebaseAccount } from "@/components/firebase-account";
 import {
-  deleteOwnPasscode, savePasscode, verifyOwnPasscode, verifyPublicPasscode,
-  watchOwnPasscode, watchPublicPasscodes,
-  type OwnPasscode, type PasscodeInput, type PublicPasscodeReport,
-} from "@/lib/passcodes";
+  deleteCodeReport, newCodeReportID, reportNewCode, setCodeFeedback, setCodeVisibility, verifyPrivateCode, watchCodeEvidence,
+  type CodeEvidence, type CodeEvidenceState,
+} from "@/lib/code-reports";
 
 interface Props {
   placeID: string;
@@ -16,102 +16,76 @@ interface Props {
   onSignIn: () => void;
   onPrivateSaved: (uid: string, placeID: string) => void;
 }
+type Context = { scope: string; session: object | null };
+function emptyEvidence(uid: string | null): CodeEvidenceState {
+  return { records: [], publicLoading: true, ownLoading: Boolean(uid), feedbackLoading: true,
+    publicError: null, ownError: null, feedbackError: null };
+}
 
-/** Selected-place listeners never share private state across account or place changes. */
+/** One selected-place subscription; old callbacks cannot publish into a new account generation. */
 export function PasscodePanel({ placeID, uid, accountLoading, authError, onSignIn, onPrivateSaved }: Props) {
-  const scope = `${uid ?? "signed-out"}:${placeID}`;
-  const currentScope = useRef(scope);
-  currentScope.current = scope;
+  const session = useFirebaseAccount().user;
+  const scope = JSON.stringify([uid, placeID]);
+  const context = useRef<Context>({ scope, session });
+  if (context.current.scope !== scope || context.current.session !== session) context.current = { scope, session };
+  const owner = context.current;
   const mounted = useRef(true);
-  const inFlight = useRef(false);
+  const inFlight = useRef<object | null>(null);
   const [retry, setRetry] = useState(0);
-  const [own, setOwn] = useState<{ scope: string; record: OwnPasscode | null; loading: boolean; error: string | null } | null>(null);
-  const [shared, setShared] = useState<{ placeID: string; records: PublicPasscodeReport[]; loading: boolean; error: string | null } | null>(null);
-  const [action, setAction] = useState<{ scope: string; busy: boolean; error: string | null }>({ scope, busy: false, error: null });
+  const [feed, setFeed] = useState(() => ({ owner, value: emptyEvidence(uid) }));
+  const [action, setAction] = useState({ owner, busy: false, error: null as string | null });
 
   useEffect(() => {
     mounted.current = true;
-    return () => { mounted.current = false; };
+    return () => { mounted.current = false; inFlight.current = null; };
   }, []);
-
   useEffect(() => {
     let active = true;
-    setShared({ placeID, records: [], loading: true, error: null });
-    const unsubscribe = watchPublicPasscodes(placeID, (records) => {
-      if (active) setShared({ placeID, records, loading: false, error: null });
-    }, (error) => {
-      if (active) setShared({ placeID, records: [], loading: false, error: error.message });
+    inFlight.current = null;
+    setAction({ owner, busy: false, error: null });
+    setFeed({ owner, value: emptyEvidence(uid) });
+    const unsubscribe = watchCodeEvidence(placeID, uid, (value) => {
+      if (active && context.current === owner) setFeed({ owner, value });
     });
     return () => { active = false; unsubscribe(); };
-  }, [placeID, retry]);
+  }, [uid, placeID, owner, retry]);
 
-  useEffect(() => {
-    let active = true;
-    inFlight.current = false;
-    setAction({ scope, busy: false, error: null });
-    if (!uid) { setOwn({ scope, record: null, loading: false, error: null }); return; }
-    setOwn({ scope, record: null, loading: true, error: null });
-    const unsubscribe = watchOwnPasscode(uid, placeID, (record) => {
-      if (active && currentScope.current === scope) setOwn({ scope, record, loading: false, error: null });
-    }, (error) => {
-      if (active && currentScope.current === scope) setOwn({ scope, record: null, loading: false, error: error.message });
-    });
-    return () => { active = false; unsubscribe(); };
-  }, [uid, placeID, scope, retry]);
-
-  const ownState = own?.scope === scope ? own : null;
-  const publicState = shared?.placeID === placeID ? shared : null;
-
+  const evidence = feed.owner === owner ? feed.value : emptyEvidence(uid);
   async function run(operation: () => Promise<void>, privateSave = false): Promise<boolean> {
     if (!uid || accountLoading || inFlight.current) return false;
-    const owner = uid;
-    const startedScope = scope;
-    const isCurrent = () => mounted.current && currentScope.current === startedScope;
-    inFlight.current = true;
-    setAction({ scope, busy: true, error: null });
+    const started = owner;
+    const accountUID = uid;
+    const operationToken = {};
+    const isCurrent = () => mounted.current && context.current === started && inFlight.current === operationToken;
+    inFlight.current = operationToken;
+    setAction({ owner, busy: true, error: null });
     try {
       await operation();
       if (!isCurrent()) return false;
-      if (privateSave) onPrivateSaved(owner, placeID);
+      if (privateSave) onPrivateSaved(accountUID, placeID);
       return true;
     } catch (error) {
-      if (isCurrent()) setAction({ scope, busy: true, error: error instanceof Error ? error.message : "Your passcode change could not be confirmed. Please retry." });
+      if (isCurrent()) setAction({ owner, busy: true, error: error instanceof Error ? error.message : "Your code change could not be confirmed. Retry the same request." });
       return false;
     } finally {
-      if (isCurrent()) {
-        inFlight.current = false;
-        setAction((value) => value.scope === scope ? { ...value, busy: false } : value);
-      }
+      if (isCurrent()) { inFlight.current = null; setAction((value) => value.owner === owner ? { ...value, busy: false } : value); }
     }
   }
-
-  function save(input: PasscodeInput, expected: OwnPasscode | null) {
-    if (!uid || !ownState || ownState.loading || ownState.error) return Promise.resolve(false);
-    return run(async () => {
-      const record = await savePasscode(uid, placeID, input, expected);
-      if (mounted.current && currentScope.current === scope) setOwn({ scope, record, loading: false, error: null });
-    }, input.visibility === "private");
+  function ownAction(expected: CodeEvidence, operation: () => Promise<void>, privateSave = false) {
+    if (!uid || expected.placeID !== placeID || expected.ownership !== "own" || evidence.ownLoading || evidence.ownError) return Promise.resolve(false);
+    return run(operation, privateSave);
   }
 
-  return <RestroomPasscodes placeID={placeID} uid={uid} accountLoading={accountLoading}
-    authError={authError} onSignIn={onSignIn}
-    ownPasscode={ownState?.record ?? null} publicReports={publicState?.records ?? []}
-    ownLoading={Boolean(uid && (!ownState || ownState.loading))} publicLoading={!publicState || publicState.loading}
-    ownError={ownState?.error ?? null} publicError={publicState?.error ?? null}
-    busy={action.scope === scope && action.busy} actionError={action.scope === scope ? action.error : null}
-    onSave={save}
-    onDelete={(expected) => !uid ? Promise.resolve(false) : run(async () => {
-      await deleteOwnPasscode(uid, placeID, expected);
-      if (mounted.current && currentScope.current === scope) setOwn({ scope, record: null, loading: false, error: null });
-    })}
-    onVerifyOwn={(expected) => !uid ? Promise.resolve(false) : run(async () => {
-      const record = await verifyOwnPasscode(uid, placeID, expected);
-      if (mounted.current && currentScope.current === scope) setOwn({ scope, record, loading: false, error: null });
-    }, expected.visibility === "private")}
-    onVerifyPublic={(expected) => !uid ? Promise.resolve(false) : run(async () => {
-      const report = await verifyPublicPasscode(uid, expected);
-      if (mounted.current && currentScope.current === scope) setShared((value) => value?.placeID === placeID
-        ? { ...value, records: value.records.map((item) => item.reportID === report.reportID ? report : item) } : value);
-    })}
+  return <RestroomPasscodes placeID={placeID} uid={uid} accountLoading={accountLoading} accountGeneration={owner} evidence={evidence}
+    authError={authError} onSignIn={onSignIn} newReportID={newCodeReportID}
+    busy={action.owner === owner && action.busy} actionError={action.owner === owner ? action.error : null}
+    onReport={(attempt) => !uid || evidence.ownLoading || evidence.ownError ? Promise.resolve(false)
+      : run(() => reportNewCode(uid, placeID, attempt.id, attempt.input), attempt.input.visibility === "private")}
+    onVisibility={(expected, visibility) => ownAction(expected, () => setCodeVisibility(uid!, expected, visibility), visibility === "private")}
+    onDelete={(expected) => ownAction(expected, () => deleteCodeReport(uid!, expected))}
+    onVerifyPrivate={(expected) => expected.visibility !== "private" ? Promise.resolve(false)
+      : ownAction(expected, () => verifyPrivateCode(uid!, expected), true)}
+    onFeedback={(expected, vote) => !uid || expected.placeID !== placeID || expected.ownership !== "other" || !expected.feedbackLoaded
+      ? Promise.resolve(false) : run(() => setCodeFeedback(uid, expected, vote))}
     onRetry={() => setRetry((value) => value + 1)} />;
 }

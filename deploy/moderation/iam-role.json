@@ -1,0 +1,14 @@
+{
+  "title": "Restroom Ready moderation runtime",
+  "description": "Proposed data transactions and read-only Firebase Auth lookups for the dedicated moderator API. No Auth user deletion or configuration permissions.",
+  "stage": "GA",
+  "includedPermissions": [
+    "datastore.databases.get",
+    "datastore.entities.get",
+    "datastore.entities.list",
+    "datastore.entities.create",
+    "datastore.entities.update",
+    "datastore.entities.delete",
+    "firebaseauth.users.get"
+  ]
+}

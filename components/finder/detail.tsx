@@ -1,9 +1,18 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
-import { ArrowLeft, ArrowUpRight, Bookmark, Building2, Check, DoorOpen, Footprints, Info, MapPin, Plus, Trash2, X } from "lucide-react";
+import { useEffect, useState, type ReactNode } from "react";
+import { ArrowLeft, ArrowUpRight, Bookmark, Building2, Clock, DoorOpen, Footprints, Info, MapPin, MessageSquareText, X } from "lucide-react";
 import { datasetSource, fact, formatDistance, sourceDateLabel, walkingDirections, type Coordinates, type Restroom } from "@/lib/restrooms";
-import type { VisitNote, VisitNoteInput } from "@/lib/user-data";
+import { accessibilityStatus, ACCESSIBILITY_VALUES } from "@/lib/accessibility";
+import { SourceReports } from "@/components/finder/source-reports";
+import { SourceComments } from "@/components/finder/source-comments";
+import { accessDetailsDate, accessDetailsProvenance, elevatorToRestroomStatus, stairFreeRouteStatus } from "@/lib/restroom-access-details-model";
+import { coveredCardResearchCommentIDs, emptyCardResearchFeed, selectedCardResearchFeed, watchCardResearch, type CardResearchFeed } from "@/lib/card-research";
+import { factsForSection, type CardResearchFact } from "@/lib/card-research-model";
+import { knownCardHours, showOriginalCardFact } from "@/lib/card-research-view";
+import { CardResearchComments, CardResearchRows } from "@/components/finder/card-research";
+import { cardHoursPresentation } from "@/lib/hours-schedule";
+import { useHoursDate } from "@/components/finder/use-hours-date";
 
 function FactRow({ label, value, unknown = false }: { label: string; value: string; unknown?: boolean }) {
   return <div className={`finder-fact${unknown ? " is-unknown" : ""}`}><dt>{label}</dt><dd>{value}</dd></div>;
@@ -14,10 +23,10 @@ function submissionDate(value: string): string {
 }
 
 const entryLabels = { public: "Public entry reported", customers: "Customers only reported", unknown: "Not reported" };
-const routeLabels = { yes: "Yes — visitor reported", no: "No — visitor reported", unknown: "Not reported" };
-const codeRequiredLabels = { yes: "Yes — visitor reported", no: "No — visitor reported", unknown: "Not reported" };
+const routeLabels = { yes: "Yes — reported", no: "No — reported", unknown: "Not reported" };
+const codeRequiredLabels = { yes: "Yes — reported", no: "No — reported", unknown: "Not reported" };
 
-export function RestroomDetail({ restroom, distance, userLocation, saved, saving, onToggleFavorite, onClose, passcodeContent, ratingContent, personalContent, feedback, onRetryLibrary }: {
+export interface RestroomDetailProps {
   restroom: Restroom;
   distance: number | null;
   userLocation: Coordinates | null;
@@ -25,13 +34,58 @@ export function RestroomDetail({ restroom, distance, userLocation, saved, saving
   saving: boolean;
   onToggleFavorite: () => void;
   onClose: () => void;
+  visitReportContent?: ReactNode;
   passcodeContent?: ReactNode;
   ratingContent: ReactNode;
   personalContent: ReactNode;
   feedback: string | null;
   onRetryLibrary?: () => void;
+}
+
+export function RestroomDetail(props: RestroomDetailProps) {
+  const placeID = props.restroom.id;
+  const [retry, setRetry] = useState(0);
+  const [feed, setFeed] = useState<CardResearchFeed>(() => emptyCardResearchFeed(placeID));
+  useEffect(() => {
+    let active = true;
+    setFeed(previous => ({ ...selectedCardResearchFeed(previous, placeID), loading: true, error: null }));
+    const unsubscribe = watchCardResearch(placeID, profile => {
+      if (active) setFeed({ placeID, profile, loading: false, error: null });
+    }, error => {
+      if (active) setFeed(previous => ({ ...selectedCardResearchFeed(previous, placeID), loading: false, error: error.message }));
+    });
+    return () => { active = false; unsubscribe(); };
+  }, [placeID, retry]);
+  return <RestroomDetailView {...props} research={selectedCardResearchFeed(feed, placeID)} onRetryResearch={() => setRetry(value => value + 1)} />;
+}
+
+/** Presentation receives only the current selected-place feed; writes remain in existing contribution components. */
+export function RestroomDetailView({ restroom, distance, userLocation, saved, saving, onToggleFavorite, onClose, visitReportContent, passcodeContent, ratingContent, personalContent, feedback, onRetryLibrary, research, onRetryResearch, hoursDate }: RestroomDetailProps & {
+  research: CardResearchFeed; onRetryResearch: () => void; hoursDate?: Date;
 }) {
+  const liveHoursDate = useHoursDate();
   const community = restroom.communitySource;
+  const accessibility = accessibilityStatus(restroom);
+  const access = restroom.accessDetails;
+  const reportedHours = knownCardHours(access?.restroomHours);
+  const hours = reportedHours ?? knownCardHours(restroom.hours);
+  const floor = access?.restroomFloor ?? restroom.restroomFloor;
+  const stairFree = stairFreeRouteStatus(restroom);
+  const elevator = elevatorToRestroomStatus(restroom);
+  const current = selectedCardResearchFeed(research, restroom.id);
+  const profile = current.profile;
+  const inSection = (section: Parameters<typeof factsForSection>[1]) => profile ? factsForSection(profile, section) : [];
+  const hourFacts = inSection("hours").filter(row => !["hours", "restroomHours", "venueHours"].includes(row.field) || knownCardHours(row.value) !== null);
+  const hoursSummary = cardHoursPresentation({ reported: reportedHours, listed: restroom.hours, facts: hourFacts }, hoursDate ?? liveHoursDate);
+  const restroomHourFacts = hourFacts.filter(row => ["hours", "restroomHours"].includes(row.field) && ["restroom", "route"].includes(row.scope));
+  const showListedHours = hours === null ? restroomHourFacts.length === 0 : !restroomHourFacts.some(row => knownCardHours(row.value) === hours);
+  const entryFacts = inSection("entryRoute").filter(row => ["entryRule", "purchaseRequired", "accessRestriction", "accessNotes", "identity"].includes(row.field));
+  const routeFacts = inSection("entryRoute").filter(row => !entryFacts.includes(row));
+  const showOriginal = (fields: readonly string[], value: string | null | undefined, unknown: boolean, scopes?: readonly string[]) =>
+    showOriginalCardFact(profile, fields, value, unknown, scopes);
+  const rows = (section: Parameters<typeof factsForSection>[1], facts?: readonly CardResearchFact[]) => profile
+    ? <CardResearchRows profile={profile} section={section} facts={facts} /> : null;
+  const coveredIDs = coveredCardResearchCommentIDs(current, restroom.id);
   return <aside className="finder-detail" aria-labelledby="finder-detail-title" id="restroom-details" tabIndex={-1}>
     <header className="finder-detail-heading">
       <button type="button" className="finder-icon-button finder-close" onClick={onClose} aria-label="Close location details"><ArrowLeft size={18} className="finder-close-back-icon" /><span className="finder-close-text">Back to results</span><X size={20} className="finder-close-x-icon" /></button>
@@ -44,61 +98,106 @@ export function RestroomDetail({ restroom, distance, userLocation, saved, saving
       </div>
       <p className="finder-directions-note">Directions open Google Maps. Check venue rules before going.</p>
       {feedback && <p className="finder-detail-feedback" role="alert">{feedback}</p>}
-      {onRetryLibrary && <button className="finder-secondary-button" type="button" onClick={onRetryLibrary}>Retry loading saved places & notes</button>}
+      {onRetryLibrary && <button className="finder-secondary-button" type="button" onClick={onRetryLibrary}>Retry loading saved places</button>}
     </header>
 
+    {current.loading && <p className="finder-research-status" role="status">Loading additional listing details…</p>}
+    {current.error && <div className="finder-research-status"><p role="alert">{current.error}</p><button type="button" className="finder-secondary-button" onClick={onRetryResearch}>Retry details</button></div>}
+    <div className="finder-original-heading"><span className="finder-overline">Listing details</span></div>
     <div className="finder-source-note"><Info size={17} />{community
-      ? <p><strong>Visitor-submitted location.</strong> Submitted {submissionDate(community.submittedAt)}. {community.observedOn ? `Observed on ${community.observedOn}.` : "Observation date not reported."} These are visitor reports; the team has not inspected this restroom.</p>
+      ? <p><strong>Community location report.</strong> Submitted {submissionDate(community.submittedAt)}. {community.observedOn ? `Observed on ${community.observedOn}.` : "Observation date not reported."} Submission time is not an inspection date. The team has not inspected this restroom.</p>
       : <p><strong>City data, dated {sourceDateLabel}.</strong> These are published details, not a live availability check or a team inspection.</p>}</div>
+    {access && <div className="finder-source-note"><Info size={17} /><p><strong>Hours and entrance report.</strong> {accessDetailsProvenance(access)}. {access.limitations}</p></div>}
 
-    <section className="finder-detail-section">
+    <section className="finder-detail-section" aria-label="Hours">
+      <h3><Clock size={19} aria-hidden="true" />Hours</h3>
+      <details className="finder-hours-schedule">
+      <summary><span>{hoursSummary.label}</span><strong>{hoursSummary.text}</strong><span>Full schedule &amp; sources</span></summary>
+      <dl>
+        {showListedHours && <FactRow label={reportedHours ? "Restroom hours — report" : "Listed restroom hours"} value={hours ?? "Hours unknown"} unknown={hours === null} />}
+        {showOriginal(["seasonality"], restroom.seasonality, !restroom.seasonality) && <FactRow label="Seasonality" value={fact(restroom.seasonality)} unknown={!restroom.seasonality} />}
+        {rows("hours", hourFacts)}
+      </dl>
+      </details>
+      <p className="finder-field-note">Venue hours and restroom hours may differ. Published schedules do not confirm the restroom is open now.</p>
+    </section>
+
+    <section className="finder-detail-section" aria-label="Entry">
       <h3><DoorOpen size={19} />Entry</h3>
       <dl>
-        {community && <FactRow label="Entry permission — visitor report" value={entryLabels[community.entryRule]} unknown={community.entryRule === "unknown"} />}
-        <FactRow label={community ? "Code required — visitor report" : "Code required"} value={codeRequiredLabels[community?.passcodeRequired ?? "unknown"]} unknown={!community?.passcodeRequired || community.passcodeRequired === "unknown"} />
-        <FactRow label="Purchase required" value={restroom.purchaseRequired === null ? "Not reported" : restroom.purchaseRequired ? "Yes" : "No"} unknown={restroom.purchaseRequired === null} />
+        {community && showOriginal(["entryRule"], entryLabels[community.entryRule], community.entryRule === "unknown", ["restroom", "route"]) && <FactRow label="Entry permission — report" value={entryLabels[community.entryRule]} unknown={community.entryRule === "unknown"} />}
+        {showOriginal(["codeRequired", "passcodeRequired"], codeRequiredLabels[community?.passcodeRequired ?? "unknown"], !community?.passcodeRequired || community.passcodeRequired === "unknown", ["restroom", "route"]) && <FactRow label={community ? "Code required — report" : "Code required"} value={codeRequiredLabels[community?.passcodeRequired ?? "unknown"]} unknown={!community?.passcodeRequired || community.passcodeRequired === "unknown"} />}
+        {showOriginal(["purchaseRequired"], restroom.purchaseRequired === null ? null : restroom.purchaseRequired ? "yes" : "no", restroom.purchaseRequired === null, ["restroom", "route"]) && <FactRow label="Purchase required" value={restroom.purchaseRequired === null ? "Not reported" : restroom.purchaseRequired ? "Yes" : "No"} unknown={restroom.purchaseRequired === null} />}
         {restroom.address && <FactRow label="Address" value={restroom.address} />}
-        <FactRow label="Published hours" value={fact(restroom.hours)} unknown={!restroom.hours} />
-        <FactRow label="Seasonality" value={fact(restroom.seasonality)} unknown={!restroom.seasonality} />
-        <FactRow label="Published status" value={fact(restroom.publishedStatus)} unknown={!restroom.publishedStatus} />
-        <FactRow label="Access notes" value={fact(restroom.accessNotes)} unknown={!restroom.accessNotes} />
+        {showOriginal(["accessNotes", "accessRestriction"], restroom.accessNotes, !restroom.accessNotes) && <FactRow label="Access notes" value={fact(restroom.accessNotes)} unknown={!restroom.accessNotes} />}
+        {rows("entryRoute", entryFacts)}
       </dl>
-      <p className="finder-field-note">{community ? "Entry permission is a visitor report. Hours and availability have not been confirmed." : "Hours and status come from the dated source. They do not confirm the restroom is open now."}</p>
+      <p className="finder-field-note">{access ? "Hours and entrance details are a dated report. They do not establish entry permission or confirm the restroom is open now." : community ? "Entry permission is a community report. Hours and availability have not been confirmed." : "Hours and status come from the dated source. They do not confirm the restroom is open now."}</p>
     </section>
 
-    <section className="finder-detail-section">
+    <section className="finder-detail-section" aria-label="Route inside">
       <h3><Footprints size={19} />Route inside</h3>
       <dl>
-        <FactRow label="Restroom floor" value={fact(restroom.restroomFloor)} unknown={!restroom.restroomFloor} />
-        <FactRow label="Stairs to restroom" value={fact(restroom.stairsToRestroom)} unknown={!restroom.stairsToRestroom} />
-        {community ? <FactRow label="Step-free route from street to restroom" value={routeLabels[community.stepFreeAccess]} unknown={community.stepFreeAccess === "unknown"} />
-          : <FactRow label="Facility access — city label" value={fact(restroom.facilityAccessibility)} unknown={!restroom.facilityAccessibility} />}
+        {showOriginal(["entranceLocation"], access?.entranceLocation, !access?.entranceLocation, ["restroom", "route"]) && <FactRow label="Entrance location" value={fact(access?.entranceLocation)} unknown={!access?.entranceLocation} />}
+        {showOriginal(["entranceStepFree"], access?.entranceStepFree, !access || access.entranceStepFree === "unknown", ["restroom", "route"]) && <FactRow label="Step-free entrance" value={routeLabels[access?.entranceStepFree ?? "unknown"]} unknown={!access || access.entranceStepFree === "unknown"} />}
+        {showOriginal(["restroomFloor"], floor, !floor, ["restroom", "route"]) && <FactRow label="Restroom floor" value={fact(floor)} unknown={!floor} />}
+        {showOriginal(["stairsAfterEntry", "stairsToRestroom"], access?.stairsAfterEntry?.toString() ?? restroom.stairsToRestroom, access?.stairsAfterEntry == null && !restroom.stairsToRestroom, ["restroom", "route"]) && (access?.stairsAfterEntry !== null && access?.stairsAfterEntry !== undefined
+          ? <FactRow label="Stairs after entry" value={String(access.stairsAfterEntry)} />
+          : <FactRow label="Stairs to restroom" value={fact(restroom.stairsToRestroom)} unknown={!restroom.stairsToRestroom} />)}
+        {showOriginal(["stairFreeRoute"], stairFree, stairFree === "unknown", ["restroom", "route"]) && <FactRow label="Step-free route from street to restroom" value={routeLabels[stairFree]} unknown={stairFree === "unknown"} />}
+        {showOriginal(["elevatorToRestroom"], elevator, elevator === "unknown", ["restroom", "route"]) && <FactRow label="Elevator to restroom" value={routeLabels[elevator]} unknown={elevator === "unknown"} />}
+        {showOriginal(["elevatorNote"], access?.elevatorNote, !access?.elevatorNote, ["restroom", "route"]) && <FactRow label="Elevator route" value={fact(access?.elevatorNote)} unknown={!access?.elevatorNote} />}
+        {rows("entryRoute", routeFacts)}
       </dl>
-      <p className="finder-field-note">{community ? "A step-free-route report does not confirm doorway widths, stall space, grab bars, or other accessibility features." : "The city’s facility label does not establish the route to this restroom or the features of its stalls."}</p>
+      <p className="finder-field-note">Check route details and source dates. Stall features and current availability are not confirmed.</p>
     </section>
 
-    <section className="finder-detail-section">
-      <h3><Building2 size={19} />Restroom & conditions</h3>
+    <section className="finder-detail-section" aria-label="Amenities">
+      <h3><Building2 size={19} />Amenities</h3>
       <dl>
-        <FactRow label="Restroom type" value={fact(restroom.restroomType)} unknown={!restroom.restroomType} />
-        <FactRow label={community ? "Changing stations" : "Changing stations — city label"} value={fact(restroom.changingStations)} unknown={!restroom.changingStations} />
-        <FactRow label="Conditions" value={fact(restroom.cleanliness)} unknown={!restroom.cleanliness} />
-        <FactRow label="Observation date" value={fact(restroom.observationDate)} unknown={!restroom.observationDate} />
+        {showOriginal(["restroomAccessibility"], ACCESSIBILITY_VALUES[accessibility], accessibility === "unknown", ["restroom", "route"]) && <FactRow label="Accessible" value={ACCESSIBILITY_VALUES[accessibility]} unknown={accessibility === "unknown"} />}
+        {showOriginal(["restroomType"], restroom.restroomType, !restroom.restroomType) && <FactRow label="Restroom type" value={fact(restroom.restroomType)} unknown={!restroom.restroomType} />}
+        {showOriginal(["changingStations"], restroom.changingStations, !restroom.changingStations) && <FactRow label={community ? "Changing stations" : "Changing stations — city label"} value={fact(restroom.changingStations)} unknown={!restroom.changingStations} />}
+        {rows("amenities")}
       </dl>
-      <p className="finder-field-note">Soap, toilet paper, and stall conditions have not been reported in {community ? "this submission" : "this source"}.</p>
+      <p className="finder-field-note">A fixture count describes the inspection, not stocked supplies. Building accessibility does not establish the complete restroom route.</p>
     </section>
 
-    {passcodeContent && <div className="finder-detail-section">{passcodeContent}</div>}
-    <div className="finder-detail-section">{ratingContent}</div>
-    <section className="finder-detail-section finder-personal-section">{personalContent}</section>
+    <section className="finder-detail-section" aria-label="Conditions">
+      <h3>Conditions</h3><dl>
+        {showOriginal(["condition", "cleanliness", "inspectionRating", "conditionDetail"], restroom.cleanliness, !restroom.cleanliness, ["restroom", "route"]) && <FactRow label="Conditions" value={fact(restroom.cleanliness)} unknown={!restroom.cleanliness} />}
+        {showOriginal(["publishedStatus", "closure"], restroom.publishedStatus, !restroom.publishedStatus) && <FactRow label="Published status" value={fact(restroom.publishedStatus)} unknown={!restroom.publishedStatus} />}
+        {(restroom.observationDate || !profile?.sources.some(source => source.observedOn !== null)) && showOriginal(["inspectionDate"], restroom.observationDate, !restroom.observationDate, ["restroom", "route"]) && <FactRow label="Observation date" value={fact(restroom.observationDate)} unknown={!restroom.observationDate} />}
+        {rows("conditions")}
+      </dl><p className="finder-field-note">Dated inspections and published reports describe their source dates. They do not establish current condition or app cleanliness ratings.</p>
+    </section>
+
+    {(passcodeContent || inSection("passcodes").length > 0) && <div className="finder-detail-section">
+      {passcodeContent || <h3>Passcodes</h3>}
+      {inSection("passcodes").length > 0 && <div className="finder-research-published-codes"><h4>Published code information</h4><dl>{rows("passcodes")}</dl><p className="finder-field-note">Published code claims are unverified. They do not add confirmations, establish entry permission, or change shared-code order.</p></div>}
+    </div>}
+
+    <section className="finder-detail-section finder-rate-comment" aria-label="Rate and Comment">
+      <h3><MessageSquareText size={19} aria-hidden="true" />Rate and Comment</h3>
+      <div className="finder-research-contribution">{ratingContent}</div>
+      {inSection("ratings").length > 0 && <div className="finder-research-contribution"><h4>Published ratings</h4><dl>{rows("ratings")}</dl><p className="finder-field-note">External venue scores are separate from visitor cleanliness ratings in this app.</p></div>}
+      {visitReportContent && <div className="finder-research-contribution">{visitReportContent}</div>}
+      <div className="finder-research-contribution">{personalContent}</div>
+      {profile && profile.comments.length > 0 && <div className="finder-research-contribution"><h4>Published comments</h4><CardResearchComments profile={profile} /></div>}
+      <SourceComments key={restroom.id} placeID={restroom.id} excludeIDs={coveredIDs} inline />
+    </section>
 
     <details className="finder-provenance">
       <summary>Source & record details</summary>
-      {community ? <><p>Source: a signed-in visitor’s submission. The visitor’s account identity is private.</p>
+      {profile && <div className="finder-research-source-limits">{profile.sources.map(source => <div key={source.id}><a href={source.url} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">{source.title}</a><p>{source.displayedDate || "Publication date not shown"}. {source.limitations}</p></div>)}</div>}
+      <SourceReports placeID={restroom.id} />
+      {access && <><p>Hours and entrance source: {accessDetailsProvenance(access)}.</p><p>Report updated {accessDetailsDate(access.updatedAt)}. Update time is not an inspection date. {access.limitations}</p></>}
+      {community ? <><p>Source: a community location report. Check access notes for any source details. Contributor account identities are private.</p>
         <p>Submitted {submissionDate(community.submittedAt)}. Observation date: {community.observedOn ?? "Not reported"}. Submission time is not an inspection date.</p>
         <p>Chosen coordinates: {restroom.latitude.toFixed(6)}, {restroom.longitude.toFixed(6)}. The address and pin are visitor reports.</p>
         <p>Submission record: {restroom.id}. Contact the project team to request a correction or removal.</p>
       </> : <><p>Publisher: {datasetSource.publisher}. Operator: {fact(restroom.operator)}.</p>
+      <p>Original source accessibility value: {fact(restroom.facilityAccessibility)}.</p>
       <p>Source data updated {sourceDateLabel}. Retrieved {new Date(datasetSource.retrievedAt).toLocaleDateString("en-US", { timeZone: "America/New_York" })}. Retrieval is not an inspection date.</p>
       <p>Source record{restroom.sourceRecordIds.length > 1 ? "s" : ""}: {restroom.sourceRecordIds.join(", ")}</p>
       <a href={restroom.sourceUrl ?? datasetSource.url} target="_blank" rel="noreferrer">View NYC Open Data source <ArrowUpRight size={15} /></a>
@@ -106,88 +205,4 @@ export function RestroomDetail({ restroom, distance, userLocation, saved, saving
       {restroom.website && /^https?:\/\//i.test(restroom.website) && <a href={restroom.website} target="_blank" rel="noreferrer">Visit venue website <ArrowUpRight size={15} /></a>}
     </details>
   </aside>;
-}
-
-type Answer = VisitNoteInput["soap"];
-const answerLabels: Record<Answer, string> = { "not-reported": "Not reported", yes: "Yes", no: "No" };
-const conditionLabels: Record<VisitNoteInput["condition"], string> = { "not-reported": "Not reported", usable: "Usable", "needs-attention": "Needs attention" };
-
-function localDateInput(): string {
-  const now = new Date();
-  return new Date(now.getTime() - now.getTimezoneOffset() * 60_000).toISOString().slice(0, 16);
-}
-
-function noteDate(date: Date): string {
-  return date.toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" });
-}
-
-export function PersonalNotes({ placeID, signedIn, configured, loading, saving, notes, onSignIn, onSave, onDelete }: {
-  placeID: string;
-  signedIn: boolean;
-  configured: boolean;
-  loading: boolean;
-  saving: boolean;
-  notes: VisitNote[];
-  onSignIn: () => void;
-  onSave: (input: VisitNoteInput) => Promise<boolean>;
-  onDelete: (noteID: string) => Promise<boolean>;
-}) {
-  const [showForm, setShowForm] = useState(false);
-  const [observedAt, setObservedAt] = useState("");
-  const [condition, setCondition] = useState<VisitNoteInput["condition"]>("not-reported");
-  const [soap, setSoap] = useState<Answer>("not-reported");
-  const [toiletPaper, setToiletPaper] = useState<Answer>("not-reported");
-  const [stairs, setStairs] = useState<Answer>("not-reported");
-  const [entryNote, setEntryNote] = useState("");
-  const [formError, setFormError] = useState<string | null>(null);
-  const [success, setSuccess] = useState(false);
-  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
-
-  async function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setFormError(null);
-    setSuccess(false);
-    const visited = new Date(observedAt);
-    if (!Number.isFinite(visited.getTime()) || visited.getTime() < Date.UTC(2000, 0, 1) || visited.getTime() > Date.now()) {
-      setFormError("Choose the actual time you visited, between January 1, 2000 and now.");
-      return;
-    }
-    if (await onSave({ placeID, observedAt: visited, condition, soap, toiletPaper, stairs, entryNote: entryNote.trim() })) {
-      setSuccess(true);
-      setShowForm(false);
-      setObservedAt("");
-      setCondition("not-reported"); setSoap("not-reported"); setToiletPaper("not-reported"); setStairs("not-reported"); setEntryNote("");
-    }
-  }
-
-  return <>
-    <h3><Bookmark size={19} />My notes <span className="finder-private-label">Private</span></h3>
-    <p className="finder-personal-explanation">Your own dated observations, saved to your account. These stay separate from city data and are not public reviews.</p>
-    {!signedIn ? <><button type="button" className="finder-secondary-button" disabled={loading || !configured} onClick={onSignIn}>Sign in with Google to save notes <ArrowUpRight size={16} /></button>{!configured && <p className="finder-field-note">Account sign-in is not connected yet. Browsing and directions work without it.</p>}</> : <>
-      {success && <p className="finder-note-success" role="status"><Check size={16} />Note saved to your account.</p>}
-      {loading ? <p className="finder-field-note" role="status">Loading your private notes…</p> : <>
-        {notes.length === 0 && !showForm && <p className="finder-field-note">No personal notes for this location yet.</p>}
-        {!showForm && <button className="finder-secondary-button" type="button" onClick={() => { setShowForm(true); setSuccess(false); }}><Plus size={17} />Add a visit note</button>}
-        {showForm && <form className="finder-note-form" onSubmit={(event) => void submit(event)}>
-          <label htmlFor="note-observed">When you visited <span>Your local time</span></label>
-          <input type="datetime-local" id="note-observed" required value={observedAt} min="2000-01-01T00:00" max={localDateInput()} onChange={(event) => setObservedAt(event.target.value)} />
-          <label htmlFor="note-condition">How was it?</label>
-          <select id="note-condition" value={condition} onChange={(event) => setCondition(event.target.value as VisitNoteInput["condition"])}>{Object.entries(conditionLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>
-          <div className="finder-note-answer-grid">{([ ["note-soap", "Soap available", soap, setSoap], ["note-paper", "Toilet paper available", toiletPaper, setToiletPaper], ["note-stairs", "Stairs to restroom", stairs, setStairs] ] as const).map(([id, label, value, setter]) => <div key={id}><label htmlFor={id}>{label}</label><select id={id} value={value} onChange={(event) => setter(event.target.value as Answer)}>{Object.entries(answerLabels).map(([key, text]) => <option key={key} value={key}>{text}</option>)}</select></div>)}</div>
-          <label htmlFor="note-entry">Entry & route notes <span>Optional</span></label>
-          <textarea id="note-entry" rows={3} maxLength={1000} placeholder="What did you notice about getting in or reaching the restroom?" value={entryNote} onChange={(event) => setEntryNote(event.target.value)} />
-          <p className="finder-field-note">Only record your own observation. Leave unknown details as “Not reported.”</p>
-          {formError && <p className="finder-form-error" role="alert">{formError}</p>}
-          <div className="finder-note-actions"><button type="submit" className="finder-primary-button" disabled={saving}>{saving ? "Saving note…" : "Save private note"}</button><button type="button" className="finder-secondary-button" onClick={() => setShowForm(false)} disabled={saving}>Cancel</button></div>
-        </form>}
-        <div className="finder-personal-notes">{notes.slice().sort((a, b) => b.observedAt.getTime() - a.observedAt.getTime()).map((note) => <article className="finder-personal-note" key={note.id}>
-          <p className="finder-note-observed">Observed {noteDate(note.observedAt)}</p>
-          <dl><div><dt>Condition</dt><dd>{conditionLabels[note.condition]}</dd></div><div><dt>Soap</dt><dd>{answerLabels[note.soap]}</dd></div><div><dt>Toilet paper</dt><dd>{answerLabels[note.toiletPaper]}</dd></div><div><dt>Stairs</dt><dd>{answerLabels[note.stairs]}</dd></div></dl>
-          {note.entryNote && <p className="finder-note-text">{note.entryNote}</p>}
-          <p className="finder-note-submitted">Submitted {note.submittedAt ? noteDate(note.submittedAt) : "Time not yet available"}</p>
-          {confirmDelete === note.id ? <div className="finder-note-delete-confirm"><p>Delete this private note?</p><button type="button" disabled={saving} onClick={async () => { if (await onDelete(note.id)) setConfirmDelete(null); }}>Delete note</button><button type="button" disabled={saving} onClick={() => setConfirmDelete(null)}>Keep it</button></div> : <button className="finder-delete-note" type="button" disabled={saving} onClick={() => setConfirmDelete(note.id)}><Trash2 size={14} />Delete note</button>}
-        </article>)}</div>
-      </>}
-    </>}
-  </>;
 }

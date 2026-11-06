@@ -1,0 +1,5596 @@
+[
+  {
+    "placeID": "i7jb-7jku:row-2fgs-sidr~syu4",
+    "name": "College Point Blvd Soccer Fields",
+    "latitude": 40.75101,
+    "longitude": -73.8338,
+    "propID": "Q099-ZN17",
+    "siteName": "College Point Blvd Soccer Fields",
+    "propertyName": "Flushing Meadows Corona Park",
+    "siteSourceRowID": "row-6ftk.dz78-x4cy",
+    "globalInventoryID": "1733",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "Q099-ZN17",
+      "cs_id": "1733",
+      ":id": "row-wpwe~9cxn-rgt3"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-and-building-property-ID; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "outside-exact-named-site-polygon",
+    "officialNameAliasEvidence": [
+      "exact-site-name-and-building-property-ID",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "Q099-BLG0256",
+      "description": "FMCP-College Point Blvd Soccer Fields Public Restroom",
+      "sourceRowID": "row-6sbn_q7ju-5iff",
+      "omppropid": "Q099-ZN17",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-07-31",
+    "roomEvidence": [
+      {
+        "inspectionID": "199606",
+        "inspectionDate": "2026-07-31",
+        "originalInspectionTimestamp": "2026-07-31T00:00:00.000",
+        "inspectionBeginLocalTime": "10:27:00",
+        "sourceEnteredAt": "2026-07-31T13:47:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "U",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 2,
+          "urinals": 2,
+          "toilets": 2,
+          "sinks": 2,
+          "toiletPaperDispensers": 2,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 2
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "199606",
+            "csnumber": "1",
+            "cs_overall_condition": "U",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "U/S",
+            ":id": "row-cz5u_wtcu~wq6f"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199606",
+            "featurenumber": "283350",
+            ":id": "row-ix8t-5uut_uc6q"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199606",
+            "featurenumber": "283351",
+            ":id": "row-ref7~2xx9.6r3s"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "U/S",
+            "inspection_id": "199606",
+            "featurenumber": "283352",
+            ":id": "row-5mdz.vryt~ztdm"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199606",
+            "featurenumber": "283353",
+            ":id": "row-g29a-4gc5.8npn"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "46543",
+            "class": "Condition",
+            "type": "Litter",
+            "problem": "Light",
+            "location_comments": "in restroom.",
+            "cause": "0",
+            "feature": "283350",
+            ":id": "row-mg2z_n88a-wjek"
+          },
+          {
+            "conditionhazard": "7524",
+            "class": "Hazard",
+            "type": "Inadequate Lighting",
+            "priority": "1.0",
+            "cause": "1",
+            "feature": "283352",
+            ":id": "row-tumb-rynv_zu6c"
+          },
+          {
+            "conditionhazard": "7525",
+            "class": "Hazard",
+            "type": "Damaged or missing safety strap on changing table",
+            "priority": "2.0",
+            "cause": "1",
+            "feature": "283352",
+            ":id": "row-4evm_uxkx~fdi9"
+          },
+          {
+            "conditionhazard": "46544",
+            "class": "Condition",
+            "type": "Scratches",
+            "location_comments": "on mirrors.",
+            "cause": "0",
+            "feature": "283353",
+            ":id": "row-z5qt~25kj~7fhe"
+          }
+        ],
+        "sourceRoomRowID": "row-j782-nri9-mt4g",
+        "rawRoom": {
+          "inspectionid": "199606",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "U",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "2",
+          "urinalsam": "2",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "2",
+          "toiletscomm": "Porcelain",
+          "sinksam": "2",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "2",
+          "toiletpaperdispcomm": "Multi Roll - Standard",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "2",
+          "papertoweldispcomm": "Stainless Steel",
+          ":id": "row-j782-nri9-mt4g"
+        }
+      },
+      {
+        "inspectionID": "199606",
+        "inspectionDate": "2026-07-31",
+        "originalInspectionTimestamp": "2026-07-31T00:00:00.000",
+        "inspectionBeginLocalTime": "10:27:00",
+        "sourceEnteredAt": "2026-07-31T13:47:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "U",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 2,
+          "toilets": 3,
+          "sinks": 3,
+          "toiletPaperDispensers": 3,
+          "soapDispensers": 2,
+          "paperTowelDispensers": 2
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "199606",
+            "csnumber": "1",
+            "cs_overall_condition": "U",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "U/S",
+            ":id": "row-cz5u_wtcu~wq6f"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199606",
+            "featurenumber": "283354",
+            ":id": "row-4xmj~ahsu.fnrq"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199606",
+            "featurenumber": "283355",
+            ":id": "row-ribe~6bt3_6kma"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "U/S",
+            "inspection_id": "199606",
+            "featurenumber": "283356",
+            ":id": "row-3h5r~jxj3-8h7q"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199606",
+            "featurenumber": "283357",
+            ":id": "row-azqb_82nu_9xjz"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "46542",
+            "class": "Condition",
+            "type": "Litter",
+            "location_comments": "in restroom.",
+            "cause": "0",
+            "feature": "283354",
+            ":id": "row-v6w3-jb84-r7nu"
+          },
+          {
+            "conditionhazard": "7526",
+            "class": "Hazard",
+            "type": "Inadequate Lighting",
+            "priority": "1.0",
+            "cause": "1",
+            "feature": "283356",
+            ":id": "row-w347~7drn-7g7t"
+          },
+          {
+            "conditionhazard": "46541",
+            "class": "Condition",
+            "type": "Scratches",
+            "location_comments": "on mirror.",
+            "cause": "0",
+            "feature": "283357",
+            ":id": "row-navh_yqv6~mam6"
+          }
+        ],
+        "sourceRoomRowID": "row-6heu~e742_kdpt",
+        "rawRoom": {
+          "inspectionid": "199606",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "U",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "2",
+          "toiletsam": "3",
+          "toiletscomm": "Porcelain",
+          "sinksam": "3",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "3",
+          "toiletpaperdispcomm": "Multi Roll - Standard",
+          "soapdispam": "2",
+          "soapdispcomm": "Stainless Steel & Soap Globe",
+          "papertoweldispam": "2",
+          "papertoweldispcomm": "Stainless Steel",
+          ":id": "row-6heu~e742_kdpt"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-2vp9.wy3b~2kh2",
+    "name": "Battery Park Zone 2",
+    "latitude": 40.7014,
+    "longitude": -74.015,
+    "propID": "M005-ZN02",
+    "siteName": "Battery Park Zone 2",
+    "propertyName": "The Battery",
+    "siteSourceRowID": "row-ujxx_wb26.b9gg",
+    "globalInventoryID": "1523",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "M005-ZN02",
+      "cs_id": "1523",
+      ":id": "row-n67m_4aa5~p9mm"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-and-building-property-ID; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "outside-exact-named-site-polygon",
+    "officialNameAliasEvidence": [
+      "exact-site-name-and-building-property-ID",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "M005-BLG0636",
+      "description": "The View at Battery",
+      "sourceRowID": "row-srdv_x8ag_pjhp",
+      "omppropid": "M005-ZN02",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-03-17",
+    "roomEvidence": [
+      {
+        "inspectionID": "196914",
+        "inspectionDate": "2026-03-17",
+        "originalInspectionTimestamp": "2026-03-17T00:00:00.000",
+        "inspectionBeginLocalTime": "11:20:00",
+        "sourceEnteredAt": "2026-03-17T14:16:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "N",
+        "closedAtInspection": true,
+        "officialClosureAtInspection": true,
+        "fixtureCountsAtInspection": {
+          "handDryers": 2,
+          "changingTables": 1,
+          "mirrors": 1,
+          "urinals": 5,
+          "toilets": 5,
+          "sinks": 3,
+          "toiletPaperDispensers": 5,
+          "soapDispensers": 2,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": "PR officially closed.",
+        "restroomOverall": [
+          {
+            "inspectionid": "196914",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "N",
+            "cs_graffiti": "N",
+            "cs_amenities": "N",
+            "cs_structural": "N",
+            ":id": "row-dhyf_2ahy-zgd5"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "196914",
+            "featurenumber": "276998",
+            ":id": "row-sygb_7pch.tivb"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "196914",
+            "featurenumber": "276999",
+            ":id": "row-38pn-pvym~5czk"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "196914",
+            "featurenumber": "277000",
+            ":id": "row-k2vb.7jd4_89ak"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "196914",
+            "featurenumber": "277001",
+            ":id": "row-nn8u~gz5r-sf5v"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-th62~ak8z-hyyy",
+        "rawRoom": {
+          "inspectionid": "196914",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "N",
+          "isclosed": "1",
+          "isofficially": "1",
+          "handdryersam": "2",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "urinalsam": "5",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "5",
+          "toiletscomm": "Porcelain",
+          "sinksam": "3",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "5",
+          "toiletpaperdispcomm": "Fully Enclosed (Big Giant Roll)",
+          "soapdispam": "2",
+          "soapdispcomm": "Other",
+          "papertoweldispam": "0",
+          "comm": "PR officially closed.",
+          ":id": "row-th62~ak8z-hyyy"
+        }
+      },
+      {
+        "inspectionID": "196914",
+        "inspectionDate": "2026-03-17",
+        "originalInspectionTimestamp": "2026-03-17T00:00:00.000",
+        "inspectionBeginLocalTime": "11:20:00",
+        "sourceEnteredAt": "2026-03-17T14:16:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "N",
+        "closedAtInspection": true,
+        "officialClosureAtInspection": true,
+        "fixtureCountsAtInspection": {
+          "handDryers": 2,
+          "changingTables": 0,
+          "mirrors": 2,
+          "toilets": 10,
+          "sinks": 4,
+          "toiletPaperDispensers": 10,
+          "soapDispensers": 2,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": "PR officially closed.",
+        "restroomOverall": [
+          {
+            "inspectionid": "196914",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "N",
+            "cs_graffiti": "N",
+            "cs_amenities": "N",
+            "cs_structural": "N",
+            ":id": "row-dhyf_2ahy-zgd5"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "196914",
+            "featurenumber": "277002",
+            ":id": "row-u3h5.g2w4~srjp"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "196914",
+            "featurenumber": "277003",
+            ":id": "row-ezbh~h2ec~88z7"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "196914",
+            "featurenumber": "277004",
+            ":id": "row-kwpk~wq98_9rpm"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "196914",
+            "featurenumber": "277005",
+            ":id": "row-udu6_7jfx_3d2z"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-6z5p_9ex3-yrh8",
+        "rawRoom": {
+          "inspectionid": "196914",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "N",
+          "isclosed": "1",
+          "isofficially": "1",
+          "handdryersam": "2",
+          "changingtablesam": "0",
+          "mirrorsam": "2",
+          "toiletsam": "10",
+          "toiletscomm": "Porcelain",
+          "sinksam": "4",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "10",
+          "toiletpaperdispcomm": "Other",
+          "soapdispam": "2",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          "comm": "PR officially closed.",
+          ":id": "row-6z5p_9ex3-yrh8"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-3tef_kxxs.k4m9",
+    "name": "Fort Greene Playground",
+    "latitude": 40.69234,
+    "longitude": -73.9772,
+    "propID": "B032-01",
+    "siteName": "Fort Greene Plgd",
+    "propertyName": "Fort Greene Park",
+    "siteSourceRowID": "row-53ug~sype-4rhi",
+    "globalInventoryID": "1348",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "B032-01",
+      "cs_id": "1348",
+      ":id": "row-rvmy~fc9a_8dqx"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-restroom-building-name-after-literal-Public-Restroom-suffix; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "no-exact-site-name",
+    "officialNameAliasEvidence": [
+      "exact-restroom-building-name-after-literal-Public-Restroom-suffix",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "B032-01-BLG1014",
+      "description": "Fort Greene Playground Public Restroom",
+      "sourceRowID": "row-5myf-hycd~3yib",
+      "omppropid": "B032-01",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-03-27",
+    "roomEvidence": [
+      {
+        "inspectionID": "197172",
+        "inspectionDate": "2026-03-27",
+        "originalInspectionTimestamp": "2026-03-27T00:00:00.000",
+        "inspectionBeginLocalTime": "08:46:00",
+        "sourceEnteredAt": "2026-03-27T12:57:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 0,
+          "urinals": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "197172",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-qn58.ag38-f695"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197172",
+            "featurenumber": "277508",
+            ":id": "row-7q6t~t62r-dkpr"
+          },
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197172",
+            "featurenumber": "277509",
+            ":id": "row-ytwf-6t78_97th"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197172",
+            "featurenumber": "277510",
+            ":id": "row-48jv.hb9u_jp2x"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197172",
+            "featurenumber": "277511",
+            ":id": "row-c5p8-hzt6-v2ke"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-3qzq_i6ff-2d7j",
+        "rawRoom": {
+          "inspectionid": "197172",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "0",
+          "urinalsam": "1",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Giant Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-3qzq_i6ff-2d7j"
+        }
+      },
+      {
+        "inspectionID": "197172",
+        "inspectionDate": "2026-03-27",
+        "originalInspectionTimestamp": "2026-03-27T00:00:00.000",
+        "inspectionBeginLocalTime": "08:46:00",
+        "sourceEnteredAt": "2026-03-27T12:57:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 0,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "197172",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-qn58.ag38-f695"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197172",
+            "featurenumber": "277512",
+            ":id": "row-yujc_79sg~37i4"
+          },
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197172",
+            "featurenumber": "277513",
+            ":id": "row-shg2~hk89-hg6p"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197172",
+            "featurenumber": "277514",
+            ":id": "row-i7yz.4rgp.8i5g"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197172",
+            "featurenumber": "277515",
+            ":id": "row-9nue_byxd_d8pb"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "46156",
+            "class": "Condition",
+            "type": "Floors Deterioration",
+            "problem": "Light",
+            "location_comments": "patched with concrete around drain inside womens restroom stall",
+            "cause": "0",
+            "feature": "277515",
+            ":id": "row-rw54.vudf~b7uu"
+          }
+        ],
+        "sourceRoomRowID": "row-fve4-32ae.utj7",
+        "rawRoom": {
+          "inspectionid": "197172",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "0",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Giant Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-fve4-32ae.utj7"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-4ay2~jy4z-hquy",
+    "name": "Quisqueya Playground",
+    "latitude": 40.84723,
+    "longitude": -73.9312,
+    "propID": "M037-03",
+    "siteName": "Quisqueya Plgd",
+    "propertyName": "Highbridge Park",
+    "siteSourceRowID": "row-xtn2-j7sd.rz2c",
+    "globalInventoryID": "1559",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "M037-03",
+      "cs_id": "1559",
+      "winterized": "Yes",
+      "reason_winterized": "No heat",
+      ":id": "row-xrsg_d5qq.7sjt"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-restroom-building-name-after-literal-Public-Restroom-suffix; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "no-exact-site-name",
+    "officialNameAliasEvidence": [
+      "exact-restroom-building-name-after-literal-Public-Restroom-suffix",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "M037-03-BLG1549",
+      "description": "Quisqueya Playground Public Restroom",
+      "sourceRowID": "row-tj3e_8jup~zemc",
+      "omppropid": "M037-03",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-06-23",
+    "roomEvidence": [
+      {
+        "inspectionID": "198882",
+        "inspectionDate": "2026-06-23",
+        "originalInspectionTimestamp": "2026-06-23T00:00:00.000",
+        "inspectionBeginLocalTime": "09:00:00",
+        "sourceEnteredAt": "2026-06-23T13:24:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "U",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "urinals": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198882",
+            "csnumber": "1",
+            "cs_overall_condition": "U",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "U/S",
+            "cs_structural": "U",
+            ":id": "row-n8jg-2yek~sp49"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198882",
+            "featurenumber": "281450",
+            ":id": "row-p9zy.smz9~6ktu"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198882",
+            "featurenumber": "281451",
+            ":id": "row-c2dt.952h-uq9d"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "U",
+            "inspection_id": "198882",
+            "featurenumber": "281452",
+            ":id": "row-8h6e.5kp8_zqgk"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "U",
+            "inspection_id": "198882",
+            "featurenumber": "281453",
+            ":id": "row-xmfj-5zse~kxh8"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "7493",
+            "class": "Hazard",
+            "type": "Damaged or missing safety strap on changing table",
+            "priority": "2.0",
+            "cause": "1",
+            "feature": "281452",
+            ":id": "row-9n7n~m4yu_rui4"
+          },
+          {
+            "conditionhazard": "46417",
+            "class": "Condition",
+            "number": "1",
+            "type": "No Toilet Paper",
+            "extent": "1",
+            "cause": "1",
+            "feature": "281453",
+            ":id": "row-3d54-56gn_6r22"
+          },
+          {
+            "conditionhazard": "46416",
+            "class": "Condition",
+            "number": "1",
+            "type": "Dispensers Missing Soap",
+            "extent": "1",
+            "cause": "1",
+            "feature": "281453",
+            ":id": "row-9xcx~zgzq-5uct"
+          }
+        ],
+        "sourceRoomRowID": "row-abfu.u82k.whqt",
+        "rawRoom": {
+          "inspectionid": "198882",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "U",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "urinalsam": "1",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Multi Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-abfu.u82k.whqt"
+        }
+      },
+      {
+        "inspectionID": "198882",
+        "inspectionDate": "2026-06-23",
+        "originalInspectionTimestamp": "2026-06-23T00:00:00.000",
+        "inspectionBeginLocalTime": "09:00:00",
+        "sourceEnteredAt": "2026-06-23T13:24:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198882",
+            "csnumber": "1",
+            "cs_overall_condition": "U",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "U/S",
+            "cs_structural": "U",
+            ":id": "row-n8jg-2yek~sp49"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198882",
+            "featurenumber": "281454",
+            ":id": "row-7iym-bv42-5u22"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "U",
+            "inspection_id": "198882",
+            "featurenumber": "281455",
+            ":id": "row-y7av_cutd_fyhh"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198882",
+            "featurenumber": "281456",
+            ":id": "row-2ntx.amnf~4zpd"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198882",
+            "featurenumber": "281457",
+            ":id": "row-ava3.wi56.dnbb"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "46418",
+            "class": "Condition",
+            "number": "1",
+            "type": "Dispensers Missing Soap",
+            "extent": "1",
+            "cause": "1",
+            "feature": "281455",
+            ":id": "row-8x2f~y2qc~9zai"
+          },
+          {
+            "conditionhazard": "46419",
+            "class": "Condition",
+            "number": "1",
+            "type": "No Toilet Paper",
+            "extent": "1",
+            "cause": "1",
+            "feature": "281455",
+            ":id": "row-2qtu.p4hh-4jwf"
+          }
+        ],
+        "sourceRoomRowID": "row-2248~nnnk.2js6",
+        "rawRoom": {
+          "inspectionid": "198882",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Multi Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-2248~nnnk.2js6"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-5ahv_369h_v47e",
+    "name": "Riverbank Playground",
+    "latitude": 40.82562,
+    "longitude": -73.9539,
+    "propID": "M072-01",
+    "siteName": "Riverbank Plgd",
+    "propertyName": "Riverside Park",
+    "siteSourceRowID": "row-crne.5bm7.5s85",
+    "globalInventoryID": "1579",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "M072-01",
+      "cs_id": "1579",
+      ":id": "row-6mns~g5c2_v293"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-restroom-building-name-after-literal-Public-Restroom-suffix; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "no-exact-site-name",
+    "officialNameAliasEvidence": [
+      "exact-restroom-building-name-after-literal-Public-Restroom-suffix",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "M072-01-BLG1494",
+      "description": "Riverbank Playground Public Restroom",
+      "sourceRowID": "row-5jsp.cn8j_tnrz",
+      "omppropid": "M072-01",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-03-12",
+    "roomEvidence": [
+      {
+        "inspectionID": "196843",
+        "inspectionDate": "2026-03-12",
+        "originalInspectionTimestamp": "2026-03-12T00:00:00.000",
+        "inspectionBeginLocalTime": "12:40:00",
+        "sourceEnteredAt": "2026-03-12T16:19:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 0,
+          "urinals": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "196843",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-umdt~25pq.xn2z"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "196843",
+            "featurenumber": "276812",
+            ":id": "row-qvb6-6dp2~crrh"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "196843",
+            "featurenumber": "276813",
+            ":id": "row-hmi5_gniy~79un"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "196843",
+            "featurenumber": "276814",
+            ":id": "row-tmzh-bqjt.d4rz"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "196843",
+            "featurenumber": "276815",
+            ":id": "row-5xzt~c6nx-46vf"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "46109",
+            "class": "Condition",
+            "type": "Litter",
+            "problem": "Light",
+            "location_comments": "in stall",
+            "cause": "0",
+            "feature": "276812",
+            ":id": "row-kwib~3trg.29zg"
+          }
+        ],
+        "sourceRoomRowID": "row-kgnh_hz92~f8xm",
+        "rawRoom": {
+          "inspectionid": "196843",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "0",
+          "urinalsam": "1",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "2-ply or more",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-kgnh_hz92~f8xm"
+        }
+      },
+      {
+        "inspectionID": "196843",
+        "inspectionDate": "2026-03-12",
+        "originalInspectionTimestamp": "2026-03-12T00:00:00.000",
+        "inspectionBeginLocalTime": "12:40:00",
+        "sourceEnteredAt": "2026-03-12T16:19:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "196843",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-umdt~25pq.xn2z"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "196843",
+            "featurenumber": "276816",
+            ":id": "row-qtma.apqu-gczu"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "196843",
+            "featurenumber": "276817",
+            ":id": "row-c4bj.bigt_ssf2"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "196843",
+            "featurenumber": "276818",
+            ":id": "row-pf7a.k927-dcj9"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "196843",
+            "featurenumber": "276819",
+            ":id": "row-6n8f.87ag~vy7k"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-t9iz-h7z3~4hub",
+        "rawRoom": {
+          "inspectionid": "196843",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "2-ply or more",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-t9iz-h7z3~4hub"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-68sp.n5vh_qbk4",
+    "name": "Van Cortlandt Classic Playground",
+    "latitude": 40.8852,
+    "longitude": -73.8906,
+    "propID": "X092-05",
+    "siteName": "Van Cortlandt Classic Plgd",
+    "propertyName": "Van Cortlandt Park",
+    "siteSourceRowID": "row-rrvc~3ujg~c3np",
+    "globalInventoryID": "1946",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "X092-05",
+      "cs_id": "1946",
+      ":id": "row-5n9k~nkgt_htgc"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "no-exact-site-name",
+    "officialNameAliasEvidence": [
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "X092-05-BLG0943",
+      "description": "Classic Playground Public Restroom",
+      "sourceRowID": "row-3ufe.w3bz_ivm3",
+      "omppropid": "X092-05",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-04-10",
+    "roomEvidence": [
+      {
+        "inspectionID": "197478",
+        "inspectionDate": "2026-04-10",
+        "originalInspectionTimestamp": "2026-04-10T00:00:00.000",
+        "inspectionBeginLocalTime": "09:45:00",
+        "sourceEnteredAt": "2026-04-10T12:10:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 0,
+          "urinals": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "197478",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "U",
+            ":id": "row-kxjv-duh6_9nwd"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197478",
+            "featurenumber": "278037",
+            ":id": "row-x9yb~mnwj_t99s"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197478",
+            "featurenumber": "278038",
+            ":id": "row-uf43.7vpz~zmif"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197478",
+            "featurenumber": "278039",
+            ":id": "row-n3ym_rnfg~ghfi"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197478",
+            "featurenumber": "278040",
+            ":id": "row-68g7~qqg6~jgyy"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-7u83-8bxs~h9cq",
+        "rawRoom": {
+          "inspectionid": "197478",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "0",
+          "urinalsam": "1",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "1",
+          "toiletscomm": "Stainless Steel",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "2-ply or more",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-7u83-8bxs~h9cq"
+        }
+      },
+      {
+        "inspectionID": "197478",
+        "inspectionDate": "2026-04-10",
+        "originalInspectionTimestamp": "2026-04-10T00:00:00.000",
+        "inspectionBeginLocalTime": "09:45:00",
+        "sourceEnteredAt": "2026-04-10T12:10:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 0,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "197478",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "U",
+            ":id": "row-kxjv-duh6_9nwd"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197478",
+            "featurenumber": "278041",
+            ":id": "row-bfri.z8bg~32k4"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197478",
+            "featurenumber": "278042",
+            ":id": "row-m8qy-6idy.qm7y"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "U",
+            "inspection_id": "197478",
+            "featurenumber": "278043",
+            ":id": "row-hw3q_eczh~wfiw"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197478",
+            "featurenumber": "278044",
+            ":id": "row-scgq_mc52.4avf"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "7436",
+            "class": "Hazard",
+            "type": "Damaged or missing safety strap on changing table",
+            "location_comments": "safety strap stuck behind changing table",
+            "priority": "2.0",
+            "cause": "1",
+            "feature": "278043",
+            ":id": "row-cwmz.dfdg~8um9"
+          }
+        ],
+        "sourceRoomRowID": "row-rnyn-uwsp~xdrf",
+        "rawRoom": {
+          "inspectionid": "197478",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "0",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "2-ply or more",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-rnyn-uwsp~xdrf"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-6n72.hayr-6cb7",
+    "name": "Union Square Park",
+    "latitude": 40.73645,
+    "longitude": -73.9899,
+    "propID": "M089",
+    "siteName": "Union Square Park",
+    "propertyName": "Union Square Park",
+    "siteSourceRowID": "row-6vdd-ciys_szrb",
+    "globalInventoryID": "2037",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "M089",
+      "cs_id": "2037",
+      ":id": "row-2t45-rvz3~ek6j"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "multiple-inventory-restrooms-or-current-map-points",
+    "officialNameAliasEvidence": [
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "M089-BLG0653",
+      "description": "Union Square Pavilion",
+      "sourceRowID": "row-pti4.cxis.pvy2",
+      "omppropid": "M089",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-06-22",
+    "roomEvidence": [
+      {
+        "inspectionID": "198826",
+        "inspectionDate": "2026-06-22",
+        "originalInspectionTimestamp": "2026-06-22T00:00:00.000",
+        "inspectionBeginLocalTime": "10:00:00",
+        "sourceEnteredAt": "2026-06-22T12:34:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "urinals": 2,
+          "toilets": 1,
+          "sinks": 2,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 2,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": "Men's stall not rated due to prolonged usage.",
+        "restroomOverall": [
+          {
+            "inspectionid": "198826",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "U",
+            ":id": "row-8pdu~yuuf.ykay"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198826",
+            "featurenumber": "281234",
+            ":id": "row-6uny~hqvz_na5u"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198826",
+            "featurenumber": "281235",
+            ":id": "row-hrbk-tyys.5qeb"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198826",
+            "featurenumber": "281236",
+            ":id": "row-bvim~4vey-83tp"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198826",
+            "featurenumber": "281237",
+            ":id": "row-pr4n~vdpa-9xns"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "46400",
+            "class": "Condition",
+            "type": "Spray Paint",
+            "problem": "Moderate",
+            "location_comments": "on mirror in Men's PR",
+            "cause": "0",
+            "feature": "281237",
+            ":id": "row-jh5g~usc4~x77w"
+          }
+        ],
+        "sourceRoomRowID": "row-ra87_9wyh~86b5",
+        "rawRoom": {
+          "inspectionid": "198826",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "urinalsam": "2",
+          "urinalscomm": "Stainless Steel",
+          "toiletsam": "1",
+          "toiletscomm": "Stainless Steel",
+          "sinksam": "2",
+          "sinkscomm": "Stainless Steel",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Tamper Proof Stainless Steel",
+          "soapdispam": "2",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          "comm": "Men's stall not rated due to prolonged usage.",
+          ":id": "row-ra87_9wyh~86b5"
+        }
+      },
+      {
+        "inspectionID": "198826",
+        "inspectionDate": "2026-06-22",
+        "originalInspectionTimestamp": "2026-06-22T00:00:00.000",
+        "inspectionBeginLocalTime": "10:00:00",
+        "sourceEnteredAt": "2026-06-22T12:34:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "toilets": 3,
+          "sinks": 2,
+          "toiletPaperDispensers": 3,
+          "soapDispensers": 2,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198826",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "U",
+            ":id": "row-8pdu~yuuf.ykay"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198826",
+            "featurenumber": "281238",
+            ":id": "row-6x5q.7j2x~r5wq"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198826",
+            "featurenumber": "281239",
+            ":id": "row-tqws_natt.z47z"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "U",
+            "inspection_id": "198826",
+            "featurenumber": "281240",
+            ":id": "row-sqt6~946t~rj3a"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198826",
+            "featurenumber": "281241",
+            ":id": "row-sfde_76es.f6qr"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "46402",
+            "class": "Condition",
+            "type": "Litter",
+            "problem": "Light",
+            "location_comments": "in Women's PR",
+            "cause": "0",
+            "feature": "281238",
+            ":id": "row-49ye-5whd-cyy2"
+          },
+          {
+            "conditionhazard": "7488",
+            "class": "Hazard",
+            "type": "Damaged or missing safety strap on changing table",
+            "location_comments": "in Women's PR",
+            "priority": "2.0",
+            "cause": "1",
+            "feature": "281240",
+            ":id": "row-hhja~q82k~ax66"
+          }
+        ],
+        "sourceRoomRowID": "row-husb~uzf9.gxus",
+        "rawRoom": {
+          "inspectionid": "198826",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "toiletsam": "3",
+          "toiletscomm": "Stainless Steel",
+          "sinksam": "2",
+          "sinkscomm": "Stainless Steel",
+          "toiletpaperdispam": "3",
+          "toiletpaperdispcomm": "Tamper Proof Stainless Steel",
+          "soapdispam": "2",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-husb~uzf9.gxus"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-77e6-p8en.f9mw",
+    "name": "Breukelen Playground",
+    "latitude": 40.65373,
+    "longitude": -73.894,
+    "propID": "B247-01",
+    "siteName": "Breukelen Plgd",
+    "propertyName": "Breukelen Ballfields",
+    "siteSourceRowID": "row-qs4a.ifji.stfp",
+    "globalInventoryID": "1456",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "B247-01",
+      "cs_id": "1456",
+      "long_term_closure": "Yes",
+      "reason_closed": "Repairs",
+      ":id": "row-fvtk-x5m9_mkkk"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-restroom-building-name-after-literal-Public-Restroom-suffix; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "no-exact-site-name",
+    "officialNameAliasEvidence": [
+      "exact-restroom-building-name-after-literal-Public-Restroom-suffix",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "B247-01-BLG1215",
+      "description": "Breukelen Playground Public Restroom",
+      "sourceRowID": "row-68yd-vupk~s4br",
+      "omppropid": "B247-01",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-04-21",
+    "roomEvidence": [
+      {
+        "inspectionID": "197670",
+        "inspectionDate": "2026-04-21",
+        "originalInspectionTimestamp": "2026-04-21T00:00:00.000",
+        "inspectionBeginLocalTime": "10:48:00",
+        "sourceEnteredAt": "2026-04-21T13:30:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "urinals": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "197670",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-dd3x~daun-eriz"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197670",
+            "featurenumber": "278576",
+            ":id": "row-5rvw.gwxv.sqzz"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197670",
+            "featurenumber": "278577",
+            ":id": "row-g8r5-64x6_5p89"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197670",
+            "featurenumber": "278578",
+            ":id": "row-sbir~kmre~k7qg"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197670",
+            "featurenumber": "278579",
+            ":id": "row-eyim~68jh.sd7k"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-g7sj~3pp7.esgm",
+        "rawRoom": {
+          "inspectionid": "197670",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "urinalsam": "1",
+          "urinalscomm": "Stainless Steel",
+          "toiletsam": "1",
+          "toiletscomm": "Stainless Steel",
+          "sinksam": "1",
+          "sinkscomm": "Stainless Steel",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Giant Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-g7sj~3pp7.esgm"
+        }
+      },
+      {
+        "inspectionID": "197670",
+        "inspectionDate": "2026-04-21",
+        "originalInspectionTimestamp": "2026-04-21T00:00:00.000",
+        "inspectionBeginLocalTime": "10:48:00",
+        "sourceEnteredAt": "2026-04-21T13:30:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "197670",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-dd3x~daun-eriz"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197670",
+            "featurenumber": "278580",
+            ":id": "row-by5c.ka5f-5x63"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197670",
+            "featurenumber": "278581",
+            ":id": "row-pm33_y89u-2fv5"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197670",
+            "featurenumber": "278582",
+            ":id": "row-ak5n_i4x5_7dg4"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197670",
+            "featurenumber": "278583",
+            ":id": "row-qn96~jrgb-2ks3"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-b9ri.tubp.s9nm",
+        "rawRoom": {
+          "inspectionid": "197670",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "toiletsam": "1",
+          "toiletscomm": "Stainless Steel",
+          "sinksam": "1",
+          "sinkscomm": "Stainless Steel",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Giant Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-b9ri.tubp.s9nm"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-839i~bwyd-isan",
+    "name": "Wallenberg Playground",
+    "latitude": 40.85282,
+    "longitude": -73.9272,
+    "propID": "M037-04",
+    "siteName": "Wallenberg Plgd",
+    "propertyName": "Highbridge Park",
+    "siteSourceRowID": "row-9z9j_4r6v~qfxj",
+    "globalInventoryID": "1560",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "M037-04",
+      "cs_id": "1560",
+      "winterized": "Yes",
+      "reason_winterized": "No Heat",
+      ":id": "row-q73w~g3f2_pk2y"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-restroom-building-name-after-literal-Public-Restroom-suffix; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "no-exact-site-name",
+    "officialNameAliasEvidence": [
+      "exact-restroom-building-name-after-literal-Public-Restroom-suffix",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "M037-04-BLG1550",
+      "description": "Wallenberg Playground Public Restroom",
+      "sourceRowID": "row-txzg-7sea~hg7a",
+      "omppropid": "M037-04",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-04-03",
+    "roomEvidence": [
+      {
+        "inspectionID": "197333",
+        "inspectionDate": "2026-04-03",
+        "originalInspectionTimestamp": "2026-04-03T00:00:00.000",
+        "inspectionBeginLocalTime": "09:15:00",
+        "sourceEnteredAt": "2026-04-03T13:03:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "N",
+        "closedAtInspection": true,
+        "officialClosureAtInspection": true,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "urinals": 1,
+          "toilets": 2,
+          "sinks": 1,
+          "toiletPaperDispensers": 2,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": "PR officially closed.",
+        "restroomOverall": [
+          {
+            "inspectionid": "197333",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "N",
+            "cs_graffiti": "N",
+            "cs_amenities": "N",
+            "cs_structural": "N",
+            ":id": "row-qzwc_zhki.g6gt"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "197333",
+            "featurenumber": "277844",
+            ":id": "row-p7vj~34w3.5j7c"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "197333",
+            "featurenumber": "277845",
+            ":id": "row-qeyx_2yd3.49yr"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "197333",
+            "featurenumber": "277846",
+            ":id": "row-fehz-emni~xzkg"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "197333",
+            "featurenumber": "277847",
+            ":id": "row-bnw3_w3tn_4fa3"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-npcg~a7iq~m3nc",
+        "rawRoom": {
+          "inspectionid": "197333",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "N",
+          "isclosed": "1",
+          "isofficially": "1",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "urinalsam": "1",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "2",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "2",
+          "toiletpaperdispcomm": "Multi Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          "comm": "PR officially closed.",
+          ":id": "row-npcg~a7iq~m3nc"
+        }
+      },
+      {
+        "inspectionID": "197333",
+        "inspectionDate": "2026-04-03",
+        "originalInspectionTimestamp": "2026-04-03T00:00:00.000",
+        "inspectionBeginLocalTime": "09:15:00",
+        "sourceEnteredAt": "2026-04-03T13:03:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "N",
+        "closedAtInspection": true,
+        "officialClosureAtInspection": true,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "toilets": 2,
+          "sinks": 1,
+          "toiletPaperDispensers": 2,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": "PR officially closed.",
+        "restroomOverall": [
+          {
+            "inspectionid": "197333",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "N",
+            "cs_graffiti": "N",
+            "cs_amenities": "N",
+            "cs_structural": "N",
+            ":id": "row-qzwc_zhki.g6gt"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "197333",
+            "featurenumber": "277856",
+            ":id": "row-2zme~ycwq_tjpq"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "197333",
+            "featurenumber": "277857",
+            ":id": "row-abms_hhzg_nw9p"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "197333",
+            "featurenumber": "277858",
+            ":id": "row-gudv-t5ct_kz63"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "197333",
+            "featurenumber": "277859",
+            ":id": "row-955k_6hz2_vmyk"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-jxy8~93mg.hea2",
+        "rawRoom": {
+          "inspectionid": "197333",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "N",
+          "isclosed": "1",
+          "isofficially": "1",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "toiletsam": "2",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "2",
+          "toiletpaperdispcomm": "Multi Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          "comm": "PR officially closed.",
+          ":id": "row-jxy8~93mg.hea2"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-86ph_q62a-2szb",
+    "name": "Pat Parlato Playground",
+    "latitude": 40.57702,
+    "longitude": -73.9462,
+    "propID": "B251-04",
+    "siteName": "Pat Parlato Plgd",
+    "propertyName": "Manhattan Beach Park",
+    "siteSourceRowID": "row-mu8d.fy7n.57an",
+    "globalInventoryID": "1459",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "B251-04",
+      "cs_id": "1459",
+      ":id": "row-w9s6_4s7b~wk5e"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-restroom-building-name-after-literal-Public-Restroom-suffix; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "no-exact-site-name",
+    "officialNameAliasEvidence": [
+      "exact-restroom-building-name-after-literal-Public-Restroom-suffix",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "B251-04-BLG1175",
+      "description": "Pat Parlato Playground Public Restroom",
+      "sourceRowID": "row-b5fj.m4z8_9ayg",
+      "omppropid": "B251-04",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-07-13",
+    "roomEvidence": [
+      {
+        "inspectionID": "199212",
+        "inspectionDate": "2026-07-13",
+        "originalInspectionTimestamp": "2026-07-13T00:00:00.000",
+        "inspectionBeginLocalTime": "11:58:00",
+        "sourceEnteredAt": "2026-07-13T15:22:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 0,
+          "urinals": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "199212",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "U",
+            ":id": "row-746w~ptp3-xf6j"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199212",
+            "featurenumber": "282321",
+            ":id": "row-nf8p_gir3.88hp"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199212",
+            "featurenumber": "282322",
+            ":id": "row-78sk_phw8.dti5"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "U",
+            "inspection_id": "199212",
+            "featurenumber": "282323",
+            ":id": "row-i5pz~ji45.qhyh"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199212",
+            "featurenumber": "282324",
+            ":id": "row-c35b-i7df~czne"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "46484",
+            "class": "Condition",
+            "type": "Changing Table Missing",
+            "location_comments": "caution tape on table by staff.",
+            "cause": "1",
+            "feature": "282323",
+            ":id": "row-ud8d-kpci_cuwu"
+          }
+        ],
+        "sourceRoomRowID": "row-22rr.gp3v_jne9",
+        "rawRoom": {
+          "inspectionid": "199212",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "0",
+          "urinalsam": "1",
+          "urinalscomm": "Stainless Steel",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Stainless Steel",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Giant Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-22rr.gp3v_jne9"
+        }
+      },
+      {
+        "inspectionID": "199212",
+        "inspectionDate": "2026-07-13",
+        "originalInspectionTimestamp": "2026-07-13T00:00:00.000",
+        "inspectionBeginLocalTime": "11:58:00",
+        "sourceEnteredAt": "2026-07-13T15:22:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 0,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "199212",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "U",
+            ":id": "row-746w~ptp3-xf6j"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199212",
+            "featurenumber": "282325",
+            ":id": "row-szmp.kufq_2cpw"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199212",
+            "featurenumber": "282326",
+            ":id": "row-uaev_2b5q.jpbr"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199212",
+            "featurenumber": "282327",
+            ":id": "row-7zf2-xf4v_hytx"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199212",
+            "featurenumber": "282328",
+            ":id": "row-uhk4-yrdg.cjrr"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-wstf.84zy~qtu5",
+        "rawRoom": {
+          "inspectionid": "199212",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "0",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Stainless Steel",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Giant Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-wstf.84zy~qtu5"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-9vnc~5rqn_38vq",
+    "name": "Coney Island Beach Zone 6b",
+    "latitude": 40.57237,
+    "longitude": -73.9885,
+    "propID": "B169-ZN06B",
+    "siteName": "Coney Island Beach Zone 6b",
+    "propertyName": "Coney Island Beach & Boardwalk",
+    "siteSourceRowID": "row-idkf.9d7b-rdmf",
+    "globalInventoryID": "2084",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "B169-ZN06B",
+      "cs_id": "2084",
+      "winterized": "Yes",
+      "reason_winterized": "Seasonal",
+      ":id": "row-shus_me7h~9xwn"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-and-building-property-ID; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "outside-exact-named-site-polygon",
+    "officialNameAliasEvidence": [
+      "exact-site-name-and-building-property-ID",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "B169-BLG6348",
+      "description": "West 22nd Street Public Restroom",
+      "sourceRowID": "row-wsmy.i7yr_nb3b",
+      "omppropid": "B169-ZN06B",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-05-13",
+    "roomEvidence": [
+      {
+        "inspectionID": "198062",
+        "inspectionDate": "2026-05-13",
+        "originalInspectionTimestamp": "2026-05-13T00:00:00.000",
+        "inspectionBeginLocalTime": "08:30:00",
+        "sourceEnteredAt": "2026-05-13T13:38:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "N",
+        "closedAtInspection": true,
+        "officialClosureAtInspection": true,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 3,
+          "urinals": 5,
+          "toilets": 2,
+          "sinks": 3,
+          "toiletPaperDispensers": 2,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198062",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "N",
+            "cs_graffiti": "N",
+            "cs_amenities": "N",
+            "cs_structural": "N",
+            ":id": "row-wy2d-wmrs.9fz2"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "198062",
+            "featurenumber": "279308",
+            ":id": "row-765w.kitt-2nc2"
+          },
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "198062",
+            "featurenumber": "279309",
+            ":id": "row-33sn~r56g_uxh5"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "198062",
+            "featurenumber": "279310",
+            ":id": "row-n3wx_9djf_g5ff"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "198062",
+            "featurenumber": "279311",
+            ":id": "row-abzt.cm96_mhrv"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-nuvz-nfey~gbhj",
+        "rawRoom": {
+          "inspectionid": "198062",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "N",
+          "isclosed": "1",
+          "isofficially": "1",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "3",
+          "urinalsam": "5",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "2",
+          "toiletscomm": "Porcelain",
+          "sinksam": "3",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "2",
+          "toiletpaperdispcomm": "Tamper Proof Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-nuvz-nfey~gbhj"
+        }
+      },
+      {
+        "inspectionID": "198062",
+        "inspectionDate": "2026-05-13",
+        "originalInspectionTimestamp": "2026-05-13T00:00:00.000",
+        "inspectionBeginLocalTime": "08:30:00",
+        "sourceEnteredAt": "2026-05-13T13:38:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "N",
+        "closedAtInspection": true,
+        "officialClosureAtInspection": true,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 3,
+          "toilets": 7,
+          "sinks": 3,
+          "toiletPaperDispensers": 7,
+          "soapDispensers": 2,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198062",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "N",
+            "cs_graffiti": "N",
+            "cs_amenities": "N",
+            "cs_structural": "N",
+            ":id": "row-wy2d-wmrs.9fz2"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198062",
+            "featurenumber": "279312",
+            ":id": "row-pzpy~yckz~i7mz"
+          },
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198062",
+            "featurenumber": "279313",
+            ":id": "row-gv3u~wzvp_ufef"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198062",
+            "featurenumber": "279314",
+            ":id": "row-hf49~qpe2_wsiv"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198062",
+            "featurenumber": "279315",
+            ":id": "row-wcav.i7n3-kpcu"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-uuz2_rxuw.exck",
+        "rawRoom": {
+          "inspectionid": "198062",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "N",
+          "isclosed": "1",
+          "isofficially": "1",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "3",
+          "toiletsam": "7",
+          "toiletscomm": "Porcelain",
+          "sinksam": "3",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "7",
+          "toiletpaperdispcomm": "Tamper Proof Stainless Steel",
+          "soapdispam": "2",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-uuz2_rxuw.exck"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-bcdm~fxbc-zcvt",
+    "name": "Conference House Park Zone 2",
+    "latitude": 40.50228,
+    "longitude": -74.2517,
+    "propID": "R006-ZN02",
+    "siteName": "Conference House Park Zone 2",
+    "propertyName": "Conference House Park",
+    "siteSourceRowID": "row-t6dc_pg82_82nh",
+    "globalInventoryID": "1860",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "R006-ZN02",
+      "cs_id": "1860",
+      ":id": "row-fbwp.7ai8.g3s7"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-and-building-property-ID; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "outside-exact-named-site-polygon",
+    "officialNameAliasEvidence": [
+      "exact-site-name-and-building-property-ID",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "R006-ZN02-BLG1354",
+      "description": "Conference House Park-Visitor Center & Lenape Gallery",
+      "sourceRowID": "row-93vv_2nj3-njb8",
+      "omppropid": "R006-ZN02",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-07-16",
+    "roomEvidence": [
+      {
+        "inspectionID": "199282",
+        "inspectionDate": "2026-07-16",
+        "originalInspectionTimestamp": "2026-07-16T00:00:00.000",
+        "inspectionBeginLocalTime": "10:12:00",
+        "sourceEnteredAt": "2026-07-16T13:05:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 0,
+          "mirrors": 2,
+          "urinals": 1,
+          "toilets": 2,
+          "sinks": 2,
+          "toiletPaperDispensers": 2,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "199282",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-ukkn-c96s.dmg5"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199282",
+            "featurenumber": "282449",
+            ":id": "row-y9bb-aaq9-7uts"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199282",
+            "featurenumber": "282450",
+            ":id": "row-fwiu.bkhh.3vzq"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199282",
+            "featurenumber": "282451",
+            ":id": "row-fk85_2spw_n8p7"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199282",
+            "featurenumber": "282452",
+            ":id": "row-zkxb.k4jj-z5tv"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-tpfg-bea5-njaf",
+        "rawRoom": {
+          "inspectionid": "199282",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "0",
+          "mirrorsam": "2",
+          "urinalsam": "1",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "2",
+          "toiletscomm": "Porcelain",
+          "sinksam": "2",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "2",
+          "toiletpaperdispcomm": "Multi Roll - Standard",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-tpfg-bea5-njaf"
+        }
+      },
+      {
+        "inspectionID": "199282",
+        "inspectionDate": "2026-07-16",
+        "originalInspectionTimestamp": "2026-07-16T00:00:00.000",
+        "inspectionBeginLocalTime": "10:12:00",
+        "sourceEnteredAt": "2026-07-16T13:05:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 0,
+          "mirrors": 2,
+          "toilets": 3,
+          "sinks": 2,
+          "toiletPaperDispensers": 3,
+          "soapDispensers": 2,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "199282",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-ukkn-c96s.dmg5"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199282",
+            "featurenumber": "282453",
+            ":id": "row-sumc~7cpe.yxdm"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199282",
+            "featurenumber": "282454",
+            ":id": "row-r5y6-45w8-pi8i"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199282",
+            "featurenumber": "282455",
+            ":id": "row-gucn_pci6_97ix"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199282",
+            "featurenumber": "282456",
+            ":id": "row-v2uh_rrd5-j9yp"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-24q4-vh4r-q3ik",
+        "rawRoom": {
+          "inspectionid": "199282",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "0",
+          "mirrorsam": "2",
+          "toiletsam": "3",
+          "toiletscomm": "Porcelain",
+          "sinksam": "2",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "3",
+          "toiletpaperdispcomm": "Multi Roll - Standard",
+          "soapdispam": "2",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-24q4-vh4r-q3ik"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-ck2c-33pf-ikvg",
+    "name": "Albert J. Parham Playground",
+    "latitude": 40.69023,
+    "longitude": -73.9705,
+    "propID": "B253",
+    "siteName": "Albert L. Parham Playground",
+    "propertyName": "Albert L. Parham Playground",
+    "siteSourceRowID": "row-amiw-86d9~pkqz",
+    "globalInventoryID": "1461",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "B253",
+      "cs_id": "1461",
+      ":id": "row-7wyi_mp7m.j3jx"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-restroom-building-name-after-literal-Public-Restroom-suffix.",
+    "originalWithheldReason": "no-exact-site-name",
+    "officialNameAliasEvidence": [
+      "exact-restroom-building-name-after-literal-Public-Restroom-suffix"
+    ],
+    "building": {
+      "system": "B253-BLG1010",
+      "description": "Albert J. Parham Playground Public Restroom",
+      "sourceRowID": "row-s5yw-mq7y.qgfa",
+      "omppropid": "B253",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-03-17",
+    "roomEvidence": [
+      {
+        "inspectionID": "196909",
+        "inspectionDate": "2026-03-17",
+        "originalInspectionTimestamp": "2026-03-17T00:00:00.000",
+        "inspectionBeginLocalTime": "10:45:00",
+        "sourceEnteredAt": "2026-03-17T14:05:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 0,
+          "urinals": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "196909",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-gwsm~thjp~ec2g"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "196909",
+            "featurenumber": "276970",
+            ":id": "row-qdt6-263n.spzg"
+          },
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "196909",
+            "featurenumber": "276971",
+            ":id": "row-yrer-xe7w_wutn"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "196909",
+            "featurenumber": "276972",
+            ":id": "row-8s34-ddr7.hdi6"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "196909",
+            "featurenumber": "276973",
+            ":id": "row-9zf9-ppc9_jrhs"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-ayu5.fhfn~6rad",
+        "rawRoom": {
+          "inspectionid": "196909",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "0",
+          "urinalsam": "1",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "1",
+          "toiletscomm": "Stainless Steel",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Tamper Proof Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-ayu5.fhfn~6rad"
+        }
+      },
+      {
+        "inspectionID": "196909",
+        "inspectionDate": "2026-03-17",
+        "originalInspectionTimestamp": "2026-03-17T00:00:00.000",
+        "inspectionBeginLocalTime": "10:45:00",
+        "sourceEnteredAt": "2026-03-17T14:05:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 0,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "196909",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-gwsm~thjp~ec2g"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "196909",
+            "featurenumber": "276974",
+            ":id": "row-mi2t.kssr_iutd"
+          },
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "196909",
+            "featurenumber": "276975",
+            ":id": "row-fvcr.nw6k~6khs"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "196909",
+            "featurenumber": "276976",
+            ":id": "row-c3jx~b9gk~rgup"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "196909",
+            "featurenumber": "276977",
+            ":id": "row-m9nn~m4cp.hkn3"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-huax_7rns_vahh",
+        "rawRoom": {
+          "inspectionid": "196909",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "0",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Tamper Proof Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-huax_7rns_vahh"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-druy-axuf_bq64",
+    "name": "Adventure Playground",
+    "latitude": 40.8368,
+    "longitude": -73.9366,
+    "propID": "M037-10",
+    "siteName": "Adventure Plgd",
+    "propertyName": "Highbridge Park",
+    "siteSourceRowID": "row-rsvz-zt6u~iuyq",
+    "globalInventoryID": "3120",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "M037-10",
+      "cs_id": "3120",
+      ":id": "row-c6rj-qdxn~iatd"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-restroom-building-name-after-literal-Public-Restroom-suffix; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "no-exact-site-name",
+    "officialNameAliasEvidence": [
+      "exact-restroom-building-name-after-literal-Public-Restroom-suffix",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "M037-10-BLG9001",
+      "description": "Adventure Playground Public Restroom",
+      "sourceRowID": "row-n236.t5si~rkf4",
+      "omppropid": "M037-10",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-07-01",
+    "roomEvidence": [
+      {
+        "inspectionID": "198985",
+        "inspectionDate": "2026-07-01",
+        "originalInspectionTimestamp": "2026-07-01T00:00:00.000",
+        "inspectionBeginLocalTime": "08:59:00",
+        "sourceEnteredAt": "2026-07-01T11:45:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "N",
+        "closedAtInspection": true,
+        "officialClosureAtInspection": true,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 2,
+          "urinals": 2,
+          "toilets": 1,
+          "sinks": 2,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": "Temp",
+        "restroomOverall": [
+          {
+            "inspectionid": "198985",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "N",
+            "cs_graffiti": "N",
+            "cs_amenities": "N",
+            "cs_structural": "N",
+            ":id": "row-vz32_4umm-heug"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "198985",
+            "featurenumber": "281691",
+            ":id": "row-9m5p.d6cg.tc9q"
+          },
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "198985",
+            "featurenumber": "281692",
+            ":id": "row-fwtu~6uf9_dfas"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "198985",
+            "featurenumber": "281693",
+            ":id": "row-jpe2_h5tm_sfig"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "198985",
+            "featurenumber": "281694",
+            ":id": "row-4jb9_7hf3_utvr"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-p374_qdmi_55xa",
+        "rawRoom": {
+          "inspectionid": "198985",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "N",
+          "isclosed": "1",
+          "isofficially": "1",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "2",
+          "urinalsam": "2",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "2",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Single Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          "comm": "Temp",
+          ":id": "row-p374_qdmi_55xa"
+        }
+      },
+      {
+        "inspectionID": "198985",
+        "inspectionDate": "2026-07-01",
+        "originalInspectionTimestamp": "2026-07-01T00:00:00.000",
+        "inspectionBeginLocalTime": "08:59:00",
+        "sourceEnteredAt": "2026-07-01T11:45:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "N",
+        "closedAtInspection": true,
+        "officialClosureAtInspection": true,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 2,
+          "toilets": 3,
+          "sinks": 2,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": "Temp",
+        "restroomOverall": [
+          {
+            "inspectionid": "198985",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "N",
+            "cs_graffiti": "N",
+            "cs_amenities": "N",
+            "cs_structural": "N",
+            ":id": "row-vz32_4umm-heug"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198985",
+            "featurenumber": "281695",
+            ":id": "row-9ndi.n9i3-jbu6"
+          },
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198985",
+            "featurenumber": "281696",
+            ":id": "row-nfcw_hw2d.acfj"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198985",
+            "featurenumber": "281697",
+            ":id": "row-vdrf-4ep2_8fva"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198985",
+            "featurenumber": "281698",
+            ":id": "row-mxe7~rp4z~vfe8"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-evq4.nbbj.skyk",
+        "rawRoom": {
+          "inspectionid": "198985",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "N",
+          "isclosed": "1",
+          "isofficially": "1",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "2",
+          "toiletsam": "3",
+          "toiletscomm": "Porcelain",
+          "sinksam": "2",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Single Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          "comm": "Temp",
+          ":id": "row-evq4.nbbj.skyk"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-ema8-v3rf-pum4",
+    "name": "Moore Playground",
+    "latitude": 40.8097,
+    "longitude": -73.9392,
+    "propID": "M204",
+    "siteName": "Moore Playground",
+    "propertyName": "Moore Playground",
+    "siteSourceRowID": "row-k3gw-46uj~jjng",
+    "globalInventoryID": "1625",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "M204",
+      "cs_id": "1625",
+      ":id": "row-ibmd.f6aa_2my9"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-and-building-property-ID; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "outside-exact-named-site-polygon",
+    "officialNameAliasEvidence": [
+      "exact-site-name-and-building-property-ID",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "M204-BLG9988",
+      "description": "P.S. 133 / Moore Playground Building",
+      "sourceRowID": "row-p522.ybe5~ucsf",
+      "omppropid": "M204",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2025-12-05",
+    "roomEvidence": [
+      {
+        "inspectionID": "194977",
+        "inspectionDate": "2025-12-05",
+        "originalInspectionTimestamp": "2025-12-05T00:00:00.000",
+        "inspectionBeginLocalTime": "11:10:00",
+        "sourceEnteredAt": "2025-12-05T15:41:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "N",
+        "closedAtInspection": true,
+        "officialClosureAtInspection": true,
+        "fixtureCountsAtInspection": {
+          "handDryers": 0,
+          "changingTables": 0,
+          "mirrors": 0,
+          "urinals": 2,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 1
+        },
+        "roomComment": "PR officially closed.",
+        "restroomOverall": [
+          {
+            "inspectionid": "194977",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "N",
+            "cs_graffiti": "N",
+            "cs_amenities": "N",
+            "cs_structural": "N",
+            ":id": "row-z7jh-ybcn.cxgj"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "194977",
+            "featurenumber": "273015",
+            ":id": "row-jj8p-hsux-dhs2"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "194977",
+            "featurenumber": "273016",
+            ":id": "row-8ekg_qs4z.7wbz"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "194977",
+            "featurenumber": "273017",
+            ":id": "row-xgxh_tkz8-iq76"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "194977",
+            "featurenumber": "273018",
+            ":id": "row-vmji~2txk_btgh"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-pcd6.ddzn-xyzr",
+        "rawRoom": {
+          "inspectionid": "194977",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "N",
+          "isclosed": "1",
+          "isofficially": "1",
+          "handdryersam": "0",
+          "changingtablesam": "0",
+          "mirrorsam": "0",
+          "urinalsam": "2",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Multi Roll - Standard",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "1",
+          "papertoweldispcomm": "Metal-Painted White",
+          "comm": "PR officially closed.",
+          ":id": "row-pcd6.ddzn-xyzr"
+        }
+      },
+      {
+        "inspectionID": "194977",
+        "inspectionDate": "2025-12-05",
+        "originalInspectionTimestamp": "2025-12-05T00:00:00.000",
+        "inspectionBeginLocalTime": "11:10:00",
+        "sourceEnteredAt": "2025-12-05T15:41:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "N",
+        "closedAtInspection": true,
+        "officialClosureAtInspection": true,
+        "fixtureCountsAtInspection": {
+          "handDryers": 0,
+          "changingTables": 0,
+          "mirrors": 0,
+          "toilets": 2,
+          "sinks": 1,
+          "toiletPaperDispensers": 2,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 1
+        },
+        "roomComment": "PR officially closed.",
+        "restroomOverall": [
+          {
+            "inspectionid": "194977",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "N",
+            "cs_graffiti": "N",
+            "cs_amenities": "N",
+            "cs_structural": "N",
+            ":id": "row-z7jh-ybcn.cxgj"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "194977",
+            "featurenumber": "273019",
+            ":id": "row-hak6_cxn8-etks"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "194977",
+            "featurenumber": "273020",
+            ":id": "row-9q3f-w3qf_nexr"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "194977",
+            "featurenumber": "273021",
+            ":id": "row-wqpi-k7qy.k6wf"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "194977",
+            "featurenumber": "273022",
+            ":id": "row-vg3q.dctu_mjuq"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-ktse-t8th-hhr6",
+        "rawRoom": {
+          "inspectionid": "194977",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "N",
+          "isclosed": "1",
+          "isofficially": "1",
+          "handdryersam": "0",
+          "changingtablesam": "0",
+          "mirrorsam": "0",
+          "toiletsam": "2",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "2",
+          "toiletpaperdispcomm": "Multi Roll - Standard",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "1",
+          "papertoweldispcomm": "Metal-Painted White",
+          "comm": "PR officially closed.",
+          ":id": "row-ktse-t8th-hhr6"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-emwv~4y49.xt3t",
+    "name": "Rockaway Beach 04c",
+    "latitude": 40.58752,
+    "longitude": -73.7957,
+    "propID": "Q162-ZN04C",
+    "siteName": "Rockaway Beach 04c",
+    "propertyName": "Rockaway Beach and Boardwalk",
+    "siteSourceRowID": "row-prdv~kx22~wfkh",
+    "globalInventoryID": "2048",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "Q162-ZN04C",
+      "cs_id": "2048",
+      "winterized": "Yes",
+      "reason_winterized": "Seasonal",
+      ":id": "row-duwk.3wfe.e9uy"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-and-building-property-ID; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "outside-exact-named-site-polygon",
+    "officialNameAliasEvidence": [
+      "exact-site-name-and-building-property-ID",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "Q162-ZN04C-BLG0002",
+      "description": "Beach 67 Modular Public Restroom",
+      "sourceRowID": "row-zuqp_rpve-ishh",
+      "omppropid": "Q162-ZN04C",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-06-23",
+    "roomEvidence": [
+      {
+        "inspectionID": "198897",
+        "inspectionDate": "2026-06-23",
+        "originalInspectionTimestamp": "2026-06-23T00:00:00.000",
+        "inspectionBeginLocalTime": "11:45:00",
+        "sourceEnteredAt": "2026-06-23T15:56:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 3,
+          "changingTables": 2,
+          "mirrors": 4,
+          "urinals": 2,
+          "toilets": 4,
+          "sinks": 5,
+          "toiletPaperDispensers": 4,
+          "soapDispensers": 3,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198897",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-jvhg_yh2f~43yz"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198897",
+            "featurenumber": "281490",
+            ":id": "row-rrs6-guk8-2s46"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198897",
+            "featurenumber": "281491",
+            ":id": "row-ji4e-kadp~jy7q"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198897",
+            "featurenumber": "281492",
+            ":id": "row-dkru-bzri~x96u"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198897",
+            "featurenumber": "281493",
+            ":id": "row-3ker~arqx_ch2a"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-gpfw_k3ie.npcn",
+        "rawRoom": {
+          "inspectionid": "198897",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "3",
+          "changingtablesam": "2",
+          "mirrorsam": "4",
+          "urinalsam": "2",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "4",
+          "toiletscomm": "Porcelain",
+          "sinksam": "5",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "4",
+          "toiletpaperdispcomm": "Tamper Proof Stainless Steel",
+          "soapdispam": "3",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-gpfw_k3ie.npcn"
+        }
+      },
+      {
+        "inspectionID": "198897",
+        "inspectionDate": "2026-06-23",
+        "originalInspectionTimestamp": "2026-06-23T00:00:00.000",
+        "inspectionBeginLocalTime": "11:45:00",
+        "sourceEnteredAt": "2026-06-23T15:56:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 3,
+          "changingTables": 2,
+          "mirrors": 4,
+          "toilets": 6,
+          "sinks": 5,
+          "toiletPaperDispensers": 5,
+          "soapDispensers": 3,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198897",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-jvhg_yh2f~43yz"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198897",
+            "featurenumber": "281494",
+            ":id": "row-ghme.y9fz_idzd"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198897",
+            "featurenumber": "281495",
+            ":id": "row-d4v8-humc~g4be"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198897",
+            "featurenumber": "281496",
+            ":id": "row-x2qg~kf6a_cn5p"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198897",
+            "featurenumber": "281497",
+            ":id": "row-ng7u.bqdw~wasj"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "46430",
+            "class": "Condition",
+            "number": "1",
+            "type": "Toilets OOS",
+            "extent": "6",
+            "cause": "0",
+            "feature": "281496",
+            ":id": "row-7294_4gdy~snju"
+          }
+        ],
+        "sourceRoomRowID": "row-t35v.zvgp~y22r",
+        "rawRoom": {
+          "inspectionid": "198897",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "3",
+          "changingtablesam": "2",
+          "mirrorsam": "4",
+          "toiletsam": "6",
+          "toiletscomm": "Porcelain",
+          "sinksam": "5",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "5",
+          "toiletpaperdispcomm": "Tamper Proof Stainless Steel",
+          "soapdispam": "3",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-t35v.zvgp~y22r"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-im2f.u5jy_xk5v",
+    "name": "Seba Playground",
+    "latitude": 40.58963,
+    "longitude": -73.921,
+    "propID": "B057-06",
+    "siteName": "Seba Playground",
+    "propertyName": "Marine Park",
+    "siteSourceRowID": "row-bunw.n3q9-cims",
+    "globalInventoryID": "1359",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "B057-06",
+      "cs_id": "1359",
+      ":id": "row-fs3u~h4qu~wbbv"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-and-building-property-ID; exact-restroom-building-name-after-literal-Public-Restroom-suffix; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "outside-exact-named-site-polygon",
+    "officialNameAliasEvidence": [
+      "exact-site-name-and-building-property-ID",
+      "exact-restroom-building-name-after-literal-Public-Restroom-suffix",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "B057-BLG8779",
+      "description": "Seba Playground Public Restroom",
+      "sourceRowID": "row-icjn~azj5~rdmi",
+      "omppropid": "B057-06",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-04-07",
+    "roomEvidence": [
+      {
+        "inspectionID": "197427",
+        "inspectionDate": "2026-04-07",
+        "originalInspectionTimestamp": "2026-04-07T00:00:00.000",
+        "inspectionBeginLocalTime": "11:35:00",
+        "sourceEnteredAt": "2026-04-07T16:35:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "urinals": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "197427",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-ur9j.f6s6-t3uw"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197427",
+            "featurenumber": "277981",
+            ":id": "row-6tta_k7v4_952s"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197427",
+            "featurenumber": "277982",
+            ":id": "row-f3zu_sab8.ajh6"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197427",
+            "featurenumber": "277983",
+            ":id": "row-wtm2~wt93-qjsb"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197427",
+            "featurenumber": "277984",
+            ":id": "row-8dbd_a8ut_qh7f"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-ntf9-sj8b_7p58",
+        "rawRoom": {
+          "inspectionid": "197427",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "urinalsam": "1",
+          "urinalscomm": "Stainless Steel",
+          "toiletsam": "1",
+          "toiletscomm": "Stainless Steel",
+          "sinksam": "1",
+          "sinkscomm": "Stainless Steel",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Giant Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-ntf9-sj8b_7p58"
+        }
+      },
+      {
+        "inspectionID": "197427",
+        "inspectionDate": "2026-04-07",
+        "originalInspectionTimestamp": "2026-04-07T00:00:00.000",
+        "inspectionBeginLocalTime": "11:35:00",
+        "sourceEnteredAt": "2026-04-07T16:35:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "toilets": 2,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "197427",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-ur9j.f6s6-t3uw"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197427",
+            "featurenumber": "277985",
+            ":id": "row-arvy.huff~fbt2"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197427",
+            "featurenumber": "277986",
+            ":id": "row-gk8c-79ec.365a"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197427",
+            "featurenumber": "277987",
+            ":id": "row-zbqr-ymva.yzqa"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197427",
+            "featurenumber": "277988",
+            ":id": "row-7kdm_q595_agd9"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-9twi.vyke-6bet",
+        "rawRoom": {
+          "inspectionid": "197427",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "toiletsam": "2",
+          "toiletscomm": "Stainless Steel",
+          "sinksam": "1",
+          "sinkscomm": "Stainless Steel",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Giant Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-9twi.vyke-6bet"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-n2ag~cqph-r5xc",
+    "name": "Sol Lain Playground",
+    "latitude": 40.71441,
+    "longitude": -73.984,
+    "propID": "M235",
+    "siteName": "Sol Lain Plgd",
+    "propertyName": "Sol Lain Plgd",
+    "siteSourceRowID": "row-x5vd-bs74.tkmw",
+    "globalInventoryID": "1641",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "M235",
+      "cs_id": "1641",
+      "winterized": "Yes",
+      "reason_winterized": "No heat",
+      ":id": "row-endh~bak2.hv4u"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-restroom-building-name-after-literal-Public-Restroom-suffix; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "no-exact-site-name",
+    "officialNameAliasEvidence": [
+      "exact-restroom-building-name-after-literal-Public-Restroom-suffix",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "M235-BLG1535",
+      "description": "Sol Lain Playground Public Restroom",
+      "sourceRowID": "row-j4nw~z8gp.5s42",
+      "omppropid": "M235",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-04-01",
+    "roomEvidence": [
+      {
+        "inspectionID": "197268",
+        "inspectionDate": "2026-04-01",
+        "originalInspectionTimestamp": "2026-04-01T00:00:00.000",
+        "inspectionBeginLocalTime": "10:02:00",
+        "sourceEnteredAt": "2026-04-01T13:59:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "urinals": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "197268",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-r224~dnyb-havn"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197268",
+            "featurenumber": "277708",
+            ":id": "row-umjt-t86x~4g3n"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197268",
+            "featurenumber": "277713",
+            ":id": "row-pv3d-rk3p-ssmw"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197268",
+            "featurenumber": "277714",
+            ":id": "row-dvi7~esbc~xspv"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "197268",
+            "featurenumber": "277715",
+            ":id": "row-a92y.mqzv_zd3w"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "46169",
+            "class": "Condition",
+            "number": "1",
+            "type": "Litter",
+            "extent": "1",
+            "problem": "Light",
+            "location_comments": "within restroom stall",
+            "cause": "0",
+            "feature": "277708",
+            ":id": "row-46hn.vi3p-2r63"
+          }
+        ],
+        "sourceRoomRowID": "row-uigy.y4kw~y3qb",
+        "rawRoom": {
+          "inspectionid": "197268",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "urinalsam": "1",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Tamper Proof Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-uigy.y4kw~y3qb"
+        }
+      },
+      {
+        "inspectionID": "197268",
+        "inspectionDate": "2026-04-01",
+        "originalInspectionTimestamp": "2026-04-01T00:00:00.000",
+        "inspectionBeginLocalTime": "10:02:00",
+        "sourceEnteredAt": "2026-04-01T13:59:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "197268",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-r224~dnyb-havn"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "U",
+            "inspection_id": "197268",
+            "featurenumber": "277720",
+            ":id": "row-gcqi~re39.wenj"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197268",
+            "featurenumber": "277721",
+            ":id": "row-qn2w_55cd~grgq"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197268",
+            "featurenumber": "277722",
+            ":id": "row-37kg.ifhz~cmyf"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197268",
+            "featurenumber": "277723",
+            ":id": "row-wgmg.4rfz-izku"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "46170",
+            "class": "Condition",
+            "number": "1",
+            "type": "Litter",
+            "extent": "1",
+            "problem": "Heavy",
+            "location_comments": "within women restroom overall",
+            "cause": "1",
+            "feature": "277720",
+            ":id": "row-8py7-afsb~h49g"
+          }
+        ],
+        "sourceRoomRowID": "row-32wh_5d8r.5sfp",
+        "rawRoom": {
+          "inspectionid": "197268",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "1",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Tamper Proof Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-32wh_5d8r.5sfp"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-npwk_ue48~icv7",
+    "name": "Mill Pond Playground",
+    "latitude": 40.82046,
+    "longitude": -73.9317,
+    "propID": "X344-01",
+    "siteName": "Mill Pond Playground",
+    "propertyName": "Mill Pond Park",
+    "siteSourceRowID": "row-mip4~d2yf.z8cz",
+    "globalInventoryID": "3123",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "X344-01",
+      "cs_id": "3123",
+      ":id": "row-cyvi.de29-n5ri"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-and-building-property-ID; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "outside-exact-named-site-polygon",
+    "officialNameAliasEvidence": [
+      "exact-site-name-and-building-property-ID",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "X344-01-BLG7179",
+      "description": "Mill Pond Park Playground Restroom (Hip Hop Museum)",
+      "sourceRowID": "row-gstp_qwr7~cr39",
+      "omppropid": "X344-01",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-04-20",
+    "roomEvidence": [
+      {
+        "inspectionID": "197631",
+        "inspectionDate": "2026-04-20",
+        "originalInspectionTimestamp": "2026-04-20T00:00:00.000",
+        "inspectionBeginLocalTime": "11:02:00",
+        "sourceEnteredAt": "2026-04-20T13:29:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "N",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 2,
+          "changingTables": 1,
+          "mirrors": 2,
+          "urinals": 1,
+          "toilets": 1,
+          "sinks": 2,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 2,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": "Temp",
+        "restroomOverall": [
+          {
+            "inspectionid": "197631",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "U",
+            ":id": "row-6b93_5uqi.uh3d"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "197631",
+            "featurenumber": "278476",
+            ":id": "row-yitv.cb87~xe2j"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "197631",
+            "featurenumber": "278477",
+            ":id": "row-p463-zm3g.inse"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "197631",
+            "featurenumber": "278478",
+            ":id": "row-tp9f_9vct~uzey"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "197631",
+            "featurenumber": "278479",
+            ":id": "row-5fi3_3nnf~q6cw"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-57zd.x6yf-qubq",
+        "rawRoom": {
+          "inspectionid": "197631",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "N",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "2",
+          "changingtablesam": "1",
+          "mirrorsam": "2",
+          "urinalsam": "1",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "2",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Multi Roll - Enclosed Stainless Steel",
+          "soapdispam": "2",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          "comm": "Temp",
+          ":id": "row-57zd.x6yf-qubq"
+        }
+      },
+      {
+        "inspectionID": "197631",
+        "inspectionDate": "2026-04-20",
+        "originalInspectionTimestamp": "2026-04-20T00:00:00.000",
+        "inspectionBeginLocalTime": "11:02:00",
+        "sourceEnteredAt": "2026-04-20T13:29:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 2,
+          "changingTables": 1,
+          "mirrors": 2,
+          "toilets": 3,
+          "sinks": 2,
+          "toiletPaperDispensers": 3,
+          "soapDispensers": 2,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "197631",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "U",
+            ":id": "row-6b93_5uqi.uh3d"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197631",
+            "featurenumber": "278472",
+            ":id": "row-ix8g_thbq-6u2a"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197631",
+            "featurenumber": "278473",
+            ":id": "row-96gk-s8sq_v6sc"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "U",
+            "inspection_id": "197631",
+            "featurenumber": "278474",
+            ":id": "row-8x88.y9fj.rxw5"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "197631",
+            "featurenumber": "278475",
+            ":id": "row-j7fq_zzie-xmmu"
+          }
+        ],
+        "hazards": [
+          {
+            "conditionhazard": "7445",
+            "class": "Hazard",
+            "type": "Damaged or missing safety strap on changing table",
+            "location_comments": "in Women's PR",
+            "priority": "2.0",
+            "cause": "1",
+            "feature": "278474",
+            ":id": "row-4qc8_zgpz.m6yg"
+          }
+        ],
+        "sourceRoomRowID": "row-x94w~84kx_ibqf",
+        "rawRoom": {
+          "inspectionid": "197631",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "2",
+          "changingtablesam": "1",
+          "mirrorsam": "2",
+          "toiletsam": "3",
+          "toiletscomm": "Porcelain",
+          "sinksam": "2",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "3",
+          "toiletpaperdispcomm": "Single Roll - Enclosed Stainless Steel",
+          "soapdispam": "2",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-x94w~84kx_ibqf"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-r4zk-suhn_u5md",
+    "name": "Neufeld Playground",
+    "latitude": 40.78344,
+    "longitude": -73.9848,
+    "propID": "M071-04",
+    "siteName": "Neufeld Plgd",
+    "propertyName": "Riverside Park",
+    "siteSourceRowID": "row-grhe-jq6d.r2j3",
+    "globalInventoryID": "1571",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "M071-04",
+      "cs_id": "1571",
+      ":id": "row-im93.96gb_2jm2"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "no-exact-site-name",
+    "officialNameAliasEvidence": [
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "M071-04-BLG1475",
+      "description": "Neufeld (Elephant) Playground Public Restroom",
+      "sourceRowID": "row-qt5j.kchc~jiqy",
+      "omppropid": "M071-04",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-06-03",
+    "roomEvidence": [
+      {
+        "inspectionID": "198399",
+        "inspectionDate": "2026-06-03",
+        "originalInspectionTimestamp": "2026-06-03T00:00:00.000",
+        "inspectionBeginLocalTime": "11:29:00",
+        "sourceEnteredAt": "2026-06-03T13:33:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 0,
+          "urinals": 1,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198399",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-t6rk_xdj9-se8m"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198399",
+            "featurenumber": "280170",
+            ":id": "row-ax7v-xm6x.hk8b"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198399",
+            "featurenumber": "280171",
+            ":id": "row-7bmn-ikb4.extr"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198399",
+            "featurenumber": "280172",
+            ":id": "row-5jtw.djtt.vk7h"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198399",
+            "featurenumber": "280173",
+            ":id": "row-ziya-wxnd_jcmh"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-gexs-apup-6dgu",
+        "rawRoom": {
+          "inspectionid": "198399",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "0",
+          "urinalsam": "1",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Multi Roll - Standard",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-gexs-apup-6dgu"
+        }
+      },
+      {
+        "inspectionID": "198399",
+        "inspectionDate": "2026-06-03",
+        "originalInspectionTimestamp": "2026-06-03T00:00:00.000",
+        "inspectionBeginLocalTime": "11:29:00",
+        "sourceEnteredAt": "2026-06-03T13:33:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 0,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198399",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-t6rk_xdj9-se8m"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198399",
+            "featurenumber": "280174",
+            ":id": "row-ht34_uyfw-78i8"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198399",
+            "featurenumber": "280175",
+            ":id": "row-wpyw_crm2.mf4e"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198399",
+            "featurenumber": "280176",
+            ":id": "row-vuir~im8x-27kr"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198399",
+            "featurenumber": "280177",
+            ":id": "row-5aiv-xa8t-pptk"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-d39v-fdp9-hz89",
+        "rawRoom": {
+          "inspectionid": "198399",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "0",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Multi Roll - Standard",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-d39v-fdp9-hz89"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-rmsb~pndp-ubyi",
+    "name": "Sherman Creek",
+    "latitude": 40.8578,
+    "longitude": -73.922,
+    "propID": "M300",
+    "siteName": "Sherman Creek",
+    "propertyName": "Sherman Creek",
+    "siteSourceRowID": "row-p6f5_3qih~7swg",
+    "globalInventoryID": "1654",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "M300",
+      "cs_id": "1654",
+      ":id": "row-kd2w-ds5u_aimf"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-and-building-property-ID; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "outside-exact-named-site-polygon",
+    "officialNameAliasEvidence": [
+      "exact-site-name-and-building-property-ID",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "M300-BLG5435",
+      "description": "Sherman Creek Park Public Restroom",
+      "sourceRowID": "row-gdic.5bta-adhw",
+      "omppropid": "M300",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-05-13",
+    "roomEvidence": [
+      {
+        "inspectionID": "198056",
+        "inspectionDate": "2026-05-13",
+        "originalInspectionTimestamp": "2026-05-13T00:00:00.000",
+        "inspectionBeginLocalTime": "09:05:00",
+        "sourceEnteredAt": "2026-05-13T13:01:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 0,
+          "urinals": 0,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 1
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198056",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-f595.j7be-m8ry"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198056",
+            "featurenumber": "279296",
+            ":id": "row-ipcw-8khu-fznd"
+          },
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198056",
+            "featurenumber": "279297",
+            ":id": "row-rrr2~gn73.9y6k"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198056",
+            "featurenumber": "279298",
+            ":id": "row-qwmd.chr5.uirg"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198056",
+            "featurenumber": "279299",
+            ":id": "row-mwjm-yxmj~um5h"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-e775-8cv4~qjav",
+        "rawRoom": {
+          "inspectionid": "198056",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "0",
+          "urinalsam": "0",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Multi Roll - Standard",
+          "soapdispam": "1",
+          "soapdispcomm": "Other",
+          "papertoweldispam": "1",
+          "papertoweldispcomm": "Other",
+          ":id": "row-e775-8cv4~qjav"
+        }
+      },
+      {
+        "inspectionID": "198056",
+        "inspectionDate": "2026-05-13",
+        "originalInspectionTimestamp": "2026-05-13T00:00:00.000",
+        "inspectionBeginLocalTime": "09:05:00",
+        "sourceEnteredAt": "2026-05-13T13:01:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "N",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {},
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198056",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-f595.j7be-m8ry"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198056",
+            "featurenumber": "279676",
+            ":id": "row-zha8~5cpm~f4cg"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198056",
+            "featurenumber": "279677",
+            ":id": "row-23fp-hgeh-2kxu"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198056",
+            "featurenumber": "279678",
+            ":id": "row-nmdx.8auu.kb6f"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198056",
+            "featurenumber": "279679",
+            ":id": "row-k4mj~u6xt-t6ic"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-2ej4.gz75-x2s9",
+        "rawRoom": {
+          "inspectionid": "198056",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "N",
+          "isclosed": "0",
+          "isofficially": "0",
+          ":id": "row-2ej4.gz75-x2s9"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-xi2k_ukqw~6745",
+    "name": "Fort Tryon Park Zone 1",
+    "latitude": 40.86077,
+    "longitude": -73.9328,
+    "propID": "M029-ZN01",
+    "siteName": "Fort Tryon Park Zone 1",
+    "propertyName": "Fort Tryon Park",
+    "siteSourceRowID": "row-tyh9.82q2-5w4d",
+    "globalInventoryID": "2061",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "M029-ZN01",
+      "cs_id": "2061",
+      ":id": "row-cqc3-kd6m~irmx"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-and-building-property-ID; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "outside-exact-named-site-polygon",
+    "officialNameAliasEvidence": [
+      "exact-site-name-and-building-property-ID",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "M029-ZN01-BLG1459",
+      "description": "Fort Tryon Park Café",
+      "sourceRowID": "row-k496.3bxg~q38k",
+      "omppropid": "M029-ZN01",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-07-25",
+    "roomEvidence": [
+      {
+        "inspectionID": "199477",
+        "inspectionDate": "2026-07-25",
+        "originalInspectionTimestamp": "2026-07-25T00:00:00.000",
+        "inspectionBeginLocalTime": "08:36:00",
+        "sourceEnteredAt": "2026-07-25T11:52:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "N",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 0,
+          "mirrors": 1,
+          "urinals": 2,
+          "toilets": 1,
+          "sinks": 1,
+          "toiletPaperDispensers": 1,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "199477",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "A",
+            "cs_graffiti": "N",
+            "cs_amenities": "A",
+            "cs_structural": "N",
+            ":id": "row-3mwm_r4kn~bu9f"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199477",
+            "featurenumber": "283061",
+            ":id": "row-6iqs-muc8_jhtj"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "199477",
+            "featurenumber": "283062",
+            ":id": "row-jnic-nqrs~9ux4"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199477",
+            "featurenumber": "283063",
+            ":id": "row-dva5~4gtr~x96h"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "199477",
+            "featurenumber": "283064",
+            ":id": "row-9ux6~zf8d_9gis"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-89yu.i23k-ryik",
+        "rawRoom": {
+          "inspectionid": "199477",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "N",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "0",
+          "mirrorsam": "1",
+          "urinalsam": "2",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "1",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Stainless Steel",
+          "toiletpaperdispam": "1",
+          "toiletpaperdispcomm": "Other",
+          "soapdispam": "1",
+          "soapdispcomm": "Other",
+          "papertoweldispam": "0",
+          ":id": "row-89yu.i23k-ryik"
+        }
+      },
+      {
+        "inspectionID": "199477",
+        "inspectionDate": "2026-07-25",
+        "originalInspectionTimestamp": "2026-07-25T00:00:00.000",
+        "inspectionBeginLocalTime": "08:36:00",
+        "sourceEnteredAt": "2026-07-25T11:52:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "N",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 0,
+          "mirrors": 1,
+          "toilets": 2,
+          "sinks": 1,
+          "toiletPaperDispensers": 2,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "199477",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "A",
+            "cs_graffiti": "N",
+            "cs_amenities": "A",
+            "cs_structural": "N",
+            ":id": "row-3mwm_r4kn~bu9f"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199477",
+            "featurenumber": "283065",
+            ":id": "row-m8te-99za-jgbn"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "199477",
+            "featurenumber": "283066",
+            ":id": "row-gry4.s572_qdkq"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199477",
+            "featurenumber": "283067",
+            ":id": "row-jmi6_p3uc.4sd2"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "199477",
+            "featurenumber": "283068",
+            ":id": "row-fcbe_irix.5r83"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-q4iq_c87r-86u9",
+        "rawRoom": {
+          "inspectionid": "199477",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "N",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "0",
+          "mirrorsam": "1",
+          "toiletsam": "2",
+          "toiletscomm": "Porcelain",
+          "sinksam": "1",
+          "sinkscomm": "Stainless Steel",
+          "toiletpaperdispam": "2",
+          "toiletpaperdispcomm": "Other",
+          "soapdispam": "1",
+          "soapdispcomm": "Other",
+          "papertoweldispam": "0",
+          ":id": "row-q4iq_c87r-86u9"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-xn4e.bt6q.vigm",
+    "name": "Scylla Playground",
+    "latitude": 40.78372,
+    "longitude": -73.9262,
+    "propID": "M107-ZN06",
+    "siteName": "Wards Meadow",
+    "propertyName": "Wards Island Park",
+    "siteSourceRowID": "row-kxi5~i5q4.hiwi",
+    "globalInventoryID": "1601",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "M107-ZN06",
+      "cs_id": "1601",
+      ":id": "row-qzh9-6ef6-9ari"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-restroom-building-name-after-literal-Public-Restroom-suffix.",
+    "originalWithheldReason": "outside-exact-named-site-polygon",
+    "officialNameAliasEvidence": [
+      "exact-restroom-building-name-after-literal-Public-Restroom-suffix"
+    ],
+    "building": {
+      "system": "M107-01-BLG-0001",
+      "description": "Scylla Playground Public Restroom",
+      "sourceRowID": "row-szsi~pgmv.4qqr",
+      "omppropid": "M107-ZN06",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-05-30",
+    "roomEvidence": [
+      {
+        "inspectionID": "198332",
+        "inspectionDate": "2026-05-30",
+        "originalInspectionTimestamp": "2026-05-30T00:00:00.000",
+        "inspectionBeginLocalTime": "08:35:00",
+        "sourceEnteredAt": "2026-05-30T21:11:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "N",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 2,
+          "changingTables": 1,
+          "mirrors": 2,
+          "urinals": 1,
+          "toilets": 2,
+          "sinks": 2,
+          "toiletPaperDispensers": 4,
+          "soapDispensers": 2,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198332",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "A",
+            "cs_graffiti": "N",
+            "cs_amenities": "A",
+            "cs_structural": "N",
+            ":id": "row-zs4r-nrjj.w644"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198332",
+            "featurenumber": "279970",
+            ":id": "row-zhhx.mg6a-bxhv"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "198332",
+            "featurenumber": "279971",
+            ":id": "row-d3gm.nh2c-9qph"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "198332",
+            "featurenumber": "279972",
+            ":id": "row-w8t7.fvnw.8mqh"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "N",
+            "inspection_id": "198332",
+            "featurenumber": "279973",
+            ":id": "row-959p~ikam.siq4"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-tz5v~zv6q-y9xw",
+        "rawRoom": {
+          "inspectionid": "198332",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "N",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "2",
+          "changingtablesam": "1",
+          "mirrorsam": "2",
+          "urinalsam": "1",
+          "urinalscomm": "Stainless Steel",
+          "toiletsam": "2",
+          "toiletscomm": "Stainless Steel",
+          "sinksam": "2",
+          "sinkscomm": "Stainless Steel",
+          "toiletpaperdispam": "4",
+          "toiletpaperdispcomm": "Multi Roll - Enclosed Stainless Steel",
+          "soapdispam": "2",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-tz5v~zv6q-y9xw"
+        }
+      },
+      {
+        "inspectionID": "198332",
+        "inspectionDate": "2026-05-30",
+        "originalInspectionTimestamp": "2026-05-30T00:00:00.000",
+        "inspectionBeginLocalTime": "08:35:00",
+        "sourceEnteredAt": "2026-05-30T21:11:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "N",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 2,
+          "changingTables": 1,
+          "mirrors": 3,
+          "toilets": 4,
+          "sinks": 3,
+          "toiletPaperDispensers": 8,
+          "soapDispensers": 3,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "198332",
+            "csnumber": "1",
+            "cs_overall_condition": "N",
+            "cs_litter": "A",
+            "cs_graffiti": "N",
+            "cs_amenities": "A",
+            "cs_structural": "N",
+            ":id": "row-zs4r-nrjj.w644"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198332",
+            "featurenumber": "279974",
+            ":id": "row-7bd8_5569.5bbv"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "198332",
+            "featurenumber": "279975",
+            ":id": "row-geu3~nusu~66wm"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198332",
+            "featurenumber": "279976",
+            ":id": "row-piht~2mq3_nt3x"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "N",
+            "inspection_id": "198332",
+            "featurenumber": "279977",
+            ":id": "row-7986~ywjz-dcvb"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-ntuj.m9t2~8eri",
+        "rawRoom": {
+          "inspectionid": "198332",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "N",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "2",
+          "changingtablesam": "1",
+          "mirrorsam": "3",
+          "toiletsam": "4",
+          "toiletscomm": "Stainless Steel",
+          "sinksam": "3",
+          "sinkscomm": "Stainless Steel",
+          "toiletpaperdispam": "8",
+          "toiletpaperdispcomm": "Multi Roll - Enclosed Stainless Steel",
+          "soapdispam": "3",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-ntuj.m9t2~8eri"
+        }
+      }
+    ]
+  },
+  {
+    "placeID": "i7jb-7jku:row-zp37.gyui_j4aq",
+    "name": "McCarren Park Zone 1",
+    "latitude": 40.72077,
+    "longitude": -73.9501,
+    "propID": "B058-ZN01",
+    "siteName": "McCarren Park Zone 1",
+    "propertyName": "McCarren Park",
+    "siteSourceRowID": "row-7n23~qmkk_8v2f",
+    "globalInventoryID": "1361",
+    "localPRNumber": "1",
+    "inventoryRow": {
+      "prop_id": "B058-ZN01",
+      "cs_id": "1361",
+      ":id": "row-dvt4_r7b9~izh7"
+    },
+    "identityEvidence": "Map point inside exactly one active NYC Parks public-restroom building footprint; one inventory restroom and one active public-restroom building for its exact OMP property; one current NYC Parks point inside the building; one latest local PRNumber. Name evidence: exact-site-name-and-building-property-ID; exact-site-name-with-only-Plgd-Playground-expansion.",
+    "originalWithheldReason": "outside-exact-named-site-polygon",
+    "officialNameAliasEvidence": [
+      "exact-site-name-and-building-property-ID",
+      "exact-site-name-with-only-Plgd-Playground-expansion"
+    ],
+    "building": {
+      "system": "B058-ZN01-BLG0983",
+      "description": "McCarren Park Play Center Public Restroom",
+      "sourceRowID": "row-ifm8_vydt-4iyi",
+      "omppropid": "B058-ZN01",
+      "publicRestroom": true,
+      "featurestatus": "Active",
+      "pointInsideFootprint": true,
+      "sourceURL": "https://data.cityofnewyork.us/dataset/NYC-Parks-Structures/n8q6-i44s"
+    },
+    "latestInspectionDate": "2026-07-23",
+    "roomEvidence": [
+      {
+        "inspectionID": "199437",
+        "inspectionDate": "2026-07-23",
+        "originalInspectionTimestamp": "2026-07-23T00:00:00.000",
+        "inspectionBeginLocalTime": "10:10:00",
+        "sourceEnteredAt": "2026-07-23T14:04:00.000",
+        "localPRNumber": "1",
+        "room": "M1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 1,
+          "changingTables": 1,
+          "mirrors": 2,
+          "urinals": 2,
+          "toilets": 3,
+          "sinks": 2,
+          "toiletPaperDispensers": 3,
+          "soapDispensers": 1,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": "some stalls not rated due to prolonged usage.",
+        "restroomOverall": [
+          {
+            "inspectionid": "199437",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-3d9v.utvv-zw7f"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199437",
+            "featurenumber": "282933",
+            ":id": "row-44du-ise7.n8x4"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199437",
+            "featurenumber": "282934",
+            ":id": "row-s2xk.9y8m_483u"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199437",
+            "featurenumber": "282935",
+            ":id": "row-hpz6_v6f2~ec4m"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "M1",
+            "rating": "A",
+            "inspection_id": "199437",
+            "featurenumber": "282936",
+            ":id": "row-cupd.86id_x5vm"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-j3yx.u3wt-whw2",
+        "rawRoom": {
+          "inspectionid": "199437",
+          "csnumber": "1",
+          "mw": "M1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "1",
+          "changingtablesam": "1",
+          "mirrorsam": "2",
+          "urinalsam": "2",
+          "urinalscomm": "Porcelain",
+          "toiletsam": "3",
+          "toiletscomm": "Porcelain",
+          "sinksam": "2",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "3",
+          "toiletpaperdispcomm": "Multi Roll - Enclosed Stainless Steel",
+          "soapdispam": "1",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          "comm": "some stalls not rated due to prolonged usage.",
+          ":id": "row-j3yx.u3wt-whw2"
+        }
+      },
+      {
+        "inspectionID": "199437",
+        "inspectionDate": "2026-07-23",
+        "originalInspectionTimestamp": "2026-07-23T00:00:00.000",
+        "inspectionBeginLocalTime": "10:10:00",
+        "sourceEnteredAt": "2026-07-23T14:04:00.000",
+        "localPRNumber": "1",
+        "room": "W1",
+        "overallConditionCode": "A",
+        "closedAtInspection": false,
+        "officialClosureAtInspection": false,
+        "fixtureCountsAtInspection": {
+          "handDryers": 2,
+          "changingTables": 1,
+          "mirrors": 2,
+          "toilets": 5,
+          "sinks": 3,
+          "toiletPaperDispensers": 5,
+          "soapDispensers": 2,
+          "paperTowelDispensers": 0
+        },
+        "roomComment": null,
+        "restroomOverall": [
+          {
+            "inspectionid": "199437",
+            "csnumber": "1",
+            "cs_overall_condition": "A",
+            "cs_litter": "A",
+            "cs_graffiti": "A",
+            "cs_amenities": "A",
+            "cs_structural": "A",
+            ":id": "row-3d9v.utvv-zw7f"
+          }
+        ],
+        "features": [
+          {
+            "feature_1": "Litter",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199437",
+            "featurenumber": "282937",
+            ":id": "row-x67j.y7te_aah7"
+          },
+          {
+            "feature_1": "Amenities",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199437",
+            "featurenumber": "282938",
+            ":id": "row-dr3f_69n6_ejg8"
+          },
+          {
+            "feature_1": "Structural",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199437",
+            "featurenumber": "282939",
+            ":id": "row-rjed_idr4.we54"
+          },
+          {
+            "feature_1": "Graffiti",
+            "featuremw": "W1",
+            "rating": "A",
+            "inspection_id": "199437",
+            "featurenumber": "282940",
+            ":id": "row-48va.bksc.emqm"
+          }
+        ],
+        "hazards": [],
+        "sourceRoomRowID": "row-fbm5-rdiu.q2n3",
+        "rawRoom": {
+          "inspectionid": "199437",
+          "csnumber": "1",
+          "mw": "W1",
+          "ovcond": "A",
+          "isclosed": "0",
+          "isofficially": "0",
+          "handdryersam": "2",
+          "changingtablesam": "1",
+          "mirrorsam": "2",
+          "toiletsam": "5",
+          "toiletscomm": "Porcelain",
+          "sinksam": "3",
+          "sinkscomm": "Porcelain",
+          "toiletpaperdispam": "5",
+          "toiletpaperdispcomm": "Multi Roll - Enclosed Stainless Steel",
+          "soapdispam": "2",
+          "soapdispcomm": "Stainless Steel",
+          "papertoweldispam": "0",
+          ":id": "row-fbm5-rdiu.q2n3"
+        }
+      }
+    ]
+  }
+]

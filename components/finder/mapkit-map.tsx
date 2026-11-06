@@ -217,7 +217,10 @@ export default function MapKitMap({ places, selectedID, onSelect, userLocation, 
   useEffect(() => {
     if (ready && map.current && userLocation && locationRequestID > 0) {
       initialFit.current = true;
-      map.current.setCenterAnimated(userLocation, false);
+      map.current.setRegionAnimated({
+        center: userLocation,
+        span: { latitudeDelta: 0.012, longitudeDelta: 0.012 },
+      }, false);
     }
   }, [ready, userLocation, locationRequestID]);
 

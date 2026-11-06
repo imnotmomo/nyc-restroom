@@ -102,3 +102,10 @@ npx -y firebase-tools@latest deploy --only firestore:rules --project nye-restroo
 ```
 
 This machine's pre-existing Firebase config directory is owned by root. Setup used the private, ignored `.firebase-agent/config` directory via `XDG_CONFIG_HOME` without changing the original directory. Repeat CLI operations with that variable when using this login. Never commit the directory, CLI debug logs, session tokens, or account exports.
+
+
+## Public structured visit observations
+
+The real finder reads up to10 recent observations from `restroomVisitReports/{placeID}/reports/{reportID}`, ordered by actual observation time. Public fields are exact structured enums plus location ID, observation and server submission timestamps. Non-anonymous accounts create a report atomically with `users/{uid}/restroomReadyVisitReceipts/{reportID}`. Receipts contain only place ID and submission time, are privately GET-readable by their owner and cannot be listed. Both records must be absent before creation. Only the existing receipt owner can remove the report, atomically deleting both records; updates and adopting somebody else's report are denied. A known existing rating summary binds the place ID. Public reports contain no identity, free text, code value or coordinates. SDK retries confirm identical prior saves/deletes and reject changed drafts.
+
+The October21 review passed400 complete Firebase rules/SDK cases plus one added deletion-recovery regression, and13 independently executed actual Auth/SDK scenarios. UI checks used only demo project emulators. See [actual-app readiness](features/mvp-demo-readiness.md).

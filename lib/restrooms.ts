@@ -1,4 +1,5 @@
 import dataset from "@/data/nyc-restrooms/restrooms.json";
+import type { RestroomAccessDetails } from "@/lib/restroom-access-details-model";
 
 export type Coordinates = { latitude: number; longitude: number };
 
@@ -25,6 +26,7 @@ export interface Restroom extends Coordinates {
   stairsToRestroom: string | null;
   cleanliness: string | null;
   observationDate: string | null;
+  accessDetails?: RestroomAccessDetails;
   communitySource?: {
     submittedAt: string;
     observedOn: string | null;

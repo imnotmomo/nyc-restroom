@@ -1,0 +1,30 @@
+.section { min-width: 0; padding: 24px; border-bottom: 1px solid var(--line); color: var(--ink); background: var(--surface); }
+.inline { min-width: 0; margin-top: 20px; color: var(--ink); }
+.heading { display: flex; align-items: center; gap: 9px; font: 600 .8125rem/1.5 var(--mono); letter-spacing: -.025em; }
+.heading svg { flex-shrink: 0; color: var(--blue); }
+.status { margin-top: 12px; color: var(--muted); font-size: .75rem; line-height: 1.7; }
+.comments { display: grid; gap: 16px; margin-top: 16px; }
+.comment { min-width: 0; border: 1px solid var(--line); border-left: 3px solid var(--blue); }
+.commentHeader { padding: 14px; border-bottom: 1px solid var(--line); background: var(--paper); }
+.kind { padding: 1px 5px; border: 1px solid var(--line); color: var(--muted); font: .625rem/1.6 var(--mono); }
+.author { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; font-size: .8125rem; font-weight: 600; line-height: 1.6; }
+.sourceDate { margin-top: 6px; color: var(--muted); font-size: .6875rem; line-height: 1.7; overflow-wrap: anywhere; }
+.text { margin: 0; padding: 16px 14px; font-size: .875rem; line-height: 1.75; white-space: pre-line; overflow-wrap: anywhere; }
+.dates { margin: 0 0 12px; border-top: 1px solid var(--line); }
+.dates > div { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.25fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font-size: .6875rem; line-height: 1.7; }
+.dates dt { color: var(--muted); }
+.dates dd { margin: 0; overflow-wrap: anywhere; }
+.reportStatus { margin: 0 14px 12px; color: var(--muted); font-size: .6875rem; line-height: 1.7; }
+.sourceDetails { padding: 0 14px; border-top: 1px dashed var(--line); color: var(--muted); font-size: .75rem; line-height: 1.7; }
+.sourceDetails summary { min-height: 44px; padding: 12px 0; cursor: pointer; font-weight: 600; }
+.sourceDetails p { margin: 0 0 12px; overflow-wrap: anywhere; }
+.sourceLink { display: inline-flex; align-items: flex-start; gap: 6px; margin-bottom: 12px; color: var(--blue); text-underline-offset: 3px; overflow-wrap: anywhere; }
+.sourceLink svg { flex-shrink: 0; margin-top: 3px; }
+.sourceTitle { overflow-wrap: anywhere; }
+.error { margin-top: 12px; font-size: .75rem; line-height: 1.7; }
+.error p { color: var(--error, #b8352b); }
+.error button { min-height: 44px; margin-top: 8px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 2px; color: var(--ink); background: var(--surface); font: 600 .75rem/1.5 var(--mono); cursor: pointer; }
+.error button:focus-visible, .sourceDetails summary:focus-visible, .sourceLink:focus-visible { outline: 3px solid var(--blue); outline-offset: 3px; }
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+@media (max-width: 650px) { .section { padding-inline: 20px; } .heading { font-size: .875rem; } .dates > div { font-size: .75rem; } }
+@media (max-width: 380px) { .dates > div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }

@@ -55,6 +55,9 @@ function fieldErrors(draft: Draft): FieldErrors {
   if (!draft.latitude.trim() || !Number.isFinite(latitude) || latitude < COMMUNITY_RESTROOM_BOUNDS.south || latitude > COMMUNITY_RESTROOM_BOUNDS.north) errors.latitude = `Use a latitude from ${COMMUNITY_RESTROOM_BOUNDS.south} to ${COMMUNITY_RESTROOM_BOUNDS.north}.`;
   if (!draft.longitude.trim() || !Number.isFinite(longitude) || longitude < COMMUNITY_RESTROOM_BOUNDS.west || longitude > COMMUNITY_RESTROOM_BOUNDS.east) errors.longitude = `Use a longitude from ${COMMUNITY_RESTROOM_BOUNDS.west} to ${COMMUNITY_RESTROOM_BOUNDS.east}.`;
   if (draft.notes.trim().length > 1000) errors.notes = "Keep the notes to 1,000 characters or fewer.";
+  for (const field of ["name", "address", "notes"] as const) {
+    if (/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/.test(draft[field])) errors[field] = "Remove unsupported control characters before submitting.";
+  }
   if (draft.passcodeRequired === "yes" && draft.code.trim()
     && (draft.code.trim().length > MAX_PASSCODE_LENGTH || !/^[\x20-\x7e]+$/.test(draft.code.trim()))) {
     errors.code = `Use up to ${MAX_PASSCODE_LENGTH} standard letters, numbers, or symbols, or leave the code blank.`;
@@ -76,6 +79,7 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
   const [errors, setErrors] = useState<FieldErrors>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [localSaving, setLocalSaving] = useState(false);
+  const [hasSubmittedDraft, setHasSubmittedDraft] = useState(false);
   const [addressBusy, setAddressBusy] = useState(false);
   const [locationRevision, setLocationRevision] = useState(0);
   const [selectedAddress, setSelectedAddress] = useState<{ uid: string | null; label: string } | null>(null);
@@ -86,6 +90,7 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
   currentUID.current = uid;
   const busy = saving || localSaving;
   const locked = !uid || accountLoading || authBusy || busy;
+  const fieldsLocked = locked || hasSubmittedDraft;
   const updateAddressBusy = useCallback((value: boolean) => setAddressBusy(value), []);
 
   useEffect(() => {
@@ -100,13 +105,14 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
   useEffect(() => {
     setDraftState({ uid, values: emptyDraft() });
     setErrors({}); setFormError(null);
-    setLocalSaving(false); setAddressBusy(false); setSelectedAddress(null);
+    setLocalSaving(false); setHasSubmittedDraft(false); setAddressBusy(false); setSelectedAddress(null);
     setPinSource("manual");
     setLocationRevision((value) => value + 1);
     requestID.current = null; inFlight.current = null;
   }, [uid]);
 
   function change<Field extends keyof Draft>(field: Field, value: Draft[Field]) {
+    if (fieldsLocked) return;
     if (field === "address" || field === "latitude" || field === "longitude") {
       setLocationRevision((revision) => revision + 1);
       setAddressBusy(false);
@@ -123,7 +129,7 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
   }
 
   function selectAddress(suggestion: AddressSuggestion) {
-    if (locked || !uid) return;
+    if (fieldsLocked || !uid) return;
     setDraftState((previous) => ({ uid, values: {
       ...(previous.uid === uid ? previous.values : emptyDraft()),
       address: suggestion.label, latitude: String(suggestion.latitude), longitude: String(suggestion.longitude),
@@ -151,6 +157,7 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
     setLocalSaving(true);
     try {
       requestID.current ??= newCommunityRestroomID();
+      setHasSubmittedDraft(true);
       const confirmed = await onSubmit({
         name: draft.name.trim(), address: draft.address.trim(), latitude: Number(draft.latitude), longitude: Number(draft.longitude),
         locationType: draft.locationType, entryRule: draft.entryRule, stepFreeAccess: draft.stepFreeAccess,
@@ -161,6 +168,7 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
       if (currentUID.current !== owner || inFlight.current !== operation) return;
       if (confirmed) {
         requestID.current = null;
+        setHasSubmittedDraft(false);
         setDraftState({ uid: owner, values: emptyDraft() });
         setErrors({});
       } else {
@@ -191,29 +199,29 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
 
   return <dialog ref={dialog} className="finder-log-dialog" tabIndex={-1} aria-labelledby={`${id}-title`} aria-describedby={`${id}-intro`} onKeyDown={keepFocus} onCancel={(event) => { event.preventDefault(); if (!busy) onClose(); }}>
     <header className="finder-log-heading">
-      <div><span className="finder-overline">Add to the city map</span><h2 id={`${id}-title`}><MapPin size={22} aria-hidden="true" />Log a restroom</h2></div>
+      <div><span className="finder-overline">Share a new location</span><h2 id={`${id}-title`}><MapPin size={22} aria-hidden="true" />Log a restroom</h2></div>
       <button type="button" className="finder-log-close" aria-label="Close log restroom form" onClick={onClose} disabled={busy} autoFocus><X size={20} aria-hidden="true" /></button>
     </header>
     <div className="finder-log-body">
-      <p className="finder-log-intro" id={`${id}-intro`}>Share a location you know. It will appear as a community listing, separate from NYC’s published data.</p>
-      <p className="finder-log-public" id={`${id}-public`}>Name, address, chosen coordinates, entry notes, and whether a code is required will be public. A code has its own visibility choice below. Keep passcodes and personal/contact information out of public notes.</p>
+      <p className="finder-log-intro" id={`${id}-intro`}>Share a location you know. A moderator will review your request before it appears on the map.</p>
+      <p className="finder-log-public" id={`${id}-public`}>Name, address, chosen coordinates, entry notes, and whether a code is required become public after approval. A code has its own visibility choice below. Keep passcodes and personal/contact information out of public notes.</p>
       {authError && <p className="finder-form-error" role="alert">{authError}</p>}
       {!uid ? <div className="finder-log-sign-in"><p>Sign in to add a location. Everyone can browse the map.</p><button type="button" className="finder-primary-button" disabled={accountLoading || authBusy} onClick={onSignIn}>{accountLoading || authBusy ? "Connecting account…" : "Sign in with Google to log a restroom"}<ArrowUpRight size={17} aria-hidden="true" /></button></div> : <form ref={form} className="finder-log-form" onSubmit={(event) => void submit(event)} noValidate>
-        <fieldset disabled={locked}>
+        <fieldset disabled={fieldsLocked}>
           <legend className="finder-sr-only">Restroom details</legend>
           <div className="finder-log-field"><label htmlFor={`${id}-name`}>Restroom or venue name <span>Required</span></label><input id={`${id}-name`} name="name" autoComplete="off" maxLength={120} required value={draft.name} aria-invalid={!!errors.name} aria-describedby={errors.name ? `${id}-name-error` : undefined} onChange={(event) => change("name", event.target.value)} />{error("name")}</div>
-          <AddressPicker key={`${uid}:${locationRevision}`} uid={uid} disabled={locked} onSelect={selectAddress} onBusyChange={updateAddressBusy} />
+          <AddressPicker key={`${uid}:${locationRevision}`} uid={uid} disabled={fieldsLocked} onSelect={selectAddress} onBusyChange={updateAddressBusy} />
           <div className="finder-log-selected-location">
             <p className="finder-log-selected-label">{selectedAddress?.uid === uid ? "Selected location" : "Public address and pin"}</p>
-            <div className="finder-log-field"><label htmlFor={`${id}-address`}>Street address or park location <span>Required</span></label><input id={`${id}-address`} name="address" autoComplete="off" maxLength={240} required value={draft.address} aria-invalid={!!errors.address} aria-describedby={`${id}-address-help${errors.address ? ` ${id}-address-error` : ""}`} onChange={(event) => change("address", event.target.value)} /><p className="finder-log-help" id={`${id}-address-help`}>Choose a suggestion above or enter the address manually. You can correct it here. Check that the pin matches the restroom’s location before posting.</p>{error("address")}</div>
+            <div className="finder-log-field"><label htmlFor={`${id}-address`}>Street address or park location <span>Required</span></label><input id={`${id}-address`} name="address" autoComplete="off" maxLength={240} required value={draft.address} aria-invalid={!!errors.address} aria-describedby={`${id}-address-help${errors.address ? ` ${id}-address-error` : ""}`} onChange={(event) => change("address", event.target.value)} /><p className="finder-log-help" id={`${id}-address-help`}>Choose a suggestion above or enter the address manually. You can correct it here. Check that the pin matches the restroom’s location before submitting.</p>{error("address")}</div>
             {draft.latitude.trim() && draft.longitude.trim() && <p className="finder-log-pin-summary"><MapPin size={14} aria-hidden="true" />Pin: {draft.latitude}, {draft.longitude}{pinSource === "suggestion" ? " · chosen address pin" : " · manual pin"}</p>}
           </div>
           <details className="finder-log-manual-location" ref={manualCoordinates}>
             <summary>Enter or adjust coordinates manually</summary>
             <p className="finder-log-help" id={`${id}-location-help`}>Use the restroom’s location, not where you are now unless you’re there. Coordinates must fall within the approximate NYC area. Search or location access is optional if you enter a valid address and pin yourself.</p>
           <div className="finder-log-coordinate-grid">
-            <div className="finder-log-field"><label htmlFor={`${id}-latitude`}>Latitude <span>Required</span></label><input id={`${id}-latitude`} name="latitude" type="number" inputMode="decimal" step="any" min={COMMUNITY_RESTROOM_BOUNDS.south} max={COMMUNITY_RESTROOM_BOUNDS.north} required value={draft.latitude} disabled={locked} aria-invalid={!!errors.latitude} aria-describedby={`${id}-location-help${errors.latitude ? ` ${id}-latitude-error` : ""}`} onChange={(event) => change("latitude", event.target.value)} />{error("latitude")}</div>
-            <div className="finder-log-field"><label htmlFor={`${id}-longitude`}>Longitude <span>Required</span></label><input id={`${id}-longitude`} name="longitude" type="number" inputMode="decimal" step="any" min={COMMUNITY_RESTROOM_BOUNDS.west} max={COMMUNITY_RESTROOM_BOUNDS.east} required value={draft.longitude} disabled={locked} aria-invalid={!!errors.longitude} aria-describedby={`${id}-location-help${errors.longitude ? ` ${id}-longitude-error` : ""}`} onChange={(event) => change("longitude", event.target.value)} />{error("longitude")}</div>
+            <div className="finder-log-field"><label htmlFor={`${id}-latitude`}>Latitude <span>Required</span></label><input id={`${id}-latitude`} name="latitude" type="number" inputMode="decimal" step="any" min={COMMUNITY_RESTROOM_BOUNDS.south} max={COMMUNITY_RESTROOM_BOUNDS.north} required value={draft.latitude} disabled={fieldsLocked} aria-invalid={!!errors.latitude} aria-describedby={`${id}-location-help${errors.latitude ? ` ${id}-latitude-error` : ""}`} onChange={(event) => change("latitude", event.target.value)} />{error("latitude")}</div>
+            <div className="finder-log-field"><label htmlFor={`${id}-longitude`}>Longitude <span>Required</span></label><input id={`${id}-longitude`} name="longitude" type="number" inputMode="decimal" step="any" min={COMMUNITY_RESTROOM_BOUNDS.west} max={COMMUNITY_RESTROOM_BOUNDS.east} required value={draft.longitude} disabled={fieldsLocked} aria-invalid={!!errors.longitude} aria-describedby={`${id}-location-help${errors.longitude ? ` ${id}-longitude-error` : ""}`} onChange={(event) => change("longitude", event.target.value)} />{error("longitude")}</div>
           </div>
           </details>
 
@@ -222,14 +230,15 @@ export function LogRestroomForm({ uid, accountLoading, authBusy = false, saving 
           <div className="finder-log-field"><label htmlFor={`${id}-code-required`}>Does the restroom require a code?</label><select id={`${id}-code-required`} name="passcodeRequired" value={draft.passcodeRequired} aria-describedby={`${id}-code-required-help`} onChange={(event) => change("passcodeRequired", event.target.value as Draft["passcodeRequired"])}><option value="unknown">Not reported</option><option value="yes">Yes — code required</option><option value="no">No code required</option></select><p className="finder-log-help" id={`${id}-code-required-help`}>A code requirement is separate from permission to enter. Leave it unreported if you don’t know.</p></div>
           {draft.passcodeRequired === "yes" && <div className="finder-log-passcode">
             <div className="finder-log-field"><label htmlFor={`${id}-code`}>Restroom code <span>Optional</span></label><input id={`${id}-code`} name="code" type="text" value={draft.code} maxLength={MAX_PASSCODE_LENGTH} autoComplete="off" autoCapitalize="off" spellCheck={false} aria-invalid={!!errors.code} aria-describedby={`${id}-code-help${errors.code ? ` ${id}-code-error` : ""}`} onChange={(event) => change("code", event.target.value)} /><p className="finder-log-help" id={`${id}-code-help`}>Save a code you know, or leave it blank. Keep codes in this field rather than public notes.</p>{error("code")}</div>
-            {draft.code.trim() && <><PasscodeVisibilityChoices id={`${id}-code-visibility`} value={draft.codeVisibility} onChange={(visibility) => change("codeVisibility", visibility)} disabled={locked} /><p className="finder-passcode-save-note">{draft.codeVisibility === "private" ? "Only me: the code is saved privately to your account, and this place is automatically added to Saved." : "Everyone: the code is published for anyone to read."} You can edit the code or change visibility later. Saving does not mark it as verified.</p></>}
+            {draft.code.trim() && <><PasscodeVisibilityChoices id={`${id}-code-visibility`} value={draft.codeVisibility} onChange={(visibility) => change("codeVisibility", visibility)} disabled={fieldsLocked} /><p className="finder-passcode-save-note">{draft.codeVisibility === "private" ? "After approval, Only me keeps the code private and adds the place to Saved." : "After approval, Everyone publishes the code for anyone to read."} You can change code visibility after approval. Submission does not mark it as verified.</p></>}
           </div>}
           <div className="finder-log-field"><label htmlFor={`${id}-step-free`}>Step-free route to restroom</label><select id={`${id}-step-free`} name="stepFreeAccess" value={draft.stepFreeAccess} aria-describedby={`${id}-step-free-help`} onChange={(event) => change("stepFreeAccess", event.target.value as Draft["stepFreeAccess"])}><option value="unknown">Not reported</option><option value="yes">Yes — a step-free route was observed</option><option value="no">No — route is not step-free</option></select><p className="finder-log-help" id={`${id}-step-free-help`}>From the street entrance all the way to the restroom. An entrance alone does not establish the route or certify an accessible stall.</p></div>
           <div className="finder-log-field"><label htmlFor={`${id}-observed`}>When you observed these details <span>Optional</span></label><input id={`${id}-observed`} name="observedOn" type="date" min="2000-01-01" max={todayInNYC()} value={draft.observedOn} aria-invalid={!!errors.observedOn} aria-describedby={`${id}-observed-help${errors.observedOn ? ` ${id}-observedOn-error` : ""}`} onChange={(event) => change("observedOn", event.target.value)} /><p className="finder-log-help" id={`${id}-observed-help`}>Leave blank if you don’t know. Your submission date is recorded separately.</p>{error("observedOn")}</div>
           <div className="finder-log-field"><label htmlFor={`${id}-notes`}>Entry and route notes <span>Optional</span></label><textarea id={`${id}-notes`} name="notes" rows={3} maxLength={1000} value={draft.notes} aria-invalid={!!errors.notes} aria-describedby={`${id}-notes-help${errors.notes ? ` ${id}-notes-error` : ""}`} onChange={(event) => change("notes", event.target.value)} /><p className="finder-log-help" id={`${id}-notes-help`}>Describe what you know about entry rules, fees, or reaching the restroom. No personal/contact information.</p>{error("notes")}</div>
         </fieldset>
+        {hasSubmittedDraft && !busy && <p className="finder-log-help" role="status">Your original details are kept unchanged. Retry checks the same request before submitting anything new.</p>}
         {(submitError || formError) && <p className="finder-form-error" role="alert">{submitError || formError}</p>}
-        <div className="finder-log-actions"><button type="submit" className="finder-primary-button" disabled={locked || addressBusy} aria-describedby={`${id}-public`}>{busy ? "Saving restroom…" : "Add restroom to map"}</button><button type="button" className="finder-secondary-button" onClick={onClose} disabled={busy}>Cancel</button></div>
+        <div className="finder-log-actions"><button type="submit" className="finder-primary-button" disabled={locked || addressBusy} aria-describedby={`${id}-public`}>{busy ? "Submitting request…" : hasSubmittedDraft ? "Retry same request" : "Submit request"}</button><button type="button" className="finder-secondary-button" onClick={onClose} disabled={busy}>Cancel</button></div>
       </form>}
     </div>
   </dialog>;

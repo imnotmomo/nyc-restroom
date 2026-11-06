@@ -47,7 +47,7 @@ function requireAccount(uid: string): AccountScope {
     throw new UserDataError(getFirebaseConfigurationError() ?? "Account storage isn’t connected yet. You can still browse.");
   }
   if (!uid || uid.length > 128 || uid.includes("/") || client.auth.currentUser?.uid !== uid) {
-    throw new UserDataError("Sign in to save places and private visit notes to your account.");
+    throw new UserDataError("Sign in to save places to your account.");
   }
   // The default Web SDK cache is memory-only; persistent disk caching is not enabled.
   return { uid, auth: client.auth, database: getFirestore(client.app) };
@@ -151,6 +151,21 @@ export async function readLibrary(uid: string): Promise<{ favoriteIDs: string[];
       return snapshot.id;
     });
     return { favoriteIDs, notes: notes.docs.map(decodeNote).sort((a, b) => b.observedAt.getTime() - a.observedAt.getTime()) };
+  });
+}
+
+/** The current finder no longer reads or creates the legacy private-note library. */
+export async function readSavedPlaces(uid: string): Promise<{ favoriteIDs: string[] }> {
+  return inAccount(uid, async (scope) => {
+    const saved = await getDocsFromServer(collection(scope.database, "users", uid, "restroomReadySaved"));
+    assertSameAccount(scope);
+    const favoriteIDs = saved.docs.map((snapshot) => {
+      const data = snapshot.data();
+      if (data.placeID !== snapshot.id || !validStoredPlaceID(snapshot.id)) return malformedRecord();
+      dateFromTimestamp(data.savedAt);
+      return snapshot.id;
+    });
+    return { favoriteIDs };
   });
 }
 

@@ -107,6 +107,12 @@ Use the column for the direction being built. The logo tile is always **#2B59C3*
 
 ## Type
 
+For the native iOS client, the user selected iOS system fonts on October 22, 2026, then requested an app-first interface with no branded header and less main-screen text and controls. Use Dynamic Type system fonts, full-screen MapKit, native sheets, grouped forms and standard platform icons for navigation. Brand blue belongs only to the app mark and restroom pins; buttons, ratings and navigation use neutral ink/gray. Destructive actions such as Sign out use native system red. The profile button stays directly visible beside search. Do not add an Explore NYC heading. Preserve Entry / Route inside / Condition evidence hierarchy. Web-specific heroes, rectangular button grids, monospaced page headings and bordered fact sheets do not govern native layouts. Liquid Glass belongs on floating navigation and action controls on iOS 26; use readable solid content, an older-iOS fallback and Reduce Transparency support. The web specifications below stay unchanged.
+
+For the native filter sheet, the October 23 request sets **Clear filters** to system red and **Done** to system blue. These are scoped action colors. Clean, Accessible, Public and Elevator access support simultaneous selections; there is no All option, and clearing removes every selected filter.
+
+The filter sheet has no descriptions or instruction footer. Search suggestions appear directly beneath the search field while typing; an empty successful search displays “No restroom was found” in that area without an alert. Keep rows compact with at least 44-point tap areas and room for Dynamic Type to grow.
+
 Use at most two site font families in one direction. The supplied outlined logo is a separate asset and needs no installed wordmark font. Use sentence case for headings and buttons; only short group labels may use capitals.
 
 | Role | B | E | F |
@@ -249,3 +255,7 @@ The wordmark uses **Avenir Next Demi Bold**, with lettering converted to outline
 - **F:** whether leading with the map makes the product easier to understand, and whether the listing card is easy to scan.
 
 The three directions remain available for later testing, as the guide allows. Use the specifications above for each comparison and change one variable at a time. Keep the selected R tile and the same listing facts across all versions. Record any new decision here so future pages use the same rules.
+
+## Native app icon refinement — November 5, 2026
+
+Per the requested flat refresh, the active local native app icon retains the selected R geometry with a softer **#4F70C3** background edge-to-edge and **#FFFFFF** lettering. The detailed paper-roll counter was rejected; further R refinements remain preview only. Avoid inset white frames, gradients, glow, bevels and baked-in shadows. Export the production icon as an opaque square; the rounded example is a preview. See [the refresh files](../brand/logo/flat-refresh-2026-11-05/README.md).

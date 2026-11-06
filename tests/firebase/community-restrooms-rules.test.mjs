@@ -11,19 +11,31 @@ const OFFICIAL='i7jb-7jku:row-official';
 let environment,alice,bob,signedOut,anonymous;
 const listing=(db,id=ID)=>doc(db,'communityRestrooms',id);
 const receipt=(db,id=ID)=>doc(db,'restroomSubmissions',id);
+const pending=(db,id=ID)=>doc(db,'users','alice','restroomReadySubmissionRequests',id);
 const summary=(db,id=ID)=>doc(db,'restroomRatingSummaries',id);
-const input=()=>({name:'Library bathroom',address:'1 Broadway, New York, NY',latitude:40.75,longitude:-73.98,locationType:'library',entryRule:'public',stepFreeAccess:'unknown',notes:'Ask at the desk.',observedOn:Timestamp.fromDate(new Date('2020-01-01T00:00:00Z')),submittedAt:serverTimestamp()});
+const input=()=>({name:'Library bathroom',address:'1 Broadway, New York, NY',latitude:40.75,longitude:-73.98,locationType:'library',entryRule:'public',stepFreeAccess:'unknown',passcodeRequired:'unknown',notes:'Ask at the desk.',observedOn:Timestamp.fromDate(new Date('2020-01-01T00:00:00Z')),submittedAt:serverTimestamp()});
 const receiptData=()=>({ownerUID:'alice',submittedAt:serverTimestamp()});
 const summaryData=()=>({ratingCount:0,ratingSum:0,updatedAt:serverTimestamp()});
-function submit(db,{id=ID,publicData=input(),privateData=receiptData(),ratingData=summaryData(),omit=[]}={}){
+function submit(db,{id=ID,publicData=input(),privateData=receiptData(),ratingData,omit=[]}={}){
  const batch=writeBatch(db);
- if(!omit.includes('listing'))batch.set(listing(db,id),publicData);
+ if(!omit.includes('listing'))batch.set(pending(db,id),{schemaVersion:1,status:'pending',revision:1,submittedAt:serverTimestamp(),listing:publicData,codeDraft:null});
  if(!omit.includes('receipt'))batch.set(receipt(db,id),privateData);
- if(!omit.includes('summary'))batch.set(summary(db,id),ratingData);
+ if(ratingData!==undefined)batch.set(summary(db,id),ratingData);
  return batch.commit();
 }
 
-describe('public community restroom submission rules',{concurrency:false},()=>{
+async function approveFixture(id=ID){
+ await environment.withSecurityRulesDisabled(async context=>{
+  const db=context.firestore(),before=await getDocFromServer(pending(db,id)),at=Timestamp.now();
+  const report=before.exists()?before.data().listing:{...input(),submittedAt:at};
+  const batch=writeBatch(db);batch.set(listing(db,id),report);batch.set(receipt(db,id),{ownerUID:'alice',submittedAt:report.submittedAt});
+  batch.set(summary(db,id),{ratingCount:0,ratingSum:0,updatedAt:at});
+  if(before.exists())batch.update(pending(db,id),{status:'approved',revision:2,codeDraft:null,codeFingerprint:null,reviewedAt:at,reason:''});
+  await batch.commit();
+ });
+}
+
+describe('moderated community restroom request rules',{concurrency:false},()=>{
  before(async()=>{
   const endpoint=new URL(`http://${process.env.FIRESTORE_EMULATOR_HOST??'127.0.0.1:8088'}`);setLogLevel('silent');
   environment=await initializeTestEnvironment({projectId:PROJECT_ID,firestore:{host:endpoint.hostname,port:Number(endpoint.port),rules:await readFile(new URL('../../firebase/firestore.rules',import.meta.url),'utf8')}});
@@ -34,16 +46,18 @@ describe('public community restroom submission rules',{concurrency:false},()=>{
  beforeEach(async()=>{await environment.clearFirestore();});
  after(async()=>{if(environment){try{await environment.clearFirestore();}finally{await environment.cleanup();}}});
 
- test('a signed-in account creates a public report, private receipt and empty rating summary atomically',async()=>{
+ test('a signed-in account privately submits the exact listing and reserves its ID atomically',async()=>{
   await assertSucceeds(submit(alice));
-  const report=(await assertSucceeds(getDocFromServer(listing(signedOut)))).data();
-  assert.equal(report.name,'Library bathroom');assert.ok(report.submittedAt instanceof Timestamp);assert.ok(report.observedOn instanceof Timestamp);
+  const request=(await assertSucceeds(getDocFromServer(pending(alice)))).data(),report=request.listing;
+  assert.equal(request.status,'pending');assert.equal(request.revision,1);assert.equal(report.name,'Library bathroom');
+  assert.ok(report.submittedAt instanceof Timestamp);assert.ok(report.observedOn instanceof Timestamp);
   assert.deepEqual(Object.keys(report).sort(),Object.keys(input()).sort());assert.equal(report.ownerUID,undefined);assert.equal(report.email,undefined);
   const own=(await assertSucceeds(getDocFromServer(receipt(alice)))).data();assert.equal(own.ownerUID,'alice');assert.ok(own.submittedAt.isEqual(report.submittedAt));
-  const totals=(await assertSucceeds(getDocFromServer(summary(signedOut)))).data();assert.equal(totals.ratingCount,0);assert.equal(totals.ratingSum,0);assert.ok(totals.updatedAt.isEqual(report.submittedAt));
+  assert.equal((await getDocFromServer(listing(signedOut))).exists(),false);
+  await assertFails(getDocFromServer(pending(signedOut)));
  });
- test('public feed permits ordered bounded queries and forbids unlimited or excessive reads',async()=>{
-  await submit(alice);
+ test('approved public feed permits ordered bounded queries and forbids unlimited or excessive reads',async()=>{
+  await approveFixture();
   assert.equal((await assertSucceeds(getDocsFromServer(query(collection(signedOut,'communityRestrooms'),orderBy('submittedAt','desc'),limit(1000))))).size,1);
   await assertFails(getDocsFromServer(collection(signedOut,'communityRestrooms')));
   await assertFails(getDocsFromServer(query(collection(signedOut,'communityRestrooms'),limit(1001))));
@@ -61,18 +75,18 @@ describe('public community restroom submission rules',{concurrency:false},()=>{
    await assertFails(getDocsFromServer(collectionGroup(db,'restroomSubmissions')));
   }
  });
- for(const field of ['listing','receipt','summary'])test(`create fails when paired ${field} is missing`,async()=>{await assertFails(submit(alice,{omit:[field]}));assert.equal((await getDocFromServer(listing(signedOut))).exists(),false);});
+ for(const field of ['listing','receipt'])test(`create fails when paired ${field} is missing`,async()=>{await assertFails(submit(alice,{omit:[field]}));assert.equal((await getDocFromServer(listing(signedOut))).exists(),false);});
  test('separate single writes cannot create orphan documents',async()=>{
   await assertFails(setDoc(listing(alice),input()));await assertFails(setDoc(receipt(alice),receiptData()));await assertFails(setDoc(summary(alice),summaryData()));
  });
  for(const id of [OFFICIAL,'community-too-short','community-ABCDEFGHIJKLMNOPQRS_','not-a-community-place'])test(`cannot create source or malformed ID ${id}`,async()=>{await assertFails(submit(alice,{id}));});
  test('mismatched paired IDs and another account’s owner UID are rejected',async()=>{
   await assertFails(submit(alice,{privateData:{...receiptData(),ownerUID:'bob'}}));
-  const batch=writeBatch(alice);batch.set(listing(alice),input());batch.set(receipt(alice,OTHER),receiptData());batch.set(summary(alice),summaryData());await assertFails(batch.commit());
+  const batch=writeBatch(alice);batch.set(pending(alice),{schemaVersion:1,status:'pending',revision:1,submittedAt:serverTimestamp(),listing:input(),codeDraft:null});batch.set(receipt(alice,OTHER),receiptData());await assertFails(batch.commit());
  });
- test('a repeated or edited submission cannot overwrite or delete an existing listing, receipt or summary',async()=>{
+ test('a repeated or edited request cannot overwrite private records or publish through public paths',async()=>{
   await submit(alice);await assertFails(submit(alice));await assertFails(submit(alice,{publicData:{...input(),name:'Replacement'}}));
-  for(const db of [alice,bob])for(const ref of [listing(db),receipt(db),summary(db)]){
+  for(const db of [alice,bob])for(const ref of [pending(db),listing(db),receipt(db),summary(db)]){
    await assertFails(deleteDoc(ref));await assertFails(updateDoc(ref,{isAdmin:true}));
   }
   await assertFails(updateDoc(listing(alice),{name:'Different valid name'}));
@@ -83,8 +97,8 @@ describe('public community restroom submission rules',{concurrency:false},()=>{
   await assertFails(submit(alice));await assertFails(submit(alice,{id:OFFICIAL}));
   await environment.withSecurityRulesDisabled(async context=>assert.equal((await getDocFromServer(summary(context.firestore()))).data().ratingCount,3));
  });
- test('new locations support subsequent exact paired public ratings by any signed-in account',async()=>{
-  await submit(alice);
+ test('approved locations support subsequent exact paired public ratings by any signed-in account',async()=>{
+  await submit(alice);await approveFixture();
   const batch=writeBatch(bob);batch.set(summary(bob),{ratingCount:1,ratingSum:4,updatedAt:serverTimestamp()});batch.set(doc(summary(bob),'ratings','bob'),{stars:4,updatedAt:serverTimestamp()});await assertSucceeds(batch.commit());
   const totals=(await getDocFromServer(summary(signedOut))).data();assert.equal(totals.ratingCount,1);assert.equal(totals.ratingSum,4);
   await assertFails(getDocFromServer(doc(summary(alice),'ratings','bob')));
@@ -93,7 +107,7 @@ describe('public community restroom submission rules',{concurrency:false},()=>{
   const saved=(id)=>doc(alice,'users','alice','restroomReadySaved',id);
   await assertFails(setDoc(saved(ID),{placeID:ID,savedAt:serverTimestamp()}));
   await assertSucceeds(setDoc(saved(OFFICIAL),{placeID:OFFICIAL,savedAt:serverTimestamp()}));
-  await submit(alice);await assertSucceeds(setDoc(saved(ID),{placeID:ID,savedAt:serverTimestamp()}));
+  await submit(alice);await assertFails(setDoc(saved(ID),{placeID:ID,savedAt:serverTimestamp()}));await approveFixture();await assertSucceeds(setDoc(saved(ID),{placeID:ID,savedAt:serverTimestamp()}));
   await assertFails(setDoc(saved(OTHER),{placeID:OTHER,savedAt:serverTimestamp()}));
   const note=(id)=>({placeID:id,observedAt:Timestamp.fromDate(new Date('2020-01-01T00:00:00Z')),submittedAt:serverTimestamp(),condition:'not-reported',soap:'not-reported',toiletPaper:'not-reported',stairs:'not-reported',entryNote:''});
   await assertSucceeds(setDoc(doc(alice,'users','alice','restroomReadyNotes','ABCDEFGHIJKLMNOPQRST'),note(ID)));
@@ -111,21 +125,21 @@ describe('public community restroom submission rules',{concurrency:false},()=>{
   ['observation type',()=>({...input(),observedOn:'2020-01-01'})],['observation ancient',()=>({...input(),observedOn:Timestamp.fromMillis(1)})],['observation future',()=>({...input(),observedOn:Timestamp.fromDate(new Date('2099-01-01T00:00:00Z'))})],['observation not midnight',()=>({...input(),observedOn:Timestamp.fromDate(new Date('2020-01-01T12:00:00Z'))})],
   ['submission past',()=>({...input(),submittedAt:Timestamp.fromMillis(1)})],['submission future',()=>({...input(),submittedAt:Timestamp.fromMillis(Date.now()+86_400_000)})],['submission type',()=>({...input(),submittedAt:'now'})],
  ];
- for(const[name,make]of invalidPublic)test(`public create rejects ${name}`,async()=>{await assertFails(submit(alice,{publicData:make()}));});
- for(const field of ['name','address','notes'])for(const character of ['\u0000','\u0008','\u000B','\u000C','\u000E','\u001F','\u007F'])test(`public ${field} rejects control U+${character.charCodeAt(0).toString(16)}`,async()=>{await assertFails(submit(alice,{publicData:{...input(),[field]:`Text${character}more`}}));});
- for(const field of Object.keys(input()))test(`public create requires ${field}`,async()=>{const data=input();delete data[field];await assertFails(submit(alice,{publicData:data}));});
+ for(const[name,make]of invalidPublic)test(`private pending listing rejects ${name}`,async()=>{await assertFails(submit(alice,{publicData:make()}));});
+ for(const field of ['name','address','notes'])for(const character of ['\u0000','\u0008','\u000B','\u000C','\u000E','\u001F','\u007F'])test(`private pending ${field} rejects control U+${character.charCodeAt(0).toString(16)}`,async()=>{await assertFails(submit(alice,{publicData:{...input(),[field]:`Text${character}more`}}));});
+ for(const field of Object.keys(input()))test(`private pending listing requires ${field}`,async()=>{const data=input();delete data[field];await assertFails(submit(alice,{publicData:data}));});
  const invalidPrivate=[['missing owner',()=>({submittedAt:serverTimestamp()})],['owner too long',()=>({...receiptData(),ownerUID:'x'.repeat(129)})],['owner other account',()=>({...receiptData(),ownerUID:'bob'})],['owner wrong type',()=>({...receiptData(),ownerUID:5})],['identity pollution',()=>({...receiptData(),email:'a@example.test'})],['private privilege',()=>({...receiptData(),isAdmin:true})],['missing timestamp',()=>({ownerUID:'alice'})],['timestamp past',()=>({...receiptData(),submittedAt:Timestamp.fromMillis(1)})]];
  for(const[name,make]of invalidPrivate)test(`private receipt rejects ${name}`,async()=>{await assertFails(submit(alice,{privateData:make()}));});
- for(const[name,make]of [['nonzero count',()=>({...summaryData(),ratingCount:1,ratingSum:4})],['extra field',()=>({...summaryData(),email:'a@example.test'})],['past time',()=>({...summaryData(),updatedAt:Timestamp.fromMillis(1)})],['missing sum',()=>({ratingCount:0,updatedAt:serverTimestamp()})]])test(`initial summary rejects ${name}`,async()=>{await assertFails(submit(alice,{ratingData:make()}));});
+ for(const[name,make]of [['nonzero count',()=>({...summaryData(),ratingCount:1,ratingSum:4})],['extra field',()=>({...summaryData(),email:'a@example.test'})],['past time',()=>({...summaryData(),updatedAt:Timestamp.fromMillis(1)})],['missing sum',()=>({ratingCount:0,updatedAt:serverTimestamp()})]])test(`pending request cannot also initialize public rating parent (${name})`,async()=>{await assertFails(submit(alice,{ratingData:make()}));});
  for(const whitespace of ['\u00a0','\u1680','\u2000','\u2028','\u2029','\u202f','\u205f','\u3000','\ufeff'])test(`whitespace-only public name rejected U+${whitespace.charCodeAt(0).toString(16)}`,async()=>{await assertFails(submit(alice,{publicData:{...input(),name:whitespace}}));});
  test('Unicode UTF-16 text boundaries match the public decoder',async()=>{await assertSucceeds(submit(alice,{publicData:{...input(),name:'🧻'.repeat(60)}}));await assertFails(submit(alice,{id:OTHER,publicData:{...input(),name:'🧻'.repeat(61)}}));});
  test('multiline notes remain valid without allowing forbidden control characters',async()=>{await assertSucceeds(submit(alice,{publicData:{...input(),notes:'First line.\nSecond line.\tTab.'}}));});
  test('unknown observation date and all explicit unknown enums are accepted without inventing facts',async()=>{
-  await assertSucceeds(submit(alice,{publicData:{...input(),observedOn:null,entryRule:'unknown',stepFreeAccess:'unknown',notes:''}}));assert.equal((await getDocFromServer(listing(signedOut))).data().observedOn,null);
+  await assertSucceeds(submit(alice,{publicData:{...input(),observedOn:null,entryRule:'unknown',stepFreeAccess:'unknown',passcodeRequired:'unknown',notes:''}}));assert.equal((await getDocFromServer(pending(alice))).data().listing.observedOn,null);
  });
  test('a valid submission cannot smuggle a profile, admin role or nested identity document',async()=>{
   for(const path of ['users/alice','roles/alice',`communityRestrooms/${ID}/identity/alice`]){
-   const batch=writeBatch(alice);batch.set(listing(alice),input());batch.set(receipt(alice),receiptData());batch.set(summary(alice),summaryData());batch.set(doc(alice,path),{isAdmin:true,email:'a@example.test'});await assertFails(batch.commit());
+   const batch=writeBatch(alice);batch.set(pending(alice),{schemaVersion:1,status:'pending',revision:1,submittedAt:serverTimestamp(),listing:input(),codeDraft:null});batch.set(receipt(alice),receiptData());batch.set(doc(alice,path),{isAdmin:true,email:'a@example.test'});await assertFails(batch.commit());
   }
  });
 });

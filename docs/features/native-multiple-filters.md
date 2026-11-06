@@ -1,0 +1,63 @@
+# Native multiple filters
+
+Date: October 23, 2026
+Status: model, Firebase-linked simulator and independent review checks passed; internal build 1.0 (6) is Testing in 4995 and Team
+
+## Brief and plan
+
+The user requested a native sheet with **Clean, Accessible, Public and Elevator access**, allowing several selections at once. Remove All; use a red **Clear filters** action and blue **Done**. Empty selection means no discovery restrictions. Selected options combine with AND, keeping the map and list consistent. Clearing filters preserves the search. Saved stays in Account; choosing a discovery filter or clearing filters leaves Saved mode.
+
+Root owns the model, discovery sheet and integration. A separate agent owns model/UI checks, and an independent reviewer checks source semantics and the final implementation. No web, Firebase schema/rule, authentication or production-data changes are needed.
+
+Public retains the existing original-directory or explicit public-entry predicate. Clean keeps the existing public rating threshold; unknown ratings do not qualify. Accessible keeps the unified reported status. Elevator access uses only reviewed source evidence explicitly connecting an elevator to the restroom level. The bundled Bloomingdale's SoHo report qualifies; Marriott Marquis's elevator-to-lobby report does not. No inference from building height, general accessibility, notes, or missing stairs is permitted. Source dates and limitations remain in the place details.
+
+## Acceptance and checks
+
+- Exactly four discovery options, independently selectable and announced as selected.
+- Every active option must match; no selections restores the unfiltered search results.
+- Clear filters is red and Done is system blue; both remain reachable with Dynamic Type.
+- Done dismisses the sheet; reopening retains the selection. Toggling an option off retains the others.
+- Search, Map/List, saved-account behavior and unknown/error handling remain intact.
+- Model checks cover intersection, unknown/negative evidence, actual source linkage and unsupported elevator claims. The Firebase-linked app must build, and anonymous iPhone 17 Pro checks must exercise the sheet at standard and large text sizes.
+
+## Verification and delivery
+
+All 19 Swift model tests passed: 17 directory/filter checks and two rating checks. New cases cover empty selection, AND combinations, unknown/customer-only public entry, unknown elevator evidence, and report/place/source/URL/fact mismatches. The source files and bundled data retain the same stable IDs; no production records were changed.
+
+The actual Firebase-linked app and UI runner built on the Mac Studio with Xcode 26.2. Both focused iPhone 17 Pro workflows passed: normal filter/empty-recovery/Account/Saved interaction (35.783 seconds) and largest accessibility-text interaction (44.506 seconds). The checks select all four options, reopen with selections retained, toggle without losing the others, clear every option, and reach both toolbar actions. Result bundle: `/Users/zhelichen/Library/Developer/RestroomReadyNativeCard4/native-multiple-filters-v1.xcresult`.
+
+Actual screenshots: [selected filters](screenshots/native-multiple-filters-17pro.png), [cleared filters](screenshots/native-multiple-filters-cleared-17pro.png), [combined-filter summary](screenshots/native-multiple-filters-summary-17pro.png), and [largest accessibility text](screenshots/native-multiple-filters-large-text-17pro.png). Root and a separate reviewer inspected the normal and large-text screens: red Clear filters, blue Done, all four selected checkmarks, no All option, and reachable toolbar actions. Elevator access wraps at large text without overlapping its checkmark. The simulator was relaunched without the accessibility launch argument, at normal system text size.
+
+Independent plan and source reviews found no blockers. First revision SHA-256 values: `Place.swift` `6e1ab246039a4b7e70fd6cb36ece9579b0b9adcda0a713da20400fe6b148a4b2`; `NativeRootView.swift` `3f2327971f6dc3111747737798ef8cd76b2d3ead789f7fded11f4398826389ce`. Physical touch, VoiceOver and older-iOS appearance remain device checks. Tests did not sign in or submit production data.
+
+### Compact spacing follow-up
+
+The user requested less vertical distance. The filter rows now remove List's extra top/bottom padding, retain a 44-point minimum tap area and grow with Dynamic Type. The list's top content margin is 8 points, reducing the gap below the toolbar. This is scoped to the filter sheet; selections, colors, labels and data behavior are unchanged.
+
+Both existing Firebase-linked iPhone 17 Pro checks passed again: normal interaction (34.385 seconds) and largest accessibility text (44.996 seconds). Result: `/Users/zhelichen/Library/Developer/RestroomReadyNativeCard4/native-multiple-filters-spacing-v2.xcresult`. Actual screenshots: [compact normal layout](screenshots/native-multiple-filters-compact-17pro.png) and [compact accessibility layout](screenshots/native-multiple-filters-compact-large-text-17pro.png). The normal rows are visibly closer; larger labels still wrap and both toolbar actions remain reachable. The simulator was restored to normal text size. Tested `NativeRootView.swift` SHA-256: `a9d4cce16ec1ac4bf76f993b300b6b5c01cc6d2ad73815c4d3a6a1697617b797`.
+
+This compact-spacing revision was verified before the final inline-search changes below. Both are included in the build 5 upload recorded at the end of this feature record.
+
+### Inline search and compact controls
+
+The final request uses a list of matching restrooms directly below the search bar while typing. Selecting a suggestion opens its existing place sheet and closes the keyboard; the query stays available afterward. Matching suggestions render lazily in a bounded, scrollable Liquid Glass dropdown over the existing map. Search does not open a separate page or switch display mode. Text and row height support Dynamic Type. Empty successful reads show **No restroom was found** below the search bar, including after submitting; there is no no-match alert or large custom panel. Loading and failed reads keep distinct inline messages. Saved sign-in/loading/error UI remains separate.
+
+The filter sheet now contains only Clean, Accessible, Public and Elevator access, with checkmarks, red Clear filters and blue Done. All descriptions, instructions and explanatory hints were removed at the user's request. Sign out removes the extra Form row padding while retaining its 44-point minimum, full-width tap shape, red destructive label and busy guards.
+
+The readiness policy passed all 25 model tests, including required-feed loading/failure handling and account separation. The actual Firebase-linked app built with Xcode 26.2 and passed four integrated iPhone 17 Pro workflows in `native-inline-search-v1.xcresult`: filters/Account/Saved (37.689 seconds), inline empty recovery/filter retention (40.953 seconds), suggestion selection (16.212 seconds), and largest accessibility text (51.537 seconds). The final map-only dropdown additionally passed its scrolling/selection/mode-retention check in `native-inline-search-v2.xcresult` (22.379 seconds). After keeping the map visible for typed search even from List mode, the affected empty-result/recovery workflow passed again in `native-inline-search-v3.xcresult` (41.009 seconds). All result bundles are in `/Users/zhelichen/Library/Developer/RestroomReadyNativeCard4/`.
+
+Final screenshots: [Liquid Glass map dropdown](screenshots/native-map-search-dropdown-17pro.png), [inline no results over the map](screenshots/native-search-no-matches-17pro.png), [filters without descriptions](screenshots/native-filters-minimal-17pro.png), and [large-text filters](screenshots/native-filters-minimal-large-text-17pro.png). Root and an independent reviewer approved the source and screenshots with no blockers. Final reviewed `NativeRootView.swift` SHA-256: `5916dec8e0b9994cff4503c87eef0a67d7a2adc640434dcba9d1fd83ca0429c1`. Sign out's spacing is verified in source and the integrated build; signed-in appearance and actual sign-out remain a device/account check. The simulator was restored at normal system text size after QA.
+
+Earlier alert-specific test runs were superseded by the user's inline-search request and are not acceptance evidence. No backend or production records were changed, and no sign-in or public contribution was performed in these checks.
+
+Internal-only **1.0 (5)** was signed and uploaded at **12:39:21 AM, October 23, 2026, America/New_York**. Strict deep signature, bundle/team/build, matching source hashes and all 29 SDK privacy manifests were verified. Independent readback confirmed upload success and removal of the one-time desktop job and its four temporary files. Apple processing finished; [build 5](https://appstoreconnect.apple.com/teams/88e8ae98-ca7a-4e37-a5c5-0a81af6531e6/apps/6826010051/testflight/ios/0dee10da-4513-483a-8c45-5211e53f97c6) is **Testing** in both existing **4995** and **Team** groups, with the final row and selected group options verified. [The dashboard screenshot](screenshots/native-testflight-build5-testing.jpg) and [distribution record](native-testflight.md#multiple-filters-and-inline-search-build-5) preserve the evidence. No testers were added or invited; membership stayed unchanged. No Git commit or push is included.
+
+### Content-height sheet follow-up
+
+The user supplied a screenshot showing a large unused area below the four filters. The medium/large sheet choices reserved height independently of the content. The filter sheet now has one compact height: the sum of the four measured rows plus 104 points for native navigation and grouped-list spacing. Each row retains its 44-point minimum and grows with Dynamic Type. The List remains scrollable when space is limited. A finite ideal height with vertically fitted form sizing also keeps the iPad presentation compact. Native toolbar actions, colors, selection semantics and the preceding Map/List crossfade are preserved. No labels or descriptions were added.
+
+The actual Firebase-linked application built with Xcode 26.2. The existing normal iPhone filter/Account/Saved workflow passed in **38.277 seconds** (`native-filter-fit-v1.xcresult`). The largest-text workflow passed in **53.166 seconds** (`native-filter-fit-ax-v2.xcresult`), and the same normal workflow passed on iPad Pro 11-inch in **38.794 seconds** (`native-filter-fit-ipad-v1.xcresult`). All result bundles are under `/Users/zhelichen/Library/Developer/RestroomReadyNativeCard4/`. The first large-text attempt stopped before opening Filters because the Locate control was not ready with a stale simulator location fixture. Refreshing that fixture and rerunning the unchanged case passed; the first attempt is not accepted filter-layout evidence. No sheet-sizing or geometry-update warnings were found in the checked iPhone logs.
+
+Actual screenshots: [normal iPhone](screenshots/native-filters-fitted-17pro.png), [largest text](screenshots/native-filters-fitted-large-text-17pro.png), and [iPad](screenshots/native-filters-fitted-ipad.png). Source and visual review confirm that all four options, checkmarks, Clear filters and Done remain readable without the previous unused lower area. The larger-text screenshot is QA evidence, not the default font size. Tested `NativeRootView.swift` SHA-256: `acfda1e4120dd75dbc5e23eb2172d9638767163888d97e9f52600725c49c324a`.
+
+Apple's [sheet detents](https://developer.apple.com/documentation/swiftui/view/presentationdetents(_:)) and [presentation sizing](https://developer.apple.com/documentation/swiftui/view/presentationsizing(_:)) document the sizing APIs. No backend or production data changed. This follow-up and the Map/List crossfade were signed and uploaded as internal-only **1.0 (6)** at **10:53:26 AM, October 23, 2026, America/New_York**. Independent archive/readback checks confirmed signature, bundle/team/build, 29 SDK privacy manifests, matching source hashes, successful upload and removal of the one-time service and all four temporary job files. Apple processing finished; [build 6](https://appstoreconnect.apple.com/teams/88e8ae98-ca7a-4e37-a5c5-0a81af6531e6/apps/6826010051/testflight/ios/20f55550-5618-4128-b918-c5e81b23df9e) is **Testing** in both existing **4995** and **Team** groups. The final row and both selected group options were verified, with [the dashboard screenshot](screenshots/native-testflight-build6-testing.jpg) and [distribution record](native-testflight.md#maplist-crossfade-and-fitted-filters-build-6) preserving the evidence. No testers were added or invited; membership stayed unchanged. No Git commit or push is included.

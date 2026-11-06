@@ -44,7 +44,9 @@ export function getFirebaseClient(): FirebaseClient | null {
       throw new Error("Firebase emulator mode requires a demo project on localhost.");
     }
     connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true });
-    connectFirestoreEmulator(getFirestore(app), "127.0.0.1", 8088);
+    const firestorePort = Number(process.env.NEXT_PUBLIC_FIRESTORE_EMULATOR_PORT || "8088");
+    if (!Number.isInteger(firestorePort) || firestorePort < 1024 || firestorePort > 65535) throw new Error("Invalid local Firestore emulator port.");
+    connectFirestoreEmulator(getFirestore(app), "127.0.0.1", firestorePort);
   }
   client = { app, auth };
   return client;

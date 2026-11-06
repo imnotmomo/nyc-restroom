@@ -23,4 +23,4 @@ await new Promise((resolveBuild,rejectBuild)=>{
  });
 });
 await writeFile('dist/.openai/hosting.json',await readFile('.openai/hosting.json'));
-console.log(`Packaged ${Object.keys(assets).length} Next.js assets, finder access, and the waitlist/email Worker.`);
+console.log(`Packaged ${Object.keys(assets).length} Next.js assets and the waitlist/email Worker.`);

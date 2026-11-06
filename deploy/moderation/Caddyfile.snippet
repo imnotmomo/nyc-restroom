@@ -1,0 +1,21 @@
+# Import inside the existing nyc.imfinethanku.me site. No public health route.
+# Privileged workspace documents and exported payloads must not be framed or cached.
+@restroomModeratorWorkspace path /admin /admin/*
+header @restroomModeratorWorkspace {
+	>Content-Security-Policy "frame-ancestors 'none'"
+	>X-Frame-Options DENY
+	>Referrer-Policy no-referrer
+	>Cache-Control no-store
+}
+
+@restroomModerationAPI path /api/moderation/*
+handle @restroomModerationAPI {
+	request_body {
+		max_size 2KB
+	}
+	reverse_proxy 127.0.0.1:3003 {
+		transport http {
+			response_header_timeout 25s
+		}
+	}
+}
